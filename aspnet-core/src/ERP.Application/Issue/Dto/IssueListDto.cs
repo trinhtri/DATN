@@ -1,26 +1,21 @@
-﻿using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
+﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace ERP.Models
+namespace ERP.Issue.Dto
 {
-    public class Issue : FullAuditedEntity, IMustHaveTenant
+    [AutoMapTo(typeof(Models.Issue))]
+    public class IssueListDto:EntityDto
     {
         public int TenantId { get; set; }
-        [StringLength(100)]
         public string IssueCode { get; set; }
-        [StringLength(100)]
         public string IssueName { get; set; }
         public int Type { get; set; }
         public int Status { get; set; }
-        [StringLength(2000)]
         public string Discription { get; set; }
-
         public int Project_Id { get; set; }
-        public virtual Project Project_ { get; set; }
         public int Assignee_Id { get; set; }
         public int Reporter_Id { get; set; }
         public DateTime? Due_Date { get; set; }
@@ -29,3 +24,4 @@ namespace ERP.Models
         public decimal? Estimate { get; set; }
     }
 }
+    

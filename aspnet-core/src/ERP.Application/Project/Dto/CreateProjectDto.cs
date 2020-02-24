@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ERP.Project.Dto
 {
-    class CreateProjectDto
+   public class CreateProjectDto: ProjectListDto
     {
     }
 }

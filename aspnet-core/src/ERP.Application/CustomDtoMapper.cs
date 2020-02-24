@@ -20,12 +20,15 @@ using ERP.Authorization.Users.Importing.Dto;
 using ERP.Authorization.Users.Profile.Dto;
 using ERP.Chat;
 using ERP.Chat.Dto;
+using ERP.Comment.Dto;
 using ERP.Editions;
 using ERP.Editions.Dto;
 using ERP.Friendships;
 using ERP.Friendships.Cache;
 using ERP.Friendships.Dto;
+using ERP.Issue.Dto;
 using ERP.Localization.Dto;
+using ERP.Member.Dto;
 using ERP.MultiTenancy;
 using ERP.MultiTenancy.Dto;
 using ERP.MultiTenancy.HostDashboard.Dto;
@@ -33,6 +36,7 @@ using ERP.MultiTenancy.Payments;
 using ERP.MultiTenancy.Payments.Dto;
 using ERP.Notifications.Dto;
 using ERP.Organizations.Dto;
+using ERP.Project.Dto;
 using ERP.Sessions.Dto;
 
 namespace ERP
@@ -132,6 +136,20 @@ namespace ERP
             configuration.CreateMap<OrganizationUnit, OrganizationUnitDto>();
 
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
+
+            // project
+            configuration.CreateMap<Models.Project, CreateProjectDto>().ReverseMap();
+            configuration.CreateMap<Models.Project, ProjectListDto>().ReverseMap();
+            // member
+            configuration.CreateMap<Models.Member, CreateMemberDto>().ReverseMap();
+            configuration.CreateMap<Models.Member, MemberListDto>().ReverseMap();
+            // issue
+            configuration.CreateMap<Models.Issue, CreateIssueDto>().ReverseMap();
+            configuration.CreateMap<Models.Issue, IssueListDto>().ReverseMap();
+
+            // comment
+            configuration.CreateMap<Models.Comment, CreateCommentDto>().ReverseMap();
+            configuration.CreateMap<Models.Comment, CommentListDto>().ReverseMap();
         }
     }
 }

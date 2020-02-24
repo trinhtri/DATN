@@ -19,5 +19,7 @@ namespace ERP.Models
         public virtual User Employee_ { get; set; }
         public int Project_Id { get; set; }
         public virtual Project Project_ { get; set; }
+        public int Issue_Id { get; set; }
+        public virtual Issue Issue_ { get; set; }
     }
 }
