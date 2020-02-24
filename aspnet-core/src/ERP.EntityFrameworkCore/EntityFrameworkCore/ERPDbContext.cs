@@ -10,6 +10,7 @@ using ERP.MultiTenancy;
 using ERP.MultiTenancy.Accounting;
 using ERP.MultiTenancy.Payments;
 using ERP.Storage;
+using ERP.Models;
 
 namespace ERP.EntityFrameworkCore
 {
@@ -30,6 +31,14 @@ namespace ERP.EntityFrameworkCore
         public virtual DbSet<Invoice> Invoices { get; set; }
 
         public virtual DbSet<PersistedGrantEntity> PersistedGrants { get; set; }
+
+        // add vào db
+        public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<Document> Documents { get; set; }
+        public virtual DbSet<Issue> Issues { get; set; }
+
+        public virtual DbSet<Comment> Comments { get; set; }
 
         public ERPDbContext(DbContextOptions<ERPDbContext> options)
             : base(options)
