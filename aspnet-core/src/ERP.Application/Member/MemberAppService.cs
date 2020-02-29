@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using Abp.Linq.Extensions;
+using ERP.Dto;
+using ERP.Member.Exporting;
 
 namespace ERP.Member
 {
@@ -17,12 +19,15 @@ namespace ERP.Member
     {
         private readonly IRepository<Models.Member> _memberRepository;
         private readonly IRepository<Models.Project> _projectRepository;
+        private readonly MemberListExcelExporter _memberListExcelExporter;
         public MemberAppService(IRepository<Models.Member> memberRepository,
-            IRepository<Models.Project> projectRepository
+            IRepository<Models.Project> projectRepository,
+            MemberListExcelExporter memberListExcelExporter
             )
         {
             _memberRepository = memberRepository;
             _projectRepository = projectRepository;
+            _memberListExcelExporter = memberListExcelExporter;
         }
 
         public async Task<int> Create(CreateMemberDto input)
@@ -86,6 +91,13 @@ namespace ERP.Member
         {
             var member = await _memberRepository.FirstOrDefaultAsync(input.Id);
             ObjectMapper.Map(input, member);
+        }
+
+        public async Task<FileDto> Export(MemberInputDto input)
+        {
+            var list = await GetAll(input);
+            var dto = list.Items.ToList();
+            return _memberListExcelExporter.ExportToFile(dto);
         }
     }
 }

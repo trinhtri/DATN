@@ -1,3 +1,62 @@
-<p>
-  create-or-edit-project works!
-</p>
+<div bsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #userForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="new-password">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="project.id">{{"EditProject" | localize}}: {{project.projectName}}</span>
+                        <span *ngIf="!project.id">{{"CreateProject" | localize}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')" [disabled]="saving">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="ProjectCode">{{"ProjectCode" | localize}} *</label>
+                        <input id="ProjectCode" #ProjectCodeInput="ngModel" type="text" name="ProjectCode" class="form-control" [(ngModel)]="project.projectCode" required maxlength="500" />
+                        <validation-messages [formCtrl]="ProjectCodeInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ProjectName">{{"ProjectName" | localize}} *</label>
+                        <input id="ProjectName" type="text" #ProjectNameInput="ngModel" name="ProjectName" class="form-control" [(ngModel)]="project.projectName" required maxlength="500">
+                        <validation-messages [formCtrl]="ProjectNameInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ClientName">{{"ClientName" | localize}} *</label>
+                        <input id="ClientName" #ClientNameInput="ngModel" type="text" name="ClientName" class="form-control" [(ngModel)]="project.clientName" required maxlength="500">
+                        <validation-messages [formCtrl]="ClientNameInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="StartDate">{{"StartDate" | localize}} *</label>
+                        <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="startDate" bsDatepicker required>
+                        <validation-messages [formCtrl]="StartDateInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EndDate">{{"EndDate" | localize}} </label>
+                        <input id="SampleDatePicker" type="text" #SampleDatePicker name="SampleDatePicker" class="form-control" [(ngModel)]="endDate" bsDatepicker>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Discription">{{"Discription" | localize}}</label>
+                        <input id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="project.discription" maxlength="2000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Note">{{"Note" | localize}} </label>
+                        <input id="Note" type="text" name="Note" class="form-control" [(ngModel)]="project.note" maxlength="2000">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{"Cancel" | localize}}</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{"Save" | localize}}</span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

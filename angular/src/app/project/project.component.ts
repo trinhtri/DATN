@@ -4,9 +4,10 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { CreateOrEditUserModalComponent } from '@app/admin/users/create-or-edit-user-modal.component';
 import { Table } from 'primeng/table';
 import { Paginator, LazyLoadEvent } from 'primeng/primeng';
-import { UserServiceProxy, UserListDto } from '@shared/service-proxies/service-proxies';
+import { UserServiceProxy, UserListDto, ProjectServiceProxy, ProjectListDto } from '@shared/service-proxies/service-proxies';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { finalize } from 'rxjs/operators';
+import { CreateOrEditProjectComponent } from './create-or-edit-project/create-or-edit-project.component';
 
 @Component({
   selector: 'app-project',
@@ -16,7 +17,7 @@ import { finalize } from 'rxjs/operators';
 
 })
 export class ProjectComponent extends AppComponentBase {
-    @ViewChild('createOrEditUserModal', {static: true}) createOrEditUserModal: CreateOrEditUserModalComponent;
+    @ViewChild('createOrEditModal', {static: true}) createOrEditModal: CreateOrEditProjectComponent;
     @ViewChild('dataTable', {static: true}) dataTable: Table;
     @ViewChild('paginator', {static: true}) paginator: Paginator;
     //Filters
@@ -28,13 +29,13 @@ export class ProjectComponent extends AppComponentBase {
 
     constructor(
         injector: Injector,
-        private _userServiceProxy: UserServiceProxy,
+        private _projectServiceProxy: ProjectServiceProxy,
         private _fileDownloadService: FileDownloadService,
     ) {
         super(injector);
     }
 
-    getUsers(event?: LazyLoadEvent) {
+    getAll(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
 
@@ -43,11 +44,8 @@ export class ProjectComponent extends AppComponentBase {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._userServiceProxy.getUsers(
+        this._projectServiceProxy.getAll(
             this.filterText,
-            this.permission ? this.selectedPermission : undefined,
-            this.role !== '' ? parseInt(this.role) : undefined,
-            this.onlyLockedUsers,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getMaxResultCount(this.paginator, event),
             this.primengTableHelper.getSkipCount(this.paginator, event)
@@ -57,13 +55,19 @@ export class ProjectComponent extends AppComponentBase {
             this.primengTableHelper.hideLoadingIndicator();
         });
     }
-  deleteUser(user: UserListDto): void {
+    createNew() {
+        this.createOrEditModal.show();
+    }
+    editProject(id) {
+        this.createOrEditModal.show(id);
+    }
+  delete(dto: ProjectListDto): void {
     this.message.confirm(
-        this.l('UserDeleteWarningMessage', user.userName),
+        this.l('ProjectDeleteWarningMessage', dto.projectName),
         this.l('AreYouSure'),
         (isConfirmed) => {
             if (isConfirmed) {
-                this._userServiceProxy.deleteUser(user.id)
+                this._projectServiceProxy.delete(dto.id)
                     .subscribe(() => {
                         this.reloadPage();
                         this.notify.success(this.l('SuccessfullyDeleted'));
@@ -71,6 +75,16 @@ export class ProjectComponent extends AppComponentBase {
             }
         }
     );
+}
+exportExcel(event?: LazyLoadEvent) {
+    this._projectServiceProxy.getProjectToExcel(
+        this.filterText,
+        this.primengTableHelper.getSorting(this.dataTable),
+        this.primengTableHelper.getMaxResultCount(this.paginator, event),
+        this.primengTableHelper.getSkipCount(this.paginator, event)
+    ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+    this._fileDownloadService.downloadTempFile(result);
+    });
 }
 reloadPage(): void {
   this.paginator.changePage(this.paginator.getPage());

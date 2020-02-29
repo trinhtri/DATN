@@ -24,10 +24,4 @@
   <ItemGroup>
     <Reference Include="System.Transactions" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Document\Dto\" />
-    <Folder Include="Issue\Exporting\" />
-    <Folder Include="Member\Exporting\" />
-    <Folder Include="Project\Exporting\" />
-  </ItemGroup>
 </Project>

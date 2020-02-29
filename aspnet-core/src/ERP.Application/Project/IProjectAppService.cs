@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using ERP.Dto;
 using ERP.Project.Dto;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,7 @@ namespace ERP.Project
         Task Delete(int id);
         Task Update(CreateProjectDto input);
         Task<CreateProjectDto> GetId(int id);
+
+        Task<FileDto> GetProjectToExcel(ProjectInputDto inputDto);
     }
 }

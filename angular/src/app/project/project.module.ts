@@ -16,6 +16,7 @@ import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/primeng';
 import { MemberComponent } from './member/member.component';
 import { DocumentComponent } from './document/document.component';
+import { ProjectServiceProxy } from '@shared/service-proxies/service-proxies';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -44,6 +45,7 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         DocumentComponent
     ],
     providers: [
+        ProjectServiceProxy,
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },
         { provide: BsLocaleService, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerLocale }

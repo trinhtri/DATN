@@ -2,10 +2,13 @@
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
+using ERP.Dto;
 using ERP.Project.Dto;
+using ERP.Project.Exporting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 
@@ -14,9 +17,12 @@ namespace ERP.Project
     public class ProjectAppService : ERPAppServiceBase, IProjectAppService
     {
         private readonly IRepository<Models.Project> _projectRepository;
-        public ProjectAppService(IRepository<Models.Project> projectRepository)
+        private readonly ProjectListExcelExporter _projectListExcelExporter;
+        public ProjectAppService(IRepository<Models.Project> projectRepository,
+            ProjectListExcelExporter projectListExcelExporter)
         {
             _projectRepository = projectRepository;
+            _projectListExcelExporter = projectListExcelExporter;
         }
         public async Task<int> Create(CreateProjectDto input)
         {
@@ -59,6 +65,13 @@ namespace ERP.Project
         {
             var dto = await _projectRepository.FirstOrDefaultAsync(input.Id);
             ObjectMapper.Map(input, dto);
+        }
+
+        public async Task<FileDto> GetProjectToExcel(ProjectInputDto inputDto)
+        {
+            var list = await GetAll(inputDto);
+            var dto = list.Items.ToList();
+            return _projectListExcelExporter.ExportToFile(dto);
         }
     }
 }

@@ -784,5 +784,27 @@
     <text name="Green">Màu lục</text>
     <text name="Pink">Màu hồng</text>
     <text name="Yellow">Màu vàng</text>
+    
+    <!--project-->
+    <text name="Projects">Dự án</text>
+    <text name="Project">Dự án</text>
+    <text name="ManagerProject">Quản lý dự án</text>
+    <text name="CreateNew">Tạo mới</text>
+    <text name="Export">Xuất Excel</text>
+    <text name="CreateProject">Tạo mới dự án</text>
+    <text name="ProjectCode">Mã dự án</text>
+    <text name="ProjectName">Tên dự án</text>
+    <text name="ClientName">Tên khách hàng</text>
+    <text name="StartDate">Ngày bắt đầu</text>
+    <text name="EndDate">Ngày kết thúc</text>
+    <text name="Discription">Miêu tả</text>
+    <text name="Note">Chú thích</text>
+    <text name="EditProject">Chỉnh sửa dự án</text>
+    <text name="ProjectDeleteWarningMessage">Bạn có muốn xóa dự án {0}</text>
+    <!--<text name=""></text>
+    <text name=""></text>
+    <text name=""></text>
+    <text name=""></text>
+    <text name=""></text>-->
   </texts>
 </localizationDictionary>

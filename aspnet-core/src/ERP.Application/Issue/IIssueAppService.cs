@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using ERP.Dto;
 using ERP.Issue.Dto;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace ERP.Issue
         Task Delete(int id);
         Task Update(CreateIssueDto input);
         Task<CreateIssueDto> GetId(int id);
+
+        Task<FileDto> Export(IssueInputDto input);
     }
 }
 

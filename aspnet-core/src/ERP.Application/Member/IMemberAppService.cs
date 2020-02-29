@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using ERP.Dto;
 using ERP.Member.Dto;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,7 @@ namespace ERP.Member
         Task Delete(int id);
         Task Update(CreateMemberDto input);
         Task<CreateMemberDto> GetId(int id);
+
+        Task<FileDto> Export(MemberInputDto input);
     }
 }

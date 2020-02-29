@@ -2,45 +2,22 @@
     <div class="kt-subheader kt-grid__item">
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span>{{"Users" | localize}}</span>
+                <span>{{"ManagerProject" | localize}}</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
-              {{"UsersHeaderInfo" | localize}}
+              {{"Projects" | localize}}
           </span>
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
                 <div class="btn-group" dropdown>
-                    <button dropdownToggle type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="far fa-file-excel"></i> {{"ExcelOperations" | localize}}
+                    <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="exportExcel()">
+                      <i class="far fa-file-excel"></i> {{"Export" | localize}}
                   </button>
-                    <!-- <div class="dropdown-menu dropdown-menu-right dropdown-excel-operations" *dropdownMenu>
-                        <a class="dropdown-item" id="ExportUsersToExcelButton" (click)="exportToExcel()" href="javascript:;">
-                            <i class="fa fa-download" style="font-size: 1rem;"></i> {{'ExportToExcel' | localize}}
-                        </a>
-                        <a href="javascript:;" *ngIf="isGranted('Pages.Administration.Users.Create')" class="no-padding">
-                            <span class="fileinput-button">
-                              <p-fileUpload customUpload="true"
-                                      name="ExcelFileUpload"
-                                      #ExcelFileUpload
-                                      maxFileSize="10000000"
-                                      auto="auto"
-                                      accept=".csv,.xls,.xlsx"
-                                      (uploadHandler)="uploadExcel($event)"
-                                      (onError)="onUploadExcelError()"
-                                      chooseLabel="{{'ImportFromExcel' | localize}}">
-                              </p-fileUpload>
-                          </span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <span class="dropdown-item-text text-muted pl-3" href="#">
-                          <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/ImportUsersSampleFile.xlsx>' + l('ClickHere') + '</a>')"></small>
-                      </span>
-                    </div> -->
                 </div>
 
-                <button (click)="createUser()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNewUser" | localize}}</button>
+                <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
             </div>
         </div>
     </div>
@@ -55,7 +32,7 @@
                                     <div class="input-group">
                                         <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
                                         <span class="input-group-btn">
-                                          <button (click)="getUsers()" class="btn btn-primary" type="submit"><i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i></button>
+                                          <button (click)="getAll()" class="btn btn-primary" type="submit"><i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i></button>
                                       </span>
                                     </div>
                                 </div>
@@ -63,9 +40,9 @@
                         </div>
 
 
-                        <div class="row mb-4" *ngIf="advancedFiltersAreShown">
+                        <!-- <div class="row mb-4" *ngIf="advancedFiltersAreShown">
                             <div class="col-sm-12 text-right">
-                                <button class="btn btn-primary" (click)="getUsers()"><i class="fa fa-sync"></i> {{"Refresh" | localize}}</button>
+                                <button class="btn btn-primary" (click)="getAll()"><i class="fa fa-sync"></i> {{"Refresh" | localize}}</button>
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -73,48 +50,42 @@
                                 <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{"ShowAdvancedFilters" | localize}}</span>
                                 <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{"HideAdvancedFilters" | localize}}</span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
 
                 <div class="row align-items-center">
                     <!--<Primeng-TurboTable-Start>-->
                     <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
-                        <p-table #dataTable (onLazyLoad)="getUsers($event)" [value]="primengTableHelper.records" rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                        <p-table #dataTable (onLazyLoad)="getAll($event)" [value]="primengTableHelper.records" rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
                             [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">{{'Actions' | localize}}</th>
-                                    <th style="width: 150px" pSortableColumn="username">
-                                        {{'UserName' | localize}}
-                                        <p-sortIcon field="username"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="ProjectCode">
+                                        {{'ProjectCode' | localize}}
+                                        <p-sortIcon field="ProjectCode"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="name">
-                                        {{'Name' | localize}}
-                                        <p-sortIcon field="name"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="ProjectName">
+                                        {{'ProjectName' | localize}}
+                                        <p-sortIcon field="ProjectName"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="surname">
-                                        {{'Surname' | localize}}
-                                        <p-sortIcon field="surname"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="ClientName">
+                                        {{'ClientName' | localize}}
+                                        <p-sortIcon field="ClientName"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px">
-                                        {{'Roles' | localize}}
+                                    <th style="width: 150px" pSortableColumn="StartDate">
+                                        {{'StartDate' | localize}}
+                                        <p-sortIcon field="StartDate"></p-sortIcon>
                                     </th>
-                                    <th style="width: 250px" pSortableColumn="emailAddress">
-                                        {{'EmailAddress' | localize}}
-                                        <p-sortIcon field="emailAddress"></p-sortIcon>
+                                    <th style="width: 150px" pSortableColumn="EndDate">
+                                        {{'EndDate' | localize}}
+                                        <p-sortIcon field="EndDate"></p-sortIcon>
                                     </th>
-                                    <th style="width: 200px" pSortableColumn="isEmailConfirmed">
-                                        {{'EmailConfirm' | localize}}
-                                        <p-sortIcon field="isEmailConfirmed"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 100px" pSortableColumn="isActive">
-                                        {{'Active' | localize}}
-                                        <p-sortIcon field="isActive"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 200px" pSortableColumn="creationTime">
-                                        {{'CreationTime' | localize}}
-                                        <p-sortIcon field="creationTime"></p-sortIcon>
+
+                                    <th style="width: 150px" pSortableColumn="Note">
+                                        {{'Note' | localize}}
+                                        <p-sortIcon field="Note"></p-sortIcon>
                                     </th>
                                 </tr>
                             </ng-template>
@@ -127,50 +98,31 @@
                                           </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="('Pages.Administration.Users.Impersonation' | permission) && record.id !== appSession.userId" (click)="_impersonationService.impersonate(record.id, appSession.tenantId)">{{'LoginAsThisUser' | localize}}</a>
+                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Edit' | permission" (click)="editProject(record.id)">{{'Edit' | localize}}</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Edit' | permission" (click)="createOrEditUserModal.show(record.id)">{{'Edit' | localize}}</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.ChangePermissions' | permission" (click)="editUserPermissionsModal.show(record.id, record.userName)">{{'Permissions' | localize}}</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.ChangePermissions' | permission" (click)="unlockUser(record)">{{'Unlock' | localize}}</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" (click)="deleteUser(record)">{{'Delete' | localize}}</a>
+                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" (click)="delete(record)">{{'Delete' | localize}}</a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </td>
                                     <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'UserName' | localize}}</span> {{record.userName}}
+                                        <span class="ui-column-title"> {{'ProjecCode' | localize}}</span> {{record.projectCode}}
                                     </td>
                                     <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'Name' | localize}}</span> {{record.name}}
+                                        <span class="ui-column-title"> {{'ProjectName' | localize}}</span> {{record.projectName}}
                                     </td>
                                     <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'Surname' | localize}}</span> {{record.surname}}
+                                        <span class="ui-column-title"> {{'ClientName' | localize}}</span> {{record.clientName}}
                                     </td>
                                     <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'Roles' | localize}}</span> {{getRolesAsString(record.roles)}}
+                                        <span class="ui-column-title"> {{'StartDate' | localize}}</span> {{record.startDate | momentFormat:'L'}}
                                     </td>
-                                    <td style="width: 250px">
-                                        <span class="ui-column-title"> {{'EmailAddress' | localize}}</span> {{record.emailAddress}}
+                                    <td style="width: 150px">
+                                        <span class="ui-column-title"> {{'EndDate' | localize}}</span> {{record.endDate | momentFormat:'L'}}
                                     </td>
-                                    <td style="width: 200px">
-                                        <span class="ui-column-title"> {{'EmailConfirm' | localize}}</span>
-                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="record.isEmailConfirmed">{{'Yes' | localize}}</span>
-                                        <span class="kt-badge kt-badge--dark kt-badge--inline" *ngIf="!record.isEmailConfirmed">{{'No' | localize}}</span>
-                                    </td>
-                                    <td style="width: 100px">
-                                        <span class="ui-column-title"> {{'Active' | localize}}</span>
-                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="record.isActive">{{'Yes' | localize}}</span>
-                                        <span class="kt-badge kt-badge--dark kt-badge--inline" *ngIf="!record.isActive">{{'No' | localize}}</span>
-                                    </td>
-                                    <td style="width: 200px">
-                                        <span class="ui-column-title"> {{'CreationTime' | localize}}</span> {{record.creationTime | momentFormat:'L'}}
+                                    <td style="width: 150px">
+                                        <span class="ui-column-title"> {{'Note' | localize}}</span> {{record.note}}
                                     </td>
                                 </tr>
                             </ng-template>
@@ -179,7 +131,7 @@
                             {{'NoData' | localize}}
                         </div>
                         <div class="primeng-paging-container">
-                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator (onPageChange)="getUsers($event)" [totalRecords]="primengTableHelper.totalRecordsCount" [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator (onPageChange)="getAll($event)" [totalRecords]="primengTableHelper.totalRecordsCount" [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
 
                             </p-paginator>
                             <span class="total-records-count">
@@ -193,6 +145,7 @@
         </div>
     </div>
 
-    <!-- <createOrEditUserModal #createOrEditUserModal (modalSave)="getUsers()"></createOrEditUserModal> -->
+    <!-- <createOrEditUserModal #createOrEditUserModal (modalSave)="getAll()"></createOrEditUserModal> -->
     <!-- <editUserPermissionsModal #editUserPermissionsModal></editUserPermissionsModal> -->
+    <app-create-or-edit-project #createOrEditModal (modalSave)="getAll()"></app-create-or-edit-project>
 </div>

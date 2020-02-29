@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using Abp.Linq.Extensions;
+using ERP.Dto;
+using ERP.Issue.Exporting;
 
 namespace ERP.Issue
 {
@@ -19,12 +21,15 @@ namespace ERP.Issue
     {
         private readonly IRepository<Models.Issue> _issueRepository;
         private readonly IRepository<User, long> _userRepository;
+        private readonly IssueListExcelExporter _issueListExcelExport;
         public IssueAppService(IRepository<Models.Issue> issueRepository,
-            IRepository<User, long> userRepository
+            IRepository<User, long> userRepository,
+            IssueListExcelExporter issueListExcelExport
             )
         {
             _issueRepository = issueRepository;
             _userRepository = userRepository;
+            _issueListExcelExport = issueListExcelExport;
         }
         public async Task<int> Create(CreateIssueDto input)
         {
@@ -38,6 +43,13 @@ namespace ERP.Issue
         public async Task Delete(int id)
         {
             await _issueRepository.DeleteAsync(id);
+        }
+
+        public async Task<FileDto> Export(IssueInputDto input)
+        {
+            var list = await GetAll(input);
+            var dto = list.Items.ToList();
+            return _issueListExcelExport.ExportToFile(dto);
         }
 
         public async Task<PagedResultDto<IssueListDto>> GetAll(IssueInputDto input)
@@ -71,7 +83,8 @@ namespace ERP.Issue
 
         public async Task Update(CreateIssueDto input)
         {
-            throw new NotImplementedException();
+            var dto = await _issueRepository.FirstOrDefaultAsync(input.Id);
+            ObjectMapper.Map(input, dto);
         }
     }
 }

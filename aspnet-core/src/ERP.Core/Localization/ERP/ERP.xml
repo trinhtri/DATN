@@ -897,5 +897,22 @@
     <text name="EnterTenancyName">Enter tenancy name...</text>
     <text name="SwitchToTheTenant">Switch to the tenant</text>
     <text name="SwitchToTheHost">Switch to the host</text>
+
+    <text name="Projects">Projects</text>
+    <text name="Project">Project</text>
+    <text name="ManagerProject">Manager project</text>
+    <text name="CreateNew">Create new</text>
+    <text name="Export">Export</text>
+    <text name="CreateProject">Create project</text>
+    <text name="ProjectCode">Project code</text>
+    <text name="ProjectName">Project name</text>
+    <text name="ClientName">Client name</text>
+    <text name="StartDate">Start date</text>
+    <text name="EndDate">End date</text>
+    <text name="Discription">Discription</text>
+    <text name="Note">Note</text>
+    <text name="EditProject">Edit project</text>
+    <text name="ProjectDeleteWarningMessage">Project delete warning message {0}</text>
+    
   </texts>
 </localizationDictionary>
