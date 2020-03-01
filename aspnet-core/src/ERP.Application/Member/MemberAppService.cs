@@ -17,11 +17,11 @@ namespace ERP.Member
 {
    public class MemberAppService: ERPAppServiceBase, IMemberAppService
     {
-        private readonly IRepository<Models.Member> _memberRepository;
-        private readonly IRepository<Models.Project> _projectRepository;
+        private readonly IRepository<Models.Member,long> _memberRepository;
+        private readonly IRepository<Models.Project,long> _projectRepository;
         private readonly MemberListExcelExporter _memberListExcelExporter;
-        public MemberAppService(IRepository<Models.Member> memberRepository,
-            IRepository<Models.Project> projectRepository,
+        public MemberAppService(IRepository<Models.Member,long> memberRepository,
+            IRepository<Models.Project,long> projectRepository,
             MemberListExcelExporter memberListExcelExporter
             )
         {
@@ -30,7 +30,7 @@ namespace ERP.Member
             _memberListExcelExporter = memberListExcelExporter;
         }
 
-        public async Task<int> Create(CreateMemberDto input)
+        public async Task<long> Create(CreateMemberDto input)
         {
             input.TenantId = AbpSession.TenantId;
             var dto = ObjectMapper.Map<Models.Member>(input);
@@ -38,12 +38,12 @@ namespace ERP.Member
             return dto.Id;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(long id)
         {
             await _memberRepository.DeleteAsync(id);
         }
 
-        public async Task<CreateMemberDto> GetId(int id)
+        public async Task<CreateMemberDto> GetId(long id)
         {
             var dto = await _memberRepository.FirstOrDefaultAsync(id);
             return ObjectMapper.Map<CreateMemberDto>(dto);
@@ -55,36 +55,41 @@ namespace ERP.Member
                x => x.ProjectCode.ToUpper().Contains(input.Filter.ToUpper())
                || x.ProjectName.ToUpper().Contains(input.Filter.ToUpper())
                || x.StartDate.ToString().Contains(input.Filter));
-
-            var members = (from m in _memberRepository.GetAll().Include(x => x.Employee_)
-                       join p in _projectRepository.GetAll()
-                       on m.Project_Id equals p.Id
-                       select new MemberListDto
-                       {
-                           EffectiveDate = m.EffectiveDate,
-                           EmployeeName = m.Employee_.FullName,
-                           Id = m.Id,
-                           EndDate = m.EndDate,
-                           Note = m.Note,
-                           Project_Id = m.Project_Id,
-                           Role = m.Role,
-                           TenantId = m.TenantId
-                       }).Where(x=>x.Project_Id == input.Project_Id)
+            try
+            {
+                var members = (from m in _memberRepository.GetAll().Include(x => x.Employee_).Include(x=>x.Role_)
+                               join p in _projectRepository.GetAll()
+                               on m.Project_Id equals p.Id
+                               select new MemberListDto
+                               {
+                                   EffectiveDate = m.EffectiveDate,
+                                   EmployeeName = m.Employee_.FullName,
+                                   Id = m.Id,
+                                   EndDate = m.EndDate,
+                                   Note = m.Note,
+                                   Role = m.Role_.RoleName,
+                                   Project_Id = m.Project_Id,
+                               }).Where(x => x.Project_Id == input.Project_Id)
                        .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
                         x => x.EmployeeName.ToUpper().Contains(input.Filter.ToUpper())
                        || x.Note.ToUpper().Contains(input.Filter.ToUpper())
-                       || x.EffectiveDate.ToString().Contains(input.Filter) 
+                       || x.EffectiveDate.ToString().Contains(input.Filter)
                        || x.EndDate.ToString().Contains(input.Filter));
 
-            var tatolCount = await members.AsQueryable().CountAsync();
-            var result = await members.AsQueryable().OrderBy(input.Sorting).PageBy(input).ToListAsync();
+                var tatolCount = await members.AsQueryable().CountAsync();
+                var result = await members.AsQueryable().OrderBy(input.Sorting).PageBy(input).ToListAsync();
 
-            var projectListDtos = ObjectMapper.Map<List<MemberListDto>>(result);
+                var projectListDtos = ObjectMapper.Map<List<MemberListDto>>(result);
 
-            return new PagedResultDto<MemberListDto>(
-                tatolCount,
-                projectListDtos
-                );
+                return new PagedResultDto<MemberListDto>(
+                    tatolCount,
+                    projectListDtos
+                    );
+            } catch(Exception e)
+            {
+                throw e;
+            }
+            
         }
 
         public async Task Update(CreateMemberDto input)
@@ -93,7 +98,7 @@ namespace ERP.Member
             ObjectMapper.Map(input, member);
         }
 
-        public async Task<FileDto> Export(MemberInputDto input)
+        public async Task<FileDto> GetMemberForExcel(MemberInputDto input)
         {
             var list = await GetAll(input);
             var dto = list.Items.ToList();

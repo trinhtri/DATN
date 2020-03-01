@@ -11,11 +11,11 @@ namespace ERP.Comment
 {
     public interface ICommentAppService: IApplicationService
     {
-        Task<PagedResultDto<CommentListDto>> GetAll(int Project_Id,int Issue_Id);
-        Task<int> Create(CreateCommentDto input);
-        Task Delete(int id);
+        Task<PagedResultDto<CommentListDto>> GetAll(long Project_Id,long Issue_Id);
+        Task<long> Create(CreateCommentDto input);
+        Task Delete(long id);
         Task Update(CreateCommentDto input);
-        Task<CreateCommentDto> GetId(int id);
+        Task<CreateCommentDto> GetId(long id);
     }
 }
 

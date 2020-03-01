@@ -12,10 +12,10 @@ namespace ERP.Issue
     public interface IIssueAppService : IApplicationService
     {
         Task<PagedResultDto<IssueListDto>> GetAll(IssueInputDto input);
-        Task<int> Create(CreateIssueDto input);
-        Task Delete(int id);
+        Task<long> Create(CreateIssueDto input);
+        Task Delete(long id);
         Task Update(CreateIssueDto input);
-        Task<CreateIssueDto> GetId(int id);
+        Task<CreateIssueDto> GetId(long id);
 
         Task<FileDto> Export(IssueInputDto input);
     }

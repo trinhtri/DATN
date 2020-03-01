@@ -12,10 +12,10 @@ namespace ERP.Project
     public interface IProjectAppService : IApplicationService
     {
         Task<PagedResultDto<ProjectListDto>> GetAll(ProjectInputDto input);
-        Task<int> Create(CreateProjectDto input);
-        Task Delete(int id);
+        Task<long> Create(CreateProjectDto input);
+        Task Delete(long id);
         Task Update(CreateProjectDto input);
-        Task<CreateProjectDto> GetId(int id);
+        Task<CreateProjectDto> GetId(long id);
 
         Task<FileDto> GetProjectToExcel(ProjectInputDto inputDto);
     }

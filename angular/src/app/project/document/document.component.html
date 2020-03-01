@@ -1,3 +1,89 @@
-<p>
-  document works!
-</p>
+<div>
+    <button (click)="createNew(projectId)" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary mt" style="float: right;"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
+
+    <button type="button" class="btn btn-success mt" (click)="exportExcel()" style="float: right !important;">
+            <i class="far fa-file-excel"></i> {{"Export" | localize}}
+        </button>
+    <div class="row col-md-12">
+    </div>
+    <div class="row align-items-center">
+        <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+            <p-table #dataTable (onLazyLoad)="getAll($event)" [value]="primengTableHelper.records" rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                [resizableColumns]="primengTableHelper.resizableColumns">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">{{'Actions' | localize}}</th>
+                        <th style="width: 150px" pSortableColumn="EmployeeName">
+                            {{'EmployeeName' | localize}}
+                            <p-sortIcon field="EmployeeName"></p-sortIcon>
+                        </th>
+                        <th style="width: 150px" pSortableColumn="Role">
+                            {{'Roles' | localize}}
+                            <p-sortIcon field="Role"></p-sortIcon>
+                        </th>
+                        <th style="width: 150px" pSortableColumn="EffectiveDate">
+                            {{'StartDate' | localize}}
+                            <p-sortIcon field="EffectiveDate"></p-sortIcon>
+                        </th>
+                        <th style="width: 150px" pSortableColumn="EndDate">
+                            {{'EndDate' | localize}}
+                            <p-sortIcon field="EndDate"></p-sortIcon>
+                        </th>
+                        <th style="width: 150px" pSortableColumn="Note">
+                            {{'Note' | localize}}
+                            <p-sortIcon field="Note"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-record="$implicit">
+                    <tr>
+                        <td style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">
+                            <div class="btn-group dropdown" dropdown container="body">
+                                <button dropdownToggle class="dropdown-toggle btn btn-sm btn-primary">
+                        <i class="fa fa-cog"></i><span class="caret"></span> {{"Actions" | localize}}
+                    </button>
+                                <ul class="dropdown-menu" *dropdownMenu>
+                                    <li>
+                                        <a href="javascript:;" *ngIf="'Pages.Administration.Users.Edit' | permission" (click)="editMember(projectId,record.id)">{{'Edit' | localize}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" (click)="delete(record)">{{'Delete' | localize}}</a>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </td>
+                        <td style="width: 150px">
+                            <span class="ui-column-title"> {{'EmployeeName' | localize}}</span> {{record.employeeName}}
+                        </td>
+                        <td style="width: 150px">
+                            <span class="ui-column-title"> {{'Role' | localize}}</span> {{record.role}}
+                        </td>
+                        <td style="width: 150px">
+                            <span class="ui-column-title"> {{'EffectiveDate' | localize}}</span> {{record.effectiveDate | momentFormat:'L'}}
+                        </td>
+                        <td style="width: 150px">
+                            <span class="ui-column-title"> {{'EndDate' | localize}}</span> {{record.endDate | momentFormat:'L'}}
+                        </td>
+                        <td style="width: 150px">
+                            <span class="ui-column-title"> {{'Note' | localize}}</span> {{record.note}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                {{'NoData' | localize}}
+            </div>
+            <div class="primeng-paging-container">
+                <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator (onPageChange)="getAll($event)" [totalRecords]="primengTableHelper.totalRecordsCount" [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+
+                </p-paginator>
+                <span class="total-records-count">
+        {{'TotalRecordsCount' | localize:primengTableHelper.totalRecordsCount}}
+    </span>
+            </div>
+        </div>
+    </div>
+    <app-create-or-edit-member #createOrEditModal (modalSave)="getAll($event)"></app-create-or-edit-member>
+</div>

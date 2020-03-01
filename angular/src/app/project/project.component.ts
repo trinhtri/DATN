@@ -21,11 +21,7 @@ export class ProjectComponent extends AppComponentBase {
     @ViewChild('dataTable', {static: true}) dataTable: Table;
     @ViewChild('paginator', {static: true}) paginator: Paginator;
     //Filters
-    advancedFiltersAreShown = false;
     filterText = '';
-    selectedPermission = '';
-    role = '';
-    onlyLockedUsers = false;
 
     constructor(
         injector: Injector,

@@ -16,8 +16,10 @@ import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/primeng';
 import { MemberComponent } from './member/member.component';
 import { DocumentComponent } from './document/document.component';
-import { ProjectServiceProxy } from '@shared/service-proxies/service-proxies';
-
+import { ProjectServiceProxy, MemberServiceProxy, CommonAppserviceServiceProxy } from '@shared/service-proxies/service-proxies';
+import {AccordionModule} from 'primeng/accordion';
+import { ManagerProjectComponent } from './manager-project/manager-project.component';
+import { CreateOrEditMemberComponent } from './member/create-or-edit-member/create-or-edit-member.component';
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
 @NgModule({
@@ -37,15 +39,20 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         BsDatepickerModule.forRoot(),
         BsDropdownModule.forRoot(),
         PopoverModule.forRoot(),
+        AccordionModule
     ],
     declarations: [
         ProjectComponent,
         CreateOrEditProjectComponent,
         MemberComponent,
-        DocumentComponent
+        DocumentComponent,
+        ManagerProjectComponent,
+        CreateOrEditMemberComponent
     ],
     providers: [
         ProjectServiceProxy,
+        MemberServiceProxy,
+        CommonAppserviceServiceProxy,
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },
         { provide: BsLocaleService, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerLocale }

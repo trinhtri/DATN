@@ -801,10 +801,12 @@
     <text name="Note">Chú thích</text>
     <text name="EditProject">Chỉnh sửa dự án</text>
     <text name="ProjectDeleteWarningMessage">Bạn có muốn xóa dự án {0}</text>
-    <!--<text name=""></text>
-    <text name=""></text>
-    <text name=""></text>
-    <text name=""></text>
-    <text name=""></text>-->
+   
+    <!--member-->
+    <text name="Editmember">Chỉnh sửa thành viên</text>
+    <text name="Createmember">Thêm mới thành viên</text>
+    <text name="EmployeeName">Tên thành viên</text>
+    <!--<text name="Role">Quyền</text>-->
+    <text name="MemberDeleteWarningMessage">Bạn có muốn xóa thành viên {0}</text>
   </texts>
 </localizationDictionary>

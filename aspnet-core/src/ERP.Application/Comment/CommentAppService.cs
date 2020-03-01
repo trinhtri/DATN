@@ -12,16 +12,16 @@ namespace ERP.Comment
 {
     public class CommentAppService : ERPAppServiceBase, ICommentAppService
     {
-        private readonly IRepository<Models.Comment> _commentRepository;
+        private readonly IRepository<Models.Comment,long> _commentRepository;
         private readonly IRepository<User, long> _userRepository;
         public CommentAppService(
-            IRepository<Models.Comment> commentRepository,
+            IRepository<Models.Comment,long> commentRepository,
            IRepository<User, long> userRepository
             ){
             _commentRepository = commentRepository;
             _userRepository = userRepository;
         }
-        public async Task<int> Create(CreateCommentDto input)
+        public async Task<long> Create(CreateCommentDto input)
         {
             input.TenantId = AbpSession.TenantId;
             var dto = ObjectMapper.Map<Models.Comment>(input);
@@ -30,17 +30,17 @@ namespace ERP.Comment
             return dto.Id;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(long id)
         {
             await _commentRepository.DeleteAsync(id);
         }
 
-        public async Task<PagedResultDto<CommentListDto>> GetAll(int Project_Id, int Issue_Id)
+        public Task<PagedResultDto<CommentListDto>> GetAll(long Project_Id, long Issue_Id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<CreateCommentDto> GetId(int id)
+        public async Task<CreateCommentDto> GetId(long id)
         {
             var dto = await _commentRepository.FirstOrDefaultAsync(id);
             return ObjectMapper.Map<CreateCommentDto>(dto);

@@ -62,7 +62,7 @@ import { NotificationsComponent } from './shared/layout/notifications/notificati
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ImageCropperModule } from 'ngx-image-cropper';
-
+import {AccordionModule} from 'primeng/accordion';
 // Metronic
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -142,7 +142,8 @@ import { CoreModule } from '@metronic/app/core/core.module';
         CoreModule,
         NgxChartsModule,
         TextMaskModule,
-        ImageCropperModule
+        ImageCropperModule,
+        AccordionModule
     ],
     providers: [
         ImpersonationService,

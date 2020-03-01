@@ -10,10 +10,10 @@ namespace ERP.Document
 {
     public interface IDocumentAppService: IApplicationService
     {
-        Task<PagedResultDto<DocumentListDto>> GetAll(int projectId);
-        Task<int> Create(CreateDocumentDto input);
-        Task Delete(int id);
+        Task<PagedResultDto<DocumentListDto>> GetAll(DocumentInputDto input);
+        Task<long> Create(CreateDocumentDto input);
+        Task Delete(long id);
         Task Update(CreateDocumentDto input);
-        Task<CreateDocumentDto> GetId(int id);
+        Task<CreateDocumentDto> GetId(long id);
     }
 }

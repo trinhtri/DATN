@@ -12,11 +12,11 @@ namespace ERP.Member
     public interface IMemberAppService : IApplicationService
     {
         Task<PagedResultDto<MemberListDto>> GetAll(MemberInputDto input);
-        Task<int> Create(CreateMemberDto input);
-        Task Delete(int id);
+        Task<long> Create(CreateMemberDto input);
+        Task Delete(long id);
         Task Update(CreateMemberDto input);
-        Task<CreateMemberDto> GetId(int id);
+        Task<CreateMemberDto> GetId(long id);
 
-        Task<FileDto> Export(MemberInputDto input);
+        Task<FileDto> GetMemberForExcel(MemberInputDto input);
     }
 }

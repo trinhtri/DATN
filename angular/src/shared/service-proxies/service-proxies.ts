@@ -1699,6 +1699,82 @@ export class CommentServiceProxy {
 }
 
 @Injectable()
+export class CommonAppserviceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param type (optional) 
+     * @param tenantId (optional) 
+     * @param parentId (optional) 
+     * @return Success
+     */
+    getLookups(type: string | null | undefined, tenantId: number | null | undefined, parentId: number | null | undefined): Observable<ERPComboboxItem[]> {
+        let url_ = this.baseUrl + "/api/services/app/CommonAppservice/GetLookups?";
+        if (type !== undefined)
+            url_ += "type=" + encodeURIComponent("" + type) + "&"; 
+        if (tenantId !== undefined)
+            url_ += "tenantId=" + encodeURIComponent("" + tenantId) + "&"; 
+        if (parentId !== undefined)
+            url_ += "parentId=" + encodeURIComponent("" + parentId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLookups(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLookups(<any>response_);
+                } catch (e) {
+                    return <Observable<ERPComboboxItem[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ERPComboboxItem[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLookups(response: HttpResponseBase): Observable<ERPComboboxItem[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ERPComboboxItem.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ERPComboboxItem[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class CommonLookupServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -4897,31 +4973,41 @@ export class MemberServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param project_Id (optional) 
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
      * @return Success
      */
-    export(input: MemberInputDto | null | undefined): Observable<FileDto> {
-        let url_ = this.baseUrl + "/api/services/app/Member/Export";
+    getMemberForExcel(project_Id: number | null | undefined, filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Member/GetMemberForExcel?";
+        if (project_Id !== undefined)
+            url_ += "Project_Id=" + encodeURIComponent("" + project_Id) + "&"; 
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processExport(response_);
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetMemberForExcel(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processExport(<any>response_);
+                    return this.processGetMemberForExcel(<any>response_);
                 } catch (e) {
                     return <Observable<FileDto>><any>_observableThrow(e);
                 }
@@ -4930,7 +5016,7 @@ export class MemberServiceProxy {
         }));
     }
 
-    protected processExport(response: HttpResponseBase): Observable<FileDto> {
+    protected processGetMemberForExcel(response: HttpResponseBase): Observable<FileDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -13214,6 +13300,50 @@ export interface ICommentListDto {
     id: number | undefined;
 }
 
+export class ERPComboboxItem implements IERPComboboxItem {
+    value!: number | undefined;
+    displayText!: string | undefined;
+    displayCode!: string | undefined;
+
+    constructor(data?: IERPComboboxItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.value = data["value"];
+            this.displayText = data["displayText"];
+            this.displayCode = data["displayCode"];
+        }
+    }
+
+    static fromJS(data: any): ERPComboboxItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new ERPComboboxItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["value"] = this.value;
+        data["displayText"] = this.displayText;
+        data["displayCode"] = this.displayCode;
+        return data; 
+    }
+}
+
+export interface IERPComboboxItem {
+    value: number | undefined;
+    displayText: string | undefined;
+    displayCode: string | undefined;
+}
+
 export class ListResultDtoOfSubscribableEditionComboboxItemDto implements IListResultDtoOfSubscribableEditionComboboxItemDto {
     items!: SubscribableEditionComboboxItemDto[] | undefined;
 
@@ -16632,7 +16762,7 @@ export interface IUpdateLanguageTextInput {
 
 export class CreateMemberDto implements ICreateMemberDto {
     tenantId!: number | undefined;
-    role!: number | undefined;
+    role_id!: number | undefined;
     effectiveDate!: moment.Moment | undefined;
     endDate!: moment.Moment | undefined;
     note!: string | undefined;
@@ -16652,7 +16782,7 @@ export class CreateMemberDto implements ICreateMemberDto {
     init(data?: any) {
         if (data) {
             this.tenantId = data["tenantId"];
-            this.role = data["role"];
+            this.role_id = data["role_id"];
             this.effectiveDate = data["effectiveDate"] ? moment(data["effectiveDate"].toString()) : <any>undefined;
             this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
             this.note = data["note"];
@@ -16672,7 +16802,7 @@ export class CreateMemberDto implements ICreateMemberDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
-        data["role"] = this.role;
+        data["role_id"] = this.role_id;
         data["effectiveDate"] = this.effectiveDate ? this.effectiveDate.toISOString() : <any>undefined;
         data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
         data["note"] = this.note;
@@ -16685,7 +16815,7 @@ export class CreateMemberDto implements ICreateMemberDto {
 
 export interface ICreateMemberDto {
     tenantId: number | undefined;
-    role: number | undefined;
+    role_id: number | undefined;
     effectiveDate: moment.Moment | undefined;
     endDate: moment.Moment | undefined;
     note: string | undefined;
@@ -16744,7 +16874,7 @@ export interface IPagedResultDtoOfMemberListDto {
 
 export class MemberListDto implements IMemberListDto {
     tenantId!: number | undefined;
-    role!: number | undefined;
+    role!: string | undefined;
     effectiveDate!: moment.Moment | undefined;
     endDate!: moment.Moment | undefined;
     note!: string | undefined;
@@ -16797,65 +16927,13 @@ export class MemberListDto implements IMemberListDto {
 
 export interface IMemberListDto {
     tenantId: number | undefined;
-    role: number | undefined;
+    role: string | undefined;
     effectiveDate: moment.Moment | undefined;
     endDate: moment.Moment | undefined;
     note: string | undefined;
     project_Id: number | undefined;
     employeeName: string | undefined;
     id: number | undefined;
-}
-
-export class MemberInputDto implements IMemberInputDto {
-    project_Id!: number | undefined;
-    filter!: string | undefined;
-    sorting!: string | undefined;
-    maxResultCount!: number | undefined;
-    skipCount!: number | undefined;
-
-    constructor(data?: IMemberInputDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.project_Id = data["project_Id"];
-            this.filter = data["filter"];
-            this.sorting = data["sorting"];
-            this.maxResultCount = data["maxResultCount"];
-            this.skipCount = data["skipCount"];
-        }
-    }
-
-    static fromJS(data: any): MemberInputDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new MemberInputDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["project_Id"] = this.project_Id;
-        data["filter"] = this.filter;
-        data["sorting"] = this.sorting;
-        data["maxResultCount"] = this.maxResultCount;
-        data["skipCount"] = this.skipCount;
-        return data; 
-    }
-}
-
-export interface IMemberInputDto {
-    project_Id: number | undefined;
-    filter: string | undefined;
-    sorting: string | undefined;
-    maxResultCount: number | undefined;
-    skipCount: number | undefined;
 }
 
 export enum UserNotificationState {

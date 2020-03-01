@@ -1,0 +1,137 @@
+<div [@routerTransition]>
+    <div class="kt-subheader kt-grid__item">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{"ManagerProject" | localize}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+            {{"Projects" | localize}}
+        </span>
+        </div>
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <div class="row align-items-center">
+                    <div class="row">
+                        <p-accordion [multiple]="true">
+                            <p-accordionTab header="Thông tin chung" [selected]="true">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="ProjectCode">{{"ProjectCode" | localize}} </label>
+                                            <input id="ProjectCode" #ProjectCodeInput="ngModel" type="text" name="ProjectCode" class="form-control" [(ngModel)]="project.projectCode" required maxlength="500" disabled/>
+                                            <validation-messages [formCtrl]="ProjectCodeInput"></validation-messages>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="ProjectName">{{"ProjectName" | localize}} </label>
+                                            <input id="ProjectName" type="text" #ProjectNameInput="ngModel" name="ProjectName" class="form-control" [(ngModel)]="project.projectName" required maxlength="500" disabled>
+                                            <validation-messages [formCtrl]="ProjectNameInput"></validation-messages>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="ClientName">{{"ClientName" | localize}} </label>
+                                            <input id="ClientName" #ClientNameInput="ngModel" type="text" name="ClientName" class="form-control" [(ngModel)]="project.clientName" required maxlength="500" disabled>
+                                            <validation-messages [formCtrl]="ClientNameInput"></validation-messages>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="StartDate">{{"StartDate" | localize}} </label>
+                                            <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="startDate" bsDatepicker disabled>
+                                            <validation-messages [formCtrl]="StartDateInput"></validation-messages>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{"EndDate" | localize}} </label>
+                                            <input id="SampleDatePicker" type="text" #SampleDatePicker name="SampleDatePicker" class="form-control" [(ngModel)]="endDate" bsDatepicker disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="Discription">{{"Discription" | localize}}</label>
+                                            <input id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="project.discription" maxlength="2000" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="Note">{{"Note" | localize}} </label>
+                                            <input id="Note" type="text" name="Note" class="form-control" [(ngModel)]="project.note" maxlength="2000" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-accordionTab>
+                            <p-accordionTab header="Quản lý thành viên">
+                                <app-member [projectId]="id"></app-member>
+                            </p-accordionTab>
+                            <p-accordionTab header="Quản lý tài liệu">
+                                Content 3
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+                    <!--<Primeng-TurboTable-Start>-->
+                    <!-- <div class="modal-content"> -->
+                    <!-- <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ProjectCode">{{"ProjectCode" | localize}} </label>
+                                <input id="ProjectCode" #ProjectCodeInput="ngModel" type="text" name="ProjectCode" class="form-control" [(ngModel)]="project.projectCode" required maxlength="500" disabled/>
+                                <validation-messages [formCtrl]="ProjectCodeInput"></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ProjectName">{{"ProjectName" | localize}} </label>
+                                <input id="ProjectName" type="text" #ProjectNameInput="ngModel" name="ProjectName" class="form-control" [(ngModel)]="project.projectName" required maxlength="500" disabled>
+                                <validation-messages [formCtrl]="ProjectNameInput"></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ClientName">{{"ClientName" | localize}} </label>
+                                <input id="ClientName" #ClientNameInput="ngModel" type="text" name="ClientName" class="form-control" [(ngModel)]="project.clientName" required maxlength="500" disabled>
+                                <validation-messages [formCtrl]="ClientNameInput"></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="StartDate">{{"StartDate" | localize}} </label>
+                                <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="startDate" bsDatepicker disabled>
+                                <validation-messages [formCtrl]="StartDateInput"></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="EndDate">{{"EndDate" | localize}} </label>
+                                <input id="SampleDatePicker" type="text" #SampleDatePicker name="SampleDatePicker" class="form-control" [(ngModel)]="endDate" bsDatepicker disabled>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Discription">{{"Discription" | localize}}</label>
+                                <input id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="project.discription" maxlength="2000" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Note">{{"Note" | localize}} </label>
+                                <input id="Note" type="text" name="Note" class="form-control" [(ngModel)]="project.note" maxlength="2000" disabled>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!--<Primeng-TurboTable-End>-->
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

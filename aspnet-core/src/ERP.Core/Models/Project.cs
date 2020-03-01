@@ -10,7 +10,7 @@ using System.Text;
 namespace ERP.Models
 {
     [Table("Projects")]
-    public class Project: FullAuditedEntity, IMustHaveTenant
+    public class Project: FullAuditedEntity<long>, IMustHaveTenant
     { 
         [MaxLength(100)]
         public string ProjectCode { get; set; }

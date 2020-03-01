@@ -913,6 +913,14 @@
     <text name="Note">Note</text>
     <text name="EditProject">Edit project</text>
     <text name="ProjectDeleteWarningMessage">Project delete warning message {0}</text>
+
+
+    <!--member-->
+    <text name="Editmember">Edit member</text>
+    <text name="Createmember">Create member</text>
+    <text name="EmployeeName">Employee</text>
+    <!--<text name="Role">Role</text>-->
+    <text name="MemberDeleteWarningMessage">Member delete warning message {0}</text>
     
   </texts>
 </localizationDictionary>

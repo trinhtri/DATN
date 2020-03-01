@@ -7,12 +7,12 @@ using System.Text;
 namespace ERP.Comment.Dto
 {
     [AutoMapTo(typeof(Models.Comment))]
-   public class CreateCommentDto: EntityDto
+   public class CreateCommentDto: EntityDto<long>
     {
         public int? TenantId { get; set; }
         public string Discription { get; set; }
-        public int Employee_Id { get; set; }
-        public int Project_Id { get; set; }
-        public int Issue_Id { get; set; }
+        public long Employee_Id { get; set; }
+        public long Project_Id { get; set; }
+        public long Issue_Id { get; set; }
     }
 }

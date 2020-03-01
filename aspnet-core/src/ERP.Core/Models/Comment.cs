@@ -10,16 +10,16 @@ using System.Text;
 namespace ERP.Models
 {
     [Table("Comments")]
-    public class Comment :FullAuditedEntity, IMustHaveTenant
+    public class Comment :FullAuditedEntity<long>, IMustHaveTenant
     {
         public int TenantId { get; set; }
         [StringLength(2000)]
         public string Discription { get; set; }
-        public int Employee_Id { get; set; }
+        public long Employee_Id { get; set; }
         public virtual User Employee_ { get; set; }
         public int Project_Id { get; set; }
         public virtual Project Project_ { get; set; }
-        public int Issue_Id { get; set; }
+        public long Issue_Id { get; set; }
         public virtual Issue Issue_ { get; set; }
     }
 }

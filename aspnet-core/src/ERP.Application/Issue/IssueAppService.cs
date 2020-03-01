@@ -19,10 +19,10 @@ namespace ERP.Issue
 {
     public class IssueAppService : ERPAppServiceBase, IIssueAppService
     {
-        private readonly IRepository<Models.Issue> _issueRepository;
+        private readonly IRepository<Models.Issue,long> _issueRepository;
         private readonly IRepository<User, long> _userRepository;
         private readonly IssueListExcelExporter _issueListExcelExport;
-        public IssueAppService(IRepository<Models.Issue> issueRepository,
+        public IssueAppService(IRepository<Models.Issue,long> issueRepository,
             IRepository<User, long> userRepository,
             IssueListExcelExporter issueListExcelExport
             )
@@ -31,7 +31,7 @@ namespace ERP.Issue
             _userRepository = userRepository;
             _issueListExcelExport = issueListExcelExport;
         }
-        public async Task<int> Create(CreateIssueDto input)
+        public async Task<long> Create(CreateIssueDto input)
         {
             input.TenantId = AbpSession.TenantId;
             var issue = ObjectMapper.Map<Models.Issue>(input);
@@ -40,7 +40,7 @@ namespace ERP.Issue
             return issue.Id;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(long id)
         {
             await _issueRepository.DeleteAsync(id);
         }
@@ -75,7 +75,7 @@ namespace ERP.Issue
                 );
         }
 
-        public async Task<CreateIssueDto> GetId(int id)
+        public async Task<CreateIssueDto> GetId(long id)
         {
             var dto = await _issueRepository.FirstOrDefaultAsync(id);
             return ObjectMapper.Map<CreateIssueDto>(dto);

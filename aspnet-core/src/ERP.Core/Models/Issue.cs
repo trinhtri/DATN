@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ERP.Models
 {
-    public class Issue : FullAuditedEntity, IMustHaveTenant
+    public class Issue : FullAuditedEntity<long>, IMustHaveTenant
     {
         public int TenantId { get; set; }
         [StringLength(100)]
@@ -21,8 +21,8 @@ namespace ERP.Models
 
         public int Project_Id { get; set; }
         public virtual Project Project_ { get; set; }
-        public int Assignee_Id { get; set; }
-        public int Reporter_Id { get; set; }
+        public long Assignee_Id { get; set; }
+        public long Reporter_Id { get; set; }
         public DateTime? Due_Date { get; set; }
         public DateTime? Update_Date { get; set; }
         public DateTime? Resolved_Date { get; set; }

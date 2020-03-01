@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ERP.Models
 {
-   public class History: FullAuditedEntity, IMustHaveTenant
+   public class History: FullAuditedEntity<long>, IMustHaveTenant
     {
         public int TenantId { get; set; }
 

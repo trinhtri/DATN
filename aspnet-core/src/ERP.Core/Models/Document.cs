@@ -9,7 +9,7 @@ using System.Text;
 namespace ERP.Models
 {
     [Table("Documents")]
-   public class Document: FullAuditedEntity, IMustHaveTenant
+   public class Document: FullAuditedEntity<long>, IMustHaveTenant
     {
         public int TenantId { get; set; }
         [StringLength(100)]
@@ -17,7 +17,7 @@ namespace ERP.Models
         [StringLength(2000)]
         public string Discription { get; set; }
         public decimal Size { get; set; }
-        public int Project_Id { get; set; }
+        public long Project_Id { get; set; }
         public virtual Project Project { get; set; }
     }
 }

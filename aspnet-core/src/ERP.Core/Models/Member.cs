@@ -10,17 +10,18 @@ using System.Text;
 namespace ERP.Models
 {
     [Table("Members")]
-    public class Member: FullAuditedEntity, IMustHaveTenant
+    public class Member: FullAuditedEntity<long>, IMustHaveTenant
     {
         public int TenantId { get; set; }
-        public int Role { get; set; }
+        public long Role_id { get; set; }
+        public virtual RoleProject Role_ { get; set; }
         public DateTime? EffectiveDate { get; set; }
         public DateTime? EndDate { get; set; }
         [StringLength(2000)]
         public string Note { get; set; }
-        public int Project_Id { get; set; }
+        public long Project_Id { get; set; }
         public virtual Project Project_ { get; set; }
-        public int Employee_Id { get; set; }
+        public long Employee_Id { get; set; }
         public virtual User Employee_ { get; set; }
     }
 }

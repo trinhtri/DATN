@@ -7,7 +7,7 @@ using System.Text;
 namespace ERP.Document.Dto
 {
     [AutoMapTo(typeof(Models.Document))]
-   public class CreateDocumentDto: EntityDto
+   public class CreateDocumentDto: EntityDto<long>
     {
         public int? TenantId { get; set; }
         public string DocumentName { get; set; }

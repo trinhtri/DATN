@@ -1,0 +1,57 @@
+<div bsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #userForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="new-password">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="member.id">{{"Editmember" | localize}}</span>
+                        <span *ngIf="!member.id">{{"Createmember" | localize}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')" [disabled]="saving">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="EmployeeName">{{"EmployeeName" | localize}}*</label>
+                        <select id="EmployeeName" name="EmployeeName" class="form-control" [(ngModel)]="member.employee_Id" required #EmployeeNameInput="ngModel">
+                        <!-- <option [value]="">{{"-----" | localize}}</option> -->
+                        <option *ngFor ="let item of lst" [value]="item.value">{{item.displayText}}</option>
+                        <validation-messages [formCtrl]="EmployeeNameInput"></validation-messages>
+
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Role">{{"Roles" | localize}}*</label>
+                        <select id="Role" name="Role" class="form-control" [(ngModel)]="member.role_id" required #RoleInput="ngModel">
+                        <option *ngFor ="let item of lstRole" [value]="item.value">{{item.displayText}}</option>
+                        <validation-messages [formCtrl]="RoleInput"></validation-messages>
+                    </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="StartDate">{{"StartDate" | localize}} *</label>
+                        <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="startDate" bsDatepicker required [maxDate]="endDate">
+                        <validation-messages [formCtrl]="StartDateInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="EndDate">{{"EndDate" | localize}} </label>
+                        <input id="SampleDatePicker" type="text" #SampleDatePicker name="SampleDatePicker" class="form-control" [(ngModel)]="endDate" bsDatepicker [minDate]="startDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Note">{{"Note" | localize}} </label>
+                        <input id="Note" type="text" name="Note" class="form-control" [(ngModel)]="member.note" maxlength="2000">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{"Cancel" | localize}}</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{"Save" | localize}}</span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

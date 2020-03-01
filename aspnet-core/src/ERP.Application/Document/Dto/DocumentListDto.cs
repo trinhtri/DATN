@@ -1,10 +1,16 @@
-﻿using System;
+﻿using Abp.Application.Services.Dto;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ERP.Document.Dto
 {
-   public class DocumentListDto: CreateDocumentDto
+   public class DocumentListDto : EntityDto<long>
     {
+        public int? TenantId { get; set; }
+        public string DocumentName { get; set; }
+        public string Discription { get; set; }
+        public decimal Size { get; set; }
+        public int Project_Id { get; set; }
     }
 }

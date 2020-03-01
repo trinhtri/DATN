@@ -40,6 +40,8 @@ namespace ERP.EntityFrameworkCore
 
         public virtual DbSet<Comment> Comments { get; set; }
 
+        public virtual DbSet<RoleProject> RoleProject { get; set; }
+
         public ERPDbContext(DbContextOptions<ERPDbContext> options)
             : base(options)
         {

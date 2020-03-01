@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ERP.Migrations
 {
     [DbContext(typeof(ERPDbContext))]
-    [Migration("20200224091537_create_db")]
-    partial class create_db
+    [Migration("20200301031941_create-roleProject")]
+    partial class createroleProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1162,7 +1162,7 @@ namespace ERP.Migrations
 
             modelBuilder.Entity("ERP.Models.Comment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -1177,11 +1177,11 @@ namespace ERP.Migrations
                     b.Property<string>("Discription")
                         .HasMaxLength(2000);
 
-                    b.Property<int>("Employee_Id");
-
-                    b.Property<long?>("Employee_Id1");
+                    b.Property<long>("Employee_Id");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<long>("Issue_Id");
 
                     b.Property<DateTime?>("LastModificationTime");
 
@@ -1189,20 +1189,24 @@ namespace ERP.Migrations
 
                     b.Property<int>("Project_Id");
 
+                    b.Property<long?>("Project_Id1");
+
                     b.Property<int>("TenantId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Employee_Id1");
+                    b.HasIndex("Employee_Id");
 
-                    b.HasIndex("Project_Id");
+                    b.HasIndex("Issue_Id");
+
+                    b.HasIndex("Project_Id1");
 
                     b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("ERP.Models.Document", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -1226,9 +1230,9 @@ namespace ERP.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<int?>("ProjectId");
+                    b.Property<long?>("ProjectId");
 
-                    b.Property<int>("Project_Id");
+                    b.Property<long>("Project_Id");
 
                     b.Property<decimal>("Size");
 
@@ -1243,11 +1247,11 @@ namespace ERP.Migrations
 
             modelBuilder.Entity("ERP.Models.Issue", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Assignee_Id");
+                    b.Property<long>("Assignee_Id");
 
                     b.Property<DateTime>("CreationTime");
 
@@ -1261,6 +1265,8 @@ namespace ERP.Migrations
                         .HasMaxLength(2000);
 
                     b.Property<DateTime?>("Due_Date");
+
+                    b.Property<decimal?>("Estimate");
 
                     b.Property<bool>("IsDeleted");
 
@@ -1276,7 +1282,9 @@ namespace ERP.Migrations
 
                     b.Property<int>("Project_Id");
 
-                    b.Property<int>("Reporter_Id");
+                    b.Property<long?>("Project_Id1");
+
+                    b.Property<long>("Reporter_Id");
 
                     b.Property<DateTime?>("Resolved_Date");
 
@@ -1290,14 +1298,14 @@ namespace ERP.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Project_Id");
+                    b.HasIndex("Project_Id1");
 
                     b.ToTable("Issues");
                 });
 
             modelBuilder.Entity("ERP.Models.Member", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -1311,7 +1319,7 @@ namespace ERP.Migrations
 
                     b.Property<DateTime?>("EffectiveDate");
 
-                    b.Property<int>("Employee_Id");
+                    b.Property<long>("Employee_Id");
 
                     b.Property<DateTime?>("EndDate");
 
@@ -1324,26 +1332,24 @@ namespace ERP.Migrations
                     b.Property<string>("Note")
                         .HasMaxLength(2000);
 
-                    b.Property<int>("Project_Id");
+                    b.Property<long>("Project_Id");
 
                     b.Property<int>("Role");
 
                     b.Property<int>("TenantId");
 
-                    b.Property<long?>("_Employee_Id");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("Project_Id");
+                    b.HasIndex("Employee_Id");
 
-                    b.HasIndex("_Employee_Id");
+                    b.HasIndex("Project_Id");
 
                     b.ToTable("Members");
                 });
 
             modelBuilder.Entity("ERP.Models.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -1385,6 +1391,36 @@ namespace ERP.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("ERP.Models.RoleProject", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("RoleName")
+                        .HasMaxLength(2000);
+
+                    b.Property<int>("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleProject");
                 });
 
             modelBuilder.Entity("ERP.MultiTenancy.Accounting.Invoice", b =>
@@ -1730,12 +1766,17 @@ namespace ERP.Migrations
                 {
                     b.HasOne("ERP.Authorization.Users.User", "Employee_")
                         .WithMany()
-                        .HasForeignKey("Employee_Id1");
+                        .HasForeignKey("Employee_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ERP.Models.Issue", "Issue_")
+                        .WithMany()
+                        .HasForeignKey("Issue_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ERP.Models.Project", "Project_")
                         .WithMany()
-                        .HasForeignKey("Project_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Project_Id1");
                 });
 
             modelBuilder.Entity("ERP.Models.Document", b =>
@@ -1749,20 +1790,20 @@ namespace ERP.Migrations
                 {
                     b.HasOne("ERP.Models.Project", "Project_")
                         .WithMany()
-                        .HasForeignKey("Project_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Project_Id1");
                 });
 
             modelBuilder.Entity("ERP.Models.Member", b =>
                 {
+                    b.HasOne("ERP.Authorization.Users.User", "Employee_")
+                        .WithMany()
+                        .HasForeignKey("Employee_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("ERP.Models.Project", "Project_")
                         .WithMany()
                         .HasForeignKey("Project_Id")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ERP.Authorization.Users.User", "_Employee_")
-                        .WithMany()
-                        .HasForeignKey("_Employee_Id");
                 });
 
             modelBuilder.Entity("ERP.MultiTenancy.Payments.SubscriptionPayment", b =>

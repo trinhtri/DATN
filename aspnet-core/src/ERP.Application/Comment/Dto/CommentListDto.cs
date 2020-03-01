@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ERP.Comment.Dto
 {
-   public class CommentListDto: EntityDto
+   public class CommentListDto: EntityDto<long>
     {
         public int? TenantId { get; set; }
         public string Discription { get; set; }

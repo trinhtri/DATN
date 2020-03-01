@@ -7,7 +7,7 @@ using System.Text;
 namespace ERP.Project.Dto
 {
     [AutoMapTo(typeof(Models.Project))]
-   public class ProjectListDto: EntityDto
+   public class ProjectListDto: EntityDto<long>
     {
         public string ProjectCode { get; set; }
         public string ProjectName { get; set; }

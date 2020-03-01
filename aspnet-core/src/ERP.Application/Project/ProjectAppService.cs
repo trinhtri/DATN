@@ -16,15 +16,15 @@ namespace ERP.Project
 {
     public class ProjectAppService : ERPAppServiceBase, IProjectAppService
     {
-        private readonly IRepository<Models.Project> _projectRepository;
+        private readonly IRepository<Models.Project,long> _projectRepository;
         private readonly ProjectListExcelExporter _projectListExcelExporter;
-        public ProjectAppService(IRepository<Models.Project> projectRepository,
+        public ProjectAppService(IRepository<Models.Project,long> projectRepository,
             ProjectListExcelExporter projectListExcelExporter)
         {
             _projectRepository = projectRepository;
             _projectListExcelExporter = projectListExcelExporter;
         }
-        public async Task<int> Create(CreateProjectDto input)
+        public async Task<long> Create(CreateProjectDto input)
         {
             input.TenantId = AbpSession.TenantId;
             var project = ObjectMapper.Map<Models.Project>(input);
@@ -33,12 +33,12 @@ namespace ERP.Project
             return project.Id;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(long id)
         {
             await _projectRepository.DeleteAsync(id);
         }
 
-        public async Task<CreateProjectDto> GetId(int id)
+        public async Task<CreateProjectDto> GetId(long id)
         {
             var dto = await _projectRepository.FirstOrDefaultAsync(id);
             return ObjectMapper.Map<CreateProjectDto>(dto);

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ERP.Member.Dto
+namespace ERP.Document.Dto
 {
-   public class MemberInputDto :PagedAndSortedInputDto, IShouldNormalize
+   public class DocumentInputDto : PagedAndSortedInputDto, IShouldNormalize
     {
         public int Project_Id { get; set; }
         public string Filter { get; set; }
@@ -14,7 +14,7 @@ namespace ERP.Member.Dto
         {
             if (string.IsNullOrEmpty(Sorting))
             {
-                Sorting = "EffectiveDate,EndDate,Note,EmployeeName,Role";
+                Sorting = "DocumentName,Discription,Size";
             }
 
             Filter = Filter?.Trim();
