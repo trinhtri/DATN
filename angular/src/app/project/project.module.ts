@@ -16,12 +16,13 @@ import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/primeng';
 import { MemberComponent } from './member/member.component';
 import { DocumentComponent } from './document/document.component';
-import { ProjectServiceProxy, MemberServiceProxy, CommonAppserviceServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ProjectServiceProxy, MemberServiceProxy, CommonAppserviceServiceProxy, DocumentServiceProxy } from '@shared/service-proxies/service-proxies';
 import {AccordionModule} from 'primeng/accordion';
 import { ManagerProjectComponent } from './manager-project/manager-project.component';
 import { CreateOrEditMemberComponent } from './member/create-or-edit-member/create-or-edit-member.component';
+import { CreateOrEditDocumentComponent } from './document/create-or-edit-document/create-or-edit-document.component';
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
-
+import { FileUploadModule } from 'ng2-file-upload';
 @NgModule({
     imports: [
         CommonModule,
@@ -39,7 +40,8 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         BsDatepickerModule.forRoot(),
         BsDropdownModule.forRoot(),
         PopoverModule.forRoot(),
-        AccordionModule
+        AccordionModule,
+        FileUploadModule,
     ],
     declarations: [
         ProjectComponent,
@@ -47,11 +49,13 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         MemberComponent,
         DocumentComponent,
         ManagerProjectComponent,
-        CreateOrEditMemberComponent
+        CreateOrEditMemberComponent,
+        CreateOrEditDocumentComponent
     ],
     providers: [
         ProjectServiceProxy,
         MemberServiceProxy,
+        DocumentServiceProxy,
         CommonAppserviceServiceProxy,
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },

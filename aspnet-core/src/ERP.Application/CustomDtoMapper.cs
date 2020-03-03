@@ -21,6 +21,7 @@ using ERP.Authorization.Users.Profile.Dto;
 using ERP.Chat;
 using ERP.Chat.Dto;
 using ERP.Comment.Dto;
+using ERP.Document.Dto;
 using ERP.Editions;
 using ERP.Editions.Dto;
 using ERP.Friendships;
@@ -150,6 +151,10 @@ namespace ERP
             // comment
             configuration.CreateMap<Models.Comment, CreateCommentDto>().ReverseMap();
             configuration.CreateMap<Models.Comment, CommentListDto>().ReverseMap();
+
+            // document
+            configuration.CreateMap<Models.Document, CreateDocumentDto>().ReverseMap();
+            configuration.CreateMap<Models.Document, DocumentListDto>().ReverseMap();
         }
     }
 }

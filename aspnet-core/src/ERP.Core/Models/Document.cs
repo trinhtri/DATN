@@ -19,5 +19,10 @@ namespace ERP.Models
         public decimal Size { get; set; }
         public long Project_Id { get; set; }
         public virtual Project Project { get; set; }
+        [StringLength(2000)]
+        public string DocumentUrl { get; set; }
+        public DateTime UploadDate { get; set; }
+        [StringLength(100)]
+        public string ContentType { get; set; }
     }
 }

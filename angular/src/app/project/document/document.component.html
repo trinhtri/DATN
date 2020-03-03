@@ -13,25 +13,21 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">{{'Actions' | localize}}</th>
-                        <th style="width: 150px" pSortableColumn="EmployeeName">
-                            {{'EmployeeName' | localize}}
-                            <p-sortIcon field="EmployeeName"></p-sortIcon>
+                        <th style="width: 150px" pSortableColumn="DocumentName">
+                            {{'DocumentName' | localize}}
+                            <p-sortIcon field="DocumentName"></p-sortIcon>
                         </th>
-                        <th style="width: 150px" pSortableColumn="Role">
-                            {{'Roles' | localize}}
-                            <p-sortIcon field="Role"></p-sortIcon>
+                        <th style="width: 150px" pSortableColumn="Discription">
+                            {{'Discription' | localize}}
+                            <p-sortIcon field="Discription"></p-sortIcon>
                         </th>
-                        <th style="width: 150px" pSortableColumn="EffectiveDate">
-                            {{'StartDate' | localize}}
-                            <p-sortIcon field="EffectiveDate"></p-sortIcon>
+                        <th style="width: 150px" pSortableColumn="Size">
+                            {{'Size' | localize}}
+                            <p-sortIcon field="Size"></p-sortIcon>
                         </th>
-                        <th style="width: 150px" pSortableColumn="EndDate">
-                            {{'EndDate' | localize}}
-                            <p-sortIcon field="EndDate"></p-sortIcon>
-                        </th>
-                        <th style="width: 150px" pSortableColumn="Note">
-                            {{'Note' | localize}}
-                            <p-sortIcon field="Note"></p-sortIcon>
+                        <th style="width: 150px" pSortableColumn="UploadDate">
+                            {{'UploadDate' | localize}}
+                            <p-sortIcon field="UploadDate"></p-sortIcon>
                         </th>
                     </tr>
                 </ng-template>
@@ -44,7 +40,10 @@
                     </button>
                                 <ul class="dropdown-menu" *dropdownMenu>
                                     <li>
-                                        <a href="javascript:;" *ngIf="'Pages.Administration.Users.Edit' | permission" (click)="editMember(projectId,record.id)">{{'Edit' | localize}}</a>
+                                        <a href="javascript:;" *ngIf="'Pages.Administration.Users.Edit' | permission" (click)="editDocument(projectId,record.id)">{{'Edit' | localize}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" (click)="download(record.id)">{{'Download' | localize}}</a>
                                     </li>
                                     <li>
                                         <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" (click)="delete(record)">{{'Delete' | localize}}</a>
@@ -55,19 +54,16 @@
                             </div>
                         </td>
                         <td style="width: 150px">
-                            <span class="ui-column-title"> {{'EmployeeName' | localize}}</span> {{record.employeeName}}
+                            <span class="ui-column-title"> {{'DocumentName' | localize}}</span> {{record.documentName}}
                         </td>
                         <td style="width: 150px">
-                            <span class="ui-column-title"> {{'Role' | localize}}</span> {{record.role}}
+                            <span class="ui-column-title"> {{'Discription' | localize}}</span> {{record.discription}}
                         </td>
                         <td style="width: 150px">
-                            <span class="ui-column-title"> {{'EffectiveDate' | localize}}</span> {{record.effectiveDate | momentFormat:'L'}}
+                            <span class="ui-column-title"> {{'Size' | localize}}</span> {{record.size }}
                         </td>
                         <td style="width: 150px">
-                            <span class="ui-column-title"> {{'EndDate' | localize}}</span> {{record.endDate | momentFormat:'L'}}
-                        </td>
-                        <td style="width: 150px">
-                            <span class="ui-column-title"> {{'Note' | localize}}</span> {{record.note}}
+                            <span class="ui-column-title"> {{'UploadDate' | localize}}</span> {{record.uploadDate | momentFormat:'L'}}
                         </td>
                     </tr>
                 </ng-template>
@@ -85,5 +81,5 @@
             </div>
         </div>
     </div>
-    <app-create-or-edit-member #createOrEditModal (modalSave)="getAll($event)"></app-create-or-edit-member>
+    <app-create-or-edit-document #createOrEditModal (modalSave)="getAll($event)"></app-create-or-edit-document>
 </div>

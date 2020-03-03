@@ -808,5 +808,10 @@
     <text name="EmployeeName">Tên thành viên</text>
     <!--<text name="Role">Quyền</text>-->
     <text name="MemberDeleteWarningMessage">Bạn có muốn xóa thành viên {0}</text>
+
+    <text name="Createdocument">Tạo mới tài liệu</text>
+    <text name="Editdocument">Chỉnh sửa tài liệu</text>
+    <text name="DocumentName">Tên tài liệu</text>
+    <text name="UploadDate">Ngày cập nhật</text>
   </texts>
 </localizationDictionary>

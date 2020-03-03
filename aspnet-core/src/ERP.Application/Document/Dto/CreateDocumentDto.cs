@@ -13,6 +13,10 @@ namespace ERP.Document.Dto
         public string DocumentName { get; set; }
         public string Discription { get; set; }
         public decimal Size { get; set; }
+        public string DocumentUrl { get; set; }
+        public DateTime UploadDate { get; set; }
         public int Project_Id { get; set; }
+        public string ContentType { get; set; }
+        public bool IsSelectFile { get; set; }
     }
 }

@@ -117,6 +117,12 @@ namespace ERP.Web
 
             appFolders.SampleProfileImagesFolder = Path.Combine(_env.WebRootPath, $"Common{Path.DirectorySeparatorChar}Images{Path.DirectorySeparatorChar}SampleProfilePics");
             appFolders.WebLogsFolder = Path.Combine(_env.ContentRootPath, $"App_Data{Path.DirectorySeparatorChar}Logs");
+            appFolders.TempFileDownloadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Downloads");
+            appFolders.TempFileUploadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Uploads");
+            appFolders.AttachmentsFolder = Path.Combine(_env.WebRootPath, $"Files{Path.DirectorySeparatorChar}Documents");
+            DirectoryHelper.CreateIfNotExists(appFolders.TempFileDownloadFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.TempFileUploadFolder);
+            DirectoryHelper.CreateIfNotExists(appFolders.AttachmentsFolder);
 
 #if NET461
             if (_env.IsDevelopment())

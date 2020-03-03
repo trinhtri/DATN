@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, Injector, ViewChild } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { MemberServiceProxy, DocumentListDto } from '@shared/service-proxies/service-proxies';
+import { MemberServiceProxy, DocumentListDto, DocumentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { Table } from 'primeng/table';
 import { Paginator, LazyLoadEvent } from 'primeng/primeng';
 import { finalize } from 'rxjs/operators';
+import { CreateOrEditDocumentComponent } from './create-or-edit-document/create-or-edit-document.component';
 
 @Component({
   selector: 'app-document',
@@ -15,13 +16,14 @@ import { finalize } from 'rxjs/operators';
 })
 export class DocumentComponent extends AppComponentBase implements OnInit {
   @Input() projectId: number;
-  // @ViewChild('createOrEditModal', {static: true}) createOrEditModal: CreateOrEditMemberComponent;
+  @ViewChild('createOrEditModal', {static: true}) createOrEditModal: CreateOrEditDocumentComponent;
   @ViewChild('dataTable', {static: true}) dataTable: Table;
   @ViewChild('paginator', {static: true}) paginator: Paginator;
     //Filters
   filterText = '';
   constructor(  injector: Injector,
     private _memberServiceProxy: MemberServiceProxy,
+    private _documentService: DocumentServiceProxy,
     private _fileDownloadService: FileDownloadService,
     ) {
       super(injector);
@@ -38,7 +40,7 @@ export class DocumentComponent extends AppComponentBase implements OnInit {
 
     this.primengTableHelper.showLoadingIndicator();
 
-    this._memberServiceProxy.getAll(
+    this._documentService.getAll(
         this.projectId,
         this.filterText,
         this.primengTableHelper.getSorting(this.dataTable),
@@ -50,19 +52,19 @@ export class DocumentComponent extends AppComponentBase implements OnInit {
         this.primengTableHelper.hideLoadingIndicator();
     });
 }
-// createNew(projectId) {
-//     this.createOrEditModal.show(projectId);
-// }
-// editMember(projectId, id) {
-//     this.createOrEditModal.show(projectId, id);
-// }
+createNew(projectId) {
+    this.createOrEditModal.show(projectId);
+}
+editDocument (projectId, id) {
+    this.createOrEditModal.show(projectId, id);
+}
 delete(dto: DocumentListDto): void {
 this.message.confirm(
     this.l('MemberDeleteWarningMessage', dto.documentName),
     this.l('AreYouSure'),
     (isConfirmed) => {
         if (isConfirmed) {
-            this._memberServiceProxy.delete(dto.id)
+            this._documentService.delete(dto.id)
                 .subscribe(() => {
                     this.reloadPage();
                     this.notify.success(this.l('SuccessfullyDeleted'));
@@ -70,6 +72,11 @@ this.message.confirm(
         }
     }
 );
+}
+download(id) {
+this._documentService.downloadTempAttachment(id).subscribe(result => {
+  this._fileDownloadService.downloadDocument(result);
+});
 }
 // exportExcel(event?: LazyLoadEvent) {
 // this._memberServiceProxy.getMemberForExcel(

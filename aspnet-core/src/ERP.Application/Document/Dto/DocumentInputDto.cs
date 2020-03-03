@@ -14,7 +14,7 @@ namespace ERP.Document.Dto
         {
             if (string.IsNullOrEmpty(Sorting))
             {
-                Sorting = "DocumentName,Discription,Size";
+                Sorting = "DocumentName,Discription,Size,UploadDate";
             }
 
             Filter = Filter?.Trim();

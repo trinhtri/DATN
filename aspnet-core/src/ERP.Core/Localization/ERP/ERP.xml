@@ -921,6 +921,11 @@
     <text name="EmployeeName">Employee</text>
     <!--<text name="Role">Role</text>-->
     <text name="MemberDeleteWarningMessage">Member delete warning message {0}</text>
+
+    <text name="Createdocument">Create document</text>
+    <text name="Editdocument">Edit document</text>
+    <text name="DocumentName">Document name</text>
+    <text name="UploadDate">Upload date</text>
     
   </texts>
 </localizationDictionary>
