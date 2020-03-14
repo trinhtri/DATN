@@ -13,7 +13,7 @@ namespace ERP.Models
         [StringLength(100)]
         public string IssueCode { get; set; }
         [StringLength(100)]
-        public string IssueName { get; set; }
+        public string Summary { get; set; }
         public int Type { get; set; }
         public int Status { get; set; }
         [StringLength(2000)]
@@ -27,5 +27,6 @@ namespace ERP.Models
         public DateTime? Update_Date { get; set; }
         public DateTime? Resolved_Date { get; set; }
         public decimal? Estimate { get; set; }
+        public int? Priority { get; set; }
     }
 }

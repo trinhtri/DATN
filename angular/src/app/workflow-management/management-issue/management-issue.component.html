@@ -1,0 +1,133 @@
+<div [@routerTransition]>
+    <div class="kt-subheader kt-grid__item">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{"ManagerProject" | localize}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+            {{"Projects" | localize}}
+        </span>
+        </div>
+        <!-- <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="exportExcel()">
+                    <i class="far fa-file-excel"></i> {{"Export" | localize}}
+                </button>
+                <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
+            </div>
+        </div> -->
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+                <form class="kt-form" autocomplete="new-password">
+                    <div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-10">
+                                <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-plus"></i> {{"Edit" | localize}}</button>
+                                <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-plus"></i> {{"Comment" | localize}}</button>
+                                <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-plus"></i> {{"StartProgress" | localize}}</button>
+                                <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-plus"></i> {{"StopProgress" | localize}}</button>
+                                <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-plus"></i> {{"ResolveIssue" | localize}}</button>
+                                <!-- <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary" style="float: right;margin-right: 5px;"><i class="fa fa-plus"></i> {{"ResolveIssue" | localize}}</button> -->
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-success" style="float: right;" (click)="exportExcel()"> <i class="far fa-file-excel"></i> {{"Export" | localize}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+                <div class="container-full">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span>Detail</span>
+                            <hr width="90%" align="right" style="margin-top: 0 rem" />
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <span>Type</span> <br>
+                                    <span>Priority</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row align-items-center">
+                <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                    <p-table #dataTable (onLazyLoad)="getAll($event)" [value]="primengTableHelper.records" rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                        [resizableColumns]="primengTableHelper.resizableColumns">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">{{'Actions' | localize}}</th>
+                                <th style="width: 150px" pSortableColumn="ProjectCode">
+                                    {{'Project' | localize}}
+                                    <p-sortIcon field="ProjectCode"></p-sortIcon>
+                                </th>
+                                <th style="width: 150px" pSortableColumn="IssueCode">
+                                    {{'IssueCode' | localize}}
+                                    <p-sortIcon field="IssueCode"></p-sortIcon>
+                                </th>
+                                <th style="width: 300px" pSortableColumn="ProjectName">
+                                    <p-sortIcon field="ProjectName"></p-sortIcon>
+                                </th>
+                                <th style="width: 150px" pSortableColumn="ClientName">
+                                    {{'IssueTye' | localize}}
+                                    <p-sortIcon field="ClientName"></p-sortIcon>
+                                </th>
+                                <th style="width: 150px" pSortableColumn="StartDate">
+                                    {{'Estimate' | localize}}
+                                    <p-sortIcon field="StartDate"></p-sortIcon>
+                                </th>
+                                <th style="width: 150px" pSortableColumn="EndDate">
+                                    {{'DueDate' | localize}}
+                                    <p-sortIcon field="EndDate"></p-sortIcon>
+                                </th>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-record="$implicit">
+                            <tr>
+                                <td style="width: 150px">
+                                    <span class="ui-column-title"> {{'IssueCode' | localize}}</span> {{record.projectCode}}
+                                </td>
+                                <td style="width: 150px">
+                                    <span class="ui-column-title"> {{'IssueCode' | localize}}</span> {{record.projectCode}}
+                                </td>
+                                <td style="width: 300px">
+                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" [routerLink]="['/app/issue/management-issue',record.id]">{{'ManagerProject' | localize}}</a> {{'Summary' | localize}}
+                                    <span class="ui-column-title"> {{'Summary' | localize}}</span> {{record.projectName}}
+                                </td>
+                                <td style="width: 150px">
+                                    <span class="ui-column-title"> {{'IssueTye' | localize}}</span> {{record.clientName}}
+                                </td>
+                                <td style="width: 150px">
+                                    <span class="ui-column-title"> {{'Estimate' | localize}}</span> {{record.startDate | momentFormat:'L'}}
+                                </td>
+                                <td style="width: 150px">
+                                    <span class="ui-column-title"> {{'DueDate' | localize}}</span> {{record.endDate | momentFormat:'L'}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                        {{'NoData' | localize}}
+                    </div>
+                    <div class="primeng-paging-container">
+                        <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator (onPageChange)="getAll($event)" [totalRecords]="primengTableHelper.totalRecordsCount" [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+
+                        </p-paginator>
+                        <span class="total-records-count">
+                            {{'TotalRecordsCount' | localize:primengTableHelper.totalRecordsCount}}
+                        </span>
+                    </div>
+                </div>
+            </div> -->
+            </div>
+        </div>
+    </div>
+
+    <app-create-issue #createOrEditModal (modalSave)="getAll()"></app-create-issue>
+</div>

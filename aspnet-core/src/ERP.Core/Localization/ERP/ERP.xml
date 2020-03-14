@@ -926,6 +926,17 @@
     <text name="Editdocument">Edit document</text>
     <text name="DocumentName">Document name</text>
     <text name="UploadDate">Upload date</text>
+
+    <!--issue-->
+    <text name="CreateIssue">Create issue</text>
+    <text name="EditIssue">Edit issue</text>
+    <text name="IssueType">Issue type</text>
+    <text name="Sammary">Sammary</text>
+    <text name="DueDate">Due date</text>
+    <text name="Assignee">Assignee</text>
+    <text name="Priority">Priority</text>
+    <text name="Estimate">Estimate</text>
+    
     
   </texts>
 </localizationDictionary>

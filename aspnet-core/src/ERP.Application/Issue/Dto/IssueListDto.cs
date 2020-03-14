@@ -11,7 +11,7 @@ namespace ERP.Issue.Dto
     {
         public int TenantId { get; set; }
         public string IssueCode { get; set; }
-        public string IssueName { get; set; }
+        public string Summary { get; set; }
         public int Type { get; set; }
         public int Status { get; set; }
         public string Discription { get; set; }
@@ -22,6 +22,7 @@ namespace ERP.Issue.Dto
         public DateTime? Update_Date { get; set; }
         public DateTime? Resolved_Date { get; set; }
         public decimal? Estimate { get; set; }
+        public int? Priority { get; set; }
     }
 }
     

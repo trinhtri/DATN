@@ -16124,7 +16124,7 @@ export interface ICreateInvoiceDto {
 export class CreateIssueDto implements ICreateIssueDto {
     tenantId!: number | undefined;
     issueCode!: string | undefined;
-    issueName!: string | undefined;
+    summary!: string | undefined;
     type!: number | undefined;
     status!: number | undefined;
     discription!: string | undefined;
@@ -16134,6 +16134,7 @@ export class CreateIssueDto implements ICreateIssueDto {
     due_Date!: moment.Moment | undefined;
     update_Date!: moment.Moment | undefined;
     resolved_Date!: moment.Moment | undefined;
+    priority!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateIssueDto) {
@@ -16149,7 +16150,7 @@ export class CreateIssueDto implements ICreateIssueDto {
         if (data) {
             this.tenantId = data["tenantId"];
             this.issueCode = data["issueCode"];
-            this.issueName = data["issueName"];
+            this.summary = data["summary"];
             this.type = data["type"];
             this.status = data["status"];
             this.discription = data["discription"];
@@ -16159,6 +16160,7 @@ export class CreateIssueDto implements ICreateIssueDto {
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
             this.update_Date = data["update_Date"] ? moment(data["update_Date"].toString()) : <any>undefined;
             this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
+            this.priority = data["priority"];
             this.id = data["id"];
         }
     }
@@ -16174,7 +16176,7 @@ export class CreateIssueDto implements ICreateIssueDto {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
         data["issueCode"] = this.issueCode;
-        data["issueName"] = this.issueName;
+        data["summary"] = this.summary;
         data["type"] = this.type;
         data["status"] = this.status;
         data["discription"] = this.discription;
@@ -16184,6 +16186,7 @@ export class CreateIssueDto implements ICreateIssueDto {
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
         data["update_Date"] = this.update_Date ? this.update_Date.toISOString() : <any>undefined;
         data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
+        data["priority"] = this.priority;
         data["id"] = this.id;
         return data; 
     }
@@ -16192,7 +16195,7 @@ export class CreateIssueDto implements ICreateIssueDto {
 export interface ICreateIssueDto {
     tenantId: number | undefined;
     issueCode: string | undefined;
-    issueName: string | undefined;
+    summary: string | undefined;
     type: number | undefined;
     status: number | undefined;
     discription: string | undefined;
@@ -16202,6 +16205,7 @@ export interface ICreateIssueDto {
     due_Date: moment.Moment | undefined;
     update_Date: moment.Moment | undefined;
     resolved_Date: moment.Moment | undefined;
+    priority: number | undefined;
     id: number | undefined;
 }
 
@@ -16308,7 +16312,7 @@ export interface IPagedResultDtoOfIssueListDto {
 export class IssueListDto implements IIssueListDto {
     tenantId!: number | undefined;
     issueCode!: string | undefined;
-    issueName!: string | undefined;
+    summary!: string | undefined;
     type!: number | undefined;
     status!: number | undefined;
     discription!: string | undefined;
@@ -16319,6 +16323,7 @@ export class IssueListDto implements IIssueListDto {
     update_Date!: moment.Moment | undefined;
     resolved_Date!: moment.Moment | undefined;
     estimate!: number | undefined;
+    priority!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: IIssueListDto) {
@@ -16334,7 +16339,7 @@ export class IssueListDto implements IIssueListDto {
         if (data) {
             this.tenantId = data["tenantId"];
             this.issueCode = data["issueCode"];
-            this.issueName = data["issueName"];
+            this.summary = data["summary"];
             this.type = data["type"];
             this.status = data["status"];
             this.discription = data["discription"];
@@ -16345,6 +16350,7 @@ export class IssueListDto implements IIssueListDto {
             this.update_Date = data["update_Date"] ? moment(data["update_Date"].toString()) : <any>undefined;
             this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
             this.estimate = data["estimate"];
+            this.priority = data["priority"];
             this.id = data["id"];
         }
     }
@@ -16360,7 +16366,7 @@ export class IssueListDto implements IIssueListDto {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
         data["issueCode"] = this.issueCode;
-        data["issueName"] = this.issueName;
+        data["summary"] = this.summary;
         data["type"] = this.type;
         data["status"] = this.status;
         data["discription"] = this.discription;
@@ -16371,6 +16377,7 @@ export class IssueListDto implements IIssueListDto {
         data["update_Date"] = this.update_Date ? this.update_Date.toISOString() : <any>undefined;
         data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
         data["estimate"] = this.estimate;
+        data["priority"] = this.priority;
         data["id"] = this.id;
         return data; 
     }
@@ -16379,7 +16386,7 @@ export class IssueListDto implements IIssueListDto {
 export interface IIssueListDto {
     tenantId: number | undefined;
     issueCode: string | undefined;
-    issueName: string | undefined;
+    summary: string | undefined;
     type: number | undefined;
     status: number | undefined;
     discription: string | undefined;
@@ -16390,6 +16397,7 @@ export interface IIssueListDto {
     update_Date: moment.Moment | undefined;
     resolved_Date: moment.Moment | undefined;
     estimate: number | undefined;
+    priority: number | undefined;
     id: number | undefined;
 }
 

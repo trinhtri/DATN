@@ -8,13 +8,13 @@ namespace ERP.Issue.Dto
 {
    public class IssueInputDto : PagedAndSortedInputDto, IShouldNormalize
     {
-        public int Project_Id { get; set; }
+        public int? Project_Id { get; set; }
         public string Filter { get; set; }
         public void Normalize()
         {
             if (string.IsNullOrEmpty(Sorting))
             {
-                Sorting = "IssueCode,IssueName,Type,Status,Due_Date";
+                Sorting = "project_Id,IssueCode,Summary,Type,Status,Estimate,Due_Date";
             }
 
             Filter = Filter?.Trim();

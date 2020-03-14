@@ -54,16 +54,18 @@ namespace ERP.Issue
 
         public async Task<PagedResultDto<IssueListDto>> GetAll(IssueInputDto input)
         {
-            var list = _issueRepository.GetAll().WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+            var list = _issueRepository.GetAll()
+                .WhereIf(input.Project_Id.HasValue, x=>x.Project_Id == input.Project_Id)
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
               x => x.IssueCode.ToUpper().Contains(input.Filter.ToUpper())
-              || x.IssueName.ToUpper().Contains(input.Filter.ToUpper())
+              || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
               || x.Status.ToString().Contains(input.Filter)
               || x.CreationTime.ToString().Contains(input.Filter)
               || x.Due_Date.ToString().Contains(input.Filter)
               || x.Estimate.ToString().Contains(input.Filter)
               );
-            var tatolCount = await list.AsQueryable().CountAsync();
-            var result = await list.AsQueryable().OrderBy(input.Sorting)
+            var tatolCount = await list.CountAsync();
+            var result = await list.OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
 

@@ -37,6 +37,12 @@ import { NotificationsComponent } from './shared/layout/notifications/notificati
                         loadChildren: () => import('app/project/project.module').then(m => m.ProjectModule), //Lazy load admin module
                         data: { preload: true },
                         canLoad: [AppRouteGuard]
+                    },
+                    {
+                        path: 'issue',
+                        loadChildren: () => import('app/workflow-management/workflow-mangement.module').then(m => m.WorkFlowManagementModule), //Lazy load admin module
+                        data: { preload: true },
+                        canLoad: [AppRouteGuard]
                     }
                     , {
                         path: '**', redirectTo: 'notifications'

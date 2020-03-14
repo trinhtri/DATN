@@ -53,7 +53,7 @@ namespace ERP.Issue.Exporting
                     AddObjects(
                         sheet, 2, list,
                         _ => _.IssueCode,
-                        _ => _.IssueName,
+                        _ => _.Summary,
                         _=>_.Type,
                         _=>_.Status,
                         _=>_.Discription,
