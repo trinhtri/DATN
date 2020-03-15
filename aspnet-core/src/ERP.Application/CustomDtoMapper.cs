@@ -146,7 +146,11 @@ namespace ERP
             configuration.CreateMap<Models.Member, MemberListDto>().ReverseMap();
             // issue
             configuration.CreateMap<Models.Issue, CreateIssueDto>().ReverseMap();
-            configuration.CreateMap<Models.Issue, IssueListDto>().ReverseMap();
+            configuration.CreateMap<Models.Issue, IssueListDto>()
+                .ForMember(s=> s.Status,st => st.MapFrom(u=>u.Status_.StatusName))
+                .ForMember(t=>t.Type,ty => ty.MapFrom(y=>y.Type_.TypeName))
+                .ForMember(p=>p.Priority,pr=>pr.MapFrom(r=>r.Priority_.PriorityName))
+                .ForMember(a => a.ProjectCode, l => l.MapFrom(p => p.Project_.ProjectCode)).ReverseMap();
 
             // comment
             configuration.CreateMap<Models.Comment, CreateCommentDto>().ReverseMap();

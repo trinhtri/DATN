@@ -39,18 +39,17 @@
                         <div class="row mb-4" [hidden]="!advancedFiltersAreShown">
                             <div [ngClass]="{'col-md-3': ('Pages.Administration.Roles' | permission), 'col-md-12':!isGranted('Pages.Administration.Roles')}">
                                 <div class="form-group">
-                                    <label for="HasException">{{"Project" | localize}}</label>
-                                    <select id="HasException" name="HasException" class="form-control" [(ngModel)]="hasException">
+                                    <label for="projectId">{{"Project" | localize}}</label>
+                                    <select id="projectId" name="projectId" class="form-control" [(ngModel)]="projectId">
                                             <option value="">{{"All" | localize}}</option>
-                                            <option value="false">{{"Success" | localize}}</option>
-                                            <option value="true">{{"HasError" | localize}}</option>
+                                            <option *ngFor="let item of lstProject " [value]="item.value">{{item.displayText}}</option>
                                         </select>
                                 </div>
                             </div>
                             <div class="col-md-3" *ngIf="'Pages.Administration.Roles' | permission">
                                 <div class="form-group">
-                                    <label for="HasException">{{"Type" | localize}}</label>
-                                    <select id="HasException" name="HasException" class="form-control" [(ngModel)]="hasException">
+                                    <label for="IssueType">{{"IssueType" | localize}}</label>
+                                    <select id="IssueType" name="IssueType" class="form-control" [(ngModel)]="issueType">
                                         <option value="">{{"All" | localize}}</option>
                                         <option value="false">{{"Success" | localize}}</option>
                                         <option value="true">{{"HasError" | localize}}</option>
@@ -60,8 +59,8 @@
 
                             <div class="col-md-3" *ngIf="'Pages.Administration.Roles' | permission">
                                 <div class="form-group">
-                                    <label for="HasException">{{"Satus" | localize}}</label>
-                                    <select id="HasException" name="HasException" class="form-control" [(ngModel)]="hasException">
+                                    <label for="Satus">{{"Satus" | localize}}</label>
+                                    <select id="Satus" name="Satus" class="form-control" [(ngModel)]="satus">
                                         <option value="">{{"All" | localize}}</option>
                                         <option value="false">{{"Success" | localize}}</option>
                                         <option value="true">{{"HasError" | localize}}</option>
@@ -70,8 +69,8 @@
                             </div>
                             <div class="col-md-3" *ngIf="'Pages.Administration.Roles' | permission">
                                 <div class="form-group">
-                                    <label for="HasException">{{"Assignee" | localize}}</label>
-                                    <select id="HasException" name="HasException" class="form-control" [(ngModel)]="hasException">
+                                    <label for="Assignee">{{"Assignee" | localize}}</label>
+                                    <select id="Assignee" name="Assignee" class="form-control" [(ngModel)]="Assignee">
                                         <option value="">{{"All" | localize}}</option>
                                         <option value="false">{{"Success" | localize}}</option>
                                         <option value="true">{{"HasError" | localize}}</option>
@@ -110,7 +109,7 @@
                                         <p-sortIcon field="Summary"></p-sortIcon>
                                     </th>
                                     <th style="width: 100px" pSortableColumn="IssueTye">
-                                        {{'IssueTye' | localize}}
+                                        {{'IssueType' | localize}}
                                         <p-sortIcon field="IssueTye"></p-sortIcon>
                                     </th>
                                     <th style="width: 100px" pSortableColumn="Status">
@@ -120,6 +119,10 @@
                                     <th style="width: 100px" pSortableColumn="Estimate">
                                         {{'Estimate' | localize}}
                                         <p-sortIcon field="Estimate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 100px" pSortableColumn="Assignee">
+                                        {{'Assignee' | localize}}
+                                        <p-sortIcon field="Assignee"></p-sortIcon>
                                     </th>
                                     <th style="width: 100px" pSortableColumn="Due_Date">
                                         {{'DueDate' | localize}}
@@ -151,7 +154,7 @@
                                         </div>
                                     </td> -->
                                     <td style="width: 100px">
-                                        <span class="ui-column-title"> {{'Project' | localize}}</span> {{record.project_Id}}
+                                        <span class="ui-column-title"> {{'Project' | localize}}</span> {{record.projectCode}}
                                     </td>
                                     <td style="width: 100px">
                                         <span class="ui-column-title"> {{'IssueCode' | localize}}</span> {{record.issueCode}}
@@ -162,18 +165,21 @@
                                         </a>
                                     </td>
                                     <td style="width: 100px">
-                                        <span class="ui-column-title"> {{'IssueTye' | localize}}</span> {{record.type}}
+                                        <span class="ui-column-title"> {{'IssueType' | localize}}</span> {{record.type}}
                                     </td>
                                     <td style="width: 100px">
-                                        <span class="ui-column-title"> {{'IssueType' | localize}}</span> {{record.type}}
+                                        <span class="ui-column-title"> {{'Status' | localize}}</span> {{record.status}}
+                                    </td>
+                                
+                                    <td style="width: 100px">
+                                        <span class="ui-column-title"> {{'Estimate' | localize}}</span> {{record.estimate}}
+                                    </td>
+                                    <td style="width: 100px">
+                                        <span class="ui-column-title"> {{'Assignee' | localize}}</span> {{record.assignee}}
                                     </td>
                                     <td style="width: 100px">
                                         <span class="ui-column-title"> {{'DueDate' | localize}}</span> {{record.due_Date | momentFormat:'L'}}
                                     </td>   
-                                    <td style="width: 100px">
-                                        <span class="ui-column-title"> {{'Estimate' | localize}}</span> {{record.estimate}}
-                                    </td>
-                                    
                                     
                                 </tr>
                             </ng-template>

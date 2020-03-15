@@ -28,13 +28,9 @@
 
                     <div class="form-group">
                         <label for="IssueType">{{"IssueType" | localize}}*</label>
-                        <select id="IssueType" name="IssueType" class="form-control" [(ngModel)]="issue.type" required #IssueTypeInput="ngModel">
-                        <option [value]="">{{"-----" | localize}}</option>
-                        <option [value]="1">{{"Tính năng mới" | localize}}</option>
-                        <option [value]="2">{{"Cải tiến" | localize}}</option>
-                        <option [value]="3">{{"Bug" | localize}}</option>
-
-                        <!-- <option *ngFor ="let item of lst" [value]="item.value">{{item.displayText}}</option> -->
+                        <select id="IssueType" name="IssueType" class="form-control" [(ngModel)]="issue.type_ID" required #IssueTypeInput="ngModel">
+                        <!-- <option [value]="">{{"-----" | localize}}</option> -->
+                        <option *ngFor ="let item of lstType" [value]="item.value">{{item.displayText}}</option>
                         <validation-messages [formCtrl]="IssueTypeInput"></validation-messages>
                     </select>
                     </div>
@@ -68,14 +64,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Assignee">{{"Priority" | localize}}</label>
-                        <select id="Assignee" name="Priority" class="form-control" [(ngModel)]="issue.priority">
-                        <option [value]="">{{"-----" | localize}}</option>
-                        <option [value]="1">{{"Bình thường" | localize}}</option>
-                        <option [value]="2">{{"Cao" | localize}}</option>
+                        <label for="Priority">{{"Priority" | localize}}*</label>
+                        <select id="Priority" name="Priority" class="form-control" [(ngModel)]="issue.priority_ID" required  #PriorityInput="ngModel">
+                        <option *ngFor ="let item of lstPriority" [value]="item.value">{{item.displayText}}</option>
+                        <validation-messages [formCtrl]="PriorityInput"></validation-messages>
 
-                        <!-- <option *ngFor ="let item of lst" [value]="item.value">{{item.displayText}}</option> -->
-                        <!-- <validation-messages [formCtrl]="AssigneeInput"></validation-messages> -->
                     </select>
                     </div>
 

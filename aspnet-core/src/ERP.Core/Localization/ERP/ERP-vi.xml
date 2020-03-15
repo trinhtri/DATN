@@ -818,13 +818,13 @@
     <text name="CreateIssue">Tạo mới issue</text>
     <text name="EditIssue">Chỉnh sửa issue</text>
     <text name="IssueType">Loại issue</text>
-    <text name="Sammary">Tổng quát</text>
+    <text name="Summary">Tổng quát</text>
     <text name="DueDate">Ngày kết thúc</text>
     <text name="Assignee">Người nhận</text>
     <text name="Priority">Mức độ</text>
     <text name="Estimate">Estimate</text>
-    <!--<text name=""></text>
-    <text name=""></text>
+    <text name="IssueCode">Mã issue</text>
+    <!-- <text name=""></text>
     <text name=""></text>
     <text name=""></text>
     <text name=""></text>

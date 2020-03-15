@@ -22,14 +22,18 @@ namespace ERP.Issue
         private readonly IRepository<Models.Issue,long> _issueRepository;
         private readonly IRepository<User, long> _userRepository;
         private readonly IssueListExcelExporter _issueListExcelExport;
+        private readonly IRepository<Models.Project, long> _projectRepository;
+
         public IssueAppService(IRepository<Models.Issue,long> issueRepository,
             IRepository<User, long> userRepository,
-            IssueListExcelExporter issueListExcelExport
+            IssueListExcelExporter issueListExcelExport,
+             IRepository<Models.Project, long> projectRepository
             )
         {
             _issueRepository = issueRepository;
             _userRepository = userRepository;
             _issueListExcelExport = issueListExcelExport;
+            _projectRepository = projectRepository;
         }
         public async Task<long> Create(CreateIssueDto input)
         {
@@ -54,12 +58,14 @@ namespace ERP.Issue
 
         public async Task<PagedResultDto<IssueListDto>> GetAll(IssueInputDto input)
         {
-            var list = _issueRepository.GetAll()
-                .WhereIf(input.Project_Id.HasValue, x=>x.Project_Id == input.Project_Id)
+            var list = _issueRepository.GetAll().Include(p=>p.Project_)
+                .Include(t=>t.Type_)
+                .Include(pr=>pr.Priority_)
+                .Include(s=>s.Status_)
                 .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
               x => x.IssueCode.ToUpper().Contains(input.Filter.ToUpper())
               || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
-              || x.Status.ToString().Contains(input.Filter)
+              || x.Status_Id.ToString().Contains(input.Filter)
               || x.CreationTime.ToString().Contains(input.Filter)
               || x.Due_Date.ToString().Contains(input.Filter)
               || x.Estimate.ToString().Contains(input.Filter)

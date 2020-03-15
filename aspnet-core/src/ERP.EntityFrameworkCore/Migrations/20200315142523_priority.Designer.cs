@@ -4,14 +4,16 @@ using ERP.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERP.Migrations
 {
     [DbContext(typeof(ERPDbContext))]
-    partial class ERPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200315142523_priority")]
+    partial class priority
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1289,8 +1291,6 @@ namespace ERP.Migrations
 
                     b.Property<long>("Reporter_Id");
 
-                    b.Property<long>("Resolve_Id");
-
                     b.Property<DateTime?>("Resolved_Date");
 
                     b.Property<long>("Status_Id");
@@ -1309,8 +1309,6 @@ namespace ERP.Migrations
                     b.HasIndex("Priority_Id");
 
                     b.HasIndex("Project_Id");
-
-                    b.HasIndex("Resolve_Id");
 
                     b.HasIndex("Status_Id");
 
@@ -1346,7 +1344,7 @@ namespace ERP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IssueTypes");
+                    b.ToTable("IssueType");
                 });
 
             modelBuilder.Entity("ERP.Models.Member", b =>
@@ -1422,7 +1420,7 @@ namespace ERP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Prioritys");
+                    b.ToTable("Priority");
                 });
 
             modelBuilder.Entity("ERP.Models.Project", b =>
@@ -1469,36 +1467,6 @@ namespace ERP.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("ERP.Models.Resolve", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long?>("DeleterUserId");
-
-                    b.Property<DateTime?>("DeletionTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("ResolveName")
-                        .HasMaxLength(200);
-
-                    b.Property<int>("TenantId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Resolve");
                 });
 
             modelBuilder.Entity("ERP.Models.RoleProject", b =>
@@ -1934,11 +1902,6 @@ namespace ERP.Migrations
                     b.HasOne("ERP.Models.Project", "Project_")
                         .WithMany()
                         .HasForeignKey("Project_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ERP.Models.Resolve", "Resolve_")
-                        .WithMany()
-                        .HasForeignKey("Resolve_Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ERP.Models.Status", "Status_")

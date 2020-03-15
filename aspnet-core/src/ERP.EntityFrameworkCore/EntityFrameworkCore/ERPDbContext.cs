@@ -42,6 +42,11 @@ namespace ERP.EntityFrameworkCore
 
         public virtual DbSet<RoleProject> RoleProject { get; set; }
 
+        public virtual DbSet<IssueType> IssueType { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
+
+        public virtual DbSet<Priority> Priority { get; set; }
+
         public ERPDbContext(DbContextOptions<ERPDbContext> options)
             : base(options)
         {

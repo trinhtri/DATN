@@ -11,9 +11,9 @@ namespace ERP.Issue.Dto
     {
         public int? TenantId { get; set; }
         public string IssueCode { get; set; }
-        public string Summary { get; set; }
-        public int Type { get; set; }
-        public int Status { get; set; }
+        public string Summary { get; set; }     
+        public long Type_ID { get; set; }
+        public long Status_Id { get; set; }
         public string Discription { get; set; }
         public long Project_Id { get; set; }
         public long Assignee_Id { get; set; }
@@ -22,6 +22,8 @@ namespace ERP.Issue.Dto
         public DateTime? Update_Date { get; set; }
         public DateTime? Resolved_Date { get; set; }
 
-        public int? Priority { get; set; }
+        public long Priority_ID { get; set; }
+        public long Resolve_Id { get; set; }
+
     }
 }

@@ -14,12 +14,14 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', {static: true}) modal: ModalDirective;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   issue: CreateIssueDto = new CreateIssueDto();
-  dueDate: any;
+  dueDate = new Date();
   active = false;
   saving = false;
   lst: ERPComboboxItem [] = [];
   lstRole: ERPComboboxItem [] = [];
   lstProject: ERPComboboxItem [] = [];
+  lstType: ERPComboboxItem [] = [];
+  lstPriority: ERPComboboxItem [] = [];
   constructor(injector: Injector,
     private _projectService: ProjectServiceProxy,
     private _issueService: IssueServiceProxy,
@@ -41,6 +43,12 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
    this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe( result => {
     this.lstProject = result;
   });
+  this._commonService.getLookups('Priorities', this.appSession.tenantId, undefined).subscribe( result => {
+    this.lstPriority = result;
+  });
+  this._commonService.getLookups('IssueTypes', this.appSession.tenantId, undefined).subscribe( result => {
+    this.lstType = result;
+  });
  }
   show(id?: number): void {
     this.active = true;
@@ -55,6 +63,9 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
       //   this.endDate = this.project.endDate.toDate();
       // }
     });
+  } else {
+  // mặc định khi tạo mới thì mức độ là bình thường
+  this.issue.priority_ID = 1;
   }
 }
 onShown(): void {
@@ -62,9 +73,10 @@ onShown(): void {
 }
 save(): void {
   this.saving = true;
+  this.issue.reporter_Id = this.appSession.userId;
 //   this.project.startDate = moment(this.startDate);
   if (this.dueDate) {
-this.dueDate.endDate = moment(this.dueDate);
+  this.issue.due_Date = moment(this.dueDate);
   }
   if (this.issue.id) {
     this._issueService.update(this.issue)
@@ -75,6 +87,10 @@ this.dueDate.endDate = moment(this.dueDate);
         this.modalSave.emit(null);
     });
   } else {
+    // mặc định khi tạo mới thì resolve là 1: chưa hoàn thành
+    this.issue.resolve_Id = 1;
+    // mặc định là mở
+    this.issue.status_Id = 1;
     this._issueService.create(this.issue)
     .pipe(finalize(() => { this.saving = false; }))
     .subscribe(() => {

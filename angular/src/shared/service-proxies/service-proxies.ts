@@ -16125,8 +16125,8 @@ export class CreateIssueDto implements ICreateIssueDto {
     tenantId!: number | undefined;
     issueCode!: string | undefined;
     summary!: string | undefined;
-    type!: number | undefined;
-    status!: number | undefined;
+    type_ID!: number | undefined;
+    status_Id!: number | undefined;
     discription!: string | undefined;
     project_Id!: number | undefined;
     assignee_Id!: number | undefined;
@@ -16134,7 +16134,8 @@ export class CreateIssueDto implements ICreateIssueDto {
     due_Date!: moment.Moment | undefined;
     update_Date!: moment.Moment | undefined;
     resolved_Date!: moment.Moment | undefined;
-    priority!: number | undefined;
+    priority_ID!: number | undefined;
+    resolve_Id!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateIssueDto) {
@@ -16151,8 +16152,8 @@ export class CreateIssueDto implements ICreateIssueDto {
             this.tenantId = data["tenantId"];
             this.issueCode = data["issueCode"];
             this.summary = data["summary"];
-            this.type = data["type"];
-            this.status = data["status"];
+            this.type_ID = data["type_ID"];
+            this.status_Id = data["status_Id"];
             this.discription = data["discription"];
             this.project_Id = data["project_Id"];
             this.assignee_Id = data["assignee_Id"];
@@ -16160,7 +16161,8 @@ export class CreateIssueDto implements ICreateIssueDto {
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
             this.update_Date = data["update_Date"] ? moment(data["update_Date"].toString()) : <any>undefined;
             this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
-            this.priority = data["priority"];
+            this.priority_ID = data["priority_ID"];
+            this.resolve_Id = data["resolve_Id"];
             this.id = data["id"];
         }
     }
@@ -16177,8 +16179,8 @@ export class CreateIssueDto implements ICreateIssueDto {
         data["tenantId"] = this.tenantId;
         data["issueCode"] = this.issueCode;
         data["summary"] = this.summary;
-        data["type"] = this.type;
-        data["status"] = this.status;
+        data["type_ID"] = this.type_ID;
+        data["status_Id"] = this.status_Id;
         data["discription"] = this.discription;
         data["project_Id"] = this.project_Id;
         data["assignee_Id"] = this.assignee_Id;
@@ -16186,7 +16188,8 @@ export class CreateIssueDto implements ICreateIssueDto {
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
         data["update_Date"] = this.update_Date ? this.update_Date.toISOString() : <any>undefined;
         data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
-        data["priority"] = this.priority;
+        data["priority_ID"] = this.priority_ID;
+        data["resolve_Id"] = this.resolve_Id;
         data["id"] = this.id;
         return data; 
     }
@@ -16196,8 +16199,8 @@ export interface ICreateIssueDto {
     tenantId: number | undefined;
     issueCode: string | undefined;
     summary: string | undefined;
-    type: number | undefined;
-    status: number | undefined;
+    type_ID: number | undefined;
+    status_Id: number | undefined;
     discription: string | undefined;
     project_Id: number | undefined;
     assignee_Id: number | undefined;
@@ -16205,7 +16208,8 @@ export interface ICreateIssueDto {
     due_Date: moment.Moment | undefined;
     update_Date: moment.Moment | undefined;
     resolved_Date: moment.Moment | undefined;
-    priority: number | undefined;
+    priority_ID: number | undefined;
+    resolve_Id: number | undefined;
     id: number | undefined;
 }
 
@@ -16313,8 +16317,8 @@ export class IssueListDto implements IIssueListDto {
     tenantId!: number | undefined;
     issueCode!: string | undefined;
     summary!: string | undefined;
-    type!: number | undefined;
-    status!: number | undefined;
+    type!: string | undefined;
+    status!: string | undefined;
     discription!: string | undefined;
     project_Id!: number | undefined;
     assignee_Id!: number | undefined;
@@ -16323,7 +16327,9 @@ export class IssueListDto implements IIssueListDto {
     update_Date!: moment.Moment | undefined;
     resolved_Date!: moment.Moment | undefined;
     estimate!: number | undefined;
-    priority!: number | undefined;
+    priority!: string | undefined;
+    projectCode!: string | undefined;
+    resolve!: string | undefined;
     id!: number | undefined;
 
     constructor(data?: IIssueListDto) {
@@ -16351,6 +16357,8 @@ export class IssueListDto implements IIssueListDto {
             this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
             this.estimate = data["estimate"];
             this.priority = data["priority"];
+            this.projectCode = data["projectCode"];
+            this.resolve = data["resolve"];
             this.id = data["id"];
         }
     }
@@ -16378,6 +16386,8 @@ export class IssueListDto implements IIssueListDto {
         data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
         data["estimate"] = this.estimate;
         data["priority"] = this.priority;
+        data["projectCode"] = this.projectCode;
+        data["resolve"] = this.resolve;
         data["id"] = this.id;
         return data; 
     }
@@ -16387,8 +16397,8 @@ export interface IIssueListDto {
     tenantId: number | undefined;
     issueCode: string | undefined;
     summary: string | undefined;
-    type: number | undefined;
-    status: number | undefined;
+    type: string | undefined;
+    status: string | undefined;
     discription: string | undefined;
     project_Id: number | undefined;
     assignee_Id: number | undefined;
@@ -16397,7 +16407,9 @@ export interface IIssueListDto {
     update_Date: moment.Moment | undefined;
     resolved_Date: moment.Moment | undefined;
     estimate: number | undefined;
-    priority: number | undefined;
+    priority: string | undefined;
+    projectCode: string | undefined;
+    resolve: string | undefined;
     id: number | undefined;
 }
 
