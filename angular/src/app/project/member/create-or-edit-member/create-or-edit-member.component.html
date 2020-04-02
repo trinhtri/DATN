@@ -43,7 +43,7 @@
 
                     <div class="form-group">
                         <label for="Note">{{"Note" | localize}} </label>
-                        <input id="Note" type="text" name="Note" class="form-control" [(ngModel)]="member.note" maxlength="2000">
+                        <textarea rows="5" cols="30" pInputTextarea name="Note"  class="form-control" [(ngModel)]="member.note" maxlength="2000"></textarea>
                     </div>
 
                     <div class="modal-footer">

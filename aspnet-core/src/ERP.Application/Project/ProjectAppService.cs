@@ -46,7 +46,9 @@ namespace ERP.Project
 
         public async Task<PagedResultDto<ProjectListDto>> GetAll(ProjectInputDto input)
         {
-            var list = _projectRepository.GetAll().WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+            var list = _projectRepository.GetAll()
+                .WhereIf(input.Status.HasValue,x=>x.Status == input.Status)
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
                 x => x.ProjectCode.ToUpper().Contains(input.Filter.ToUpper())
                 || x.ProjectName.ToUpper().Contains(input.Filter.ToUpper())
                 || x.StartDate.ToString().Contains(input.Filter));

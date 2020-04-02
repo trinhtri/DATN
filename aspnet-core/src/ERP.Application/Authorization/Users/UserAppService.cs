@@ -52,6 +52,7 @@ namespace ERP.Authorization.Users
         private readonly IRepository<OrganizationUnit, long> _organizationUnitRepository;
         private readonly IRoleManagementConfig _roleManagementConfig;
         private readonly UserManager _userManager;
+        private readonly IRepository<User, long> _userRepository;
 
         public UserAppService(
             RoleManager roleManager,
@@ -68,6 +69,7 @@ namespace ERP.Authorization.Users
             IPasswordHasher<User> passwordHasher,
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRoleManagementConfig roleManagementConfig,
+            IRepository<User, long> userRepository,
             UserManager userManager)
         {
             _roleManager = roleManager;
@@ -85,7 +87,7 @@ namespace ERP.Authorization.Users
             _roleManagementConfig = roleManagementConfig;
             _userManager = userManager;
             _roleRepository = roleRepository;
-
+            _userRepository = userRepository;
             AppUrlService = NullAppUrlService.Instance;
         }
 
@@ -426,6 +428,12 @@ namespace ERP.Authorization.Users
             }
 
             return query;
+        }
+
+        public async Task<string> GetName(long id)
+        {
+            var user = await _userRepository.FirstOrDefaultAsync(id);
+            return user.UserName;
         }
     }
 }

@@ -107,3 +107,46 @@ body.swal2-height-auto {
     animation: glowing 2s infinite;
 }
 
+
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+body .ui-widget,
+body .ui-widget .ui-widget,
+body .ui-widget input,
+body .ui-widget select,
+body .ui-widget textarea,
+body .ui-widget button {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.m-subheader .m-subheader__title {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.primeng-datatable-container .ui-table th {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.primeng-datatable-container .ui-table td {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.btn {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.mat-tab-group {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+body
+    .ui-tree
+    .ui-tree-container
+    .ui-treenode
+    .ui-treenode-content
+    .ui-treenode-label {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+

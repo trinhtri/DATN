@@ -74,16 +74,16 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
   editProject(id) {
       this.createOrEditModal.show(id);
   }
-exportExcel(event?: LazyLoadEvent) {
-  this._projectServiceProxy.getProjectToExcel(
-      this.filterText,
-      this.primengTableHelper.getSorting(this.dataTable),
-      this.primengTableHelper.getMaxResultCount(this.paginator, event),
-      this.primengTableHelper.getSkipCount(this.paginator, event)
-  ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
-  this._fileDownloadService.downloadTempFile(result);
-  });
-}
+// exportExcel(event?: LazyLoadEvent) {
+//   this._projectServiceProxy.getProjectToExcel(
+//       this.filterText,
+//       this.primengTableHelper.getSorting(this.dataTable),
+//       this.primengTableHelper.getMaxResultCount(this.paginator, event),
+//       this.primengTableHelper.getSkipCount(this.paginator, event)
+//   ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+//   this._fileDownloadService.downloadTempFile(result);
+//   });
+// }
 reloadPage(): void {
 this.paginator.changePage(this.paginator.getPage());
 }

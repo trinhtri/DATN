@@ -11,7 +11,7 @@ import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLoca
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/primeng';
-import { ProjectServiceProxy, MemberServiceProxy, CommonAppserviceServiceProxy, DocumentServiceProxy, IssueServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ProjectServiceProxy, MemberServiceProxy, CommonAppserviceServiceProxy, DocumentServiceProxy, IssueServiceProxy, CommentServiceProxy } from '@shared/service-proxies/service-proxies';
 import {AccordionModule} from 'primeng/accordion';
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 import { FileUploadModule } from 'ng2-file-upload';
@@ -19,6 +19,8 @@ import { WorkFolowManagementRoutingModule } from './workflow-management-routing.
 import { WorkflowManagementComponent } from './workflow-management.component';
 import { CreateIssueComponent } from './create-issue/create-issue.component';
 import { ManagementIssueComponent } from './management-issue/management-issue.component';
+import { CommentsComponent } from './comments/comments.component';
+import { CreateOrEditCommentComponent } from './comments/create-or-edit-comment/create-or-edit-comment.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -43,12 +45,15 @@ import { ManagementIssueComponent } from './management-issue/management-issue.co
         WorkflowManagementComponent,
         CreateIssueComponent,
         ManagementIssueComponent,
+        CommentsComponent,
+        CreateOrEditCommentComponent,
     ],
     providers: [
         ProjectServiceProxy,
         MemberServiceProxy,
         DocumentServiceProxy,
         IssueServiceProxy,
+        CommentServiceProxy,
         CommonAppserviceServiceProxy,
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },

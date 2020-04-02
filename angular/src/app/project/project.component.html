@@ -6,15 +6,17 @@
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
-              {{"Projects" | localize}}
-          </span>
+                {{"Projects" | localize}}
+            </span>
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="exportExcel()">
-                      <i class="far fa-file-excel"></i> {{"Export" | localize}}
-                  </button>
-                <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
+                <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false" (click)="exportExcel()">
+                    <i class="far fa-file-excel"></i> {{"Export" | localize}}
+                </button>
+                <button (click)="createNew()" *ngIf="isGranted('Pages.Project.Create')"
+                    class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
             </div>
         </div>
     </div>
@@ -24,41 +26,48 @@
                 <form class="kt-form" autocomplete="new-password">
                     <div>
                         <div class="row align-items-center mb-4">
-                            <div class="col-xl-12">
+                            <div class="col-xl-10">
                                 <div class="form-group m-form__group align-items-center">
                                     <div class="input-group">
-                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
-                                        <span class="input-group-btn">
-                                          <button (click)="getAll()" class="btn btn-primary" type="submit"><i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i></button>
-                                      </span>
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus
+                                            class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                            type="text"  (ngModelChange) ="getAll()">
+                                        <!-- <span class="input-group-btn">
+                                            <button (click)="getAll()" class="btn btn-primary" type="submit"><i
+                                                    class="flaticon-search-1"
+                                                    [attr.aria-label]="l('Search')"></i></button>
+                                        </span> -->
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-xl-2">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <select id="Status" name="Status" class="form-control" [(ngModel)]="checked" (ngModelChange) ="getAll()">
+                                            <option [value]="undefined">{{"Tất cả" | localize}}</option>
+                                            <option [value]="true">{{"Đang hoạt động" | localize}}</option>
+                                            <option [value]="false">{{"Ngừng hoạt động" | localize}}</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-
-                        <!-- <div class="row mb-4" *ngIf="advancedFiltersAreShown">
-                            <div class="col-sm-12 text-right">
-                                <button class="btn btn-primary" (click)="getAll()"><i class="fa fa-sync"></i> {{"Refresh" | localize}}</button>
                             </div>
                         </div>
-                        <div class="row mb-4">
-                            <div class="col-sm-12">
-                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{"ShowAdvancedFilters" | localize}}</span>
-                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{"HideAdvancedFilters" | localize}}</span>
-                            </div>
-                        </div> -->
                     </div>
                 </form>
 
                 <div class="row align-items-center">
                     <!--<Primeng-TurboTable-Start>-->
                     <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
-                        <p-table #dataTable (onLazyLoad)="getAll($event)" [value]="primengTableHelper.records" rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                        <p-table #dataTable (onLazyLoad)="getAll($event)" [value]="primengTableHelper.records"
+                            rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
                             [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">{{'Actions' | localize}}</th>
+                                    <th style="width: 50px"
+                                        [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">
+                                    </th>
                                     <th style="width: 150px" pSortableColumn="ProjectCode">
                                         {{'ProjectCode' | localize}}
                                         <p-sortIcon field="ProjectCode"></p-sortIcon>
@@ -88,20 +97,27 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-record="$implicit">
                                 <tr>
-                                    <td style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">
+                                    <td style="width: 50px"
+                                        [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">
                                         <div class="btn-group dropdown" dropdown container="body">
-                                            <button dropdownToggle class="dropdown-toggle btn btn-sm btn-primary">
-                                              <i class="fa fa-cog"></i><span class="caret"></span> {{"Actions" | localize}}
-                                          </button>
+                                            <button dropdownToggle class="btn btn-sm btn-primary">
+                                                <i class="fa fa-cog"></i><span class="caret"></span>
+                                            </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Edit' | permission" (click)="editProject(record.id)">{{'Edit' | localize}}</a>
+                                                    <a href="javascript:;"
+                                                        *ngIf="'Pages.Project.Edit' | permission"
+                                                        (click)="editProject(record.id)">{{'Edit' | localize}}</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" [routerLink]="['/app/project/manager-project',record.id]">{{'ManagerProject' | localize}}</a>
+                                                    <a href="javascript:;"
+                                                        *ngIf="'Pages.Project.Manager' | permission"
+                                                        [routerLink]="['/app/project/manager-project',record.id]">{{'ManagerProject' | localize}}</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" (click)="delete(record)">{{'Delete' | localize}}</a>
+                                                    <a href="javascript:;"
+                                                        *ngIf="'Pages.Project.Delete' | permission"
+                                                        (click)="delete(record)">{{'Delete' | localize}}</a>
                                                 </li>
 
 
@@ -109,19 +125,24 @@
                                         </div>
                                     </td>
                                     <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'ProjecCode' | localize}}</span> {{record.projectCode}}
+                                        <span class="ui-column-title"> {{'ProjecCode' | localize}}</span>
+                                        {{record.projectCode}}
                                     </td>
                                     <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'ProjectName' | localize}}</span> {{record.projectName}}
+                                        <span class="ui-column-title"> {{'ProjectName' | localize}}</span>
+                                        {{record.projectName}}
                                     </td>
                                     <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'ClientName' | localize}}</span> {{record.clientName}}
+                                        <span class="ui-column-title"> {{'ClientName' | localize}}</span>
+                                        {{record.clientName}}
                                     </td>
                                     <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'StartDate' | localize}}</span> {{record.startDate | momentFormat:'L'}}
+                                        <span class="ui-column-title"> {{'StartDate' | localize}}</span>
+                                        {{record.startDate | momentFormat:'L'}}
                                     </td>
                                     <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'EndDate' | localize}}</span> {{record.endDate | momentFormat:'L'}}
+                                        <span class="ui-column-title"> {{'EndDate' | localize}}</span>
+                                        {{record.endDate | momentFormat:'L'}}
                                     </td>
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'Note' | localize}}</span> {{record.note}}
@@ -133,12 +154,14 @@
                             {{'NoData' | localize}}
                         </div>
                         <div class="primeng-paging-container">
-                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator (onPageChange)="getAll($event)" [totalRecords]="primengTableHelper.totalRecordsCount" [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
+                                (onPageChange)="getAll($event)" [totalRecords]="primengTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
 
                             </p-paginator>
                             <span class="total-records-count">
-                              {{'TotalRecordsCount' | localize:primengTableHelper.totalRecordsCount}}
-                          </span>
+                                {{'TotalRecordsCount' | localize:primengTableHelper.totalRecordsCount}}
+                            </span>
                         </div>
                     </div>
                     <!--<Primeng-TurboTable-End>-->

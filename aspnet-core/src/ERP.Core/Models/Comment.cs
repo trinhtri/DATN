@@ -17,8 +17,6 @@ namespace ERP.Models
         public string Discription { get; set; }
         public long Employee_Id { get; set; }
         public virtual User Employee_ { get; set; }
-        public int Project_Id { get; set; }
-        public virtual Project Project_ { get; set; }
         public long Issue_Id { get; set; }
         public virtual Issue Issue_ { get; set; }
     }

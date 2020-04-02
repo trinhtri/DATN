@@ -25,5 +25,6 @@ namespace ERP.Models
         [StringLength(2000)]
         public string Note { get; set; }
         public int TenantId { get; set; }
+        public bool Status { get; set; }
     }
 }

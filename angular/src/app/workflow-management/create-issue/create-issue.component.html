@@ -44,7 +44,8 @@
 
                     <div class="form-group">
                         <label for="Discription">{{"Discription" | localize}}</label>
-                        <input id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="issue.discription" maxlength="2000">
+                        <textarea rows="5" cols="30" pInputTextarea name="Discription"  class="form-control" [(ngModel)]="issue.discription" maxlength="2000"></textarea>
+                 
                     </div>
 
 

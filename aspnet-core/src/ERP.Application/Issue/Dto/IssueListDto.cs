@@ -25,6 +25,7 @@ namespace ERP.Issue.Dto
         public string Priority { get; set; }
         public string ProjectCode { get; set; }
         public string Resolve { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 }
     

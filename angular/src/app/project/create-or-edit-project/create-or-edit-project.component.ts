@@ -27,7 +27,6 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
   }
   show(id?: number): void {
     this.active = true;
-    this.modal.show();
     if (id) {
     this._projectService.getId(id).subscribe( result => {
       this.project = result;
@@ -38,7 +37,11 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
         this.endDate = this.project.endDate.toDate();
       }
     });
+  } else {
+    this.project.status = true;
   }
+  this.modal.show();
+
 }
 onShown(): void {
   document.getElementById('ProjectCode').focus();

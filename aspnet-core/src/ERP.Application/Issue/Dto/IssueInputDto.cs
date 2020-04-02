@@ -14,7 +14,7 @@ namespace ERP.Issue.Dto
         {
             if (string.IsNullOrEmpty(Sorting))
             {
-                Sorting = "IssueCode,Summary,Type,Status,Estimate,Due_Date";
+                Sorting = "IssueCode,Summary";
             }
 
             Filter = Filter?.Trim();

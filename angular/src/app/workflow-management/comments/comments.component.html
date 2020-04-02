@@ -1,0 +1,9 @@
+<button (click)="Create(IssueId)" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary mb-3" style="margin-right:
+  5px;"> {{"Create" |localize}}</button>
+<ul>
+  <li *ngFor='let item of lstComment'>
+    {{item.employeeName}}-{{item.creationTime.format('LLL')}} <br>
+    {{item.discription}}
+  </li>
+</ul>
+<app-create-or-edit-comment #CreatModel (modalSave)="getAll($event)"></app-create-or-edit-comment>

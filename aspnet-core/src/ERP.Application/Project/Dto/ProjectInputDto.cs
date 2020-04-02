@@ -9,6 +9,7 @@ namespace ERP.Project.Dto
    public class ProjectInputDto :PagedAndSortedInputDto, IShouldNormalize
     {
     public string Filter { get; set; }
+    public bool? Status { get; set; }
     public void Normalize()
     {
         if (string.IsNullOrEmpty(Sorting))

@@ -1,5 +1,5 @@
 <div>
-    <button (click)="createNew(projectId)" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary mt" style="float: right;"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
+    <button (click)="createNew(projectId)" *ngIf="isGranted('Pages.Project.Manager.Member.Create')" class="btn btn-primary mt" style="float: right;"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
 
     <button type="button" class="btn btn-success mt" (click)="exportExcel()" style="float: right !important;">
               <i class="far fa-file-excel"></i> {{"Export" | localize}}
@@ -12,7 +12,7 @@
                 [resizableColumns]="primengTableHelper.resizableColumns">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">{{'Actions' | localize}}</th>
+                        <th style="width: 50px"></th>
                         <th style="width: 150px" pSortableColumn="EmployeeName">
                             {{'EmployeeName' | localize}}
                             <p-sortIcon field="EmployeeName"></p-sortIcon>
@@ -37,17 +37,17 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-record="$implicit">
                     <tr>
-                        <td style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">
+                        <td style="width: 50px">
                             <div class="btn-group dropdown" dropdown container="body">
-                                <button dropdownToggle class="dropdown-toggle btn btn-sm btn-primary">
-                          <i class="fa fa-cog"></i><span class="caret"></span> {{"Actions" | localize}}
+                                <button dropdownToggle class="btn btn-sm btn-primary">
+                          <i class="fa fa-cog"></i><span class="caret"></span> 
                       </button>
                                 <ul class="dropdown-menu" *dropdownMenu>
                                     <li>
-                                        <a href="javascript:;" *ngIf="'Pages.Administration.Users.Edit' | permission" (click)="editMember(projectId,record.id)">{{'Edit' | localize}}</a>
+                                        <a href="javascript:;" *ngIf="'Pages.Project.Manager.Member.Edit' | permission" (click)="editMember(projectId,record.id)">{{'Edit' | localize}}</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" (click)="delete(record)">{{'Delete' | localize}}</a>
+                                        <a href="javascript:;" *ngIf="'Pages.Project.Manager.Member.Delete' | permission" (click)="delete(record)">{{'Delete' | localize}}</a>
                                     </li>
 
 

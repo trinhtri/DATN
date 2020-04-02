@@ -936,6 +936,9 @@
     <text name="Assignee">Assignee</text>
     <text name="Priority">Priority</text>
     <text name="Estimate">Estimate</text>
+
+    <text name="Create">Create</text>
+    <text name="Documents">Document</text>
     
     
   </texts>

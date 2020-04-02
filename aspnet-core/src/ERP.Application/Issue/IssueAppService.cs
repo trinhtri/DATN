@@ -88,11 +88,51 @@ namespace ERP.Issue
             var dto = await _issueRepository.FirstOrDefaultAsync(id);
             return ObjectMapper.Map<CreateIssueDto>(dto);
         }
+        public async Task<IssueListDto> GetIssueForDetail(long id)
+        {
+            var dto = await _issueRepository.GetAll()
+                .Include(x => x.Type_)
+                .Include(y => y.Priority_)
+                .Include(z => z.Project_)
+                .Include(b => b.Resolve_)
+                .Include(c => c.Status_)
+                .Where(x=>x.Id == id)
+                .FirstOrDefaultAsync();
+            return ObjectMapper.Map<IssueListDto>(dto);
+        }
 
         public async Task Update(CreateIssueDto input)
         {
+            // ngày cập nhật chính là ngày hiện tại
+            input.Update_Date = DateTime.Now;
             var dto = await _issueRepository.FirstOrDefaultAsync(input.Id);
             ObjectMapper.Map(input, dto);
+        }
+
+        public async Task StartProgress(long id)
+        {
+            var issue = await _issueRepository.FirstOrDefaultAsync(id);
+            issue.Status_Id = 2;
+        }
+        public async Task StopProgress(long id)
+        {
+            var issue = await _issueRepository.FirstOrDefaultAsync(id);
+            issue.Status_Id = 1;
+        }
+        public async Task Resolved(long id)
+        {
+            var issue = await _issueRepository.FirstOrDefaultAsync(id);
+            issue.Status_Id = 3;
+        }
+        public async Task CloseProgress(long id)
+        {
+            var issue = await _issueRepository.FirstOrDefaultAsync(id);
+            issue.Status_Id = 4;
+        }
+        public async Task ReOpenProgress(long id)
+        {
+            var issue = await _issueRepository.FirstOrDefaultAsync(id);
+            issue.Status_Id = 5;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace ERP.Member
                                select new MemberListDto
                                {
                                    EffectiveDate = m.EffectiveDate,
-                                   EmployeeName = m.Employee_.FullName,
+                                   EmployeeName = m.Employee_.UserName,
                                    Id = m.Id,
                                    EndDate = m.EndDate,
                                    Note = m.Note,

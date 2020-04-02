@@ -150,11 +150,15 @@ namespace ERP
                 .ForMember(s=> s.Status,st => st.MapFrom(u=>u.Status_.StatusName))
                 .ForMember(t=>t.Type,ty => ty.MapFrom(y=>y.Type_.TypeName))
                 .ForMember(p=>p.Priority,pr=>pr.MapFrom(r=>r.Priority_.PriorityName))
+                .ForMember(r=>r.Resolve, re =>re.MapFrom(res =>res.Resolve_.ResolveName))
                 .ForMember(a => a.ProjectCode, l => l.MapFrom(p => p.Project_.ProjectCode)).ReverseMap();
 
             // comment
             configuration.CreateMap<Models.Comment, CreateCommentDto>().ReverseMap();
-            configuration.CreateMap<Models.Comment, CommentListDto>().ReverseMap();
+            configuration.CreateMap<Models.Comment, CommentListDto>()
+                .ForMember(r=>r.EmployeeName, re =>re.MapFrom(res =>res.Employee_.UserName))
+
+                .ReverseMap();
 
             // document
             configuration.CreateMap<Models.Document, CreateDocumentDto>().ReverseMap();

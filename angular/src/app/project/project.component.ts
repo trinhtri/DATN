@@ -22,7 +22,7 @@ export class ProjectComponent extends AppComponentBase {
     @ViewChild('paginator', {static: true}) paginator: Paginator;
     //Filters
     filterText = '';
-
+    checked =  true;
     constructor(
         injector: Injector,
         private _projectServiceProxy: ProjectServiceProxy,
@@ -32,6 +32,9 @@ export class ProjectComponent extends AppComponentBase {
     }
 
     getAll(event?: LazyLoadEvent) {
+        if (this.checked as any === 'undefined') {
+          this.checked = undefined;
+        }
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
 
@@ -42,6 +45,7 @@ export class ProjectComponent extends AppComponentBase {
 
         this._projectServiceProxy.getAll(
             this.filterText,
+            this.checked,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getMaxResultCount(this.paginator, event),
             this.primengTableHelper.getSkipCount(this.paginator, event)
@@ -75,6 +79,7 @@ export class ProjectComponent extends AppComponentBase {
 exportExcel(event?: LazyLoadEvent) {
     this._projectServiceProxy.getProjectToExcel(
         this.filterText,
+        this.checked,
         this.primengTableHelper.getSorting(this.dataTable),
         this.primengTableHelper.getMaxResultCount(this.paginator, event),
         this.primengTableHelper.getSkipCount(this.paginator, event)

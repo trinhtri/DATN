@@ -86,6 +86,22 @@ namespace ERP.Authorization
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Maintenance, L("Maintenance"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
             administration.CreateChildPermission(AppPermissions.Pages_Administration_HangfireDashboard, L("HangfireDashboard"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Dashboard, L("Dashboard"), multiTenancySides: MultiTenancySides.Host);
+
+            var projects = pages.CreateChildPermission(AppPermissions.Pages_Project, L("Projects"));
+            projects.CreateChildPermission(AppPermissions.Pages_Project_Create, L("Create"));
+            projects.CreateChildPermission(AppPermissions.Pages_Project_Edit, L("Edit"));
+            projects.CreateChildPermission(AppPermissions.Pages_Project_Delete, L("Delete"));
+          var managerProject =  projects.CreateChildPermission(AppPermissions.Pages_Project_Manager, L("ManagerProject"));
+
+            var member = managerProject.CreateChildPermission(AppPermissions.Pages_Project_Manager_Member, L("Members"));
+            member.CreateChildPermission(AppPermissions.Pages_Project_Manager_Member_Create, L("Create"));
+            member.CreateChildPermission(AppPermissions.Pages_Project_Manager_Member_Edit, L("Edit"));
+            member.CreateChildPermission(AppPermissions.Pages_Project_Manager_Member_Delete, L("Delete"));
+
+            var document = managerProject.CreateChildPermission(AppPermissions.Pages_Project_Manager_Document, L("Documents"));
+            document.CreateChildPermission(AppPermissions.Pages_Project_Manager_Document_Create, L("Create"));
+            document.CreateChildPermission(AppPermissions.Pages_Project_Manager_Document_Edit, L("Edit"));
+            document.CreateChildPermission(AppPermissions.Pages_Project_Manager_Document_Delete, L("Delete"));
         }
 
         private static ILocalizableString L(string name)

@@ -23,6 +23,7 @@ import { CreateOrEditMemberComponent } from './member/create-or-edit-member/crea
 import { CreateOrEditDocumentComponent } from './document/create-or-edit-document/create-or-edit-document.component';
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 import { FileUploadModule } from 'ng2-file-upload';
+import {InputSwitchModule} from 'primeng/inputswitch';
 @NgModule({
     imports: [
         CommonModule,
@@ -42,6 +43,7 @@ import { FileUploadModule } from 'ng2-file-upload';
         PopoverModule.forRoot(),
         AccordionModule,
         FileUploadModule,
+        InputSwitchModule
     ],
     declarations: [
         ProjectComponent,

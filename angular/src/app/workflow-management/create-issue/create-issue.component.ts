@@ -59,9 +59,6 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
       if (this.issue.due_Date) {
         this.dueDate = this.issue.due_Date.toDate();
       }
-      // if (this.project.endDate) {
-      //   this.endDate = this.project.endDate.toDate();
-      // }
     });
   } else {
   // mặc định khi tạo mới thì mức độ là bình thường
@@ -69,12 +66,12 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   }
 }
 onShown(): void {
-  document.getElementById('ProjectCode').focus();
+  document.getElementById('IssueCode').focus();
 }
 save(): void {
   this.saving = true;
   this.issue.reporter_Id = this.appSession.userId;
-//   this.project.startDate = moment(this.startDate);
+  this.issue.update_Date = moment(new Date);
   if (this.dueDate) {
   this.issue.due_Date = moment(this.dueDate);
   }

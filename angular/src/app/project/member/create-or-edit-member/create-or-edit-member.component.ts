@@ -58,7 +58,7 @@ export class CreateOrEditMemberComponent extends AppComponentBase  implements On
   }
 }
 onShown(): void {
-  document.getElementById('EmployeeName').focus();
+  // document.getElementById('EmployeeName').focus();
 }
 save(): void {
   this.saving = true;

@@ -15,6 +15,7 @@ export class ManagerProjectComponent  extends AppComponentBase implements OnInit
   project: CreateProjectDto = new CreateProjectDto();
   startDate: any;
   endDate: any;
+  status: any;
   constructor(injector: Injector,
     private _activatedRoute: ActivatedRoute,
     private _projectService: ProjectServiceProxy,
@@ -30,6 +31,12 @@ export class ManagerProjectComponent  extends AppComponentBase implements OnInit
       this.startDate = this.project.startDate.toDate();
       if (this.project.endDate) {
         this.endDate = this.project.endDate.toDate();
+      }
+      if (this.project.status === true) {
+        this.status = this.l('Đang hoạt động');
+      } else {
+        this.status = this.l('Ngừng hoạt động');
+
       }
     });
   }

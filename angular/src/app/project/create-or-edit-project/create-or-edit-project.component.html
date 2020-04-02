@@ -32,23 +32,49 @@
 
                     <div class="form-group">
                         <label for="StartDate">{{"StartDate" | localize}} *</label>
+                        <!-- <div class="input-group date">
+                            <input id="StartDate" type="text" #StartDateInput name="StartDate" class="form-control" [(ngModel)]="startDate" bsDatepicker [disabled]="readOnly" triggers="dblclick:click" #dp="bsDatepicker" placeholder="--/--/----" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text" (click)="dp.toggle()">
+                                    <i class="la la-calendar"></i>
+                                </span>
+                            </div>
+                        </div> -->
+
                         <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="startDate" bsDatepicker required>
                         <validation-messages [formCtrl]="StartDateInput"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="EndDate">{{"EndDate" | localize}} </label>
+                        <!-- <div class="input-group date">
+                            <input id="ExpireDate" type="text" #ExpireDate name="EndDate" class="form-control" [(ngModel)]="endDate" [minDate]="startDate" bsDatepicker [disabled]="readOnly" triggers="dblclick:click" #dp3="bsDatepicker" placeholder="--/--/----">
+                            <div class="input-group-append">
+                                <span class="input-group-text" (click)="dp3.toggle()">
+                                    <i class="la la-calendar"></i>
+                                </span>
+                            </div>
+                        </div> -->
+
                         <input id="SampleDatePicker" type="text" #SampleDatePicker name="SampleDatePicker" class="form-control" [(ngModel)]="endDate" bsDatepicker>
                     </div>
-
+                    <div class="form-group">
+                        <label for="Status">{{"Status" | localize}}</label>
+                        <select id="Status" name="Status" class="form-control" [(ngModel)]="project.status">
+                            <option [value]="true">{{"Đang hoạt động" | localize}}</option>
+                            <option [value]="false">{{"Ngừng hoạt động" | localize}}</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="Discription">{{"Discription" | localize}}</label>
-                        <input id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="project.discription" maxlength="2000">
+                        <textarea rows="5" cols="30" pInputTextarea name="Discription"  class="form-control" [(ngModel)]="project.discription" maxlength="2000"></textarea>
+
                     </div>
 
                     <div class="form-group">
                         <label for="Note">{{"Note" | localize}} </label>
-                        <input id="Note" type="text" name="Note" class="form-control" [(ngModel)]="project.note" maxlength="2000">
+                        <textarea rows="5" cols="30" pInputTextarea name="Note"  class="form-control" [(ngModel)]="project.note" maxlength="2000"></textarea>
+
                     </div>
 
                     <div class="modal-footer">

@@ -56,14 +56,21 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label for="Status">{{"Status" | localize}} </label>
+                                            <input id="Status" type="text" name="Status" class="form-control" [(ngModel)]="status"disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="Discription">{{"Discription" | localize}}</label>
-                                            <input id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="project.discription" maxlength="2000" disabled>
+                                             <textarea rows="5" cols="30" pInputTextarea name="Note"  class="form-control" [(ngModel)]="project.discription" maxlength="2000" disabled></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="Note">{{"Note" | localize}} </label>
-                                            <input id="Note" type="text" name="Note" class="form-control" [(ngModel)]="project.note" maxlength="2000" disabled>
+                                           <textarea rows="5" cols="30" pInputTextarea name="Note"  class="form-control" [(ngModel)]="project.note" maxlength="2000" disabled></textarea>
                                         </div>
                                     </div>
                                 </div>

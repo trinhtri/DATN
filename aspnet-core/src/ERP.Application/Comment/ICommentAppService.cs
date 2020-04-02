@@ -11,7 +11,7 @@ namespace ERP.Comment
 {
     public interface ICommentAppService: IApplicationService
     {
-        Task<PagedResultDto<CommentListDto>> GetAll(long Project_Id,long Issue_Id);
+        List<CommentListDto> GetAll(long Issue_Id);
         Task<long> Create(CreateCommentDto input);
         Task Delete(long id);
         Task Update(CreateCommentDto input);
