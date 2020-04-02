@@ -73,11 +73,7 @@ this.message.confirm(
     }
 );
 }
-download(id) {
-this._documentService.downloadTempAttachment(id).subscribe(result => {
-  this._fileDownloadService.downloadDocument(result);
-});
-}
+
 // exportExcel(event?: LazyLoadEvent) {
 // this._memberServiceProxy.getMemberForExcel(
 //     this.projectId,

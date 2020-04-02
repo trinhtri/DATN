@@ -13,22 +13,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-11">
-                                <label for="DocumentName">{{"DocumentName" | localize}} *</label>
-                                <input id="DocumentName" #DocumentNameInput="ngModel" type="text" name="DocumentName" class="form-control" [(ngModel)]="document.documentName" required maxlength="500" />
-                            </div>
-                            <div class="col-md-1">
-                                <i class="pi pi-upload" style="margin: 25px 0 0 -15px;font-size: 3.0em;" (click)="ClickButton($event)"></i>
-                                <input id="documentFileInput" #documentFileInput [uploader]="documentUploader" type="file" ng2FileSelect class="form-control" style="display: none;">
-                            </div>
-                        </div>
+                            <label for="DocumentName">{{"DocumentName" | localize}} *</label>
+                            <input id="DocumentName" #DocumentNameInput="ngModel" type="text" name="DocumentName" class="form-control" [(ngModel)]="document.documentName" required maxlength="500" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="URL">{{"URL" | localize}}</label>
+                        <input id="URL" type="text" name="URL" class="form-control" [(ngModel)]="document.documentUrl" maxlength="2000">
                     </div>
 
                     <div class="form-group">
                         <label for="Discription">{{"Discription" | localize}}</label>
                         <input id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="document.discription" maxlength="2000">
                     </div>
+
 
                     <div class="modal-footer">
                         <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{"Cancel" | localize}}</button>

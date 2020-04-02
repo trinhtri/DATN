@@ -826,6 +826,7 @@
     <text name="IssueCode">Mã issue</text>
     <text name="Create">Thêm mới</text>
     <text name="Documents">Tài liệu</text>
+    <text name="DocumentUrl">Url Tài liệu</text>
     <!-- <text name=""></text>
     <text name=""></text>
     <text name=""></text>

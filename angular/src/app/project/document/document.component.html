@@ -21,13 +21,14 @@
                             {{'Discription' | localize}}
                             <p-sortIcon field="Discription"></p-sortIcon>
                         </th>
-                        <th style="width: 150px" pSortableColumn="Size">
-                            {{'Size' | localize}}
-                            <p-sortIcon field="Size"></p-sortIcon>
-                        </th>
+                 
                         <th style="width: 150px" pSortableColumn="UploadDate">
                             {{'UploadDate' | localize}}
                             <p-sortIcon field="UploadDate"></p-sortIcon>
+                        </th>
+                        <th style="width: 150px" pSortableColumn="documentUrl">
+                            {{'DocumentUrl' | localize}}
+                            <p-sortIcon field="documentUrl"></p-sortIcon>
                         </th>
                     </tr>
                 </ng-template>
@@ -42,9 +43,6 @@
                                     <li>
                                         <a href="javascript:;" *ngIf="'Pages.Project.Manager.Document.Edit' | permission" (click)="editDocument(projectId,record.id)">{{'Edit' | localize}}</a>
                                     </li>
-                                    <!-- <li>
-                                        <a href="javascript:;" *ngIf="'Pages.Project.Manager.Document.Delete' | permission" (click)="download(record.id)">{{'Download' | localize}}</a>
-                                    </li> -->
                                     <li>
                                         <a href="javascript:;" *ngIf="'Pages.Project.Manager.Document.Delete' | permission" (click)="delete(record)">{{'Delete' | localize}}</a>
                                     </li>
@@ -58,13 +56,13 @@
                         </td>
                         <td style="width: 150px">
                             <span class="ui-column-title"> {{'Discription' | localize}}</span> {{record.discription}}
-                        </td>
-                        <td style="width: 150px">
-                            <span class="ui-column-title"> {{'Size' | localize}}</span> {{record.size }}
-                        </td>
+                     
                         <td style="width: 150px">
                             <span class="ui-column-title"> {{'UploadDate' | localize}}</span> {{record.uploadDate | momentFormat:'L'}}
                         </td>
+                        <th style="width: 150px">
+                            <a href={{record.documentUrl}}  target="_blank">{{"Url"}}</a>
+                        </th>
                     </tr>
                 </ng-template>
             </p-table>

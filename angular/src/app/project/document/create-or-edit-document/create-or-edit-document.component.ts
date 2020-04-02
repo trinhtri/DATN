@@ -7,7 +7,7 @@ import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { AppConsts } from '@shared/AppConsts';
 import { IAjaxResponse } from 'abp-ng2-module/dist/src/abpHttpInterceptor';
 import { TokenService } from 'abp-ng2-module/dist/src/auth/token.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-create-or-edit-document',
   templateUrl: './create-or-edit-document.component.html',
@@ -33,30 +33,8 @@ export class CreateOrEditDocumentComponent extends AppComponentBase implements O
    }
 
   ngOnInit() {
-    this.initUploaders();
   }
-  initUploaders(): void {
-    this.documentUploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/Profile/UploadDocument' });
-    this._uploaderOptions.autoUpload = true;
-    this._uploaderOptions.authToken = 'Bearer ' + this._tokenService.getToken();
-    this._uploaderOptions.removeAfterUpload = true;
-    this.documentUploader.onAfterAddingFile = (file) => {
-      file.withCredentials = false;
-    };
-    this.documentUploader.onSuccessItem = (item, response) => {
 
-      const resp = <IAjaxResponse>JSON.parse(response);
-      if (!resp.result.errorInfo) {
-        this.document.documentName = resp.result.fileName;
-        this.document.size = resp.result.fileSize;
-        this.document.contentType = resp.result.contentType;
-        this.isSelectedFile = true;
-      } else {
-        this.message.error(resp.result.errorInfo.details, resp.result.errorInfo.message);
-      }
-    };
-    this.documentUploader.setOptions(this._uploaderOptions);
-  }
   show(projectId, id?: number): void {
     this.active = true;
     this.projectId = projectId;
@@ -72,7 +50,7 @@ onShown(): void {
 save(): void {
   this.saving = true;
   this.document.project_Id = this.projectId;
-  this.document.isSelectFile = this.isSelectedFile;
+  this.document.uploadDate = moment(new Date());
   if (this.document.id) {
     this._documentService.update(this.document)
     .pipe(finalize(() => { this.saving = false; }))
@@ -98,20 +76,5 @@ close(): void {
   this.saving = false;
   this.active = false;
   this.modal.hide();
-}
-ClickButton($event) {
-  if (this.documentFileInput) {
-    this.documentFileInput.nativeElement.click();
-  }
-}
-//tslint:disable-next-line:use-lifecycle-interface
-ngOnDestroy() {
-  this.deleteTempFile();
-}
-
-deleteTempFile() {
-  if (this.document.documentName) {
-    this._documentService.deleteDocumentTempFile(this.document.documentName).subscribe();
-  }
 }
 }

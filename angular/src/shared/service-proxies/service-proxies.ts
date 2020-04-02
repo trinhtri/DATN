@@ -2585,110 +2585,6 @@ export class DocumentServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
-
-    /**
-     * @param documentName (optional) 
-     * @return Success
-     */
-    deleteDocumentTempFile(documentName: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Document/DeleteDocumentTempFile?";
-        if (documentName !== undefined)
-            url_ += "DocumentName=" + encodeURIComponent("" + documentName) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteDocumentTempFile(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDeleteDocumentTempFile(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDeleteDocumentTempFile(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    downloadTempAttachment(id: number | null | undefined): Observable<FileDto> {
-        let url_ = this.baseUrl + "/api/services/app/Document/DownloadTempAttachment?";
-        if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDownloadTempAttachment(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDownloadTempAttachment(<any>response_);
-                } catch (e) {
-                    return <Observable<FileDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDownloadTempAttachment(response: HttpResponseBase): Observable<FileDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? FileDto.fromJS(resultData200) : new FileDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<FileDto>(<any>null);
-    }
 }
 
 @Injectable()
@@ -14109,12 +14005,9 @@ export class CreateDocumentDto implements ICreateDocumentDto {
     tenantId!: number | undefined;
     documentName!: string | undefined;
     discription!: string | undefined;
-    size!: number | undefined;
     documentUrl!: string | undefined;
     uploadDate!: moment.Moment | undefined;
     project_Id!: number | undefined;
-    contentType!: string | undefined;
-    isSelectFile!: boolean | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateDocumentDto) {
@@ -14131,12 +14024,9 @@ export class CreateDocumentDto implements ICreateDocumentDto {
             this.tenantId = data["tenantId"];
             this.documentName = data["documentName"];
             this.discription = data["discription"];
-            this.size = data["size"];
             this.documentUrl = data["documentUrl"];
             this.uploadDate = data["uploadDate"] ? moment(data["uploadDate"].toString()) : <any>undefined;
             this.project_Id = data["project_Id"];
-            this.contentType = data["contentType"];
-            this.isSelectFile = data["isSelectFile"];
             this.id = data["id"];
         }
     }
@@ -14153,12 +14043,9 @@ export class CreateDocumentDto implements ICreateDocumentDto {
         data["tenantId"] = this.tenantId;
         data["documentName"] = this.documentName;
         data["discription"] = this.discription;
-        data["size"] = this.size;
         data["documentUrl"] = this.documentUrl;
         data["uploadDate"] = this.uploadDate ? this.uploadDate.toISOString() : <any>undefined;
         data["project_Id"] = this.project_Id;
-        data["contentType"] = this.contentType;
-        data["isSelectFile"] = this.isSelectFile;
         data["id"] = this.id;
         return data; 
     }
@@ -14168,12 +14055,9 @@ export interface ICreateDocumentDto {
     tenantId: number | undefined;
     documentName: string | undefined;
     discription: string | undefined;
-    size: number | undefined;
     documentUrl: string | undefined;
     uploadDate: moment.Moment | undefined;
     project_Id: number | undefined;
-    contentType: string | undefined;
-    isSelectFile: boolean | undefined;
     id: number | undefined;
 }
 

@@ -939,7 +939,8 @@
 
     <text name="Create">Create</text>
     <text name="Documents">Document</text>
-    
-    
+    <text name="DocumentUrl">Document url</text>
+
+
   </texts>
 </localizationDictionary>

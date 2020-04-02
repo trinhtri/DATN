@@ -16,7 +16,6 @@ namespace ERP.Models
         public string DocumentName { get; set; }
         [StringLength(2000)]
         public string Discription { get; set; }
-        public decimal Size { get; set; }
         public long Project_Id { get; set; }
         public virtual Project Project { get; set; }
         [StringLength(2000)]

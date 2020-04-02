@@ -18,11 +18,15 @@ namespace ERP.Project
     {
         private readonly IRepository<Models.Project,long> _projectRepository;
         private readonly ProjectListExcelExporter _projectListExcelExporter;
+        private readonly IRepository<Models.Member, long> _memberRepository;
+
         public ProjectAppService(IRepository<Models.Project,long> projectRepository,
-            ProjectListExcelExporter projectListExcelExporter)
+            ProjectListExcelExporter projectListExcelExporter,
+            IRepository<Models.Member, long> memberRepository)
         {
             _projectRepository = projectRepository;
             _projectListExcelExporter = projectListExcelExporter;
+            _memberRepository = memberRepository;
         }
         public async Task<long> Create(CreateProjectDto input)
         {
@@ -46,12 +50,15 @@ namespace ERP.Project
 
         public async Task<PagedResultDto<ProjectListDto>> GetAll(ProjectInputDto input)
         {
+            var projectOfMember = _memberRepository.GetAll().Where(x => x.Employee_Id == AbpSession.UserId).ToList();
             var list = _projectRepository.GetAll()
+                .Where(x=> projectOfMember.Any(p=>p.Project_Id == x.Id))
                 .WhereIf(input.Status.HasValue,x=>x.Status == input.Status)
                 .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
                 x => x.ProjectCode.ToUpper().Contains(input.Filter.ToUpper())
                 || x.ProjectName.ToUpper().Contains(input.Filter.ToUpper())
                 || x.StartDate.ToString().Contains(input.Filter));
+
             var tatolCount = await list.CountAsync();
             var result = await list.OrderBy(input.Sorting).PageBy(input).ToListAsync();
 
