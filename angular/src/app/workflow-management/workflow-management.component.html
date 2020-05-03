@@ -15,6 +15,8 @@
                     <i class="far fa-file-excel"></i> {{"Export" | localize}}
                 </button>
                 <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
+                <button (click)="configView()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"ConfigView" | localize}}</button>
+
             </div>
         </div>
     </div>
@@ -37,45 +39,80 @@
                         </div>
 
                         <div class="row mb-4" [hidden]="!advancedFiltersAreShown">
-                            <div [ngClass]="{'col-md-3': ('Pages.Administration.Roles' | permission), 'col-md-12':!isGranted('Pages.Administration.Roles')}">
+                            <div  class="col-md-3">
                                 <div class="form-group">
                                     <label for="projectId">{{"Project" | localize}}</label>
-                                    <select id="projectId" name="projectId" class="form-control" [(ngModel)]="projectId">
-                                            <option value="">{{"All" | localize}}</option>
-                                            <option *ngFor="let item of lstProject " [value]="item.value">{{item.displayText}}</option>
-                                        </select>
+                                    <p-multiSelect [options]="lstProject"  name="projectId" [(ngModel)]="lstProjectId" [panelStyle]="{minWidth:'12em'}">
+                                        <ng-template let-value pTemplate="selectedItems">
+                                            <span *ngIf="!value || value.length === 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
+                                            <span *ngIf="value && value.length > 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
+                                                {{"options"|localize}}</span>
+                                        </ng-template>
+                                        <ng-template let-car let-i="index" pTemplate="item">
+                                            {{car.displayText}}
+                                        </ng-template>
+                                    </p-multiSelect>
+                                        <!-- <p-multiSelect [options]="lstProject" name="projectId"  [(ngModel)]="lstProjectId" optionLabel="displayText" value="value"></p-multiSelect> -->
                                 </div>
                             </div>
-                            <div class="col-md-3" *ngIf="'Pages.Administration.Roles' | permission">
-                                <div class="form-group">
-                                    <label for="IssueType">{{"IssueType" | localize}}</label>
-                                    <select id="IssueType" name="IssueType" class="form-control" [(ngModel)]="issueType">
-                                        <option value="">{{"All" | localize}}</option>
-                                        <option value="false">{{"Success" | localize}}</option>
-                                        <option value="true">{{"HasError" | localize}}</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3" *ngIf="'Pages.Administration.Roles' | permission">
-                                <div class="form-group">
-                                    <label for="Satus">{{"Satus" | localize}}</label>
-                                    <select id="Satus" name="Satus" class="form-control" [(ngModel)]="satus">
-                                        <option value="">{{"All" | localize}}</option>
-                                        <option value="false">{{"Success" | localize}}</option>
-                                        <option value="true">{{"HasError" | localize}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3" *ngIf="'Pages.Administration.Roles' | permission">
+                            <div  class="col-md-3">
                                 <div class="form-group">
                                     <label for="Assignee">{{"Assignee" | localize}}</label>
-                                    <select id="Assignee" name="Assignee" class="form-control" [(ngModel)]="Assignee">
-                                        <option value="">{{"All" | localize}}</option>
-                                        <option value="false">{{"Success" | localize}}</option>
-                                        <option value="true">{{"HasError" | localize}}</option>
-                                    </select>
+                                    <p-multiSelect [options]="lstMember"  name="Assignee" [(ngModel)]="lstAssigneeId" [panelStyle]="{minWidth:'12em'}">
+                                        <ng-template let-value pTemplate="selectedItems">
+                                            <span *ngIf="!value || value.length === 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
+                                            <span *ngIf="value && value.length > 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
+                                                {{"options"|localize}}</span>
+                                        </ng-template>
+                                        <ng-template let-car let-i="index" pTemplate="item">
+                                            {{car.displayText}}
+                                        </ng-template>
+                                    </p-multiSelect>
+                                        <!-- <p-multiSelect [options]="lstMember" name="Assignee"  [(ngModel)]="lstAssigneeId" optionLabel="displayText"></p-multiSelect> -->
                                 </div>
+                            </div>
+                            <div  class="col-md-3">
+                                <div class="form-group">
+                                    <label for="IssueType">{{"IssueType" | localize}}</label>
+                                    <p-multiSelect [options]="lstIssueType"  name="IssueType" [(ngModel)]="lstIssueTypeId" [panelStyle]="{minWidth:'12em'}">
+                                        <ng-template let-value pTemplate="selectedItems">
+                                            <span *ngIf="!value || value.length === 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
+                                            <span *ngIf="value && value.length > 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
+                                                {{"options"|localize}}</span>
+                                        </ng-template>
+                                        <ng-template let-car let-i="index" pTemplate="item">
+                                            {{car.displayText}}
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </div>
+                            </div>
+                            <div  class="col-md-3">
+                                <div class="form-group">
+                                    <label for="Satus">{{"Status" | localize}}</label>
+                                    <p-multiSelect [options]="lstStatus"  name="Satus" [(ngModel)]="lstStatusId" [panelStyle]="{minWidth:'12em'}">
+                                        <ng-template let-value pTemplate="selectedItems">
+                                            <span *ngIf="!value || value.length === 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
+                                            <span *ngIf="value && value.length > 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
+                                                {{"options"|localize}}</span>
+                                        </ng-template>
+                                        <ng-template let-car let-i="index" pTemplate="item">
+                                            {{car.displayText}}
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                        <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="getAll()" style="float: right;">
+                                            <i class="la la-refresh"></i> {{"Refresh" | localize}}
+                                        </button>
                             </div>
                         </div>
 
@@ -96,90 +133,91 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <!-- <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">{{'Actions' | localize}}</th> -->
-                                    <th style="width: 100px" pSortableColumn="ProjectCode">
+                                    <th style="width: 100px" pSortableColumn="ProjectCode" *ngIf="config.isProject">
                                         {{'Project' | localize}}
                                         <p-sortIcon field="ProjectCode"></p-sortIcon>
                                     </th>
-                                    <th style="width: 100px" pSortableColumn="IssueCode">
+                                    <th style="width: 100px" pSortableColumn="IssueCode" *ngIf="config.isIssue">
                                         {{'IssueCode' | localize}}
                                         <p-sortIcon field="IssueCode"></p-sortIcon>
                                     </th>
-                                    <th style="width: 300px" pSortableColumn="Summary">
+                                    <th style="width: 300px" pSortableColumn="Summary" *ngIf="config.isSummary">
                                         {{'Summary' | localize}}
                                         <p-sortIcon field="Summary"></p-sortIcon>
                                     </th>
-                                    <th style="width: 100px" pSortableColumn="IssueTye">
+                                    <th style="width: 100px" pSortableColumn="IssueTye" *ngIf="config.isIssueType">
                                         {{'IssueType' | localize}}
                                         <p-sortIcon field="IssueTye"></p-sortIcon>
                                     </th>
-                                    <th style="width: 100px" pSortableColumn="Status">
+                                    <th style="width: 100px" pSortableColumn="Status"  *ngIf="config.isStatus">
                                         {{'Status' | localize}}
                                         <p-sortIcon field="Status"></p-sortIcon>
                                     </th>
-                                    <th style="width: 100px" pSortableColumn="Estimate">
+                                    <th style="width: 100px" pSortableColumn="Estimate" *ngIf="config.isEstimate">
                                         {{'Estimate' | localize}}
                                         <p-sortIcon field="Estimate"></p-sortIcon>
                                     </th>
-                                    <th style="width: 100px" pSortableColumn="Assignee">
+                                    <th style="width: 100px" pSortableColumn="Reporter_Id" *ngIf="config.isReporter">
+                                        {{'Reporter' | localize}}
+                                        <p-sortIcon field="Reporter_Id"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 100px" pSortableColumn="Assignee" *ngIf="config.isAssignee">
                                         {{'Assignee' | localize}}
                                         <p-sortIcon field="Assignee"></p-sortIcon>
                                     </th>
-                                    <th style="width: 100px" pSortableColumn="Due_Date">
+                                    <th style="width: 100px" pSortableColumn="Due_Date" *ngIf="config.isDueDate">
                                         {{'DueDate' | localize}}
                                         <p-sortIcon field="Due_Date"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 100px" pSortableColumn="CreationTime" *ngIf="config.isCreatedDate">
+                                        {{'CreationTime' | localize}}
+                                        <p-sortIcon field="CreationTime"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 100px" pSortableColumn="Update_Date" *ngIf="config.isUpdateDate">
+                                        {{'Update_Date' | localize}}
+                                        <p-sortIcon field="Update_Date"></p-sortIcon>
                                     </th>
                                   
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-record="$implicit">
                                 <tr>
-                                    <!-- <td style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">
-                                        <div class="btn-group dropdown" dropdown container="body">
-                                            <button dropdownToggle class="dropdown-toggle btn btn-sm btn-primary">
-                                            <i class="fa fa-cog"></i><span class="caret"></span> {{"Actions" | localize}}
-                                        </button>
-                                            <ul class="dropdown-menu" *dropdownMenu>
-                                                <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Edit' | permission" (click)="editProject(record.id)">{{'Edit' | localize}}</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" [routerLink]="['/app/project/manager-project',record.id]">{{'ManagerProject' | localize}}</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" (click)="delete(record)">{{'Delete' | localize}}</a>
-                                                </li>
-
-
-                                            </ul>
-                                        </div>
-                                    </td> -->
-                                    <td style="width: 100px">
+                                    <td style="width: 100px" *ngIf="config.isProject">
                                         <span class="ui-column-title"> {{'Project' | localize}}</span> {{record.projectCode}}
                                     </td>
-                                    <td style="width: 100px">
+                                    <td style="width: 100px" *ngIf="config.isIssue">
                                         <span class="ui-column-title"> {{'IssueCode' | localize}}</span> {{record.issueCode}}
                                     </td>
-                                    <td style="width: 300px">
+                                    <td style="width: 300px" *ngIf="config.isSummary">
                                         <a href="javascript:;" *ngIf="'Pages.Administration.Users.Delete' | permission" [routerLink]="['/app/issue/management-issue',record.id]">
                                             <span class="ui-column-title"> {{'Summary' | localize}}</span> {{record.summary}}
                                         </a>
                                     </td>
-                                    <td style="width: 100px">
+                                    <td style="width: 100px" *ngIf="config.isIssueType">
                                         <span class="ui-column-title"> {{'IssueType' | localize}}</span> {{record.type}}
                                     </td>
-                                    <td style="width: 100px">
+                                    <td style="width: 100px" *ngIf="config.isStatus">
                                         <span class="ui-column-title"> {{'Status' | localize}}</span> {{record.status}}
                                     </td>
                                 
-                                    <td style="width: 100px">
+                                    <td style="width: 100px" *ngIf="config.isEstimate">
                                         <span class="ui-column-title"> {{'Estimate' | localize}}</span> {{record.estimate}}
                                     </td>
-                                    <td style="width: 100px">
-                                        <span class="ui-column-title"> {{'Assignee' | localize}}</span> {{record.assignee}}
+                                    <td style="width: 100px" *ngIf="config.isReporter">
+                                        <span class="ui-column-title"> {{'Reporter' | localize}}</span> {{getName(record.reporter_Id)}}
                                     </td>
-                                    <td style="width: 100px">
+                                    <td style="width: 100px" *ngIf="config.isAssignee">
+                                        <span class="ui-column-title"> {{'Assignee' | localize}}</span> {{getName(record.assignee_Id)}}
+                                    </td>
+                                    <td style="width: 100px" *ngIf="config.isDueDate">
                                         <span class="ui-column-title"> {{'DueDate' | localize}}</span> {{record.due_Date | momentFormat:'L'}}
                                     </td>   
+                                    <td style="width: 100px" *ngIf="config.isCreatedDate">
+                                        <span class="ui-column-title"> {{'CreationTime' | localize}}</span> {{record.creationTime | momentFormat:'L'}}
+                                    </td> 
+                                    <td style="width: 100px" *ngIf="config.isUpdateDate">
+                                        <span class="ui-column-title"> {{'Update_Date' | localize}}</span> {{record.update_Date | momentFormat:'L'}}
+                                    </td> 
                                     
                                 </tr>
                             </ng-template>
@@ -203,4 +241,5 @@
     </div>
 
     <app-create-issue #createOrEditModal (modalSave)="getAll()"></app-create-issue>
+    <app-config-view #configViewModal (modalSave)="ngOnInit()"></app-config-view>
 </div>

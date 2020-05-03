@@ -1949,6 +1949,180 @@ export class CommonLookupServiceProxy {
 }
 
 @Injectable()
+export class ConfigviewServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: ConfigViewDto | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Configview/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getId(id: number | null | undefined): Observable<ConfigViewDto> {
+        let url_ = this.baseUrl + "/api/services/app/Configview/getId?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetId(<any>response_);
+                } catch (e) {
+                    return <Observable<ConfigViewDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ConfigViewDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetId(response: HttpResponseBase): Observable<ConfigViewDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ConfigViewDto.fromJS(resultData200) : new ConfigViewDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ConfigViewDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    update(input: ConfigViewDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Configview/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class DemoUiComponentsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -4068,31 +4242,50 @@ export class IssueServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param listProjectId (optional) 
+     * @param listStatusId (optional) 
+     * @param listAssignId (optional) 
+     * @param listTypeId (optional) 
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
      * @return Success
      */
-    export(input: IssueInputDto | null | undefined): Observable<FileDto> {
-        let url_ = this.baseUrl + "/api/services/app/Issue/Export";
+    getIssueForExcel(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetIssueForExcel?";
+        if (listProjectId !== undefined)
+            listProjectId && listProjectId.forEach(item => { url_ += "ListProjectId=" + encodeURIComponent("" + item) + "&"; });
+        if (listStatusId !== undefined)
+            listStatusId && listStatusId.forEach(item => { url_ += "ListStatusId=" + encodeURIComponent("" + item) + "&"; });
+        if (listAssignId !== undefined)
+            listAssignId && listAssignId.forEach(item => { url_ += "ListAssignId=" + encodeURIComponent("" + item) + "&"; });
+        if (listTypeId !== undefined)
+            listTypeId && listTypeId.forEach(item => { url_ += "ListTypeId=" + encodeURIComponent("" + item) + "&"; });
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processExport(response_);
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetIssueForExcel(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processExport(<any>response_);
+                    return this.processGetIssueForExcel(<any>response_);
                 } catch (e) {
                     return <Observable<FileDto>><any>_observableThrow(e);
                 }
@@ -4101,7 +4294,7 @@ export class IssueServiceProxy {
         }));
     }
 
-    protected processExport(response: HttpResponseBase): Observable<FileDto> {
+    protected processGetIssueForExcel(response: HttpResponseBase): Observable<FileDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4124,17 +4317,26 @@ export class IssueServiceProxy {
     }
 
     /**
-     * @param project_Id (optional) 
+     * @param listProjectId (optional) 
+     * @param listStatusId (optional) 
+     * @param listAssignId (optional) 
+     * @param listTypeId (optional) 
      * @param filter (optional) 
      * @param sorting (optional) 
      * @param maxResultCount (optional) 
      * @param skipCount (optional) 
      * @return Success
      */
-    getAll(project_Id: number | null | undefined, filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfIssueListDto> {
+    getAll(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfIssueListDto> {
         let url_ = this.baseUrl + "/api/services/app/Issue/GetAll?";
-        if (project_Id !== undefined)
-            url_ += "Project_Id=" + encodeURIComponent("" + project_Id) + "&"; 
+        if (listProjectId !== undefined)
+            listProjectId && listProjectId.forEach(item => { url_ += "ListProjectId=" + encodeURIComponent("" + item) + "&"; });
+        if (listStatusId !== undefined)
+            listStatusId && listStatusId.forEach(item => { url_ += "ListStatusId=" + encodeURIComponent("" + item) + "&"; });
+        if (listAssignId !== undefined)
+            listAssignId && listAssignId.forEach(item => { url_ += "ListAssignId=" + encodeURIComponent("" + item) + "&"; });
+        if (listTypeId !== undefined)
+            listTypeId && listTypeId.forEach(item => { url_ += "ListTypeId=" + encodeURIComponent("" + item) + "&"; });
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         if (sorting !== undefined)
@@ -13889,6 +14091,94 @@ export interface IGetDefaultEditionNameOutput {
     name: string | undefined;
 }
 
+export class ConfigViewDto implements IConfigViewDto {
+    tenantId!: number | undefined;
+    isProject!: boolean | undefined;
+    isIssue!: boolean | undefined;
+    isSummary!: boolean | undefined;
+    isIssueType!: boolean | undefined;
+    isStatus!: boolean | undefined;
+    isEstimate!: boolean | undefined;
+    isReporter!: boolean | undefined;
+    isAssignee!: boolean | undefined;
+    isDueDate!: boolean | undefined;
+    isCreatedDate!: boolean | undefined;
+    isUpdateDate!: boolean | undefined;
+    userId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IConfigViewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantId = data["tenantId"];
+            this.isProject = data["isProject"];
+            this.isIssue = data["isIssue"];
+            this.isSummary = data["isSummary"];
+            this.isIssueType = data["isIssueType"];
+            this.isStatus = data["isStatus"];
+            this.isEstimate = data["isEstimate"];
+            this.isReporter = data["isReporter"];
+            this.isAssignee = data["isAssignee"];
+            this.isDueDate = data["isDueDate"];
+            this.isCreatedDate = data["isCreatedDate"];
+            this.isUpdateDate = data["isUpdateDate"];
+            this.userId = data["userId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ConfigViewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConfigViewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["isProject"] = this.isProject;
+        data["isIssue"] = this.isIssue;
+        data["isSummary"] = this.isSummary;
+        data["isIssueType"] = this.isIssueType;
+        data["isStatus"] = this.isStatus;
+        data["isEstimate"] = this.isEstimate;
+        data["isReporter"] = this.isReporter;
+        data["isAssignee"] = this.isAssignee;
+        data["isDueDate"] = this.isDueDate;
+        data["isCreatedDate"] = this.isCreatedDate;
+        data["isUpdateDate"] = this.isUpdateDate;
+        data["userId"] = this.userId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IConfigViewDto {
+    tenantId: number | undefined;
+    isProject: boolean | undefined;
+    isIssue: boolean | undefined;
+    isSummary: boolean | undefined;
+    isIssueType: boolean | undefined;
+    isStatus: boolean | undefined;
+    isEstimate: boolean | undefined;
+    isReporter: boolean | undefined;
+    isAssignee: boolean | undefined;
+    isDueDate: boolean | undefined;
+    isCreatedDate: boolean | undefined;
+    isUpdateDate: boolean | undefined;
+    userId: number | undefined;
+    id: number | undefined;
+}
+
 export class DateToStringOutput implements IDateToStringOutput {
     dateString!: string | undefined;
 
@@ -16404,58 +16694,6 @@ export interface ICreateIssueDto {
     priority_ID: number | undefined;
     resolve_Id: number | undefined;
     id: number | undefined;
-}
-
-export class IssueInputDto implements IIssueInputDto {
-    project_Id!: number | undefined;
-    filter!: string | undefined;
-    sorting!: string | undefined;
-    maxResultCount!: number | undefined;
-    skipCount!: number | undefined;
-
-    constructor(data?: IIssueInputDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.project_Id = data["project_Id"];
-            this.filter = data["filter"];
-            this.sorting = data["sorting"];
-            this.maxResultCount = data["maxResultCount"];
-            this.skipCount = data["skipCount"];
-        }
-    }
-
-    static fromJS(data: any): IssueInputDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new IssueInputDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["project_Id"] = this.project_Id;
-        data["filter"] = this.filter;
-        data["sorting"] = this.sorting;
-        data["maxResultCount"] = this.maxResultCount;
-        data["skipCount"] = this.skipCount;
-        return data; 
-    }
-}
-
-export interface IIssueInputDto {
-    project_Id: number | undefined;
-    filter: string | undefined;
-    sorting: string | undefined;
-    maxResultCount: number | undefined;
-    skipCount: number | undefined;
 }
 
 export class PagedResultDtoOfIssueListDto implements IPagedResultDtoOfIssueListDto {

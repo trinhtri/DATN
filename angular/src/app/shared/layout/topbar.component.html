@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div headerNotifications class="kt-header__topbar-item dropdown" dropdown id="header_notification_bar"></div>
+    <!-- <div headerNotifications class="kt-header__topbar-item dropdown" dropdown id="header_notification_bar"></div> -->
     <div class="kt-header__topbar-item kt-header__topbar-item--user" dropdown>
         <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px" aria-expanded="false" dropdownToggle>
             <div class="kt-header__topbar-user">
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="javascript:;" class="kt-notification__item linked-accounts" (click)="showLinkedAccounts()">
+                <!-- <a href="javascript:;" class="kt-notification__item linked-accounts" (click)="showLinkedAccounts()">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon-user-settings"></i>
                     </div>
@@ -91,7 +91,7 @@
                             </span>
                         </div>
                     </div>
-                </a>
+                </a> -->
                 <div class="kt-notification__custom py-0 linked-accounts">
                     <ul class="kt-nav linked-accounts" *ngIf="recentlyLinkedUsers"
                         [attr.aria-label]="l('LinkedAccounts')">
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="javascript:;" class="kt-notification__item" (click)="showLoginAttempts()">
+                <!-- <a href="javascript:;" class="kt-notification__item" (click)="showLoginAttempts()">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon-list"></i>
                     </div>
@@ -130,8 +130,8 @@
                             </span>
                         </div>
                     </div>
-                </a>
-                <a href="javascript:;" class="kt-notification__item" (click)="changeProfilePicture()">
+                </a> -->
+                <!-- <a href="javascript:;" class="kt-notification__item" (click)="changeProfilePicture()">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon-profile-1"></i>
                     </div>
@@ -142,8 +142,8 @@
                             </span>
                         </div>
                     </div>
-                </a>
-                <a href="javascript:;" class="kt-notification__item" (click)="changeMySettings()">
+                </a> -->
+                <!-- <a href="javascript:;" class="kt-notification__item" (click)="changeMySettings()">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon-cogwheel"></i>
                     </div>
@@ -154,8 +154,8 @@
                             </span>
                         </div>
                     </div>
-                </a>
-                <a *ngIf="!('Pages.Administration.UiCustomization' | permission)" routerLink="admin/ui-customization" class="kt-notification__item">
+                </a> -->
+                <!-- <a *ngIf="!('Pages.Administration.UiCustomization' | permission)" routerLink="admin/ui-customization" class="kt-notification__item">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon-medical"></i>
                     </div>
@@ -166,19 +166,7 @@
                             </span>
                         </div>
                     </div>
-                </a>
-                <a href="javascript:;" class="kt-notification__item" (click)="downloadCollectedData()">
-                    <div class="kt-notification__item-icon">
-                        <i class="flaticon-download"></i>
-                    </div>
-                    <div class="kt-notification__item-details">
-                        <div class="kt-notification__item-title kt-font-bold">
-                            <span id="UserDownloadCollectedDataLink">
-                                {{"DownloadCollectedData" | localize}}
-                            </span>
-                        </div>
-                    </div>
-                </a>
+                </a> -->
                 <div class="kt-notification__custom">
                     <a (click)="logout()" class="btn btn-label-brand btn-sm btn-bold">{{"Logout" | localize}}</a>
                 </div>
@@ -186,7 +174,7 @@
         </div>
     </div>
 
-    <div *ngIf="(isHost || ('App.ChatFeature' | checkFeature)) && !chatConnected" class="kt-header__topbar-item dropdown">
+    <!-- <div *ngIf="(isHost || ('App.ChatFeature' | checkFeature)) && !chatConnected" class="kt-header__topbar-item dropdown">
         <div class="kt-header__topbar-wrapper">
             <span class="kt-header__topbar-icon kt-header__topbar-icon--brand">
                 <img *ngIf="!chatConnected" src="./assets/common/images/loading.gif" style="width: 23px;" tooltip="{{'ChatIsConnecting' | localize}}" placement="left" />
@@ -199,6 +187,6 @@
                 <i class="flaticon-chat-2"></i>
             </span>
         </div>
-    </div>
+    </div> -->
 </div>
 <!-- END: Topbar -->

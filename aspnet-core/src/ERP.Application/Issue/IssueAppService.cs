@@ -49,7 +49,7 @@ namespace ERP.Issue
             await _issueRepository.DeleteAsync(id);
         }
 
-        public async Task<FileDto> Export(IssueInputDto input)
+        public async Task<FileDto> GetIssueForExcel(IssueInputDto input)
         {
             var list = await GetAll(input);
             var dto = list.Items.ToList();
@@ -62,6 +62,10 @@ namespace ERP.Issue
                 .Include(t=>t.Type_)
                 .Include(pr=>pr.Priority_)
                 .Include(s=>s.Status_)
+                .WhereIf(input.ListStatusId !=null, x=>input.ListStatusId.Any(a=>a == x.Status_Id))
+                .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_ID))
+                .WhereIf(input.ListProjectId !=null , x=> input.ListProjectId.Any(a=>a == x.Project_Id))
+                .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
                 .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
               x => x.IssueCode.ToUpper().Contains(input.Filter.ToUpper())
               || x.Summary.ToUpper().Contains(input.Filter.ToUpper())

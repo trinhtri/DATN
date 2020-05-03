@@ -1,0 +1,75 @@
+<div bsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal
+  fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true"
+  [config]="{backdrop: 'static', keyboard: !saving}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form *ngIf="active" #userForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="new-password">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            <span>{{"ConfigView" | localize}}</span>
+          </h4>
+          <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')" [disabled]="saving">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isProject" label="Dự án" name="isProject" [(ngModel)]="configView.isProject" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isIssue" label="Issue" name="isIssue" [(ngModel)]="configView.isIssue" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isSummary" label="Tổng quát"  name="isSummary" [(ngModel)]="configView.isSummary" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="useSSL" label="Loại Issue" name="isIssueType" [(ngModel)]="configView.isIssueType" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isStatus" label="Trạng thái" name="isStatus"  [(ngModel)]="configView.isStatus" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isEstimate" label="Estimate" name="isEstimate"  [(ngModel)]="configView.isEstimate" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isReporter" label="Người giao" name="isReporter" [(ngModel)]="configView.isReporter" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isAssignee" label="Người nhận" name="isAssignee" [(ngModel)]="configView.isAssignee" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isDueDate" label="Ngày phải kết thúc" name="isDueDate" [(ngModel)]="configView.isDueDate" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isCreatedDate" label="Ngày tạo"  name="isCreatedDate" [(ngModel)]="configView.isCreatedDate" binary="true"
+                ></p-checkbox>
+            </div>
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isUpdateDate" label="Ngày cập nhật"  name="isUpdateDate" [(ngModel)]="configView.isUpdateDate" binary="true"
+                ></p-checkbox>
+            </div>
+          </div>
+
+
+          <div class="modal-footer">
+            <button [disabled]="saving" type="button" class="btn btn-default"
+              (click)="close()">{{"Cancel" | localize}}</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid" [buttonBusy]="saving"
+              [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+              <span>{{"Save" | localize}}</span></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

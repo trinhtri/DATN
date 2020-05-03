@@ -5,96 +5,129 @@ import { LazyLoadEvent } from 'primeng/api';
 import { finalize } from 'rxjs/operators';
 import { Table } from 'primeng/table';
 import { Paginator } from 'primeng/primeng';
-import { ProjectServiceProxy, ProjectListDto, IssueServiceProxy, IssueListDto, CommonAppserviceServiceProxy, ERPComboboxItem } from '@shared/service-proxies/service-proxies';
+import { ProjectServiceProxy, ProjectListDto, IssueServiceProxy, IssueListDto, CommonAppserviceServiceProxy, ERPComboboxItem, ConfigViewDto, ConfigviewServiceProxy } from '@shared/service-proxies/service-proxies';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { CreateIssueComponent } from './create-issue/create-issue.component';
+import { ConfigViewComponent } from './config-view/config-view.component';
 
 @Component({
-  selector: 'app-workflow-management',
-  templateUrl: './workflow-management.component.html',
-  styleUrls: ['./workflow-management.component.css'],
-  animations: [appModuleAnimation()]
+    selector: 'app-workflow-management',
+    templateUrl: './workflow-management.component.html',
+    styleUrls: ['./workflow-management.component.css'],
+    animations: [appModuleAnimation()]
 })
 export class WorkflowManagementComponent extends AppComponentBase implements OnInit {
 
-  @ViewChild('createOrEditModal', {static: true}) createOrEditModal: CreateIssueComponent;
-  @ViewChild('dataTable', {static: true}) dataTable: Table;
-  @ViewChild('paginator', {static: true}) paginator: Paginator;
-  lstProject: ERPComboboxItem [] = [];
-  lstMember: ERPComboboxItem [] = [];
-  //Filters
-//   a: IssueListDto
-  filterText = '';
-  projectId: any;
-  constructor(
-      injector: Injector,
-      private _projectServiceProxy: ProjectServiceProxy,
-      private _issueServiceProxy: IssueServiceProxy,
-      private _fileDownloadService: FileDownloadService,
-      private _commonService: CommonAppserviceServiceProxy
+    @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
+    @ViewChild('configViewModal', { static: true }) configViewModal: ConfigViewComponent;
 
-  ) {
-      super(injector);
-  }
+    @ViewChild('dataTable', { static: true }) dataTable: Table;
+    @ViewChild('paginator', { static: true }) paginator: Paginator;
+    lstProject: ERPComboboxItem[] = [];
+    lstMember: ERPComboboxItem[] = [];
+    lstIssueType: ERPComboboxItem[] = [];
+    lstStatus: ERPComboboxItem[] = [];
+
+
+    config: ConfigViewDto = new ConfigViewDto();
+    //Filters
+    filterText = '';
+    lstProjectId: number [] = [];
+    lstAssigneeId: number [] = [];
+    lstIssueTypeId: number[] = [];
+    lstStatusId: number[] = [];
+    constructor(
+        injector: Injector,
+        private _issueServiceProxy: IssueServiceProxy,
+        private _fileDownloadService: FileDownloadService,
+        private _commonService: CommonAppserviceServiceProxy,
+        private _configViewService: ConfigviewServiceProxy
+
+    ) {
+        super(injector);
+    }
     ngOnInit(): void {
         this.initForm();
     }
-  initForm() {
-    this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe( result => {
-     this.lstMember = result;
-   });
-   this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe( result => {
-    this.lstProject = result;
-  });
- }
-  getAll(event?: LazyLoadEvent) {
-      if (this.primengTableHelper.shouldResetPaging(event)) {
-          this.paginator.changePage(0);
-
-          return;
-      }
-
-      this.primengTableHelper.showLoadingIndicator();
-
-      this._issueServiceProxy.getAll(
-          this.projectId,
-          this.filterText,
-          this.primengTableHelper.getSorting(this.dataTable),
-          this.primengTableHelper.getMaxResultCount(this.paginator, event),
-          this.primengTableHelper.getSkipCount(this.paginator, event)
-      ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
-          this.primengTableHelper.totalRecordsCount = result.totalCount;
-          this.primengTableHelper.records = result.items;
-          this.primengTableHelper.hideLoadingIndicator();
-      });
-  }
-  createNew() {
-      this.createOrEditModal.show();
-  }
-  editProject(id) {
-      this.createOrEditModal.show(id);
-  }
-// exportExcel(event?: LazyLoadEvent) {
-//   this._projectServiceProxy.getProjectToExcel(
-//       this.filterText,
-//       this.primengTableHelper.getSorting(this.dataTable),
-//       this.primengTableHelper.getMaxResultCount(this.paginator, event),
-//       this.primengTableHelper.getSkipCount(this.paginator, event)
-//   ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
-//   this._fileDownloadService.downloadTempFile(result);
-//   });
-// }
-reloadPage(): void {
-this.paginator.changePage(this.paginator.getPage());
-}
-getType(input: number) {
-    if (input === 1) {
-        return this.l('NewFeature');
-    } else if (input === 2) {
-    return this.l('Improvement');
-    } else {
-        return this.l('Bug');
+    initForm() {
+        this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe(result => {
+            this.lstMember = result;
+        });
+        this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe(result => {
+            this.lstProject = result;
+        });
+        this._commonService.getLookups('IssueTypes', this.appSession.tenantId, undefined).subscribe(result => {
+            this.lstIssueType = result;
+        });
+        this._commonService.getLookups('Status', this.appSession.tenantId, undefined).subscribe(result => {
+            this.lstStatus = result;
+        });
+        this._configViewService.getId(this.appSession.userId).subscribe(result => {
+            this.config = result;
+        });
     }
-}
+    getAll(event?: LazyLoadEvent) {
+        if (this.primengTableHelper.shouldResetPaging(event)) {
+            this.paginator.changePage(0);
+
+            return;
+        }
+
+        this.primengTableHelper.showLoadingIndicator();
+
+        this._issueServiceProxy.getAll(
+            this.lstProjectId,
+            this.lstStatusId,
+            this.lstAssigneeId,
+            this.lstIssueTypeId,
+            this.filterText,
+            this.primengTableHelper.getSorting(this.dataTable),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event),
+            this.primengTableHelper.getSkipCount(this.paginator, event)
+        ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+            this.primengTableHelper.totalRecordsCount = result.totalCount;
+            this.primengTableHelper.records = result.items;
+            this.primengTableHelper.hideLoadingIndicator();
+        });
+    }
+    createNew() {
+        this.createOrEditModal.show();
+    }
+    editProject(id) {
+        this.createOrEditModal.show(id);
+    }
+    exportExcel(event?: LazyLoadEvent) {
+        this._issueServiceProxy.getIssueForExcel(
+            this.lstProjectId,
+            this.lstStatusId,
+            this.lstAssigneeId,
+            this.lstIssueTypeId,
+            this.filterText,
+            this.primengTableHelper.getSorting(this.dataTable),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event),
+            this.primengTableHelper.getSkipCount(this.paginator, event)
+        ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+           this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+    reloadPage(): void {
+        this.paginator.changePage(this.paginator.getPage());
+    }
+    getType(input: number) {
+        if (input === 1) {
+            return this.l('NewFeature');
+        } else if (input === 2) {
+            return this.l('Improvement');
+        } else {
+            return this.l('Bug');
+        }
+    }
+    getName(id) {
+        let index = this.lstMember.find(x => x.value === id);
+        return index.displayText;
+    }
+    configView() {
+        this.configViewModal.show();
+    }
 }
 

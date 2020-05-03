@@ -17,7 +17,7 @@ namespace ERP.Issue
         Task Update(CreateIssueDto input);
         Task<CreateIssueDto> GetId(long id);
 
-        Task<FileDto> Export(IssueInputDto input);
+        Task<FileDto> GetIssueForExcel(IssueInputDto input);
     }
 }
 

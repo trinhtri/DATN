@@ -21,6 +21,7 @@ using ERP.Authorization.Users.Profile.Dto;
 using ERP.Chat;
 using ERP.Chat.Dto;
 using ERP.Comment.Dto;
+using ERP.ConfigView.Dto;
 using ERP.Document.Dto;
 using ERP.Editions;
 using ERP.Editions.Dto;
@@ -163,6 +164,9 @@ namespace ERP
             // document
             configuration.CreateMap<Models.Document, CreateDocumentDto>().ReverseMap();
             configuration.CreateMap<Models.Document, DocumentListDto>().ReverseMap();
+
+            configuration.CreateMap<Models.ConfigView, ConfigViewDto>().ReverseMap();
+
         }
     }
 }
