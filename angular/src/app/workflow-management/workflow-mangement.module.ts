@@ -24,6 +24,8 @@ import { CreateOrEditCommentComponent } from './comments/create-or-edit-comment/
 import { ConfigViewComponent } from './config-view/config-view.component';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {MultiSelectModule} from 'primeng/multiselect';
+import { EstimateComponent } from './management-issue/estimate/estimate.component';
+import {EditorModule} from 'primeng/editor';
 @NgModule({
     imports: [
         CommonModule,
@@ -45,7 +47,8 @@ import {MultiSelectModule} from 'primeng/multiselect';
         FileUploadModule,
         InputSwitchModule,
         CheckboxModule,
-        MultiSelectModule
+        MultiSelectModule,
+        EditorModule
     ],
     declarations: [
         WorkflowManagementComponent,
@@ -54,6 +57,7 @@ import {MultiSelectModule} from 'primeng/multiselect';
         CommentsComponent,
         CreateOrEditCommentComponent,
         ConfigViewComponent,
+        EstimateComponent,
     ],
     providers: [
         ProjectServiceProxy,

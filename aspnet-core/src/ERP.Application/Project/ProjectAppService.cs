@@ -52,7 +52,6 @@ namespace ERP.Project
         {
             var projectOfMember = _memberRepository.GetAll().Where(x => x.Employee_Id == AbpSession.UserId).ToList();
             var list = _projectRepository.GetAll()
-                .Where(x=> projectOfMember.Any(p=>p.Project_Id == x.Id))
                 .WhereIf(input.Status.HasValue,x=>x.Status == input.Status)
                 .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
                 x => x.ProjectCode.ToUpper().Contains(input.Filter.ToUpper())

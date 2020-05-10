@@ -78,9 +78,15 @@ export class UsersComponent extends AppComponentBase {
     unlockUser(record): void {
         this._userServiceProxy.unlockUser(new EntityDtoOfInt64({ id: record.id })).subscribe(() => {
             this.notify.success(this.l('UnlockedTheUser', record.userName));
+            this.getUsers();
         });
     }
-
+    lockUser(record) {
+        this._userServiceProxy.lockUser(new EntityDtoOfInt64({ id: record.id })).subscribe(() => {
+            this.notify.success(this.l('UnlockedTheUser', record.userName));
+            this.getUsers();
+        });
+    }
     getRolesAsString(roles): string {
         let roleNames = '';
 

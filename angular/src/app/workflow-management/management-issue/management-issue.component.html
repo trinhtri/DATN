@@ -6,7 +6,7 @@
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
-                {{issue.issueCode}}
+              <a [routerLink]="['/app/issue/management']"> {{issue.issueCode}}</a> 
                 <br>
                 {{issue.summary}}
             </span>
@@ -20,35 +20,30 @@
 
                         <div class="row mb-4">
                             <div class="col-md-10">
-                                <button (click)="editIssue(idIssue)" *ngIf="isGranted('Pages.Administration.Users.Create')"
+                                <button (click)="editIssue(idIssue)" *ngIf="isGranted('Pages.Issue.Edit')"
                                     class="btn btn-primary" style="margin-right:
-                                    5px;"><i class="fa fa-plus"></i> {{"Edit" |
+                                    5px;"> {{"Edit" |
                                     localize}}</button>
-                                <!-- <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')"
+                                <button (click)="startProgress(idIssue)" 
                                     class="btn btn-primary" style="margin-right:
-                                    5px;"><i class="fa fa-plus"></i> {{"Comment"
-                                    | localize}}</button> -->
-                                <button (click)="startProgress(idIssue)" *ngIf="isGranted('Pages.Administration.Users.Create')"
-                                    class="btn btn-primary" style="margin-right:
-                                    5px;"><i class="fa fa-plus"></i>
+                                    5px;">
                                     {{"StartProgress" | localize}}</button>
-                                <button (click)="stopProgress(idIssue)" *ngIf="isGranted('Pages.Administration.Users.Create')"
+                                <button (click)="stopProgress(idIssue)" 
                                     class="btn btn-primary" style="margin-right:
-                                    5px;"><i class="fa fa-plus"></i>
+                                    5px;">
                                     {{"StopProgress" | localize}}</button>
-                                <button (click)="resolved(idIssue)" *ngIf="isGranted('Pages.Administration.Users.Create')"
+                                <button (click)="resolved(idIssue)" 
                                     class="btn btn-primary" style="margin-right:
-                                    5px;"><i class="fa fa-plus"></i>
+                                    5px;">
                                     {{"ResolveIssue" | localize}}</button>
-                                    <button (click)="reOpen(idIssue)" *ngIf="isGranted('Pages.Administration.Users.Create')"
+                                    <button (click)="reOpen(idIssue)" *ngIf="isGranted('Pages.Issue.ReOpen')"
                                     class="btn btn-primary" style="margin-right:
-                                    5px;"><i class="fa fa-plus"></i>
+                                    5px;">
                                     {{"ReOpen" | localize}}</button>
-                                    <button (click)="close(idIssue)" *ngIf="isGranted('Pages.Administration.Users.Create')"
+                                    <button (click)="close(idIssue)" *ngIf="isGranted('Pages.Issue.Close')"
                                     class="btn btn-primary" style="margin-right:
-                                    5px;"><i class="fa fa-plus"></i>
+                                    5px;">
                                     {{"Close" | localize}}</button>
-                                <!-- <button (click)="createNew()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary" style="float: right;margin-right: 5px;"><i class="fa fa-plus"></i> {{"ResolveIssue" | localize}}</button> -->
                             </div>
                             <div class="col-md-2">
                                 <button type="button" class="btn btn-success" style="float: right;"
@@ -69,25 +64,25 @@
                                     localize}}</legend>
                                 <div class="row">
                                     <div class="col-md-2">
-                                        Type:
+                                       {{"Type"| localize}}:
                                     </div>
                                     <div class="col-md-4">
                                         {{issue.type}}
                                     </div>
                                     <div class="col-md-2">
-                                        Status:
+                                        {{"Status" | localize}}:
                                     </div>
                                     <div class="col-md-4">
                                         {{issue.status}}
                                     </div>
                                     <div class="col-md-2">
-                                        Priority:
+                                        {{"Priority" | localize}}:
                                     </div>
                                     <div class="col-md-4">
                                         {{issue.priority}}
                                     </div>
                                     <div class="col-md-2">
-                                        Resolution:
+                                       {{"Resolution" | localize}} :
                                     </div>
                                     <div class="col-md-4">
                                         {{issue.resolve}}
@@ -96,7 +91,9 @@
                             </fieldset>
                             <fieldset class="scheduler-border">
                                 <legend class="scheduler-border">{{"Discription" | localize}}</legend>
-                                <p>{{issue.discription}}</p>
+                                <!-- <p>{{issue.discription}}</p> -->
+                                <p-editor name="Discription" maxlength="2000" [(ngModel)]="issue.discription" [style]="{'height':'320px'}"></p-editor>
+
                                 <!-- <textarea rows="5" cols="30" pInputTextarea name="Discription"  class="form-control" [(ngModel)]="issue" maxlength="2000"></textarea> -->
                             </fieldset>
                         </div>
@@ -149,9 +146,9 @@
                                     <tab heading="{{'Comment' | localize}}" [active]="true">
                                         <app-comments [IssueId] = "issue.id"></app-comments>
                                     </tab>
-                                    <tab heading="{{'History' | localize}}">
+                                    <!-- <tab heading="{{'History' | localize}}">
                                         History
-                                    </tab>
+                                    </tab> -->
                                 </tabset>
                             </fieldset>
                         </div>
@@ -162,4 +159,5 @@
     </div>
 
     <app-create-issue #createOrEditModal (modalSave)="ngOnInit()"></app-create-issue>
+    <app-estimate #estimateComponent></app-estimate>
 </div>

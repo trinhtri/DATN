@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { CreateIssueDto, ProjectServiceProxy, IssueServiceProxy, CommonAppserviceServiceProxy, UserServiceProxy, IssueListDto } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute } from '@angular/router';
 import { CreateIssueComponent } from '../create-issue/create-issue.component';
+import { EstimateComponent } from './estimate/estimate.component';
 @Component({
   selector: 'app-management-issue',
   templateUrl: './management-issue.component.html',
@@ -15,7 +16,7 @@ import { CreateIssueComponent } from '../create-issue/create-issue.component';
 })
 export class ManagementIssueComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', {static: true}) createOrEditModal: CreateIssueComponent;
-
+  @ViewChild('estimateComponent', {static: true}) addEstimateTimeModal: EstimateComponent;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   issue: IssueListDto;
   idIssue: number;
@@ -74,6 +75,7 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
     });
    }
    resolved(id) {
+    this.addEstimateTimeModal.show(id);
     this._issueService.resolved(id).subscribe(result => {
      this.notify.success(this.l('resolved'));
      this.ngOnInit();

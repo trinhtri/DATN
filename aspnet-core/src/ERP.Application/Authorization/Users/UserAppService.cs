@@ -243,8 +243,14 @@ namespace ERP.Authorization.Users
 
         public async Task UnlockUser(EntityDto<long> input)
         {
-            var user = await UserManager.GetUserByIdAsync(input.Id);
-            user.Unlock();
+            var user = await _userRepository.FirstOrDefaultAsync(input.Id);
+            user.IsActive = true;
+        }
+
+        public async Task LockUser(EntityDto<long> input)
+        {
+            var user = await _userRepository.FirstOrDefaultAsync(input.Id);
+            user.IsActive = false;
         }
 
         [AbpAuthorize(AppPermissions.Pages_Administration_Users_Edit)]

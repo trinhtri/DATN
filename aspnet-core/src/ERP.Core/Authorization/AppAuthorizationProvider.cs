@@ -44,6 +44,10 @@ namespace ERP.Authorization
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Delete, L("DeletingUser"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_ChangePermissions, L("ChangingPermissions"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Impersonation, L("LoginForUsers"));
+            users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Lock, L("Lock"));
+            users.CreateChildPermission(AppPermissions.Pages_Administration_Users_UnLock, L("Unlock "));
+
+
 
             var languages = administration.CreateChildPermission(AppPermissions.Pages_Administration_Languages, L("Languages"));
             languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Create, L("CreatingNewLanguage"));
@@ -102,6 +106,14 @@ namespace ERP.Authorization
             document.CreateChildPermission(AppPermissions.Pages_Project_Manager_Document_Create, L("Create"));
             document.CreateChildPermission(AppPermissions.Pages_Project_Manager_Document_Edit, L("Edit"));
             document.CreateChildPermission(AppPermissions.Pages_Project_Manager_Document_Delete, L("Delete"));
+
+            var issue = pages.CreateChildPermission(AppPermissions.Pages_Issue, L("Issues"));
+            issue.CreateChildPermission(AppPermissions.Pages_Issue_Create, L("Create"));
+            issue.CreateChildPermission(AppPermissions.Pages_Issue_Edit, L("Edit"));
+            issue.CreateChildPermission(AppPermissions.Pages_Issue_Delete, L("Delete"));
+            issue.CreateChildPermission(AppPermissions.Pages_Issue_ReOpen, L("ReOpen"));
+            issue.CreateChildPermission(AppPermissions.Pages_Issue_Close, L("Close"));
+
         }
 
         private static ILocalizableString L(string name)

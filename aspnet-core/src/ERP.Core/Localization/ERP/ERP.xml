@@ -940,6 +940,7 @@
     <text name="Create">Create</text>
     <text name="Documents">Document</text>
     <text name="DocumentUrl">Document url</text>
+    <text name="Lock">Lock</text>
 
 
   </texts>

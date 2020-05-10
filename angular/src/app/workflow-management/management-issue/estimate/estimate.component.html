@@ -1,0 +1,28 @@
+<div bsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <form *ngIf="active" #userForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="new-password">
+              <div class="modal-header">
+                  <h4 class="modal-title">
+                      <span>{{"Estimate" | localize}}</span>
+                  </h4>
+                  <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')" [disabled]="saving">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="IssueCode">{{"Estimate" | localize}} *</label>
+                      <input id="IssueCode" #IssueCodeInput="ngModel" type="number" name="IssueCode" class="form-control" [(ngModel)]="issue.estimate" required maxlength="500">
+                      <validation-messages [formCtrl]="IssueCodeInput"></validation-messages>
+                  </div>
+
+                  <div class="modal-footer">
+                      <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{"Cancel" | localize}}</button>
+                      <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{"Save" | localize}}</span></button>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>

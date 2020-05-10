@@ -8,8 +8,8 @@ import { ManagementIssueComponent } from './management-issue/management-issue.co
             {
                 path: '',
                 children: [
-                    { path: 'management', component: WorkflowManagementComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
-                    { path: 'management-issue/:id', component: ManagementIssueComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
+                    { path: 'management', component: WorkflowManagementComponent, data: { permission: 'Pages.Issue' } },
+                    { path: 'management-issue/:id', component: ManagementIssueComponent, data: { permission: 'Pages.Issue' } },
                 ]
             }
         ])

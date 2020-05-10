@@ -827,6 +827,8 @@
     <text name="Create">Thêm mới</text>
     <text name="Documents">Tài liệu</text>
     <text name="DocumentUrl">Url Tài liệu</text>
+    <text name="Lock">Khoá</text>
+
     <!-- <text name=""></text>
     <text name=""></text>
     <text name=""></text>

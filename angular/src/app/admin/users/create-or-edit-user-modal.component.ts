@@ -31,8 +31,8 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
 
     user: UserEditDto = new UserEditDto();
     roles: UserRoleDto[];
-    sendActivationEmail = true;
-    setRandomPassword = true;
+    sendActivationEmail = false;
+    setRandomPassword = false;
     passwordComplexityInfo = '';
     profilePicture: string;
 
@@ -50,8 +50,8 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
     show(userId?: number): void {
         if (!userId) {
             this.active = true;
-            this.setRandomPassword = true;
-            this.sendActivationEmail = true;
+            this.setRandomPassword = false;
+            this.sendActivationEmail = false;
         }
 
         this._userService.getUserForEdit(userId).subscribe(userResult => {
@@ -125,18 +125,19 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
     }
 
     onShown(): void {
-        this.organizationUnitTree.data = <IOrganizationUnitsTreeComponentData>{
-            allOrganizationUnits: this.allOrganizationUnits,
-            selectedOrganizationUnits: this.memberedOrganizationUnits
-        };
+        // this.organizationUnitTree.data = <IOrganizationUnitsTreeComponentData>{
+        //     allOrganizationUnits: this.allOrganizationUnits,
+        //     selectedOrganizationUnits: this.memberedOrganizationUnits
+        // };
 
-        document.getElementById('Name').focus();
+        document.getElementById('UserName').focus();
     }
 
     save(): void {
         let input = new CreateOrUpdateUserInput();
-
         input.user = this.user;
+        input.user.surname = input.user.userName;
+        input.user.name =  input.user.userName;
         input.setRandomPassword = this.setRandomPassword;
         input.sendActivationEmail = this.sendActivationEmail;
         input.assignedRoleNames =
@@ -144,7 +145,7 @@ export class CreateOrEditUserModalComponent extends AppComponentBase {
                 _.filter(this.roles, { isAssigned: true }), role => role.roleName
             );
 
-        input.organizationUnits = this.organizationUnitTree.getSelectedOrganizations();
+        // input.organizationUnits = this.organizationUnitTree.getSelectedOrganizations();
 
         this.saving = true;
         this._userService.createOrUpdateUser(input)
