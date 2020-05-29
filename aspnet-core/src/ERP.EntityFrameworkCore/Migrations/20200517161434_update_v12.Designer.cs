@@ -4,14 +4,16 @@ using ERP.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERP.Migrations
 {
     [DbContext(typeof(ERPDbContext))]
-    partial class ERPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200517161434_update_v12")]
+    partial class update_v12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1351,7 +1353,15 @@ namespace ERP.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Priority_Id");
+
+                    b.HasIndex("Resolve_Id");
+
                     b.HasIndex("Sprint_Id");
+
+                    b.HasIndex("Status_Id");
+
+                    b.HasIndex("Type_ID");
 
                     b.ToTable("Issues");
                 });
@@ -1426,6 +1436,8 @@ namespace ERP.Migrations
                     b.HasIndex("Employee_Id");
 
                     b.HasIndex("Project_Id");
+
+                    b.HasIndex("Role_id");
 
                     b.ToTable("Members");
                 });
@@ -1508,6 +1520,36 @@ namespace ERP.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("ERP.Models.Resolve", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long?>("DeleterUserId");
+
+                    b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("ResolveName")
+                        .HasMaxLength(200);
+
+                    b.Property<int>("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Resolve");
+                });
+
             modelBuilder.Entity("ERP.Models.RoleProject", b =>
                 {
                     b.Property<long>("Id")
@@ -1558,12 +1600,9 @@ namespace ERP.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<long?>("Project_Id");
+                    b.Property<long>("Project_Id");
 
                     b.Property<string>("SprintName")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Summary")
                         .HasMaxLength(200);
 
                     b.Property<int>("TenantId");
@@ -1974,9 +2013,29 @@ namespace ERP.Migrations
 
             modelBuilder.Entity("ERP.Models.Issue", b =>
                 {
+                    b.HasOne("ERP.Models.Priority", "Priority_")
+                        .WithMany()
+                        .HasForeignKey("Priority_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ERP.Models.Resolve", "Resolve_")
+                        .WithMany()
+                        .HasForeignKey("Resolve_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("ERP.Models.Sprint", "Sprint_")
                         .WithMany()
                         .HasForeignKey("Sprint_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ERP.Models.Status", "Status_")
+                        .WithMany()
+                        .HasForeignKey("Status_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ERP.Models.IssueType", "Type_")
+                        .WithMany()
+                        .HasForeignKey("Type_ID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1991,13 +2050,19 @@ namespace ERP.Migrations
                         .WithMany()
                         .HasForeignKey("Project_Id")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ERP.Models.RoleProject", "Role_")
+                        .WithMany()
+                        .HasForeignKey("Role_id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ERP.Models.Sprint", b =>
                 {
                     b.HasOne("ERP.Models.Project", "Project_")
                         .WithMany()
-                        .HasForeignKey("Project_Id");
+                        .HasForeignKey("Project_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ERP.MultiTenancy.Payments.SubscriptionPayment", b =>

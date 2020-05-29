@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Repositories;
+﻿using Abp.Collections.Extensions;
+using Abp.Domain.Repositories;
 using ERP.Authorization.Users;
 using ERP.Shared.Dto;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,16 @@ namespace ERP.Shared
         private readonly IRepository<Models.Status, long> _statusRepository;
         private readonly IRepository<Models.IssueType, long> _issueTypeRepository;
         private readonly IRepository<Models.Priority, long> _prioritiesRepository;
+        private readonly IRepository<Models.Sprint, long> _sprintRepository;
+
 
         public CommonAppservice(IRepository<User, long> userRepository,
             IRepository<Models.RoleProject, long> projectRoleRepository,
             IRepository<Models.Project, long> projectRepository,
             IRepository<Models.Status, long> statusRepository,
             IRepository<Models.IssueType, long> issueTypeRepository,
-            IRepository<Models.Priority, long> prioritiesRepository
+            IRepository<Models.Priority, long> prioritiesRepository,
+            IRepository<Models.Sprint, long> sprintRepository
             )
         {
             _userRepository = userRepository;
@@ -33,6 +37,7 @@ namespace ERP.Shared
             _statusRepository = statusRepository;
             _issueTypeRepository = issueTypeRepository;
             _prioritiesRepository = prioritiesRepository;
+            _sprintRepository = sprintRepository;
 
         }
 
@@ -73,11 +78,13 @@ namespace ERP.Shared
                         .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.TypeName })
                         .ToListAsync();
                     break;
-                case "Status":
-                    result = await _statusRepository.GetAll()
-                        .Where(x => x.TenantId == tenantId || (tenantId == null && x.TenantId == null))
-                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.StatusName })
-                        .ToListAsync();
+
+                case "Sprints":
+                    result = _sprintRepository.GetAll()
+                        .Where(x => x.TenantId == tenantId || tenantId == null)
+                        .WhereIf(parentId.HasValue , x=> x.Project_Id == parentId)
+                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.SprintName })
+                        .ToList();
                     break;
             }
             return result;

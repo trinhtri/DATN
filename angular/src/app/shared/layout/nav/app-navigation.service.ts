@@ -35,6 +35,8 @@ export class AppNavigationService {
             ]),
             new AppMenuItem('Project', 'Pages.Project.Manager.Member', 'flaticon-tabs', '/app/project/projects'),
             new AppMenuItem('Issue', 'Pages.Issue', 'flaticon-tabs', '/app/issue/management'),
+            new AppMenuItem('Tree-Table', 'Pages.Issue', 'flaticon-tabs', '/app/issue/tree-table'),
+
             // new AppMenuItem('DemoUiComponents', 'Pages.DemoUiComponents', 'flaticon-shapes', '/app/admin/demo-ui-components')
         ]);
     }

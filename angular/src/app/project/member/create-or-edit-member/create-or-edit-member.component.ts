@@ -20,7 +20,10 @@ export class CreateOrEditMemberComponent extends AppComponentBase  implements On
   active = false;
   saving = false;
   lst: ERPComboboxItem [] = [];
-  lstRole: ERPComboboxItem [] = [];
+  lstRole = [{value: 1 , display: this.l('Manager')},
+  {value: 2 , display: this.l('Dev')},
+  {value: 3 , display: this.l('Test')},
+];
   projectId: any;
   constructor(injector: Injector,
     private _memberService: MemberServiceProxy,
@@ -34,9 +37,6 @@ export class CreateOrEditMemberComponent extends AppComponentBase  implements On
   initForm() {
      this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe( result => {
       this.lst = result;
-    });
-    this._commonService.getLookups('RoleProject', this.appSession.tenantId, undefined).subscribe( result => {
-      this.lstRole = result;
     });
   }
   show(projectId, id?: number): void {

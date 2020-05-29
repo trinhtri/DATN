@@ -11,7 +11,7 @@ import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLoca
 import { NgxBootstrapDatePickerConfigService } from 'assets/ngx-bootstrap/ngx-bootstrap-datepicker-config.service';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule, CheckboxModule } from 'primeng/primeng';
-import { ProjectServiceProxy, MemberServiceProxy, CommonAppserviceServiceProxy, DocumentServiceProxy, IssueServiceProxy, CommentServiceProxy, ConfigviewServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ProjectServiceProxy, MemberServiceProxy, CommonAppserviceServiceProxy, DocumentServiceProxy, IssueServiceProxy, CommentServiceProxy, ConfigviewServiceProxy, SprintServiceProxy, TreeViewServiceProxy } from '@shared/service-proxies/service-proxies';
 import {AccordionModule} from 'primeng/accordion';
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 import { FileUploadModule } from 'ng2-file-upload';
@@ -26,6 +26,10 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { EstimateComponent } from './management-issue/estimate/estimate.component';
 import {EditorModule} from 'primeng/editor';
+import { TreeTableComponent } from './tree-table/tree-table.component';
+import {TreeTableModule} from 'primeng/treetable';
+import {TreeNode} from 'primeng/api';
+import { CreateOrUpdateSprintComponent } from './create-or-update-sprint/create-or-update-sprint.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -48,7 +52,8 @@ import {EditorModule} from 'primeng/editor';
         InputSwitchModule,
         CheckboxModule,
         MultiSelectModule,
-        EditorModule
+        EditorModule,
+        TreeTableModule,
     ],
     declarations: [
         WorkflowManagementComponent,
@@ -58,6 +63,8 @@ import {EditorModule} from 'primeng/editor';
         CreateOrEditCommentComponent,
         ConfigViewComponent,
         EstimateComponent,
+        TreeTableComponent,
+        CreateOrUpdateSprintComponent,
     ],
     providers: [
         ProjectServiceProxy,
@@ -67,6 +74,8 @@ import {EditorModule} from 'primeng/editor';
         CommentServiceProxy,
         CommonAppserviceServiceProxy,
         ConfigviewServiceProxy,
+        SprintServiceProxy,
+        TreeViewServiceProxy,
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },
         { provide: BsLocaleService, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerLocale }

@@ -57,7 +57,7 @@ namespace ERP.Member
                || x.StartDate.ToString().Contains(input.Filter));
             try
             {
-                var members = (from m in _memberRepository.GetAll().Include(x => x.Employee_).Include(x=>x.Role_)
+                var members = (from m in _memberRepository.GetAll().Include(x => x.Employee_)
                                join p in _projectRepository.GetAll()
                                on m.Project_Id equals p.Id
                                select new MemberListDto
@@ -67,7 +67,7 @@ namespace ERP.Member
                                    Id = m.Id,
                                    EndDate = m.EndDate,
                                    Note = m.Note,
-                                   Role = m.Role_.RoleName,
+                                   Role = m.Role_id,
                                    Project_Id = m.Project_Id,
                                }).Where(x => x.Project_Id == input.Project_Id)
                        .WhereIf(!input.Filter.IsNullOrWhiteSpace(),

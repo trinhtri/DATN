@@ -58,13 +58,9 @@ namespace ERP.Issue
 
         public async Task<PagedResultDto<IssueListDto>> GetAll(IssueInputDto input)
         {
-            var list = _issueRepository.GetAll().Include(p=>p.Project_)
-                .Include(t=>t.Type_)
-                .Include(pr=>pr.Priority_)
-                .Include(s=>s.Status_)
+            var list = _issueRepository.GetAll()
                 .WhereIf(input.ListStatusId !=null, x=>input.ListStatusId.Any(a=>a == x.Status_Id))
                 .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_ID))
-                .WhereIf(input.ListProjectId !=null , x=> input.ListProjectId.Any(a=>a == x.Project_Id))
                 .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
                 .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
               x => x.IssueCode.ToUpper().Contains(input.Filter.ToUpper())
@@ -95,11 +91,6 @@ namespace ERP.Issue
         public async Task<IssueListDto> GetIssueForDetail(long id)
         {
             var dto = await _issueRepository.GetAll()
-                .Include(x => x.Type_)
-                .Include(y => y.Priority_)
-                .Include(z => z.Project_)
-                .Include(b => b.Resolve_)
-                .Include(c => c.Status_)
                 .Where(x=>x.Id == id)
                 .FirstOrDefaultAsync();
             return ObjectMapper.Map<IssueListDto>(dto);

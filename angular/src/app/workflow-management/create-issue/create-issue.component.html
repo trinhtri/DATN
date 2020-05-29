@@ -4,8 +4,8 @@
             <form *ngIf="active" #userForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="new-password">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="id">{{"EditIssue" | localize}}: {{projectName}}</span>
-                        <span *ngIf="!id">{{"CreateIssue" | localize}}</span>
+                        <span *ngIf="issue.id">{{"EditIssue" | localize}}: {{issue.issueCode}}</span>
+                        <span *ngIf="!issue.id">{{"CreateIssue" | localize}}</span>
                     </h4>
                     <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')" [disabled]="saving">
                     <span aria-hidden="true">&times;</span>
@@ -18,19 +18,25 @@
                         <validation-messages [formCtrl]="IssueCodeInput"></validation-messages>
                     </div>
                     <div class="form-group">
-                        <label for="Project">{{"Project" | localize}}*</label>
-                        <select id="Project" name="Project" class="form-control" [(ngModel)]="issue.project_Id" required #ProjectInput="ngModel">
-                        <!-- <option [value]="">{{"-----" | localize}}</option> -->
+                        <label for="Project">{{"Project" | localize}} *</label>
+                        <select id="Project" name="Project" class="form-control"  [(ngModel)]="projectId" (change)="changeProject(projectId)" required #ProjectInput="ngModel">
                         <option *ngFor ="let item of lstProject" [value]="item.value">{{item.displayText}}</option>
                         <validation-messages [formCtrl]="ProjectInput"></validation-messages>
                     </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="IssueType">{{"IssueType" | localize}}*</label>
+                        <label for="Sprint">{{"Sprint" | localize}} *</label>
+                        <select id="Sprint" name="Project" class="form-control" [(ngModel)]="issue.sprint_Id" required #ProjectInput="ngModel">
+                        <option *ngFor ="let item of lstSprint" [value]="item.value">{{item.displayText}}</option>
+                        <validation-messages [formCtrl]="ProjectInput"></validation-messages>
+                    </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="IssueType">{{"IssueType" | localize}} *</label>
                         <select id="IssueType" name="IssueType" class="form-control" [(ngModel)]="issue.type_ID" required #IssueTypeInput="ngModel">
-                        <!-- <option [value]="">{{"-----" | localize}}</option> -->
-                        <option *ngFor ="let item of lstType" [value]="item.value">{{item.displayText}}</option>
+                        <option *ngFor ="let item of lstType" [value]="item.id">{{item.displayText}}</option>
                         <validation-messages [formCtrl]="IssueTypeInput"></validation-messages>
                     </select>
                     </div>
@@ -44,7 +50,6 @@
 
                     <div class="form-group">
                         <label for="Discription">{{"Discription" | localize}}</label>
-                        <!-- <textarea rows="5" cols="30" pInputTextarea name="Discription"  class="form-control" [(ngModel)]="issue.discription" maxlength="2000"></textarea> -->
                         <p-editor name="Discription" maxlength="2000" [(ngModel)]="issue.discription" [style]="{'height':'320px'}"></p-editor>
                     </div>
 
@@ -58,7 +63,6 @@
                     <div class="form-group">
                         <label for="Assignee">{{"Assignee" | localize}}*</label>
                         <select id="Assignee" name="Assignee" class="form-control" [(ngModel)]="issue.assignee_Id" required #AssigneeInput="ngModel">
-                        <!-- <option [value]="">{{"-----" | localize}}</option> -->
                         <option *ngFor ="let item of lst" [value]="item.value">{{item.displayText}}</option>
                         <validation-messages [formCtrl]="AssigneeInput"></validation-messages>
                     </select>
@@ -67,13 +71,11 @@
                     <div class="form-group">
                         <label for="Priority">{{"Priority" | localize}}*</label>
                         <select id="Priority" name="Priority" class="form-control" [(ngModel)]="issue.priority_ID" required  #PriorityInput="ngModel">
-                        <option *ngFor ="let item of lstPriority" [value]="item.value">{{item.displayText}}</option>
+                        <option *ngFor ="let item of lstPriority" [value]="item.id">{{item.displayText}}</option>
                         <validation-messages [formCtrl]="PriorityInput"></validation-messages>
 
                     </select>
                     </div>
-
-
 
                     <div class="modal-footer">
                         <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{"Cancel" | localize}}</button>

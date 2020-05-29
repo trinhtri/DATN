@@ -10,7 +10,7 @@ namespace ERP.Member.Dto
    public class MemberListDto: EntityDto<long>
     {
         public int? TenantId { get; set; }
-        public string Role { get; set; }
+        public long Role { get; set; }
         public DateTime? EffectiveDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string Note { get; set; }

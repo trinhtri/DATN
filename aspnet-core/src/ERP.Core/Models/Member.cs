@@ -14,7 +14,6 @@ namespace ERP.Models
     {
         public int TenantId { get; set; }
         public long Role_id { get; set; }
-        public virtual RoleProject Role_ { get; set; }
         public DateTime? EffectiveDate { get; set; }
         public DateTime? EndDate { get; set; }
         [StringLength(2000)]

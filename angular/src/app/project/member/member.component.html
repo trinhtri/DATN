@@ -58,7 +58,7 @@
                             <span class="ui-column-title"> {{'EmployeeName' | localize}}</span> {{record.employeeName}}
                         </td>
                         <td style="width: 150px">
-                            <span class="ui-column-title"> {{'Role' | localize}}</span> {{record.role}}
+                            <span class="ui-column-title"> {{'Role' | localize}}</span> {{getRoleName(record.role)}}
                         </td>
                         <td style="width: 150px">
                             <span class="ui-column-title"> {{'EffectiveDate' | localize}}</span> {{record.effectiveDate | momentFormat:'L'}}

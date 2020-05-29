@@ -40,6 +40,7 @@ using ERP.Notifications.Dto;
 using ERP.Organizations.Dto;
 using ERP.Project.Dto;
 using ERP.Sessions.Dto;
+using ERP.Sprint.Dto;
 
 namespace ERP
 {
@@ -147,12 +148,7 @@ namespace ERP
             configuration.CreateMap<Models.Member, MemberListDto>().ReverseMap();
             // issue
             configuration.CreateMap<Models.Issue, CreateIssueDto>().ReverseMap();
-            configuration.CreateMap<Models.Issue, IssueListDto>()
-                .ForMember(s=> s.Status,st => st.MapFrom(u=>u.Status_.StatusName))
-                .ForMember(t=>t.Type,ty => ty.MapFrom(y=>y.Type_.TypeName))
-                .ForMember(p=>p.Priority,pr=>pr.MapFrom(r=>r.Priority_.PriorityName))
-                .ForMember(r=>r.Resolve, re =>re.MapFrom(res =>res.Resolve_.ResolveName))
-                .ForMember(a => a.ProjectCode, l => l.MapFrom(p => p.Project_.ProjectCode)).ReverseMap();
+            configuration.CreateMap<Models.Issue, IssueListDto>().ReverseMap();
 
             // comment
             configuration.CreateMap<Models.Comment, CreateCommentDto>().ReverseMap();
@@ -166,6 +162,7 @@ namespace ERP
             configuration.CreateMap<Models.Document, DocumentListDto>().ReverseMap();
 
             configuration.CreateMap<Models.ConfigView, ConfigViewDto>().ReverseMap();
+            configuration.CreateMap<Models.Sprint, SprintListDto>().ReverseMap();
 
         }
     }

@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label for="Role">{{"Roles" | localize}}*</label>
                         <select id="Role" name="Role" class="form-control" [(ngModel)]="member.role_id" required #RoleInput="ngModel">
-                        <option *ngFor ="let item of lstRole" [value]="item.value">{{item.displayText}}</option>
+                        <option *ngFor ="let item of lstRole" [value]="item.value">{{item.display}}</option>
                         <validation-messages [formCtrl]="RoleInput"></validation-messages>
                     </select>
                     </div>

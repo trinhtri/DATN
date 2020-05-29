@@ -67,34 +67,25 @@
                                        {{"Type"| localize}}:
                                     </div>
                                     <div class="col-md-4">
-                                        {{issue.type}}
+                                        {{getTypeName(issue.type_Id)}}
                                     </div>
                                     <div class="col-md-2">
                                         {{"Status" | localize}}:
                                     </div>
                                     <div class="col-md-4">
-                                        {{issue.status}}
+                                        {{getStatusName(issue.status_Id)}}
                                     </div>
                                     <div class="col-md-2">
                                         {{"Priority" | localize}}:
                                     </div>
                                     <div class="col-md-4">
-                                        {{issue.priority}}
-                                    </div>
-                                    <div class="col-md-2">
-                                       {{"Resolution" | localize}} :
-                                    </div>
-                                    <div class="col-md-4">
-                                        {{issue.resolve}}
+                                        {{issue.priority_Id}}
                                     </div>
                                 </div>
                             </fieldset>
                             <fieldset class="scheduler-border">
                                 <legend class="scheduler-border">{{"Discription" | localize}}</legend>
-                                <!-- <p>{{issue.discription}}</p> -->
                                 <p-editor name="Discription" maxlength="2000" [(ngModel)]="issue.discription" [style]="{'height':'320px'}"></p-editor>
-
-                                <!-- <textarea rows="5" cols="30" pInputTextarea name="Discription"  class="form-control" [(ngModel)]="issue" maxlength="2000"></textarea> -->
                             </fieldset>
                         </div>
                         <div class="col-md-4">

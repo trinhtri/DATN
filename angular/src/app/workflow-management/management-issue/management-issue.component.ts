@@ -15,8 +15,8 @@ import { EstimateComponent } from './estimate/estimate.component';
 
 })
 export class ManagementIssueComponent extends AppComponentBase implements OnInit {
-  @ViewChild('createOrEditModal', {static: true}) createOrEditModal: CreateIssueComponent;
-  @ViewChild('estimateComponent', {static: true}) addEstimateTimeModal: EstimateComponent;
+  @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
+  @ViewChild('estimateComponent', { static: true }) addEstimateTimeModal: EstimateComponent;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   issue: IssueListDto;
   idIssue: number;
@@ -40,7 +40,6 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
     this.idIssue = +this._activatedRoute.snapshot.paramMap.get('id');
     this._issueService.getIssueForDetail(+this._activatedRoute.snapshot.paramMap.get('id')).subscribe(result => {
       this.issue = result;
-      console.log('projectId', this.issue.project_Id);
       console.log('issue', this.issue);
       // lấy tên của assignee và Reporter
       this._userService.getName(this.issue.reporter_Id).subscribe(result => {
@@ -54,7 +53,7 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
       if (this.issue.due_Date) {
         this.dueDate = this.issue.due_Date;
       }
-        this.createdDate = this.issue.creationTime.toDate();
+      this.createdDate = this.issue.creationTime.toDate();
       this.updateDate = this.issue.update_Date.toDate();
     });
   }
@@ -63,35 +62,68 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
     this.createOrEditModal.show(id);
   }
   startProgress(id) {
-   this._issueService.startProgress(id).subscribe(result => {
-    this.notify.success(this.l('start'));
-    this.ngOnInit();
-   });
+    this._issueService.startProgress(id).subscribe(result => {
+      this.notify.success(this.l('start'));
+      this.ngOnInit();
+    });
   }
   stopProgress(id) {
     this._issueService.stopProgress(id).subscribe(result => {
-     this.notify.success(this.l('Stop'));
-     this.ngOnInit();
+      this.notify.success(this.l('Stop'));
+      this.ngOnInit();
     });
-   }
-   resolved(id) {
+  }
+  resolved(id) {
     this.addEstimateTimeModal.show(id);
     this._issueService.resolved(id).subscribe(result => {
-     this.notify.success(this.l('resolved'));
-     this.ngOnInit();
+      this.notify.success(this.l('resolved'));
+      this.ngOnInit();
     });
-   }
-   close(id) {
+  }
+  close(id) {
     this._issueService.closeProgress(id).subscribe(result => {
-     this.notify.success(this.l('Close'));
-     this.ngOnInit();
+      this.notify.success(this.l('Close'));
+      this.ngOnInit();
     });
-   }
-   reOpen(id) {
+  }
+  reOpen(id) {
     this._issueService.reOpenProgress(id).subscribe(result => {
-     this.notify.success(this.l('reOpen'));
-     this.ngOnInit();
+      this.notify.success(this.l('reOpen'));
+      this.ngOnInit();
     });
-   }
+  }
+  getTypeName(id) {
+    switch (id) {
+      case 1:
+        return this.l('NewFeature');
+        break;
+      case 2:
+        return this.l('Improvement');
+        break;
+      case 3:
+        return this.l('Bug');
+        break;
+    }
+  }
+
+  getStatusName(id) {
+    switch (id) {
+      case 1:
+        return this.l('Open');
+        break;
+      case 2:
+        return this.l('InProgress');
+        break;
+      case 3:
+        return this.l('Resolve');
+        break;
+      case 4:
+        return this.l('Closed');
+        break;
+      case 5:
+        return this.l('ReOpened');
+        break;
+    }
+  }
 }
 

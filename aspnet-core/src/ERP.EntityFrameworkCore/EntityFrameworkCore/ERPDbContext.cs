@@ -47,6 +47,9 @@ namespace ERP.EntityFrameworkCore
         
         public virtual DbSet<Priority> Priority { get; set; }
         public virtual DbSet<ConfigView> ConfigView { get; set; }
+        public virtual DbSet<Sprint> Sprint { get; set; }
+
+        
 
         public ERPDbContext(DbContextOptions<ERPDbContext> options)
             : base(options)

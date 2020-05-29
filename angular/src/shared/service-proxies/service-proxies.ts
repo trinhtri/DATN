@@ -8874,6 +8874,230 @@ export class SessionServiceProxy {
 }
 
 @Injectable()
+export class SprintServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: SprintListDto | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Sprint/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Sprint/Delete?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getId(id: number | null | undefined): Observable<SprintListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Sprint/GetId?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetId(<any>response_);
+                } catch (e) {
+                    return <Observable<SprintListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SprintListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetId(response: HttpResponseBase): Observable<SprintListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? SprintListDto.fromJS(resultData200) : new SprintListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SprintListDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    update(input: SprintListDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Sprint/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class StripePaymentServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -11083,6 +11307,69 @@ export class TokenAuthServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class TreeViewServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getTreeViewIssue(): Observable<TreeNode> {
+        let url_ = this.baseUrl + "/api/services/app/TreeView/GetTreeViewIssue";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTreeViewIssue(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTreeViewIssue(<any>response_);
+                } catch (e) {
+                    return <Observable<TreeNode>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TreeNode>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTreeViewIssue(response: HttpResponseBase): Observable<TreeNode> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TreeNode.fromJS(resultData200) : new TreeNode();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TreeNode>(<any>null);
     }
 }
 
@@ -16663,7 +16950,7 @@ export class CreateIssueDto implements ICreateIssueDto {
     type_ID!: number | undefined;
     status_Id!: number | undefined;
     discription!: string | undefined;
-    project_Id!: number | undefined;
+    sprint_Id!: number | undefined;
     assignee_Id!: number | undefined;
     reporter_Id!: number | undefined;
     due_Date!: moment.Moment | undefined;
@@ -16690,7 +16977,7 @@ export class CreateIssueDto implements ICreateIssueDto {
             this.type_ID = data["type_ID"];
             this.status_Id = data["status_Id"];
             this.discription = data["discription"];
-            this.project_Id = data["project_Id"];
+            this.sprint_Id = data["sprint_Id"];
             this.assignee_Id = data["assignee_Id"];
             this.reporter_Id = data["reporter_Id"];
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
@@ -16717,7 +17004,7 @@ export class CreateIssueDto implements ICreateIssueDto {
         data["type_ID"] = this.type_ID;
         data["status_Id"] = this.status_Id;
         data["discription"] = this.discription;
-        data["project_Id"] = this.project_Id;
+        data["sprint_Id"] = this.sprint_Id;
         data["assignee_Id"] = this.assignee_Id;
         data["reporter_Id"] = this.reporter_Id;
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
@@ -16737,7 +17024,7 @@ export interface ICreateIssueDto {
     type_ID: number | undefined;
     status_Id: number | undefined;
     discription: string | undefined;
-    project_Id: number | undefined;
+    sprint_Id: number | undefined;
     assignee_Id: number | undefined;
     reporter_Id: number | undefined;
     due_Date: moment.Moment | undefined;
@@ -16800,17 +17087,17 @@ export class IssueListDto implements IIssueListDto {
     tenantId!: number | undefined;
     issueCode!: string | undefined;
     summary!: string | undefined;
-    type!: string | undefined;
-    status!: string | undefined;
+    type_Id!: number | undefined;
+    status_Id!: number | undefined;
     discription!: string | undefined;
-    project_Id!: number | undefined;
+    sprint_Id!: number | undefined;
     assignee_Id!: number | undefined;
     reporter_Id!: number | undefined;
     due_Date!: moment.Moment | undefined;
     update_Date!: moment.Moment | undefined;
     resolved_Date!: moment.Moment | undefined;
     estimate!: number | undefined;
-    priority!: string | undefined;
+    priority_Id!: number | undefined;
     projectCode!: string | undefined;
     resolve!: string | undefined;
     creationTime!: moment.Moment | undefined;
@@ -16830,17 +17117,17 @@ export class IssueListDto implements IIssueListDto {
             this.tenantId = data["tenantId"];
             this.issueCode = data["issueCode"];
             this.summary = data["summary"];
-            this.type = data["type"];
-            this.status = data["status"];
+            this.type_Id = data["type_Id"];
+            this.status_Id = data["status_Id"];
             this.discription = data["discription"];
-            this.project_Id = data["project_Id"];
+            this.sprint_Id = data["sprint_Id"];
             this.assignee_Id = data["assignee_Id"];
             this.reporter_Id = data["reporter_Id"];
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
             this.update_Date = data["update_Date"] ? moment(data["update_Date"].toString()) : <any>undefined;
             this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
             this.estimate = data["estimate"];
-            this.priority = data["priority"];
+            this.priority_Id = data["priority_Id"];
             this.projectCode = data["projectCode"];
             this.resolve = data["resolve"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
@@ -16860,17 +17147,17 @@ export class IssueListDto implements IIssueListDto {
         data["tenantId"] = this.tenantId;
         data["issueCode"] = this.issueCode;
         data["summary"] = this.summary;
-        data["type"] = this.type;
-        data["status"] = this.status;
+        data["type_Id"] = this.type_Id;
+        data["status_Id"] = this.status_Id;
         data["discription"] = this.discription;
-        data["project_Id"] = this.project_Id;
+        data["sprint_Id"] = this.sprint_Id;
         data["assignee_Id"] = this.assignee_Id;
         data["reporter_Id"] = this.reporter_Id;
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
         data["update_Date"] = this.update_Date ? this.update_Date.toISOString() : <any>undefined;
         data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
         data["estimate"] = this.estimate;
-        data["priority"] = this.priority;
+        data["priority_Id"] = this.priority_Id;
         data["projectCode"] = this.projectCode;
         data["resolve"] = this.resolve;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
@@ -16883,17 +17170,17 @@ export interface IIssueListDto {
     tenantId: number | undefined;
     issueCode: string | undefined;
     summary: string | undefined;
-    type: string | undefined;
-    status: string | undefined;
+    type_Id: number | undefined;
+    status_Id: number | undefined;
     discription: string | undefined;
-    project_Id: number | undefined;
+    sprint_Id: number | undefined;
     assignee_Id: number | undefined;
     reporter_Id: number | undefined;
     due_Date: moment.Moment | undefined;
     update_Date: moment.Moment | undefined;
     resolved_Date: moment.Moment | undefined;
     estimate: number | undefined;
-    priority: string | undefined;
+    priority_Id: number | undefined;
     projectCode: string | undefined;
     resolve: string | undefined;
     creationTime: moment.Moment | undefined;
@@ -17513,7 +17800,7 @@ export interface IPagedResultDtoOfMemberListDto {
 
 export class MemberListDto implements IMemberListDto {
     tenantId!: number | undefined;
-    role!: string | undefined;
+    role!: number | undefined;
     effectiveDate!: moment.Moment | undefined;
     endDate!: moment.Moment | undefined;
     note!: string | undefined;
@@ -17566,7 +17853,7 @@ export class MemberListDto implements IMemberListDto {
 
 export interface IMemberListDto {
     tenantId: number | undefined;
-    role: string | undefined;
+    role: number | undefined;
     effectiveDate: moment.Moment | undefined;
     endDate: moment.Moment | undefined;
     note: string | undefined;
@@ -20911,6 +21198,58 @@ export interface IUpdateUserSignInTokenOutput {
     encodedTenantId: string | undefined;
 }
 
+export class SprintListDto implements ISprintListDto {
+    tenantId!: number | undefined;
+    sprintName!: string | undefined;
+    summary!: string | undefined;
+    project_Id!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ISprintListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantId = data["tenantId"];
+            this.sprintName = data["sprintName"];
+            this.summary = data["summary"];
+            this.project_Id = data["project_Id"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SprintListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SprintListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["sprintName"] = this.sprintName;
+        data["summary"] = this.summary;
+        data["project_Id"] = this.project_Id;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ISprintListDto {
+    tenantId: number | undefined;
+    sprintName: string | undefined;
+    summary: string | undefined;
+    project_Id: number | undefined;
+    id: number | undefined;
+}
+
 export class StripeConfirmPaymentInput implements IStripeConfirmPaymentInput {
     paymentId!: number | undefined;
     stripeToken!: string | undefined;
@@ -23111,6 +23450,142 @@ export interface IExternalAuthenticateResultModel {
     expireInSeconds: number | undefined;
     waitingForActivation: boolean | undefined;
     returnUrl: string | undefined;
+}
+
+export class TreeNode implements ITreeNode {
+    nodeFlat!: Node[] | undefined;
+
+    constructor(data?: ITreeNode) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["nodeFlat"] && data["nodeFlat"].constructor === Array) {
+                this.nodeFlat = [] as any;
+                for (let item of data["nodeFlat"])
+                    this.nodeFlat!.push(Node.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): TreeNode {
+        data = typeof data === 'object' ? data : {};
+        let result = new TreeNode();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.nodeFlat && this.nodeFlat.constructor === Array) {
+            data["nodeFlat"] = [];
+            for (let item of this.nodeFlat)
+                data["nodeFlat"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ITreeNode {
+    nodeFlat: Node[] | undefined;
+}
+
+export class Node implements INode {
+    id!: number | undefined;
+    name!: string | undefined;
+    parentId!: number | undefined;
+    summary!: string | undefined;
+    type!: number | undefined;
+    status!: number | undefined;
+    discription!: string | undefined;
+    assignee_Id!: number | undefined;
+    reporter_Id!: number | undefined;
+    due_Date!: moment.Moment | undefined;
+    created!: moment.Moment | undefined;
+    priority!: number | undefined;
+    estimate!: number | undefined;
+    assignee!: string | undefined;
+    reporter!: string | undefined;
+
+    constructor(data?: INode) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.name = data["name"];
+            this.parentId = data["parentId"];
+            this.summary = data["summary"];
+            this.type = data["type"];
+            this.status = data["status"];
+            this.discription = data["discription"];
+            this.assignee_Id = data["assignee_Id"];
+            this.reporter_Id = data["reporter_Id"];
+            this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
+            this.created = data["created"] ? moment(data["created"].toString()) : <any>undefined;
+            this.priority = data["priority"];
+            this.estimate = data["estimate"];
+            this.assignee = data["assignee"];
+            this.reporter = data["reporter"];
+        }
+    }
+
+    static fromJS(data: any): Node {
+        data = typeof data === 'object' ? data : {};
+        let result = new Node();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["parentId"] = this.parentId;
+        data["summary"] = this.summary;
+        data["type"] = this.type;
+        data["status"] = this.status;
+        data["discription"] = this.discription;
+        data["assignee_Id"] = this.assignee_Id;
+        data["reporter_Id"] = this.reporter_Id;
+        data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
+        data["created"] = this.created ? this.created.toISOString() : <any>undefined;
+        data["priority"] = this.priority;
+        data["estimate"] = this.estimate;
+        data["assignee"] = this.assignee;
+        data["reporter"] = this.reporter;
+        return data; 
+    }
+}
+
+export interface INode {
+    id: number | undefined;
+    name: string | undefined;
+    parentId: number | undefined;
+    summary: string | undefined;
+    type: number | undefined;
+    status: number | undefined;
+    discription: string | undefined;
+    assignee_Id: number | undefined;
+    reporter_Id: number | undefined;
+    due_Date: moment.Moment | undefined;
+    created: moment.Moment | undefined;
+    priority: number | undefined;
+    estimate: number | undefined;
+    assignee: string | undefined;
+    reporter: string | undefined;
 }
 
 export class PagedResultDtoOfUserListDto implements IPagedResultDtoOfUserListDto {
