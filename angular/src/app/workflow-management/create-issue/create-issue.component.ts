@@ -17,9 +17,8 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   dueDate = new Date();
   active = false;
   saving = false;
-  projectId: any;
+  projectId: number;
   lst: ERPComboboxItem[] = [];
-  lstRole: ERPComboboxItem[] = [];
   lstSprint: ERPComboboxItem[] = [];
   lstProject: ERPComboboxItem[] = [];
   lstPriority = [
@@ -47,9 +46,6 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
     this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe(result => {
       this.lst = result;
     });
-    this._commonService.getLookups('RoleProject', this.appSession.tenantId, undefined).subscribe(result => {
-      this.lstRole = result;
-    });
     this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe(result => {
       this.lstProject = result;
     });
@@ -73,7 +69,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
     }
   }
   onShown(): void {
-    document.getElementById('IssueCode').focus();
+    // document.getElementById('IssueCode').focus();
   }
   save(): void {
     this.saving = true;
@@ -106,6 +102,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   }
 
   close(): void {
+    this.projectId = null;
     this.dueDate = null;
     this.issue = new CreateIssueDto();
     this.saving = false;
@@ -113,9 +110,9 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
     this.modal.hide();
   }
   changeProject(projectId) {
+    this.issue.sprint_Id = null;
     this._commonService.getLookups('Sprints', this.appSession.tenantId, projectId).subscribe(result => {
       this.lstSprint = result;
-      console.log('sprint', this.lstSprint);
     });
   }
 }

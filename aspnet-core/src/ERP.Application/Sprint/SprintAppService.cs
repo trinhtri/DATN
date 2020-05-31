@@ -7,6 +7,10 @@ using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Abp.Collections.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Abp.Linq.Extensions;
+
 namespace ERP.Sprint
 {
     public class SprintAppService : ERPAppServiceBase, ISprintAppService
@@ -17,7 +21,7 @@ namespace ERP.Sprint
         {
             _sprintRepository = sprintRepository;
         }
-        public async Task<long> Create(SprintListDto input)
+        public async Task<long> Create(CreateSprintDto input)
         {
             try { 
             input.TenantId = AbpSession.TenantId;
@@ -36,19 +40,33 @@ namespace ERP.Sprint
             await _sprintRepository.DeleteAsync(id);
         }
 
-        //public async Task<PagedResultDto<SprintListDto>> GetAll(long ProjectId)
-        //{
-        //    var list = _sprintRepository.GetAll().Where(x => x.ProjectId == ProjectId).ToList();
-        //    var
-        //}
-
-        public async Task<SprintListDto> GetId(long id)
+        public async Task<PagedResultDto<SprintListDto>> GetAll(GetSprintInputDto input)
         {
-            var sprint = await _sprintRepository.FirstOrDefaultAsync(id);
-            return ObjectMapper.Map<SprintListDto>(sprint);
+            var query = _sprintRepository.GetAll().Include(x=>x.Project_)
+                .WhereIf(!string.IsNullOrEmpty(input.Filter),
+                x => x.SprintName.ToUpper().Contains(input.Filter.ToUpper())
+                || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
+                || x.Project_.ProjectName.ToUpper().Contains(input.Filter.ToUpper()));
+            var totalCount = await query.AsQueryable().CountAsync();
+
+            var result = await query.AsQueryable().OrderBy(input.Sorting).PageBy(input).ToListAsync();
+
+            var output = ObjectMapper.Map<List<SprintListDto>>(result);
+
+            return new PagedResultDto<SprintListDto>(
+                totalCount,
+                output
+                );
+            throw new NotImplementedException();
         }
 
-        public async Task Update(SprintListDto input)
+        public async Task<CreateSprintDto> GetId(long id)
+        {
+            var sprint = await _sprintRepository.FirstOrDefaultAsync(id);
+            return ObjectMapper.Map<CreateSprintDto>(sprint);
+        }
+
+        public async Task Update(CreateSprintDto input)
         {
             var sprint = await _sprintRepository.FirstOrDefaultAsync(input.Id);
              ObjectMapper.Map(input, sprint);

@@ -162,7 +162,11 @@ namespace ERP
             configuration.CreateMap<Models.Document, DocumentListDto>().ReverseMap();
 
             configuration.CreateMap<Models.ConfigView, ConfigViewDto>().ReverseMap();
-            configuration.CreateMap<Models.Sprint, SprintListDto>().ReverseMap();
+            configuration.CreateMap<Models.Sprint, SprintListDto>()
+                .ForMember(r=>r.ProjectName, pn=> pn.MapFrom(e => e.Project_.ProjectName))
+                .ReverseMap();
+            configuration.CreateMap<Models.Sprint, CreateSprintDto>().ReverseMap();
+
 
         }
     }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TreeTableComponent } from './tree-table.component';
+import { CreateOrEditSprintComponent } from './create-or-edit-sprint.component';
 
-describe('TreeTableComponent', () => {
-  let component: TreeTableComponent;
-  let fixture: ComponentFixture<TreeTableComponent>;
+describe('CreateOrEditSprintComponent', () => {
+  let component: CreateOrEditSprintComponent;
+  let fixture: ComponentFixture<CreateOrEditSprintComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TreeTableComponent ]
+      declarations: [ CreateOrEditSprintComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TreeTableComponent);
+    fixture = TestBed.createComponent(CreateOrEditSprintComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

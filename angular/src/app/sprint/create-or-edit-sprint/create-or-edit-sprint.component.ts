@@ -1,17 +1,15 @@
-import { Component, OnInit, ViewChild, Output, Injector, EventEmitter } from '@angular/core';
-import { AppComponentBase } from '@shared/common/app-component-base';
-import { IssueServiceProxy, ProjectServiceProxy, CommonAppserviceServiceProxy, CreateIssueDto, ERPComboboxItem, SprintServiceProxy, SprintListDto, CreateSprintDto } from '@shared/service-proxies/service-proxies';
-import { ModalDirective } from 'ngx-bootstrap';
-import * as moment from 'moment';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Injector } from '@angular/core';
+import { SprintListDto, ERPComboboxItem, ProjectServiceProxy, IssueServiceProxy, CommonAppserviceServiceProxy, SprintServiceProxy, CreateSprintDto } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
+import { AppComponentBase } from '@shared/common/app-component-base';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
-  selector: 'app-create-or-update-sprint',
-  templateUrl: './create-or-update-sprint.component.html',
-  styleUrls: ['./create-or-update-sprint.component.css']
+  selector: 'app-create-or-edit-sprint',
+  templateUrl: './create-or-edit-sprint.component.html',
+  styleUrls: ['./create-or-edit-sprint.component.css']
 })
-export class CreateOrUpdateSprintComponent extends AppComponentBase implements OnInit {
-
+export class CreateOrEditSprintComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', {static: true}) modal: ModalDirective;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   sprint: CreateSprintDto = new CreateSprintDto();
@@ -23,8 +21,6 @@ export class CreateOrUpdateSprintComponent extends AppComponentBase implements O
   lstProject: ERPComboboxItem [] = [];
   lstType: ERPComboboxItem [] = [];
   constructor(injector: Injector,
-    private _projectService: ProjectServiceProxy,
-    private _issueService: IssueServiceProxy,
     private _commonService: CommonAppserviceServiceProxy,
     private _sprintService: SprintServiceProxy
     ) {
@@ -43,6 +39,7 @@ export class CreateOrUpdateSprintComponent extends AppComponentBase implements O
    });
    this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe( result => {
     this.lstProject = result;
+    console.log('lstProject', this.lstProject);
   });
   this._commonService.getLookups('IssueTypes', this.appSession.tenantId, undefined).subscribe( result => {
     this.lstType = result;
@@ -58,7 +55,7 @@ export class CreateOrUpdateSprintComponent extends AppComponentBase implements O
   }
 }
 onShown(): void {
-  document.getElementById('SprintName').focus();
+  document.getElementById('Project').focus();
 }
 save(): void {
   this.saving = true;
@@ -84,11 +81,9 @@ save(): void {
 
 close(): void {
   this.dueDate = null;
-  this.sprint = new SprintListDto();
+  this.sprint = new CreateSprintDto();
   this.saving = false;
   this.active = false;
   this.modal.hide();
 }
-
-
 }

@@ -43,6 +43,12 @@ import { NotificationsComponent } from './shared/layout/notifications/notificati
                         loadChildren: () => import('app/workflow-management/workflow-mangement.module').then(m => m.WorkFlowManagementModule), //Lazy load admin module
                         data: { preload: true },
                         canLoad: [AppRouteGuard]
+                    } ,
+                    {
+                        path: 'sprint',
+                        loadChildren: () => import('app/sprint/sprint.module').then(m => m.SprintModule), //Lazy load admin module
+                        data: { preload: true },
+                        canLoad: [AppRouteGuard]
                     }
                     , {
                         path: '**', redirectTo: 'notifications'

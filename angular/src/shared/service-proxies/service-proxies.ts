@@ -8888,7 +8888,7 @@ export class SprintServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    create(input: SprintListDto | null | undefined): Observable<number> {
+    create(input: CreateSprintDto | null | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/Sprint/Create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8991,10 +8991,73 @@ export class SprintServiceProxy {
     }
 
     /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getAll(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfSprintListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Sprint/GetAll?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfSprintListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfSprintListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfSprintListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfSprintListDto.fromJS(resultData200) : new PagedResultDtoOfSprintListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfSprintListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
-    getId(id: number | null | undefined): Observable<SprintListDto> {
+    getId(id: number | null | undefined): Observable<CreateSprintDto> {
         let url_ = this.baseUrl + "/api/services/app/Sprint/GetId?";
         if (id !== undefined)
             url_ += "id=" + encodeURIComponent("" + id) + "&"; 
@@ -9015,14 +9078,14 @@ export class SprintServiceProxy {
                 try {
                     return this.processGetId(<any>response_);
                 } catch (e) {
-                    return <Observable<SprintListDto>><any>_observableThrow(e);
+                    return <Observable<CreateSprintDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<SprintListDto>><any>_observableThrow(response_);
+                return <Observable<CreateSprintDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetId(response: HttpResponseBase): Observable<SprintListDto> {
+    protected processGetId(response: HttpResponseBase): Observable<CreateSprintDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -9033,7 +9096,7 @@ export class SprintServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? SprintListDto.fromJS(resultData200) : new SprintListDto();
+            result200 = resultData200 ? CreateSprintDto.fromJS(resultData200) : new CreateSprintDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -9041,14 +9104,14 @@ export class SprintServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<SprintListDto>(<any>null);
+        return _observableOf<CreateSprintDto>(<any>null);
     }
 
     /**
      * @param input (optional) 
      * @return Success
      */
-    update(input: SprintListDto | null | undefined): Observable<void> {
+    update(input: CreateSprintDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Sprint/Update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -21198,14 +21261,14 @@ export interface IUpdateUserSignInTokenOutput {
     encodedTenantId: string | undefined;
 }
 
-export class SprintListDto implements ISprintListDto {
+export class CreateSprintDto implements ICreateSprintDto {
     tenantId!: number | undefined;
     sprintName!: string | undefined;
     summary!: string | undefined;
     project_Id!: number | undefined;
     id!: number | undefined;
 
-    constructor(data?: ISprintListDto) {
+    constructor(data?: ICreateSprintDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -21224,9 +21287,9 @@ export class SprintListDto implements ISprintListDto {
         }
     }
 
-    static fromJS(data: any): SprintListDto {
+    static fromJS(data: any): CreateSprintDto {
         data = typeof data === 'object' ? data : {};
-        let result = new SprintListDto();
+        let result = new CreateSprintDto();
         result.init(data);
         return result;
     }
@@ -21242,10 +21305,114 @@ export class SprintListDto implements ISprintListDto {
     }
 }
 
+export interface ICreateSprintDto {
+    tenantId: number | undefined;
+    sprintName: string | undefined;
+    summary: string | undefined;
+    project_Id: number | undefined;
+    id: number | undefined;
+}
+
+export class PagedResultDtoOfSprintListDto implements IPagedResultDtoOfSprintListDto {
+    totalCount!: number | undefined;
+    items!: SprintListDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfSprintListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(SprintListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfSprintListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfSprintListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfSprintListDto {
+    totalCount: number | undefined;
+    items: SprintListDto[] | undefined;
+}
+
+export class SprintListDto implements ISprintListDto {
+    tenantId!: number | undefined;
+    sprintName!: string | undefined;
+    summary!: string | undefined;
+    projectName!: string | undefined;
+    project_Id!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ISprintListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantId = data["tenantId"];
+            this.sprintName = data["sprintName"];
+            this.summary = data["summary"];
+            this.projectName = data["projectName"];
+            this.project_Id = data["project_Id"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SprintListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SprintListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["sprintName"] = this.sprintName;
+        data["summary"] = this.summary;
+        data["projectName"] = this.projectName;
+        data["project_Id"] = this.project_Id;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
 export interface ISprintListDto {
     tenantId: number | undefined;
     sprintName: string | undefined;
     summary: string | undefined;
+    projectName: string | undefined;
     project_Id: number | undefined;
     id: number | undefined;
 }

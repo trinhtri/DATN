@@ -10,10 +10,10 @@ namespace ERP.Sprint
 {
   public  interface ISprintAppService: IApplicationService
     {
-        //Task<PagedResultDto<SprintListDto>> GetAll(long ProjectId);
-        Task<long> Create(SprintListDto input);
+        Task<PagedResultDto<SprintListDto>> GetAll(GetSprintInputDto input);
+        Task<long> Create(CreateSprintDto input);
         Task Delete(long id);
-        Task Update(SprintListDto input);
-        Task<SprintListDto> GetId(long id);
+        Task Update(CreateSprintDto input);
+        Task<CreateSprintDto> GetId(long id);
     }
 }

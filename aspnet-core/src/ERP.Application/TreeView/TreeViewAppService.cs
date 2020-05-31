@@ -46,7 +46,7 @@ namespace ERP.TreeView
                 Estimate = null,
                 Status = null,
                 Summary = x.ProjectName,
-                Type = null,
+                Type = 1,
                 Created= null,
             }).ToList();
             flatNode.AddRange(projects);

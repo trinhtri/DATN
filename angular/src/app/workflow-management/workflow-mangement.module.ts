@@ -26,7 +26,6 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { EstimateComponent } from './management-issue/estimate/estimate.component';
 import {EditorModule} from 'primeng/editor';
-import { TreeTableComponent } from './tree-table/tree-table.component';
 import {TreeTableModule} from 'primeng/treetable';
 import {TreeNode} from 'primeng/api';
 import { CreateOrUpdateSprintComponent } from './create-or-update-sprint/create-or-update-sprint.component';
@@ -63,7 +62,6 @@ import { CreateOrUpdateSprintComponent } from './create-or-update-sprint/create-
         CreateOrEditCommentComponent,
         ConfigViewComponent,
         EstimateComponent,
-        TreeTableComponent,
         CreateOrUpdateSprintComponent,
     ],
     providers: [

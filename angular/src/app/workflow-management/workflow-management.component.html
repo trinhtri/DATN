@@ -6,17 +6,19 @@
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
-            {{"Issues" | localize}}
-        </span>
+                {{"Issues" | localize}}
+            </span>
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="exportExcel()">
+                <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false" (click)="exportExcel()">
                     <i class="far fa-file-excel"></i> {{"Export" | localize}}
                 </button>
-                <button (click)="createSprint()" *ngIf="isGranted('Pages.Issue.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNewSprint" | localize}}</button>
-                <button (click)="createNew()" *ngIf="isGranted('Pages.Issue.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
-                <button (click)="configView()"  class="btn btn-primary"><i class="fa fa-plus"></i> {{"ConfigView" | localize}}</button>
+                <button (click)="createNew()" *ngIf="isGranted('Pages.Issue.Create')" class="btn btn-primary"><i
+                        class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
+                <button (click)="configView()" class="btn btn-primary"><i class="fa fa-plus"></i>
+                    {{"ConfigView" | localize}}</button>
 
             </div>
         </div>
@@ -30,20 +32,25 @@
                             <div class="col-xl-12">
                                 <div class="form-group m-form__group align-items-center">
                                     <div class="input-group">
-                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus
+                                            class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                            type="text">
                                         <span class="input-group-btn">
-                                        <button (click)="getAll()" class="btn btn-primary" type="submit"><i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i></button>
-                                    </span>
+                                            <button (click)="getAll()" class="btn btn-primary" type="submit"><i
+                                                    class="flaticon-search-1"
+                                                    [attr.aria-label]="l('Search')"></i></button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row mb-4" [hidden]="!advancedFiltersAreShown">
-                            <div  class="col-md-3">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="projectId">{{"Project" | localize}}</label>
-                                    <p-multiSelect [options]="lstProject"  name="projectId" [(ngModel)]="lstProjectId" [panelStyle]="{minWidth:'12em'}">
+                                    <p-multiSelect [options]="lstProject" name="projectId" [(ngModel)]="lstProjectId"
+                                        [panelStyle]="{minWidth:'12em'}">
                                         <ng-template let-value pTemplate="selectedItems">
                                             <span *ngIf="!value || value.length === 0"
                                                 class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
@@ -55,13 +62,14 @@
                                             {{car.displayText}}
                                         </ng-template>
                                     </p-multiSelect>
-                                        <!-- <p-multiSelect [options]="lstProject" name="projectId"  [(ngModel)]="lstProjectId" optionLabel="displayText" value="value"></p-multiSelect> -->
+                                    <!-- <p-multiSelect [options]="lstProject" name="projectId"  [(ngModel)]="lstProjectId" optionLabel="displayText" value="value"></p-multiSelect> -->
                                 </div>
                             </div>
-                            <div  class="col-md-3">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="Assignee">{{"Assignee" | localize}}</label>
-                                    <p-multiSelect [options]="lstMember"  name="Assignee" [(ngModel)]="lstAssigneeId" [panelStyle]="{minWidth:'12em'}">
+                                    <p-multiSelect [options]="lstMember" name="Assignee" [(ngModel)]="lstAssigneeId"
+                                        [panelStyle]="{minWidth:'12em'}">
                                         <ng-template let-value pTemplate="selectedItems">
                                             <span *ngIf="!value || value.length === 0"
                                                 class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
@@ -73,13 +81,14 @@
                                             {{car.displayText}}
                                         </ng-template>
                                     </p-multiSelect>
-                                        <!-- <p-multiSelect [options]="lstMember" name="Assignee"  [(ngModel)]="lstAssigneeId" optionLabel="displayText"></p-multiSelect> -->
+                                    <!-- <p-multiSelect [options]="lstMember" name="Assignee"  [(ngModel)]="lstAssigneeId" optionLabel="displayText"></p-multiSelect> -->
                                 </div>
                             </div>
-                            <div  class="col-md-3">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="IssueType">{{"IssueType" | localize}}</label>
-                                    <p-multiSelect [options]="lstIssueType"  name="IssueType" [(ngModel)]="lstIssueTypeId" [panelStyle]="{minWidth:'12em'}">
+                                    <p-multiSelect [options]="lstIssueType" name="IssueType"
+                                        [(ngModel)]="lstIssueTypeId" [panelStyle]="{minWidth:'12em'}">
                                         <ng-template let-value pTemplate="selectedItems">
                                             <span *ngIf="!value || value.length === 0"
                                                 class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
@@ -93,10 +102,11 @@
                                     </p-multiSelect>
                                 </div>
                             </div>
-                            <div  class="col-md-3">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="Satus">{{"Status" | localize}}</label>
-                                    <p-multiSelect [options]="lstStatus"  name="Satus" [(ngModel)]="lstStatusId" [panelStyle]="{minWidth:'12em'}">
+                                    <p-multiSelect [options]="lstStatus" name="Satus" [(ngModel)]="lstStatusId"
+                                        [panelStyle]="{minWidth:'12em'}">
                                         <ng-template let-value pTemplate="selectedItems">
                                             <span *ngIf="!value || value.length === 0"
                                                 class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
@@ -111,16 +121,21 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                        <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="getAll()" style="float: right;">
-                                            <i class="la la-refresh"></i> {{"Refresh" | localize}}
-                                        </button>
+                                <button type="button" class="btn btn-success" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" (click)="getAll()" style="float: right;">
+                                    <i class="la la-refresh"></i> {{"Refresh" | localize}}
+                                </button>
                             </div>
                         </div>
 
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{"ShowAdvancedFilters" | localize}}</span>
-                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{"HideAdvancedFilters" | localize}}</span>
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-down"></i> {{"ShowAdvancedFilters" | localize}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-up"></i> {{"HideAdvancedFilters" | localize}}</span>
                             </div>
                         </div>
                     </div>
@@ -132,36 +147,43 @@
                         <p-treeTable [value]="treeData">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th  style="width: 100px">{{'Code' | localize}}</th>
-                                    <th  style="width: 200px">{{'Summary' | localize}}</th>
-                                    <th  style="width: 100px">{{'Assignee' | localize}}</th>
-                                    <th  style="width: 100px">{{'Reporter' | localize}}</th>
-                                    <th  style="width: 100px">{{'Priority' | localize}}</th>
-                                    <th  style="width: 100px">{{'IssueType' | localize}}</th>
-                                    <th  style="width: 100px">{{'Satus' | localize}}</th>
-                                    <th  style="width: 100px">{{'Created' | localize}}</th>
-                                    <th  style="width: 100px">{{'DueDate' | localize}}</th>
-                                    <th  style="width: 100px">{{'Estimate' | localize}}</th>
+                                    <th style="width: 50px">{{'Type' | localize}}</th>
+                                    <th style="width: 100px">{{'Code' | localize}}</th>
+                                    <th style="width: 200px">{{'Summary' | localize}}</th>
+                                    <th style="width: 100px">{{'Assignee' | localize}}</th>
+                                    <th style="width: 100px">{{'Reporter' | localize}}</th>
+                                    <th style="width: 100px">{{'Priority' | localize}}</th>
+                                    <th style="width: 100px">{{'Satus' | localize}}</th>
+                                    <th style="width: 100px">{{'Created' | localize}}</th>
+                                    <th style="width: 100px">{{'DueDate' | localize}}</th>
+                                    <th style="width: 100px">{{'Estimate' | localize}}</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
                                 <tr [ttRow]="rowNode">
-                                    <td  style="width: 100px">{{rowData.name}}</td>
-                                    <td  style="width: 200px">
+                                    <td style="width: 50px" class="text-center">
+                                        <i class="flaticon2-plus" style="color: blue;" *ngIf ="rowData.type == 1" title="NewFeature"></i>
+                                        <i class=" flaticon2-arrow-up" style="color: blue;" *ngIf ="rowData.type == 2" title="Improvement"></i>
+                                        <i class="flaticon-danger" style="color: red;" *ngIf ="rowData.type == 3" title="Bug"></i>
+                                        <!-- <i class="flaticon-lock" style="color: red;"></i> -->
+                                        <!-- <i class="flaticon2-check-mark" style="color: blue;"></i> -->
+                                    </td>
+                                    <td style="width: 100px">{{rowData.name}}</td>
+                                    <td style="width: 200px">
                                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                                         <!-- <a [routerLink]="['/app/issue/management-issue',record.id]">
                                             <span class="ui-column-title"> {{'Summary' | localize}}</span> {{record.summary}}
                                         </a> -->
                                         <span (click)="clickSummary(rowData.id)">{{rowData.summary}}</span>
                                     </td>
-                                    <td  style="width: 100px">{{rowData.assignee}}</td>
-                                    <td  style="width: 100px">{{rowData.reporter}}</td>
-                                    <td  style="width: 100px">{{rowData.priority}}</td>
-                                    <td  style="width: 100px">{{getTypeName(rowData.type)}}</td>
-                                    <td  style="width: 100px">{{getStatusName(rowData.status)}}</td>
-                                    <td  style="width: 100px">{{rowData.created | momentFormat:'L'}}</td>
-                                    <td  style="width: 100px">{{rowData.due_Date | momentFormat:'L'}}</td>
-                                    <td  style="width: 100px">{{rowData.estimate}}</td>
+                                    <td style="width: 100px">{{rowData.assignee}}</td>
+                                    <td style="width: 100px">{{rowData.reporter}}</td>
+                                    <td style="width: 100px">{{rowData.priority}}</td>
+                                    <!-- <td style="width: 100px">{{getTypeName(rowData.type)}}</td> -->
+                                    <td style="width: 100px">{{getStatusName(rowData.status)}}</td>
+                                    <td style="width: 100px">{{rowData.created | momentFormat:'L'}}</td>
+                                    <td style="width: 100px">{{rowData.due_Date | momentFormat:'L'}}</td>
+                                    <td style="width: 100px">{{rowData.estimate}}</td>
 
                                 </tr>
                             </ng-template>
@@ -175,5 +197,6 @@
 
     <app-create-issue #createOrEditModal (modalSave)="getTreeDataFromServer()"></app-create-issue>
     <app-config-view #configViewModal (modalSave)="getTreeDataFromServer()"></app-config-view>
-    <app-create-or-update-sprint #createOrEditSprintModal (modalSave)="getTreeDataFromServer()"></app-create-or-update-sprint>
+    <app-create-or-update-sprint #createOrEditSprintModal (modalSave)="getTreeDataFromServer()">
+    </app-create-or-update-sprint>
 </div>
