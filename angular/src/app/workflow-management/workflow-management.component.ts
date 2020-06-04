@@ -30,7 +30,7 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
     lstProject: ERPComboboxItem[] = [];
     lstMember: ERPComboboxItem[] = [];
     lstIssueType: ERPComboboxItem[] = [];
-    lstStatus: ERPComboboxItem[] = [];
+    // lstStatus: ERPComboboxItem[] = [];
     cols: any[];
     // tslint:disable-next-line: member-ordering
     file: TreeNode[] = [];
@@ -44,6 +44,20 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
     lstIssueTypeId: number[] = [];
     lstStatusId: number[] = [];
     treeData: any;
+    lstType = [
+        { value: 1, displayText: this.l('NewFeature') },
+        { value: 2, displayText: this.l('Improvement') },
+        { value: 3, displayText: this.l('Bug') },
+      ];
+      lstStatus = [
+        { value: 1, displayText: this.l('Open') },
+        { value: 2, displayText: this.l('InProgress') },
+        { value: 3, displayText: this.l('Resolve') },
+        { value: 4, displayText: this.l('Closed') },
+        { value: 5, displayText: this.l('ReOpened') },
+      ];
+
+
     constructor(
         injector: Injector,
         private _issueServiceProxy: IssueServiceProxy,
@@ -61,8 +75,9 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
         this.initForm();
         this.getTreeDataFromServer();
     }
-    private getTreeDataFromServer(): void {
-        this._treeViewService.getTreeViewIssue()
+    getTreeDataFromServer(): void {
+        console.log('type', this.lstIssueTypeId);
+        this._treeViewService.getTreeViewIssue(this.lstProjectId, this.lstStatusId, this.lstAssigneeId, this.lstIssueTypeId , this.filterText)
             .subscribe((result) => {
                 console.log('result', result);
                 this.treeData = this._arrayToTreeConverterService.createTree(result.nodeFlat,
@@ -101,12 +116,6 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
         this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe(result => {
             this.lstProject = result;
         });
-        this._commonService.getLookups('IssueTypes', this.appSession.tenantId, undefined).subscribe(result => {
-            this.lstIssueType = result;
-        });
-        this._commonService.getLookups('Status', this.appSession.tenantId, undefined).subscribe(result => {
-            this.lstStatus = result;
-        });
         this._configViewService.getId(this.appSession.userId).subscribe(result => {
             this.config = result;
         });
@@ -118,6 +127,7 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
             return;
         }
 
+        console.log('status', this.lstStatusId, this.lstIssueTypeId);
         this.primengTableHelper.showLoadingIndicator();
 
         this._issueServiceProxy.getAll(
@@ -207,8 +217,13 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
                 break;
         }
     }
-    clickSummary(id) {
-        this._route.navigate(['/app/issue/management-issue', id]);
+    clickSummary(record) {
+        console.log('record', record);
+        if (record.parentId !== null) {
+        this._route.navigate(['/app/issue/management-issue', record.id]);
+        } else {
+            this._route.navigate(['/app/project/manager-project', record.id]);
+        }
     }
 }
 

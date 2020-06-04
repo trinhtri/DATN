@@ -2,11 +2,13 @@
     <div class="kt-subheader kt-grid__item">
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <a [routerLink]="['/app/project/manager-project',issue.project_Id]"> <span>{{issue.projectCode}}</span></a>
+                <span>{{issue.projectCode}}</span>
+                <!-- <a [routerLink]="['/app/project/manager-project',issue.project_Id]">
+                    </a> -->
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
-              <a [routerLink]="['/app/issue/management']"> {{issue.issueCode}}</a> 
+                <a [routerLink]="['/app/issue/management']"> {{issue.issueCode}}</a>
                 <br>
                 {{issue.summary}}
             </span>
@@ -24,23 +26,22 @@
                                     class="btn btn-primary" style="margin-right:
                                     5px;"> {{"Edit" |
                                     localize}}</button>
-                                <button (click)="startProgress(idIssue)" 
+                                <button (click)="startProgress(idIssue)" *ngIf="issue.status_Id == 1 || issue.status_Id == 4"
                                     class="btn btn-primary" style="margin-right:
                                     5px;">
                                     {{"StartProgress" | localize}}</button>
-                                <button (click)="stopProgress(idIssue)" 
+                                <button (click)="stopProgress(idIssue)" *ngIf="issue.status_Id == 2"
                                     class="btn btn-primary" style="margin-right:
                                     5px;">
                                     {{"StopProgress" | localize}}</button>
-                                <button (click)="resolved(idIssue)" 
-                                    class="btn btn-primary" style="margin-right:
+                                <button (click)="resolved(idIssue)" class="btn btn-primary" style="margin-right:
                                     5px;">
                                     {{"ResolveIssue" | localize}}</button>
-                                    <button (click)="reOpen(idIssue)" *ngIf="isGranted('Pages.Issue.ReOpen')"
+                                <button (click)="reOpen(idIssue)" *ngIf="isGranted('Pages.Issue.ReOpen') && issue.status_Id == 3"
                                     class="btn btn-primary" style="margin-right:
-                                    5px;">
+                                    5px;" >
                                     {{"ReOpen" | localize}}</button>
-                                    <button (click)="close(idIssue)" *ngIf="isGranted('Pages.Issue.Close')"
+                                <button (click)="close(idIssue)" *ngIf="isGranted('Pages.Issue.Close') && issue.status_Id == 3"
                                     class="btn btn-primary" style="margin-right:
                                     5px;">
                                     {{"Close" | localize}}</button>
@@ -64,7 +65,7 @@
                                     localize}}</legend>
                                 <div class="row">
                                     <div class="col-md-2">
-                                       {{"Type"| localize}}:
+                                        {{"Type"| localize}}:
                                     </div>
                                     <div class="col-md-4">
                                         {{getTypeName(issue.type_Id)}}
@@ -85,7 +86,8 @@
                             </fieldset>
                             <fieldset class="scheduler-border">
                                 <legend class="scheduler-border">{{"Discription" | localize}}</legend>
-                                <p-editor name="Discription" maxlength="2000" [(ngModel)]="issue.discription" [style]="{'height':'320px'}"></p-editor>
+                                <p-editor name="Discription" maxlength="2000" [(ngModel)]="issue.discription"
+                                    [style]="{'height':'320px'}"></p-editor>
                             </fieldset>
                         </div>
                         <div class="col-md-4">
@@ -135,7 +137,7 @@
                                 <legend class="scheduler-border">{{"Actions" | localize}}</legend>
                                 <tabset class="tab-container">
                                     <tab heading="{{'Comment' | localize}}" [active]="true">
-                                        <app-comments [IssueId] = "issue.id"></app-comments>
+                                        <app-comments [IssueId]="issue.id"></app-comments>
                                     </tab>
                                     <!-- <tab heading="{{'History' | localize}}">
                                         History

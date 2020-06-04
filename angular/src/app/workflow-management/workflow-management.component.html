@@ -2,7 +2,7 @@
     <div class="kt-subheader kt-grid__item">
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <span>{{"ManagerProject" | localize}}</span>
+                <span>{{"ManagerIssue" | localize}}</span>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span>
             <span class="kt-subheader__desc">
@@ -62,7 +62,6 @@
                                             {{car.displayText}}
                                         </ng-template>
                                     </p-multiSelect>
-                                    <!-- <p-multiSelect [options]="lstProject" name="projectId"  [(ngModel)]="lstProjectId" optionLabel="displayText" value="value"></p-multiSelect> -->
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -81,13 +80,12 @@
                                             {{car.displayText}}
                                         </ng-template>
                                     </p-multiSelect>
-                                    <!-- <p-multiSelect [options]="lstMember" name="Assignee"  [(ngModel)]="lstAssigneeId" optionLabel="displayText"></p-multiSelect> -->
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="IssueType">{{"IssueType" | localize}}</label>
-                                    <p-multiSelect [options]="lstIssueType" name="IssueType"
+                                    <p-multiSelect [options]="lstType" name="IssueType"
                                         [(ngModel)]="lstIssueTypeId" [panelStyle]="{minWidth:'12em'}">
                                         <ng-template let-value pTemplate="selectedItems">
                                             <span *ngIf="!value || value.length === 0"
@@ -102,11 +100,12 @@
                                     </p-multiSelect>
                                 </div>
                             </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="Satus">{{"Status" | localize}}</label>
-                                    <p-multiSelect [options]="lstStatus" name="Satus" [(ngModel)]="lstStatusId"
-                                        [panelStyle]="{minWidth:'12em'}">
+                                    <label for="Status">{{"Status" | localize}}</label>
+                                    <p-multiSelect [options]="lstStatus" name="IssueType"
+                                        [(ngModel)]="lstStatusId" [panelStyle]="{minWidth:'12em'}">
                                         <ng-template let-value pTemplate="selectedItems">
                                             <span *ngIf="!value || value.length === 0"
                                                 class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
@@ -122,7 +121,7 @@
                             </div>
                             <div class="col-md-12">
                                 <button type="button" class="btn btn-success" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" (click)="getAll()" style="float: right;">
+                                    aria-haspopup="true" aria-expanded="false" (click)="getTreeDataFromServer()" style="float: right;">
                                     <i class="la la-refresh"></i> {{"Refresh" | localize}}
                                 </button>
                             </div>
@@ -144,7 +143,7 @@
                 <div class="row align-items-center">
                     <!--<Primeng-TurboTable-Start>-->
                     <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
-                        <p-treeTable [value]="treeData">
+                        <p-treeTable [value]="treeData" [resizableColumns]="true">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width: 50px">{{'Type' | localize}}</th>
@@ -152,7 +151,7 @@
                                     <th style="width: 200px">{{'Summary' | localize}}</th>
                                     <th style="width: 100px">{{'Assignee' | localize}}</th>
                                     <th style="width: 100px">{{'Reporter' | localize}}</th>
-                                    <th style="width: 100px">{{'Priority' | localize}}</th>
+                                    <th style="width: 80px">{{'Priority' | localize}}</th>
                                     <th style="width: 100px">{{'Satus' | localize}}</th>
                                     <th style="width: 100px">{{'Created' | localize}}</th>
                                     <th style="width: 100px">{{'DueDate' | localize}}</th>
@@ -168,22 +167,18 @@
                                         <!-- <i class="flaticon-lock" style="color: red;"></i> -->
                                         <!-- <i class="flaticon2-check-mark" style="color: blue;"></i> -->
                                     </td>
-                                    <td style="width: 100px">{{rowData.name}}</td>
+                                    <td style="width: 100px ;text-align: center;">{{rowData.name}}</td>
                                     <td style="width: 200px">
                                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                                        <!-- <a [routerLink]="['/app/issue/management-issue',record.id]">
-                                            <span class="ui-column-title"> {{'Summary' | localize}}</span> {{record.summary}}
-                                        </a> -->
-                                        <span (click)="clickSummary(rowData.id)">{{rowData.summary}}</span>
+                                        <span (click)="clickSummary(rowData)">{{rowData.summary}}</span>
                                     </td>
-                                    <td style="width: 100px">{{rowData.assignee}}</td>
-                                    <td style="width: 100px">{{rowData.reporter}}</td>
-                                    <td style="width: 100px">{{rowData.priority}}</td>
-                                    <!-- <td style="width: 100px">{{getTypeName(rowData.type)}}</td> -->
-                                    <td style="width: 100px">{{getStatusName(rowData.status)}}</td>
-                                    <td style="width: 100px">{{rowData.created | momentFormat:'L'}}</td>
-                                    <td style="width: 100px">{{rowData.due_Date | momentFormat:'L'}}</td>
-                                    <td style="width: 100px">{{rowData.estimate}}</td>
+                                    <td style="width: 100px ; text-align: center;">{{rowData.assignee}}</td>
+                                    <td style="width: 100px ; text-align: center;">{{rowData.reporter}}</td>
+                                    <td style="width: 80px; text-align: center;">{{rowData.priority}}</td>
+                                    <td style="width: 100px ;text-align: center;">{{getStatusName(rowData.status)}}</td>
+                                    <td style="width: 100px ;text-align: center;">{{rowData.created | momentFormat:'L'}}</td>
+                                    <td style="width: 100px ;text-align: center;">{{rowData.due_Date | momentFormat:'L'}}</td>
+                                    <td style="width: 100px ;text-align: center;">{{rowData.estimate}}</td>
 
                                 </tr>
                             </ng-template>

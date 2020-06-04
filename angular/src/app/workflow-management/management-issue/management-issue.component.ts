@@ -18,7 +18,7 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
   @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
   @ViewChild('estimateComponent', { static: true }) addEstimateTimeModal: EstimateComponent;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
-  issue: IssueListDto;
+  issue: IssueListDto = new IssueListDto();
   idIssue: number;
   assignee: any;
   reporter: any;

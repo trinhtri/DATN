@@ -90,7 +90,7 @@ namespace ERP.Issue
         }
         public async Task<IssueListDto> GetIssueForDetail(long id)
         {
-            var dto = await _issueRepository.GetAll()
+            var dto = await _issueRepository.GetAll().Include(x=>x.Sprint_).ThenInclude(x=>x.Project_)
                 .Where(x=>x.Id == id)
                 .FirstOrDefaultAsync();
             return ObjectMapper.Map<IssueListDto>(dto);

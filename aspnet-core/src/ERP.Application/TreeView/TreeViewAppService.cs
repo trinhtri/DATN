@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ERP.Authorization.Users;
+using Abp.Collections.Extensions;
 
 namespace ERP.TreeView
 {
@@ -29,25 +30,29 @@ namespace ERP.TreeView
             _userRepository = userRepository;
         }
 
-        public async Task<TreeNode> GetTreeViewIssue()
+        public async Task<TreeNode> GetTreeViewIssue(GetTreeInputDto input)
         {
             try { 
          var flatNode = new List<Node>();
-            var projects = _projectRepository.GetAll().Select(x=> new Node
+            var projects = _projectRepository.GetAll()
+                    .WhereIf(!string.IsNullOrEmpty(input.Filter), x=>x.ProjectCode.Contains(input.Filter) 
+                     || x.ProjectName.Contains(input.Filter))
+                    .WhereIf(input.ListProjectId != null ,x=> input.ListProjectId.Any(a => a == x.Id))
+                    .Select(x=> new Node
             {
                 Assignee_Id = null,
                 Discription = null,
-                Due_Date= null,
+                Due_Date= x.EndDate,
                 Name = x.ProjectCode,
-                Priority = null,
+                Priority = 1,
                 Id = x.Id,
                 ParentId = null,
                 Reporter_Id = null,
                 Estimate = null,
-                Status = null,
+                Status = (x.Status == true) ? Int64.Parse("1") : Int64.Parse("4"),
                 Summary = x.ProjectName,
                 Type = 1,
-                Created= null,
+                Created= x.StartDate,
             }).ToList();
             flatNode.AddRange(projects);
             var sprints = _sprintRepository.GetAll().Select(x => new Node
@@ -69,6 +74,11 @@ namespace ERP.TreeView
             flatNode.AddRange(sprints);
 
             var issues = _issueRepository.GetAll()
+                    .WhereIf(!string.IsNullOrEmpty(input.Filter), x => x.IssueCode.Contains(input.Filter)
+                     || x.Summary.Contains(input.Filter))
+                    .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
+                    .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_ID))
+                    .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
                 .Select(x => new Node { 
             Created = x.Update_Date,
             Estimate = x.Estimate,

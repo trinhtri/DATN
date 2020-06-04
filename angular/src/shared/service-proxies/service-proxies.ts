@@ -11385,10 +11385,25 @@ export class TreeViewServiceProxy {
     }
 
     /**
+     * @param listProjectId (optional) 
+     * @param listStatusId (optional) 
+     * @param listAssignId (optional) 
+     * @param listTypeId (optional) 
+     * @param filter (optional) 
      * @return Success
      */
-    getTreeViewIssue(): Observable<TreeNode> {
-        let url_ = this.baseUrl + "/api/services/app/TreeView/GetTreeViewIssue";
+    getTreeViewIssue(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined): Observable<TreeNode> {
+        let url_ = this.baseUrl + "/api/services/app/TreeView/GetTreeViewIssue?";
+        if (listProjectId !== undefined)
+            listProjectId && listProjectId.forEach(item => { url_ += "ListProjectId=" + encodeURIComponent("" + item) + "&"; });
+        if (listStatusId !== undefined)
+            listStatusId && listStatusId.forEach(item => { url_ += "ListStatusId=" + encodeURIComponent("" + item) + "&"; });
+        if (listAssignId !== undefined)
+            listAssignId && listAssignId.forEach(item => { url_ += "ListAssignId=" + encodeURIComponent("" + item) + "&"; });
+        if (listTypeId !== undefined)
+            listTypeId && listTypeId.forEach(item => { url_ += "ListTypeId=" + encodeURIComponent("" + item) + "&"; });
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

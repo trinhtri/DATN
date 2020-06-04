@@ -31,6 +31,7 @@ using ERP.Friendships.Dto;
 using ERP.Issue.Dto;
 using ERP.Localization.Dto;
 using ERP.Member.Dto;
+using ERP.Migrations;
 using ERP.MultiTenancy;
 using ERP.MultiTenancy.Dto;
 using ERP.MultiTenancy.HostDashboard.Dto;
@@ -148,7 +149,9 @@ namespace ERP
             configuration.CreateMap<Models.Member, MemberListDto>().ReverseMap();
             // issue
             configuration.CreateMap<Models.Issue, CreateIssueDto>().ReverseMap();
-            configuration.CreateMap<Models.Issue, IssueListDto>().ReverseMap();
+            configuration.CreateMap<Models.Issue, IssueListDto>()
+                .ForMember(x=>x.ProjectCode, s =>s.MapFrom(r =>r.Sprint_.Project_.ProjectCode))
+                .ReverseMap();
 
             // comment
             configuration.CreateMap<Models.Comment, CreateCommentDto>().ReverseMap();

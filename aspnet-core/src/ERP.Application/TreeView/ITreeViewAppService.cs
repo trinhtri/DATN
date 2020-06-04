@@ -9,6 +9,6 @@ namespace ERP.TreeView
 {
     public interface ITreeViewAppService: IApplicationService
     {
-        Task<TreeNode> GetTreeViewIssue();
+        Task<TreeNode> GetTreeViewIssue(GetTreeInputDto input);
     }
 }
