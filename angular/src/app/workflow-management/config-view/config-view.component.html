@@ -14,30 +14,19 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="form-group col-md-6">
+            <!-- <div class="form-group col-md-6">
               <p-checkbox name="group1" value="isProject" label="Dự án" name="isProject" [(ngModel)]="configView.isProject" binary="true"
                 ></p-checkbox>
-            </div>
-            <div class="form-group col-md-6">
+            </div> -->
+            <!-- <div class="form-group col-md-6">
               <p-checkbox name="group1" value="isIssue" label="Issue" name="isIssue" [(ngModel)]="configView.isIssue" binary="true"
                 ></p-checkbox>
-            </div>
+            </div> -->
             <div class="form-group col-md-6">
               <p-checkbox name="group1" value="isSummary" label="Tổng quát"  name="isSummary" [(ngModel)]="configView.isSummary" binary="true"
                 ></p-checkbox>
             </div>
-            <div class="form-group col-md-6">
-              <p-checkbox name="group1" value="useSSL" label="Loại Issue" name="isIssueType" [(ngModel)]="configView.isIssueType" binary="true"
-                ></p-checkbox>
-            </div>
-            <div class="form-group col-md-6">
-              <p-checkbox name="group1" value="isStatus" label="Trạng thái" name="isStatus"  [(ngModel)]="configView.isStatus" binary="true"
-                ></p-checkbox>
-            </div>
-            <div class="form-group col-md-6">
-              <p-checkbox name="group1" value="isEstimate" label="Estimate" name="isEstimate"  [(ngModel)]="configView.isEstimate" binary="true"
-                ></p-checkbox>
-            </div>
+
             <div class="form-group col-md-6">
               <p-checkbox name="group1" value="isReporter" label="Người giao" name="isReporter" [(ngModel)]="configView.isReporter" binary="true"
                 ></p-checkbox>
@@ -46,18 +35,37 @@
               <p-checkbox name="group1" value="isAssignee" label="Người nhận" name="isAssignee" [(ngModel)]="configView.isAssignee" binary="true"
                 ></p-checkbox>
             </div>
+            
             <div class="form-group col-md-6">
-              <p-checkbox name="group1" value="isDueDate" label="Ngày phải kết thúc" name="isDueDate" [(ngModel)]="configView.isDueDate" binary="true"
+              <p-checkbox name="group1" value="useSSL" label="Priority" name="isIssueType" [(ngModel)]="configView.isPriority" binary="true"
                 ></p-checkbox>
             </div>
+
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isStatus" label="Trạng thái" name="isStatus"  [(ngModel)]="configView.isStatus" binary="true"
+                ></p-checkbox>
+            </div>
+
+            
             <div class="form-group col-md-6">
               <p-checkbox name="group1" value="isCreatedDate" label="Ngày tạo"  name="isCreatedDate" [(ngModel)]="configView.isCreatedDate" binary="true"
                 ></p-checkbox>
             </div>
+
             <div class="form-group col-md-6">
-              <p-checkbox name="group1" value="isUpdateDate" label="Ngày cập nhật"  name="isUpdateDate" [(ngModel)]="configView.isUpdateDate" binary="true"
+              <p-checkbox name="group1" value="isDueDate" label="Ngày phải kết thúc" name="isDueDate" [(ngModel)]="configView.isDueDate" binary="true"
                 ></p-checkbox>
             </div>
+
+            <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isEstimate" label="Estimate" name="isEstimate"  [(ngModel)]="configView.isEstimate" binary="true"
+                ></p-checkbox>
+            </div>
+            
+            <!-- <div class="form-group col-md-6">
+              <p-checkbox name="group1" value="isUpdateDate" label="Ngày cập nhật"  name="isUpdateDate" [(ngModel)]="configView.isUpdateDate" binary="true"
+                ></p-checkbox>
+            </div> -->
           </div>
 
 

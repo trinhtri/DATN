@@ -9,12 +9,8 @@ namespace ERP.ConfigView.Dto
     [AutoMapTo(typeof(Models.ConfigView))]
    public class ConfigViewDto : EntityDto<long>
     {
-        public int TenantId { get; set; }
-        public bool IsProject { get; set; }
         public bool IsIssue { get; set; }
         public bool IsSummary { get; set; }
-
-        public bool IsIssueType { get; set; }
 
         public bool IsStatus { get; set; }
 
@@ -26,8 +22,8 @@ namespace ERP.ConfigView.Dto
 
         public bool IsDueDate { get; set; }
         public bool IsCreatedDate { get; set; }
-
-        public bool IsUpdateDate { get; set; }
+        public bool IsPriority { get; set; }
         public long UserId { get; set; }
+
     }
 }

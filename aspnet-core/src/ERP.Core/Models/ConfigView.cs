@@ -15,13 +15,9 @@ namespace ERP.Models
     {
         public int TenantId { get; set; }
         [DefaultValue("true")]
-        public bool IsProject { get; set; }
-        [DefaultValue("true")]
         public bool IsIssue { get; set; }
         [DefaultValue("true")]
         public bool IsSummary { get; set; }
-
-        public bool IsIssueType { get; set; }
 
         public bool IsStatus { get; set; }
 
@@ -34,8 +30,8 @@ namespace ERP.Models
         public bool IsDueDate  { get; set; }
         [DefaultValue("true")]
         public bool IsCreatedDate { get; set; }
+        public bool IsPriority { get; set; }
 
-        public bool IsUpdateDate { get; set; }
         public long UserId { get; set; }
         public virtual User User { get; set; }
 

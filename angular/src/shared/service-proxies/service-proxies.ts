@@ -14509,18 +14509,15 @@ export interface IGetDefaultEditionNameOutput {
 }
 
 export class ConfigViewDto implements IConfigViewDto {
-    tenantId!: number | undefined;
-    isProject!: boolean | undefined;
     isIssue!: boolean | undefined;
     isSummary!: boolean | undefined;
-    isIssueType!: boolean | undefined;
     isStatus!: boolean | undefined;
     isEstimate!: boolean | undefined;
     isReporter!: boolean | undefined;
     isAssignee!: boolean | undefined;
     isDueDate!: boolean | undefined;
     isCreatedDate!: boolean | undefined;
-    isUpdateDate!: boolean | undefined;
+    isPriority!: boolean | undefined;
     userId!: number | undefined;
     id!: number | undefined;
 
@@ -14535,18 +14532,15 @@ export class ConfigViewDto implements IConfigViewDto {
 
     init(data?: any) {
         if (data) {
-            this.tenantId = data["tenantId"];
-            this.isProject = data["isProject"];
             this.isIssue = data["isIssue"];
             this.isSummary = data["isSummary"];
-            this.isIssueType = data["isIssueType"];
             this.isStatus = data["isStatus"];
             this.isEstimate = data["isEstimate"];
             this.isReporter = data["isReporter"];
             this.isAssignee = data["isAssignee"];
             this.isDueDate = data["isDueDate"];
             this.isCreatedDate = data["isCreatedDate"];
-            this.isUpdateDate = data["isUpdateDate"];
+            this.isPriority = data["isPriority"];
             this.userId = data["userId"];
             this.id = data["id"];
         }
@@ -14561,18 +14555,15 @@ export class ConfigViewDto implements IConfigViewDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["tenantId"] = this.tenantId;
-        data["isProject"] = this.isProject;
         data["isIssue"] = this.isIssue;
         data["isSummary"] = this.isSummary;
-        data["isIssueType"] = this.isIssueType;
         data["isStatus"] = this.isStatus;
         data["isEstimate"] = this.isEstimate;
         data["isReporter"] = this.isReporter;
         data["isAssignee"] = this.isAssignee;
         data["isDueDate"] = this.isDueDate;
         data["isCreatedDate"] = this.isCreatedDate;
-        data["isUpdateDate"] = this.isUpdateDate;
+        data["isPriority"] = this.isPriority;
         data["userId"] = this.userId;
         data["id"] = this.id;
         return data; 
@@ -14580,18 +14571,15 @@ export class ConfigViewDto implements IConfigViewDto {
 }
 
 export interface IConfigViewDto {
-    tenantId: number | undefined;
-    isProject: boolean | undefined;
     isIssue: boolean | undefined;
     isSummary: boolean | undefined;
-    isIssueType: boolean | undefined;
     isStatus: boolean | undefined;
     isEstimate: boolean | undefined;
     isReporter: boolean | undefined;
     isAssignee: boolean | undefined;
     isDueDate: boolean | undefined;
     isCreatedDate: boolean | undefined;
-    isUpdateDate: boolean | undefined;
+    isPriority: boolean | undefined;
     userId: number | undefined;
     id: number | undefined;
 }

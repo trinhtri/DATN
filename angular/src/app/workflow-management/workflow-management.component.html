@@ -148,14 +148,14 @@
                                 <tr>
                                     <th style="width: 50px">{{'Type' | localize}}</th>
                                     <th style="width: 100px">{{'Code' | localize}}</th>
-                                    <th style="width: 200px">{{'Summary' | localize}}</th>
-                                    <th style="width: 100px">{{'Assignee' | localize}}</th>
-                                    <th style="width: 100px">{{'Reporter' | localize}}</th>
-                                    <th style="width: 80px">{{'Priority' | localize}}</th>
-                                    <th style="width: 100px">{{'Satus' | localize}}</th>
-                                    <th style="width: 100px">{{'Created' | localize}}</th>
-                                    <th style="width: 100px">{{'DueDate' | localize}}</th>
-                                    <th style="width: 100px">{{'Estimate' | localize}}</th>
+                                    <th style="width: 200px" >{{'Summary' | localize}}</th>
+                                    <th style="width: 100px" *ngIf='config.isAssignee'>{{'Assignee' | localize}}</th>
+                                    <th style="width: 100px" *ngIf='config.isReporter'>{{'Reporter' | localize}}</th>
+                                    <th style="width: 80px" *ngIf='config.isPriority'>{{'Priority' | localize}}</th>
+                                    <th style="width: 100px" *ngIf='config.isStatus'>{{'Satus' | localize}}</th>
+                                    <th style="width: 100px" *ngIf='config.isCreatedDate'>{{'Created' | localize}}</th>
+                                    <th style="width: 100px" *ngIf='config.isDueDate'>{{'DueDate' | localize}}</th>
+                                    <th style="width: 100px" *ngIf='config.isEstimate'>{{'Estimate' | localize}}</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
@@ -172,13 +172,13 @@
                                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                                         <span (click)="clickSummary(rowData)">{{rowData.summary}}</span>
                                     </td>
-                                    <td style="width: 100px ; text-align: center;">{{rowData.assignee}}</td>
-                                    <td style="width: 100px ; text-align: center;">{{rowData.reporter}}</td>
-                                    <td style="width: 80px; text-align: center;">{{rowData.priority}}</td>
-                                    <td style="width: 100px ;text-align: center;">{{getStatusName(rowData.status)}}</td>
-                                    <td style="width: 100px ;text-align: center;">{{rowData.created | momentFormat:'L'}}</td>
-                                    <td style="width: 100px ;text-align: center;">{{rowData.due_Date | momentFormat:'L'}}</td>
-                                    <td style="width: 100px ;text-align: center;">{{rowData.estimate}}</td>
+                                    <td style="width: 100px ; text-align: center;" *ngIf='config.isAssignee'>{{rowData.assignee}}</td>
+                                    <td style="width: 100px ; text-align: center;" *ngIf='config.isReporter'>{{rowData.reporter}}</td>
+                                    <td style="width: 80px; text-align: center;" *ngIf='config.isPriority'>{{rowData.priority}}</td>
+                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isStatus'>{{getStatusName(rowData.status)}}</td>
+                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isCreatedDate'>{{rowData.created | momentFormat:'L'}}</td>
+                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isDueDate'>{{rowData.due_Date | momentFormat:'L'}}</td>
+                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isEstimate'>{{rowData.estimate}}</td>
 
                                 </tr>
                             </ng-template>
@@ -190,8 +190,8 @@
         </div>
     </div>
 
-    <app-create-issue #createOrEditModal (modalSave)="getTreeDataFromServer()"></app-create-issue>
-    <app-config-view #configViewModal (modalSave)="getTreeDataFromServer()"></app-config-view>
-    <app-create-or-update-sprint #createOrEditSprintModal (modalSave)="getTreeDataFromServer()">
+    <app-create-issue #createOrEditModal (modalSave)="ngOnInit($event)"></app-create-issue>
+    <app-config-view #configViewModal (modalSave)="ngOnInit($event)"></app-config-view>
+    <app-create-or-update-sprint #createOrEditSprintModal (modalSave)="ngOnInit($event)">
     </app-create-or-update-sprint>
 </div>
