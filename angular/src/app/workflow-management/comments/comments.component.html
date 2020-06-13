@@ -3,15 +3,15 @@
 <p-table [value]="lstComment">
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 150px">{{'People' | localize}}</th>
-            <th style="width: 200px">{{'CreateTime' | localize}}</th>
+            <th style="width: 100px">{{'People' | localize}}</th>
+            <th style="width: 100px">{{'CreationTime' | localize}}</th>
             <th style="width: 400px">{{'Discription' | localize}}</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-comment>
         <tr>
-            <td style="width: 150px">{{comment.employeeName}}</td>
-            <td style="width: 200px">{{comment.creationTime.format('LLL')}}</td>
+            <td style="width: 100px">{{comment.employeeName}}</td>
+            <td style="width: 100px">{{comment.creationTime.format('LLL')}}</td>
             <td style="width: 400px">{{comment.discription}}</td>
         </tr>
     </ng-template>

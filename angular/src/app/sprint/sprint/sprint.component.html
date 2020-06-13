@@ -102,7 +102,12 @@
                                     </td>
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'SprintType' | localize}}</span>
-                                        {{getTypeName(record.type_Id)}}
+                                        <span class="kt-badge kt-badge--success kt-badge--inline"
+                                            *ngIf="record.type_Id == 1">{{getTypeName(record.type_Id)}}</span>
+                                        <span class="kt-badge kt-badge--primary kt-badge--inline"
+                                            *ngIf="record.type_Id == 2">{{getTypeName(record.type_Id)}}</span>
+                                        <span class="kt-badge kt-badge--danger kt-badge--inline"
+                                            *ngIf="record.type_Id == 3">{{getTypeName(record.type_Id)}}</span>
                                     </td>
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'Summary' | localize}}</span>

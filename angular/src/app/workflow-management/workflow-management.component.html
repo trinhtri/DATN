@@ -17,7 +17,7 @@
                 </button>
                 <button (click)="createNew()" *ngIf="isGranted('Pages.Issue.Create')" class="btn btn-primary"><i
                         class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
-                <button (click)="configView()" class="btn btn-primary"><i class="fa fa-plus"></i>
+                <button (click)="configView()" class="btn btn-primary"><i class="flaticon-eye"></i>
                     {{"ConfigView" | localize}}</button>
 
             </div>
@@ -36,8 +36,8 @@
                                             class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
                                             type="text">
                                         <span class="input-group-btn">
-                                            <button (click)="getTreeDataFromExpandedServer()" class="btn btn-primary" type="submit"><i
-                                                    class="flaticon-search-1"
+                                            <button (click)="getTreeDataFromExpandedServer()" class="btn btn-primary"
+                                                type="submit"><i class="flaticon-search-1"
                                                     [attr.aria-label]="l('Search')"></i></button>
                                         </span>
                                     </div>
@@ -56,7 +56,7 @@
                                                 class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
                                             <span *ngIf="value && value.length > 0"
                                                 class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
-                                                {{"options"|localize}}</span>
+                                                {{"Options"|localize}}</span>
                                         </ng-template>
                                         <ng-template let-car let-i="index" pTemplate="item">
                                             {{car.displayText}}
@@ -85,8 +85,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="IssueType">{{"IssueType" | localize}}</label>
-                                    <p-multiSelect [options]="lstType" name="IssueType"
-                                        [(ngModel)]="lstIssueTypeId" [panelStyle]="{minWidth:'12em'}">
+                                    <p-multiSelect [options]="lstType" name="IssueType" [(ngModel)]="lstIssueTypeId"
+                                        [panelStyle]="{minWidth:'12em'}">
                                         <ng-template let-value pTemplate="selectedItems">
                                             <span *ngIf="!value || value.length === 0"
                                                 class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
@@ -104,8 +104,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="Status">{{"Status" | localize}}</label>
-                                    <p-multiSelect [options]="lstStatus" name="IssueType"
-                                        [(ngModel)]="lstStatusId" [panelStyle]="{minWidth:'12em'}">
+                                    <p-multiSelect [options]="lstStatus" name="IssueType" [(ngModel)]="lstStatusId"
+                                        [panelStyle]="{minWidth:'12em'}">
                                         <ng-template let-value pTemplate="selectedItems">
                                             <span *ngIf="!value || value.length === 0"
                                                 class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
@@ -121,7 +121,8 @@
                             </div>
                             <div class="col-md-12">
                                 <button type="button" class="btn btn-success" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" (click)="getTreeDataFromExpandedServer()" style="float: right;">
+                                    aria-haspopup="true" aria-expanded="false" (click)="getTreeDataFromExpandedServer()"
+                                    style="float: right;">
                                     <i class="la la-refresh"></i> {{"Refresh" | localize}}
                                 </button>
                             </div>
@@ -146,13 +147,13 @@
                         <p-treeTable [value]="treeData" [resizableColumns]="true">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 50px">{{'Type' | localize}}</th>
-                                    <th style="width: 100px">{{'Code' | localize}}</th>
-                                    <th style="width: 200px" >{{'Summary' | localize}}</th>
+                                    <th style="width: 30px">{{'Type' | localize}}</th>
+                                    <th style="width: 70px">{{'Code' | localize}}</th>
+                                    <th style="width: 200px">{{'Summary' | localize}}</th>
                                     <th style="width: 100px" *ngIf='config.isAssignee'>{{'Assignee' | localize}}</th>
                                     <th style="width: 100px" *ngIf='config.isReporter'>{{'Reporter' | localize}}</th>
-                                    <th style="width: 80px" *ngIf='config.isPriority'>{{'Priority' | localize}}</th>
-                                    <th style="width: 100px" *ngIf='config.isStatus'>{{'Satus' | localize}}</th>
+                                    <th style="width: 60px" *ngIf='config.isPriority'>{{'Priority' | localize}}</th>
+                                    <th style="width: 60px" *ngIf='config.isStatus'>{{'Satus' | localize}}</th>
                                     <th style="width: 100px" *ngIf='config.isCreatedDate'>{{'Created' | localize}}</th>
                                     <th style="width: 100px" *ngIf='config.isDueDate'>{{'DueDate' | localize}}</th>
                                     <th style="width: 100px" *ngIf='config.isEstimate'>{{'Estimate' | localize}}</th>
@@ -160,25 +161,38 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
                                 <tr [ttRow]="rowNode">
-                                    <td style="width: 50px" class="text-center">
-                                        <i class="flaticon2-plus" style="color: blue;" *ngIf ="rowData.type == 1" title="NewFeature"></i>
-                                        <i class=" flaticon2-arrow-up" style="color: blue;" *ngIf ="rowData.type == 2" title="Improvement"></i>
-                                        <i class="flaticon-danger" style="color: red;" *ngIf ="rowData.type == 3" title="Bug"></i>
-                                        <!-- <i class="flaticon-lock" style="color: red;"></i> -->
-                                        <!-- <i class="flaticon2-check-mark" style="color: blue;"></i> -->
+                                    <td style="width: 30px" class="text-center">
+                                        <i class="flaticon2-plus" style="color: blue;" *ngIf="rowData.type == 1"
+                                            title="{{l('NewFeature')}}"></i>
+                                        <i class=" flaticon2-arrow-up" style="color: blue;" *ngIf="rowData.type == 2"
+                                            title="{{l('Improvement')}}"></i>
+                                        <i class="fas fa-bullseye" style="color: red;" *ngIf="rowData.type == 3" title="{{l('Bug')}}"></i>
                                     </td>
-                                    <td style="width: 100px ;text-align: center;">{{rowData.name}}</td>
+                                    <td style="width: 70px ;text-align: center;">{{rowData.name}}</td>
                                     <td style="width: 200px; cursor: pointer !important;">
                                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                                         <span (click)="clickSummary(rowData)">{{rowData.summary}}</span>
                                     </td>
-                                    <td style="width: 100px ; text-align: center;" *ngIf='config.isAssignee'>{{rowData.assignee}}</td>
-                                    <td style="width: 100px ; text-align: center;" *ngIf='config.isReporter'>{{rowData.reporter}}</td>
-                                    <td style="width: 80px; text-align: center;" *ngIf='config.isPriority'>{{rowData.priority}}</td>
-                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isStatus'>{{getStatusName(rowData.status)}}</td>
-                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isCreatedDate'>{{rowData.created | momentFormat:'L'}}</td>
-                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isDueDate'>{{rowData.due_Date | momentFormat:'L'}}</td>
-                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isEstimate'>{{rowData.estimate}}</td>
+                                    <td style="width: 100px ; text-align: center;" *ngIf='config.isAssignee'>
+                                        {{rowData.assignee}}</td>
+                                    <td style="width: 100px ; text-align: center;" *ngIf='config.isReporter'>
+                                        {{rowData.reporter}}</td>
+                                    <td style="width: 60px; text-align: center;" *ngIf='config.isPriority'>
+                                        {{rowData.priority}}</td>
+                                    <td style="width: 60px ;text-align: center;" *ngIf='config.isStatus'>
+                                        <span class="kt-badge kt-badge--brand kt-badge--inline" *ngIf="rowData.status == 1">{{getStatusName(rowData.status)}}</span>
+                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="rowData.status == 2">{{getStatusName(rowData.status)}}</span>
+                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="rowData.status == 3">{{getStatusName(rowData.status)}}</span>
+                                        <span class="kt-badge kt-badge--dark kt-badge--inline" *ngIf="rowData.status == 4">{{getStatusName(rowData.status)}}</span>
+                                        <span class="kt-badge kt-badge--danger kt-badge--inline" *ngIf="rowData.status == 5">{{getStatusName(rowData.status)}}</span>
+                                        <!-- {{getStatusName(rowData.status)}} -->
+                                    </td>
+                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isCreatedDate'>
+                                        {{rowData.created | momentFormat:'L'}}</td>
+                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isDueDate'>
+                                        {{rowData.due_Date | momentFormat:'L'}}</td>
+                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isEstimate'>
+                                        {{rowData.estimate}}</td>
 
                                 </tr>
                             </ng-template>

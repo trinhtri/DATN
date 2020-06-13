@@ -47,8 +47,8 @@
 
 
                   <div class="form-group">
-                      <label for="SampleDatePicker1">{{"DueDate" | localize}} *</label>
-                      <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="dueDate" bsDatepicker required>
+                      <label for="SampleDatePicker1">{{"DueDate" | localize}} </label>
+                      <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="dueDate" bsDatepicker>
                       <validation-messages [formCtrl]="StartDateInput"></validation-messages>
                   </div>
 

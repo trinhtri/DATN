@@ -115,10 +115,10 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
         return this.l('InProgress');
         break;
       case 3:
-        return this.l('Resolve');
+        return this.l('Resolved');
         break;
       case 4:
-        return this.l('Closed');
+        return this.l('Compeleted');
         break;
       case 5:
         return this.l('ReOpened');

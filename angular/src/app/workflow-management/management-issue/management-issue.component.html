@@ -24,37 +24,37 @@
                         <div class="row mb-4">
                             <div class="col-md-10">
                                 <button (click)="editIssue(idIssue)" *ngIf="isGranted('Pages.Issue.Edit')"
-                                    class="btn btn-primary" style="margin-right:
+                                    class="btn btn-primary btn-sm" style="margin-right:
                                     5px;"> {{"Edit" |
                                     localize}}</button>
                                 <button (click)="startProgress(idIssue)"
-                                    *ngIf="issue.status_Id == 1 || issue.status_Id == 4" class="btn btn-primary" style="margin-right:
+                                    *ngIf="issue.status_Id == 1 || issue.status_Id == 4" class="btn btn-primary btn-sm" style="margin-right:
                                     5px;">
                                     {{"StartProgress" | localize}}</button>
                                 <button (click)="stopProgress(idIssue)" *ngIf="issue.status_Id == 2"
-                                    class="btn btn-primary" style="margin-right:
+                                    class="btn btn-primary btn-sm" style="margin-right:
                                     5px;">
                                     {{"StopProgress" | localize}}</button>
-                                <button (click)="resolved(idIssue)" class="btn btn-primary" style="margin-right:
+                                <button (click)="resolved(idIssue)" class="btn btn-primary btn-sm" style="margin-right:
                                     5px;">
-                                    {{"ResolveIssue" | localize}}</button>
+                                    {{"Resolved" | localize}}</button>
                                 <button (click)="reOpen(idIssue)"
                                     *ngIf="isGranted('Pages.Issue.ReOpen') && issue.status_Id == 3"
-                                    class="btn btn-primary" style="margin-right:
+                                    class="btn btn-primary btn-sm" style="margin-right:
                                     5px;">
-                                    {{"ReOpen" | localize}}</button>
+                                    {{"ReOpened" | localize}}</button>
                                 <button (click)="close(idIssue)"
                                     *ngIf="isGranted('Pages.Issue.Close') && issue.status_Id == 3"
-                                    class="btn btn-primary" style="margin-right:
+                                    class="btn btn-primary btn-sm" style="margin-right:
                                     5px;">
-                                    {{"Close" | localize}}</button>
+                                    {{"Compeleted" | localize}}</button>
                             </div>
-                            <div class="col-md-2">
+                            <!-- <div class="col-md-2">
                                 <button type="button" class="btn btn-success" style="float: right;"
                                     (click)="exportExcel()"> <i class="far
                                         fa-file-excel"></i> {{"Export" |
                                     localize}}</button>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </form>
@@ -71,13 +71,25 @@
                                         {{"Type"| localize}}:
                                     </div>
                                     <div class="col-md-4">
-                                        {{getTypeName(issue.type_Id)}}
+                                        <span class="kt-badge kt-badge--success kt-badge--inline"
+                                            *ngIf="issue.type_Id == 1">{{getTypeName(issue.type_Id)}}</span>
+                                        <span class="kt-badge kt-badge--primary kt-badge--inline"
+                                            *ngIf="issue.type_Id == 2">{{getTypeName(issue.type_Id)}}</span>
+                                        <span class="kt-badge kt-badge--danger kt-badge--inline"
+                                            *ngIf="issue.type_Id == 3">{{getTypeName(issue.type_Id)}}</span>
+
+                                        <!-- {{getTypeName(issue.type_Id)}} -->
                                     </div>
                                     <div class="col-md-2">
                                         {{"Status" | localize}}:
                                     </div>
                                     <div class="col-md-4">
-                                        {{getStatusName(issue.status_Id)}}
+                                        <span class="kt-badge kt-badge--brand kt-badge--inline" *ngIf="issue.status_Id == 1">{{getStatusName(issue.status_Id)}}</span>
+                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="issue.status_Id == 2">{{getStatusName(issue.status_Id)}}</span>
+                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="issue.status_Id == 3">{{getStatusName(issue.status_Id)}}</span>
+                                        <span class="kt-badge kt-kt-badge--dark kt-badge--inline" *ngIf="issue.status_Id == 4">{{getStatusName(issue.status_Id)}}</span>
+                                        <span class="kt-badge kt-badge--danger kt-badge--inline" *ngIf="issue.status_Id == 5">{{getStatusName(issue.status_Id)}}</span>
+                                        <!-- {{getStatusName(issue.status_Id)}} -->
                                     </div>
                                     <div class="col-md-2">
                                         {{"Priority" | localize}}:
@@ -98,16 +110,17 @@
                                 <legend class="scheduler-border">{{"People" | localize}}</legend>
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Assignee:
-                                    </div>
-                                    <div class="col-md-7">
-                                        {{assignee}}
-                                    </div>
-                                    <div class="col-md-5">
-                                        Reporter:
+                                        {{l('Reporter')}}:
                                     </div>
                                     <div class="col-md-7">
                                         {{reporter}}
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        {{l('Assignee')}}:
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{assignee}}
                                     </div>
                                 </div>
                             </fieldset>
@@ -115,23 +128,23 @@
                                 <legend class="scheduler-border">{{"Date" | localize}}</legend>
                                 <div class="row">
                                     <div class="col-md-5">
-                                        Due:
+                                       {{l('Due_Date')}} :
                                     </div>
                                     <div class="col-md-7">
                                         {{dueDate | momentFormat:'L'}}
                                     </div>
                                     <div class="col-md-5">
-                                        Created:
+                                        {{l('CreationTime')}}:
                                     </div>
                                     <div class="col-md-7">
                                         {{createdDate| momentFormat:'LLL'}}
                                     </div>
-                                    <div class="col-md-5">
+                                    <!-- <div class="col-md-5">
                                         Update:
                                     </div>
                                     <div class="col-md-7">
                                         {{updateDate| momentFormat:'LLL'}}
-                                    </div>
+                                    </div> -->
                                 </div>
                             </fieldset>
                         </div>

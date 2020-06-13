@@ -928,6 +928,7 @@
     <text name="UploadDate">Upload date</text>
 
     <!--issue-->
+    <text name="ManagerIssue">Manager issue</text>
     <text name="CreateIssue">Create issue</text>
     <text name="EditIssue">Edit issue</text>
     <text name="IssueType">Issue type</text>
@@ -941,6 +942,39 @@
     <text name="Documents">Document</text>
     <text name="DocumentUrl">Document url</text>
     <text name="Lock">Lock</text>
+    
+    <!--sprint-->
+    <text name="ManagerSprint">Manager sprint</text>
+    <text name="Sprints">Sprints</text>
+    <text name="SprintType">Sprint type</text>
+    <text name="SprintCode">Sprint code</text>
+    <text name="CreateSprint">Create sprint</text>
+    <text name="EditSprint">Edit sprint</text>
+
+    <!--ConfigView-->
+    <text name="ConfigView">Config view</text>
+    
+    <text name="NewFeature">New feature</text>
+    <text name="Improvement">Improvement</text>
+    <text name="Bug">Bug</text>
+    <text name="Satus">Status</text>
+    <text name="Reporter">Reporter</text>
+
+    <text name="Open">Open</text>
+    <text name="StartProgress">Start progress</text>
+    <text name="InProgress">In progress</text>
+    <text name="StopProgress">Stop progress</text>
+    <text name="Resolved">Resolved</text>
+    <text name="Compeleted">Compeleted</text>
+    <text name="ReOpened">ReOpened</text>
+
+    <text name="Details">Details</text>
+    <text name="People">People</text>
+    <text name="Due_Date">Due date</text>
+    <text name="CreateComment">Create comment</text>
+    <text name="Choose">Choose</text>
+    <text name="Options">Options</text>
+
 
 
   </texts>
