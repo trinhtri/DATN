@@ -20,6 +20,7 @@ namespace ERP.Shared
         private readonly IRepository<Models.IssueType, long> _issueTypeRepository;
         private readonly IRepository<Models.Priority, long> _prioritiesRepository;
         private readonly IRepository<Models.Sprint, long> _sprintRepository;
+        private readonly IRepository<Models.Issue, long> _issueRepository;
 
 
         public CommonAppservice(IRepository<User, long> userRepository,
@@ -28,7 +29,8 @@ namespace ERP.Shared
             IRepository<Models.Status, long> statusRepository,
             IRepository<Models.IssueType, long> issueTypeRepository,
             IRepository<Models.Priority, long> prioritiesRepository,
-            IRepository<Models.Sprint, long> sprintRepository
+            IRepository<Models.Sprint, long> sprintRepository,
+            IRepository<Models.Issue, long> issueRepository
             )
         {
             _userRepository = userRepository;
@@ -38,6 +40,7 @@ namespace ERP.Shared
             _issueTypeRepository = issueTypeRepository;
             _prioritiesRepository = prioritiesRepository;
             _sprintRepository = sprintRepository;
+            _issueRepository = issueRepository;
 
         }
 
@@ -80,10 +83,11 @@ namespace ERP.Shared
                     break;
 
                 case "Sprints":
-                    result = _sprintRepository.GetAll()
+                    result = _issueRepository.GetAll()
+                        .Where(x=>x.Type == 1)
                         .Where(x => x.TenantId == tenantId || tenantId == null)
                         .WhereIf(parentId.HasValue , x=> x.Project_Id == parentId)
-                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.SprintName })
+                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.IssueCode })
                         .ToList();
                     break;
             }

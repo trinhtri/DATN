@@ -108,6 +108,43 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
                 console.log('this.treeData', this.treeData);
             });
     }
+    getTreeDataFromExpandedServer(): void {
+        console.log('type', this.lstIssueTypeId);
+        this._treeViewService.getTreeViewIssue(this.lstProjectId, this.lstStatusId, this.lstAssigneeId, this.lstIssueTypeId , this.filterText)
+            .subscribe((result) => {
+                console.log('result', result);
+                this.treeData = this._arrayToTreeConverterService.createTree(result.nodeFlat,
+                    'parentId',
+                    'id',
+                    null,
+                    'children',
+                    [
+                        {
+                            target: 'label',
+                            targetFunction(item) {
+                                return item.name;
+                            }
+                            // source: 'name',
+                        }, {
+                            target: 'expandedIcon',
+                            value: 'fa fa-folder-open m--font-warning'
+                        },
+                        {
+                            target: 'collapsedIcon',
+                            value: 'fa fa-folder m--font-warning'
+                        },
+                        {
+                            target: 'selectable',
+                            value: true
+                        },
+                        {
+                            target: 'expanded',
+                            value: true
+                        }
+                    ]);
+                console.log('this.treeData', this.treeData);
+            });
+    }
 
     initForm() {
         this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe(result => {
@@ -136,6 +173,7 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
             this.lstAssigneeId,
             this.lstIssueTypeId,
             this.filterText,
+            2,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getMaxResultCount(this.paginator, event),
             this.primengTableHelper.getSkipCount(this.paginator, event)
@@ -161,6 +199,7 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
             this.lstAssigneeId,
             this.lstIssueTypeId,
             this.filterText,
+            2,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getMaxResultCount(this.paginator, event),
             this.primengTableHelper.getSkipCount(this.paginator, event)

@@ -4,14 +4,16 @@ using ERP.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERP.Migrations
 {
     [DbContext(typeof(ERPDbContext))]
-    partial class ERPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200611150703_update_issue_v123")]
+    partial class update_issue_v123
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1324,17 +1326,15 @@ namespace ERP.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<long?>("Parent_Id");
-
                     b.Property<long>("Priority_Id");
-
-                    b.Property<long>("Project_Id");
 
                     b.Property<long>("Reporter_Id");
 
                     b.Property<long>("Resolve_Id");
 
                     b.Property<DateTime?>("Resolved_Date");
+
+                    b.Property<long>("Sprint_Id");
 
                     b.Property<long>("Status_Id");
 
@@ -1351,7 +1351,7 @@ namespace ERP.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Project_Id");
+                    b.HasIndex("Sprint_Id");
 
                     b.ToTable("Issues");
                 });
@@ -1974,9 +1974,9 @@ namespace ERP.Migrations
 
             modelBuilder.Entity("ERP.Models.Issue", b =>
                 {
-                    b.HasOne("ERP.Models.Project", "Project_")
+                    b.HasOne("ERP.Models.Sprint", "Sprint_")
                         .WithMany()
-                        .HasForeignKey("Project_Id")
+                        .HasForeignKey("Sprint_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

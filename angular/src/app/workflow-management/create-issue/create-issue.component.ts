@@ -73,6 +73,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   }
   save(): void {
     this.saving = true;
+    this.issue.type = 2;
     this.issue.reporter_Id = this.appSession.userId;
     this.issue.update_Date = moment(new Date);
     if (this.dueDate) {
@@ -110,7 +111,6 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
     this.modal.hide();
   }
   changeProject(projectId) {
-    this.issue.sprint_Id = null;
     this._commonService.getLookups('Sprints', this.appSession.tenantId, projectId).subscribe(result => {
       this.lstSprint = result;
     });

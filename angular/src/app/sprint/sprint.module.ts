@@ -11,6 +11,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import CountoModule from 'angular2-counto';
 import { SprintComponent } from './sprint/sprint.component';
 import { CreateOrEditSprintComponent } from './create-or-edit-sprint/create-or-edit-sprint.component';
+import {EditorModule} from 'primeng/editor';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CreateOrEditSprintComponent } from './create-or-edit-sprint/create-or-e
     PopoverModule.forRoot(),
     AccordionModule,
     FileUploadModule,
-    InputSwitchModule
+    InputSwitchModule,
+    EditorModule
   ]
 })
 export class SprintModule { }

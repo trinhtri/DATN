@@ -25,12 +25,12 @@ namespace ERP.Models
         public DateTime? Resolved_Date { get; set; }
         public decimal? Estimate { get; set; }
         public long Priority_Id { get; set; }
-        //public virtual Priority Priority_ { get; set; }
-
         public long Resolve_Id { get; set; }
-        //public virtual Resolve Resolve_ { get; set; }
+        public long? Parent_Id { get; set; }
+        public int Type { get; set; }
 
-        public long Sprint_Id { get; set; }
-        public virtual Sprint Sprint_ { get; set; }
+        public long Project_Id { get; set; }
+        public virtual Project Project_ { get; set; }
+
     }
 }

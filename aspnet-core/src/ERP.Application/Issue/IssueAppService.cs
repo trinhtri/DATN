@@ -59,6 +59,8 @@ namespace ERP.Issue
         public async Task<PagedResultDto<IssueListDto>> GetAll(IssueInputDto input)
         {
             var list = _issueRepository.GetAll()
+                .Include(x=>x.Project_)
+                .Where(x=>x.Type == input.Type)
                 .WhereIf(input.ListStatusId !=null, x=>input.ListStatusId.Any(a=>a == x.Status_Id))
                 .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_ID))
                 .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
@@ -90,7 +92,8 @@ namespace ERP.Issue
         }
         public async Task<IssueListDto> GetIssueForDetail(long id)
         {
-            var dto = await _issueRepository.GetAll().Include(x=>x.Sprint_).ThenInclude(x=>x.Project_)
+            var dto = await _issueRepository.GetAll()
+                .Include(x=>x.Project_)
                 .Where(x=>x.Id == id)
                 .FirstOrDefaultAsync();
             return ObjectMapper.Map<IssueListDto>(dto);

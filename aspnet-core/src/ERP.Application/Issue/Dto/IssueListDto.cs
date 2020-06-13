@@ -24,8 +24,10 @@ namespace ERP.Issue.Dto
         public decimal? Estimate { get; set; }
         public long Priority_Id { get; set; }
         public string ProjectCode { get; set; }
+        public long? Project_Id { get; set; }
         public string Resolve { get; set; }
         public DateTime CreationTime { get; set; }
+
     }
 }
     

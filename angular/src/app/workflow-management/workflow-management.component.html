@@ -36,7 +36,7 @@
                                             class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
                                             type="text">
                                         <span class="input-group-btn">
-                                            <button (click)="getAll()" class="btn btn-primary" type="submit"><i
+                                            <button (click)="getTreeDataFromExpandedServer()" class="btn btn-primary" type="submit"><i
                                                     class="flaticon-search-1"
                                                     [attr.aria-label]="l('Search')"></i></button>
                                         </span>
@@ -121,14 +121,14 @@
                             </div>
                             <div class="col-md-12">
                                 <button type="button" class="btn btn-success" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" (click)="getTreeDataFromServer()" style="float: right;">
+                                    aria-haspopup="true" aria-expanded="false" (click)="getTreeDataFromExpandedServer()" style="float: right;">
                                     <i class="la la-refresh"></i> {{"Refresh" | localize}}
                                 </button>
                             </div>
                         </div>
 
                         <div class="row mb-4">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" style="margin-top: -24px">
                                 <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
                                     (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
                                         class="fa fa-angle-down"></i> {{"ShowAdvancedFilters" | localize}}</span>
@@ -168,7 +168,7 @@
                                         <!-- <i class="flaticon2-check-mark" style="color: blue;"></i> -->
                                     </td>
                                     <td style="width: 100px ;text-align: center;">{{rowData.name}}</td>
-                                    <td style="width: 200px">
+                                    <td style="width: 200px; cursor: pointer !important;">
                                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                                         <span (click)="clickSummary(rowData)">{{rowData.summary}}</span>
                                     </td>

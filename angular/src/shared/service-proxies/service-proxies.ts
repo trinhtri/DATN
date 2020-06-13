@@ -4247,12 +4247,13 @@ export class IssueServiceProxy {
      * @param listAssignId (optional) 
      * @param listTypeId (optional) 
      * @param filter (optional) 
+     * @param type (optional) 
      * @param sorting (optional) 
      * @param maxResultCount (optional) 
      * @param skipCount (optional) 
      * @return Success
      */
-    getIssueForExcel(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<FileDto> {
+    getIssueForExcel(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined, type: number | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/Issue/GetIssueForExcel?";
         if (listProjectId !== undefined)
             listProjectId && listProjectId.forEach(item => { url_ += "ListProjectId=" + encodeURIComponent("" + item) + "&"; });
@@ -4264,6 +4265,8 @@ export class IssueServiceProxy {
             listTypeId && listTypeId.forEach(item => { url_ += "ListTypeId=" + encodeURIComponent("" + item) + "&"; });
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (type !== undefined)
+            url_ += "Type=" + encodeURIComponent("" + type) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount !== undefined)
@@ -4322,12 +4325,13 @@ export class IssueServiceProxy {
      * @param listAssignId (optional) 
      * @param listTypeId (optional) 
      * @param filter (optional) 
+     * @param type (optional) 
      * @param sorting (optional) 
      * @param maxResultCount (optional) 
      * @param skipCount (optional) 
      * @return Success
      */
-    getAll(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfIssueListDto> {
+    getAll(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined, type: number | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfIssueListDto> {
         let url_ = this.baseUrl + "/api/services/app/Issue/GetAll?";
         if (listProjectId !== undefined)
             listProjectId && listProjectId.forEach(item => { url_ += "ListProjectId=" + encodeURIComponent("" + item) + "&"; });
@@ -4339,6 +4343,8 @@ export class IssueServiceProxy {
             listTypeId && listTypeId.forEach(item => { url_ += "ListTypeId=" + encodeURIComponent("" + item) + "&"; });
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (type !== undefined)
+            url_ += "Type=" + encodeURIComponent("" + type) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount !== undefined)
@@ -17016,7 +17022,7 @@ export class CreateIssueDto implements ICreateIssueDto {
     type_ID!: number | undefined;
     status_Id!: number | undefined;
     discription!: string | undefined;
-    sprint_Id!: number | undefined;
+    project_Id!: number | undefined;
     assignee_Id!: number | undefined;
     reporter_Id!: number | undefined;
     due_Date!: moment.Moment | undefined;
@@ -17024,6 +17030,9 @@ export class CreateIssueDto implements ICreateIssueDto {
     resolved_Date!: moment.Moment | undefined;
     priority_ID!: number | undefined;
     resolve_Id!: number | undefined;
+    estimate!: number | undefined;
+    type!: number | undefined;
+    parent_Id!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateIssueDto) {
@@ -17043,7 +17052,7 @@ export class CreateIssueDto implements ICreateIssueDto {
             this.type_ID = data["type_ID"];
             this.status_Id = data["status_Id"];
             this.discription = data["discription"];
-            this.sprint_Id = data["sprint_Id"];
+            this.project_Id = data["project_Id"];
             this.assignee_Id = data["assignee_Id"];
             this.reporter_Id = data["reporter_Id"];
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
@@ -17051,6 +17060,9 @@ export class CreateIssueDto implements ICreateIssueDto {
             this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
             this.priority_ID = data["priority_ID"];
             this.resolve_Id = data["resolve_Id"];
+            this.estimate = data["estimate"];
+            this.type = data["type"];
+            this.parent_Id = data["parent_Id"];
             this.id = data["id"];
         }
     }
@@ -17070,7 +17082,7 @@ export class CreateIssueDto implements ICreateIssueDto {
         data["type_ID"] = this.type_ID;
         data["status_Id"] = this.status_Id;
         data["discription"] = this.discription;
-        data["sprint_Id"] = this.sprint_Id;
+        data["project_Id"] = this.project_Id;
         data["assignee_Id"] = this.assignee_Id;
         data["reporter_Id"] = this.reporter_Id;
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
@@ -17078,6 +17090,9 @@ export class CreateIssueDto implements ICreateIssueDto {
         data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
         data["priority_ID"] = this.priority_ID;
         data["resolve_Id"] = this.resolve_Id;
+        data["estimate"] = this.estimate;
+        data["type"] = this.type;
+        data["parent_Id"] = this.parent_Id;
         data["id"] = this.id;
         return data; 
     }
@@ -17090,7 +17105,7 @@ export interface ICreateIssueDto {
     type_ID: number | undefined;
     status_Id: number | undefined;
     discription: string | undefined;
-    sprint_Id: number | undefined;
+    project_Id: number | undefined;
     assignee_Id: number | undefined;
     reporter_Id: number | undefined;
     due_Date: moment.Moment | undefined;
@@ -17098,6 +17113,9 @@ export interface ICreateIssueDto {
     resolved_Date: moment.Moment | undefined;
     priority_ID: number | undefined;
     resolve_Id: number | undefined;
+    estimate: number | undefined;
+    type: number | undefined;
+    parent_Id: number | undefined;
     id: number | undefined;
 }
 
@@ -17165,6 +17183,7 @@ export class IssueListDto implements IIssueListDto {
     estimate!: number | undefined;
     priority_Id!: number | undefined;
     projectCode!: string | undefined;
+    project_Id!: number | undefined;
     resolve!: string | undefined;
     creationTime!: moment.Moment | undefined;
     id!: number | undefined;
@@ -17195,6 +17214,7 @@ export class IssueListDto implements IIssueListDto {
             this.estimate = data["estimate"];
             this.priority_Id = data["priority_Id"];
             this.projectCode = data["projectCode"];
+            this.project_Id = data["project_Id"];
             this.resolve = data["resolve"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             this.id = data["id"];
@@ -17225,6 +17245,7 @@ export class IssueListDto implements IIssueListDto {
         data["estimate"] = this.estimate;
         data["priority_Id"] = this.priority_Id;
         data["projectCode"] = this.projectCode;
+        data["project_Id"] = this.project_Id;
         data["resolve"] = this.resolve;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["id"] = this.id;
@@ -17248,6 +17269,7 @@ export interface IIssueListDto {
     estimate: number | undefined;
     priority_Id: number | undefined;
     projectCode: string | undefined;
+    project_Id: number | undefined;
     resolve: string | undefined;
     creationTime: moment.Moment | undefined;
     id: number | undefined;

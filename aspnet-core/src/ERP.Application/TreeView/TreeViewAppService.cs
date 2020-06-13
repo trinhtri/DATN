@@ -55,25 +55,26 @@ namespace ERP.TreeView
                 Created= x.StartDate,
             }).ToList();
             flatNode.AddRange(projects);
-            var sprints = _sprintRepository.GetAll().Select(x => new Node
+            var sprints = _issueRepository.GetAll().Include(x=>x.Project_).Where(x=>x.Type ==  1).Select(x => new Node
             {
-                Assignee_Id = null,
-                Created = null,
-                Type = null,
+                Assignee_Id = x.Assignee_Id,
+                Created = x.CreationTime,
+                Type = x.Type_ID,
                 Summary = x.Summary,
-                Status = null,
-                Discription = null,
-                Due_Date = null,
+                Status = x.Status_Id,
+                Discription = x.Discription,
+                Due_Date = x.Due_Date,
                 Id = x.Id,
-                Name = x.SprintName,
+                Name = x.IssueCode,
                 ParentId = x.Project_Id,
-                Priority = null,
-                Reporter_Id = null,
-                Estimate = null,
+                Priority = x.Priority_Id,
+                Reporter_Id = x.Reporter_Id,
+                Estimate = x.Estimate
             }).ToList();
             flatNode.AddRange(sprints);
 
             var issues = _issueRepository.GetAll()
+                    .Where(x => x.Type == 2)
                     .WhereIf(!string.IsNullOrEmpty(input.Filter), x => x.IssueCode.Contains(input.Filter)
                      || x.Summary.Contains(input.Filter))
                     .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
@@ -88,12 +89,12 @@ namespace ERP.TreeView
             Due_Date = x.Due_Date,
             Id = x.Id,
             Name = x.IssueCode,
-            ParentId = x.Sprint_Id,
             Priority = x.Priority_Id,
             Status = x.Status_Id,
             Summary = x.Summary,
-            Type = x.Type_ID
-            }).ToList();
+            Type = x.Type_ID,
+            ParentId = x.Parent_Id
+                }).ToList();
             flatNode.AddRange(issues);
             foreach(var item in flatNode)
                 {
