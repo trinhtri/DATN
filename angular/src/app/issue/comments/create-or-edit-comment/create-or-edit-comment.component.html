@@ -13,7 +13,8 @@
               <div class="modal-body">
                   <div class="form-group">
                       <label for="Discription">{{"Discription" | localize}}</label>
-                      <input id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="comment.discription" maxlength="2000">
+                      <textarea pInputTextarea id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="comment.discription" maxlength="2000"  [rows]="5" [cols]="30"></textarea>
+                      <!-- <input id="Discription" type="text" name="Discription" class="form-control" [(ngModel)]="comment.discription" maxlength="2000"> -->
                   </div>
 
                   <div class="modal-footer">

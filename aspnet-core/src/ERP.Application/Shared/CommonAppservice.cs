@@ -21,6 +21,7 @@ namespace ERP.Shared
         private readonly IRepository<Models.Priority, long> _prioritiesRepository;
         private readonly IRepository<Models.Sprint, long> _sprintRepository;
         private readonly IRepository<Models.Issue, long> _issueRepository;
+        private readonly IRepository<Models.Member, long> _memberRepository;
 
 
         public CommonAppservice(IRepository<User, long> userRepository,
@@ -30,7 +31,8 @@ namespace ERP.Shared
             IRepository<Models.IssueType, long> issueTypeRepository,
             IRepository<Models.Priority, long> prioritiesRepository,
             IRepository<Models.Sprint, long> sprintRepository,
-            IRepository<Models.Issue, long> issueRepository
+            IRepository<Models.Issue, long> issueRepository,
+            IRepository<Models.Member, long> memberRepository
             )
         {
             _userRepository = userRepository;
@@ -41,6 +43,7 @@ namespace ERP.Shared
             _prioritiesRepository = prioritiesRepository;
             _sprintRepository = sprintRepository;
             _issueRepository = issueRepository;
+            _memberRepository = memberRepository;
 
         }
 
@@ -55,6 +58,13 @@ namespace ERP.Shared
                         .Where(x => x.TenantId == tenantId || (tenantId == null && x.TenantId == null))
                         .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.UserName })
                         .ToListAsync();
+                    break;
+                case "MemberOfProject":
+                  result =await _memberRepository.GetAll().Include(x=>x.Employee_).Where(x=>x.Project_Id == parentId)
+                        .Where(x => x.TenantId == tenantId)
+                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.Employee_.UserName })
+                        .ToListAsync();
+
                     break;
                 case "Project":
                     result = await _projectRepository.GetAll()

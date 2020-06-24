@@ -15,7 +15,6 @@ import { ProjectServiceProxy, MemberServiceProxy, CommonAppserviceServiceProxy, 
 import {AccordionModule} from 'primeng/accordion';
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 import { FileUploadModule } from 'ng2-file-upload';
-import { WorkFolowManagementRoutingModule } from './workflow-management-routing.module';
 import { WorkflowManagementComponent } from './workflow-management.component';
 import { CreateIssueComponent } from './create-issue/create-issue.component';
 import { ManagementIssueComponent } from './management-issue/management-issue.component';
@@ -29,12 +28,15 @@ import {EditorModule} from 'primeng/editor';
 import {TreeTableModule} from 'primeng/treetable';
 import {TreeNode} from 'primeng/api';
 import { CreateOrUpdateSprintComponent } from './create-or-update-sprint/create-or-update-sprint.component';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import { IssueRoutingModule } from './issue-routing.module';
+
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ModalModule,
-        WorkFolowManagementRoutingModule,
+        IssueRoutingModule,
         TabsModule,
         TableModule,
         PaginatorModule,
@@ -53,6 +55,7 @@ import { CreateOrUpdateSprintComponent } from './create-or-update-sprint/create-
         MultiSelectModule,
         EditorModule,
         TreeTableModule,
+        InputTextareaModule
     ],
     declarations: [
         WorkflowManagementComponent,
@@ -79,4 +82,4 @@ import { CreateOrUpdateSprintComponent } from './create-or-update-sprint/create-
         { provide: BsLocaleService, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerLocale }
     ]
 })
-export class WorkFlowManagementModule { }
+export class IssueModule { }

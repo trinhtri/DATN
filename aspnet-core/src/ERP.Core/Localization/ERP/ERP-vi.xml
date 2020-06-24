@@ -862,7 +862,7 @@
     <text name="CreateComment">Thêm mới bình luận</text>
     <text name="Choose">Chọn</text>
     <text name="Options">Tùy chọn</text>
-
+    <text name="Comment">Bình luận</text>
 
   </texts>
 </localizationDictionary>

@@ -53,7 +53,7 @@ namespace ERP.TreeView
                 Summary = x.ProjectName,
                 Type = 1,
                 Created= x.StartDate,
-            }).ToList();
+            }).OrderBy(x=>x.Summary).ToList();
             flatNode.AddRange(projects);
             var sprints = _issueRepository.GetAll().Include(x=>x.Project_).Where(x=>x.Type ==  1).Select(x => new Node
             {
@@ -70,7 +70,7 @@ namespace ERP.TreeView
                 Priority = x.Priority_Id,
                 Reporter_Id = x.Reporter_Id,
                 Estimate = x.Estimate
-            }).ToList();
+            }).OrderBy(x => x.Summary).ToList();
             flatNode.AddRange(sprints);
 
             var issues = _issueRepository.GetAll()
@@ -94,7 +94,7 @@ namespace ERP.TreeView
             Summary = x.Summary,
             Type = x.Type_ID,
             ParentId = x.Parent_Id
-                }).ToList();
+                }).OrderBy(x => x.Summary).ToList();
             flatNode.AddRange(issues);
             foreach(var item in flatNode)
                 {

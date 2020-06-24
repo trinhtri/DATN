@@ -4,6 +4,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { IssueServiceProxy, CommentServiceProxy, CommentListDto } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { CreateOrEditCommentComponent } from './create-or-edit-comment/create-or-edit-comment.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-comments',
@@ -17,13 +18,14 @@ export class CommentsComponent extends AppComponentBase implements OnInit {
  @ViewChild('CreatModel', {static: true}) CreatModel: CreateOrEditCommentComponent;
  lstComment: CommentListDto [] = [] ;
   constructor(  injector: Injector,
-    private _commentServiceProxy: CommentServiceProxy) {
+    private _commentServiceProxy: CommentServiceProxy,
+    private _activeRouter: ActivatedRoute) {
       super(injector);
     }
 
   ngOnInit() {
+    this.IssueId = this._activeRouter.snapshot.params['id'];
     this.getAll();
-    console.log('issueID', this.IssueId);
   }
   getAll() {
     this._commentServiceProxy.getAll(

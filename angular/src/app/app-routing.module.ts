@@ -40,7 +40,7 @@ import { NotificationsComponent } from './shared/layout/notifications/notificati
                     },
                     {
                         path: 'issue',
-                        loadChildren: () => import('app/workflow-management/workflow-mangement.module').then(m => m.WorkFlowManagementModule), //Lazy load admin module
+                        loadChildren: () => import('app/issue/issue.module').then(m => m.IssueModule), //Lazy load admin module
                         data: { preload: true },
                         canLoad: [AppRouteGuard]
                     } ,

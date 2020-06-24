@@ -171,7 +171,7 @@
                                     <td style="width: 70px ;text-align: center;">{{rowData.name}}</td>
                                     <td style="width: 200px; cursor: pointer !important;">
                                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                                        <span (click)="clickSummary(rowData)">{{rowData.summary}}</span>
+                                        <span (click)="clickSummary(rowData)" style="color: blue;">{{rowData.summary}}</span>
                                     </td>
                                     <td style="width: 100px ; text-align: center;" *ngIf='config.isAssignee'>
                                         {{rowData.assignee}}</td>

@@ -18,4 +18,4 @@ import { ManagementIssueComponent } from './management-issue/management-issue.co
         RouterModule
     ]
 })
-export class WorkFolowManagementRoutingModule { }
+export class IssueRoutingModule { }

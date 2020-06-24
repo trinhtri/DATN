@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Project">{{"Project" | localize}} </label>
-                        <select id="Project" name="ProjectName" class="form-control"  [(ngModel)]="issue.project_Id" (change)="changeProject(projectId)" #ProjectInput="ngModel">
+                        <select id="Project" name="ProjectName" class="form-control"  [(ngModel)]="issue.project_Id" (change)="changeProject(issue.project_Id)" #ProjectInput="ngModel">
                         <option *ngFor ="let item of lstProject" [value]="item.value">{{item.displayText}}</option>
                         <validation-messages [formCtrl]="ProjectInput"></validation-messages>
                     </select>

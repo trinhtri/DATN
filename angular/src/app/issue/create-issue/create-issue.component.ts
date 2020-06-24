@@ -45,6 +45,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   initForm() {
     this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe(result => {
       this.lst = result;
+      console.log('lst', this.lst);
     });
     this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe(result => {
       this.lstProject = result;
@@ -69,7 +70,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
     }
   }
   onShown(): void {
-    // document.getElementById('IssueCode').focus();
+    document.getElementById('IssueCode').focus();
   }
   save(): void {
     this.saving = true;
@@ -111,8 +112,12 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
     this.modal.hide();
   }
   changeProject(projectId) {
+    console.log('projectId', projectId);
     this._commonService.getLookups('Sprints', this.appSession.tenantId, projectId).subscribe(result => {
       this.lstSprint = result;
+    });
+    this._commonService.getLookups('MemberOfProject', this.appSession.tenantId, projectId).subscribe(result => {
+      this.lst = result;
     });
   }
 }
