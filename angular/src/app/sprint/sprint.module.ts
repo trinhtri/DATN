@@ -4,11 +4,10 @@ import { SprintRoutingModule } from './sprint-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ModalModule, TabsModule, TooltipModule, BsDatepickerModule, BsDropdownModule, PopoverModule, AccordionModule } from 'ngx-bootstrap';
 import { TableModule } from 'primeng/table';
-import { PaginatorModule, FileUploadModule, InputSwitchModule } from 'primeng/primeng';
+import { PaginatorModule, FileUploadModule, InputSwitchModule, MultiSelectModule } from 'primeng/primeng';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import CountoModule from 'angular2-counto';
 import { SprintComponent } from './sprint/sprint.component';
 import { CreateOrEditSprintComponent } from './create-or-edit-sprint/create-or-edit-sprint.component';
 import {EditorModule} from 'primeng/editor';
@@ -29,7 +28,6 @@ import {EditorModule} from 'primeng/editor';
     TooltipModule,
     AppCommonModule,
     UtilsModule,
-    CountoModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
@@ -37,6 +35,7 @@ import {EditorModule} from 'primeng/editor';
     AccordionModule,
     FileUploadModule,
     InputSwitchModule,
+    MultiSelectModule,
     EditorModule
   ]
 })

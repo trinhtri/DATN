@@ -4,6 +4,7 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Abp.UI;
 using ERP.Document.Dto;
+using ERP.Document.Exporting;
 using ERP.Dto;
 using ERP.IO;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,11 @@ namespace ERP.Document
     public class DocumentAppService : ERPAppServiceBase, IDocumentAppService
     {
         private readonly IRepository<Models.Document,long> _documentRepository;
-        public DocumentAppService(IRepository<Models.Document,long> documentRepository)
+        private DocumentListExcelExporter _docummentListExcelExporter;
+        public DocumentAppService(IRepository<Models.Document,long> documentRepository, DocumentListExcelExporter docummentListExcelExporter)
         {
             _documentRepository = documentRepository;
+            _docummentListExcelExporter = docummentListExcelExporter;
         }
         public async Task<long> Create(CreateDocumentDto input)
         {
@@ -59,6 +62,13 @@ namespace ERP.Document
         {
             var document = await _documentRepository.FirstOrDefaultAsync(input.Id);
             ObjectMapper.Map(input, document);
+        }
+
+        public async Task<FileDto> GetDocumentToExcel(DocumentInputDto inputDto)
+        {
+            var list = await GetAll(inputDto);
+            var dto = list.Items.ToList();
+            return _docummentListExcelExporter.ExportToFile(dto);
         }
     }
 }

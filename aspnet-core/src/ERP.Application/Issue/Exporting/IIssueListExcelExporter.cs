@@ -8,6 +8,7 @@ namespace ERP.Issue.Exporting
 {
    public interface IIssueListExcelExporter
     {
-        FileDto ExportToFile(List<IssueListDto> list);
+        FileDto ExportIssueToFile(List<IssueListDto> list);
+        FileDto ExportSprintToFile(List<IssueListDto> list);
     }
 }

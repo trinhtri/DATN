@@ -11,8 +11,8 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false" (click)="exportExcel()">
+                <button type="button" class="btn btn-success"
+                    (click)="exportExcel()">
                     <i class="far fa-file-excel"></i> {{"Export" | localize}}
                 </button>
                 <button (click)="createNew()" *ngIf="isGranted('Pages.Issue.Create')" class="btn btn-primary"><i
@@ -147,53 +147,69 @@
                         <p-treeTable [value]="treeData" [resizableColumns]="true">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 30px">{{'Type' | localize}}</th>
+                                    <!-- <th style="width: 30px">{{'Type' | localize}}</th> -->
                                     <th style="width: 70px">{{'Code' | localize}}</th>
                                     <th style="width: 200px">{{'Summary' | localize}}</th>
-                                    <th style="width: 100px" *ngIf='config.isAssignee'>{{'Assignee' | localize}}</th>
+                                    <th style="width: 100px">{{'Type' | localize}}</th>
+                                    <th style="width: 100px" *ngIf='config.isStatus'>{{'Satus' | localize}}</th>
                                     <th style="width: 100px" *ngIf='config.isReporter'>{{'Reporter' | localize}}</th>
+                                    <th style="width: 100px" *ngIf='config.isAssignee'>{{'Assignee' | localize}}</th>
                                     <th style="width: 60px" *ngIf='config.isPriority'>{{'Priority' | localize}}</th>
-                                    <th style="width: 60px" *ngIf='config.isStatus'>{{'Satus' | localize}}</th>
-                                    <th style="width: 100px" *ngIf='config.isCreatedDate'>{{'Created' | localize}}</th>
+                                    <th style="width: 100px" *ngIf='config.isCreatedDate'>{{'CreationTime' | localize}}</th>
                                     <th style="width: 100px" *ngIf='config.isDueDate'>{{'DueDate' | localize}}</th>
                                     <th style="width: 100px" *ngIf='config.isEstimate'>{{'Estimate' | localize}}</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
                                 <tr [ttRow]="rowNode">
-                                    <td style="width: 30px" class="text-center">
+                                    <!-- <td style="width: 30px" class="text-center">
                                         <i class="flaticon2-plus" style="color: blue;" *ngIf="rowData.type == 1"
                                             title="{{l('NewFeature')}}"></i>
                                         <i class=" flaticon2-arrow-up" style="color: blue;" *ngIf="rowData.type == 2"
                                             title="{{l('Improvement')}}"></i>
-                                        <i class="fas fa-bullseye" style="color: red;" *ngIf="rowData.type == 3" title="{{l('Bug')}}"></i>
-                                    </td>
-                                    <td style="width: 70px ;text-align: center;">{{rowData.name}}</td>
+                                        <i class="fas fa-bullseye" style="color: red;" *ngIf="rowData.type == 3"
+                                            title="{{l('Bug')}}"></i>
+                                    </td> -->
+                                    <td style="width: 70px">{{rowData.name}}</td>
                                     <td style="width: 200px; cursor: pointer !important;">
                                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                                        <span (click)="clickSummary(rowData)" style="color: blue;">{{rowData.summary}}</span>
+                                        <span (click)="clickSummary(rowData)"
+                                            style="color: blue;">{{rowData.summary}}</span>
                                     </td>
-                                    <td style="width: 100px ; text-align: center;" *ngIf='config.isAssignee'>
-                                        {{rowData.assignee}}</td>
+                                    <td style="width: 100px; text-align: center;">
+                                        <span class="kt-badge kt-badge--success kt-badge--inline"
+                                            *ngIf="rowData.type == 1">{{getTypeName(rowData.type)}}</span>
+                                        <span class="kt-badge kt-badge--primary kt-badge--inline"
+                                            *ngIf="rowData.type == 2">{{getTypeName(rowData.type)}}</span>
+                                        <span class="kt-badge kt-badge--danger kt-badge--inline"
+                                            *ngIf="rowData.type == 3">{{getTypeName(rowData.type)}}</span>
+                                    </td>
+                                    <td style="width: 100px ;text-align: center;" *ngIf='config.isStatus'>
+                                        <span class="kt-badge kt-badge--brand kt-badge--inline"
+                                            *ngIf="rowData.status == 1">{{getStatusName(rowData.status)}}</span>
+                                        <span class="kt-badge kt-badge--success kt-badge--inline"
+                                            *ngIf="rowData.status == 2">{{getStatusName(rowData.status)}}</span>
+                                        <span class="kt-badge kt-badge--success kt-badge--inline"
+                                            *ngIf="rowData.status == 3">{{getStatusName(rowData.status)}}</span>
+                                        <span class="kt-badge kt-badge--dark kt-badge--inline"
+                                            *ngIf="rowData.status == 4">{{getStatusName(rowData.status)}}</span>
+                                        <span class="kt-badge kt-badge--danger kt-badge--inline"
+                                            *ngIf="rowData.status == 5">{{getStatusName(rowData.status)}}</span>
+                                    </td>
                                     <td style="width: 100px ; text-align: center;" *ngIf='config.isReporter'>
                                         {{rowData.reporter}}</td>
+                                    <td style="width: 100px ; text-align: center;" *ngIf='config.isAssignee'>
+                                        {{rowData.assignee}}</td>
+                                   
                                     <td style="width: 60px; text-align: center;" *ngIf='config.isPriority'>
                                         {{rowData.priority}}</td>
-                                    <td style="width: 60px ;text-align: center;" *ngIf='config.isStatus'>
-                                        <span class="kt-badge kt-badge--brand kt-badge--inline" *ngIf="rowData.status == 1">{{getStatusName(rowData.status)}}</span>
-                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="rowData.status == 2">{{getStatusName(rowData.status)}}</span>
-                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="rowData.status == 3">{{getStatusName(rowData.status)}}</span>
-                                        <span class="kt-badge kt-badge--dark kt-badge--inline" *ngIf="rowData.status == 4">{{getStatusName(rowData.status)}}</span>
-                                        <span class="kt-badge kt-badge--danger kt-badge--inline" *ngIf="rowData.status == 5">{{getStatusName(rowData.status)}}</span>
-                                        <!-- {{getStatusName(rowData.status)}} -->
-                                    </td>
+
                                     <td style="width: 100px ;text-align: center;" *ngIf='config.isCreatedDate'>
                                         {{rowData.created | momentFormat:'L'}}</td>
                                     <td style="width: 100px ;text-align: center;" *ngIf='config.isDueDate'>
                                         {{rowData.due_Date | momentFormat:'L'}}</td>
                                     <td style="width: 100px ;text-align: center;" *ngIf='config.isEstimate'>
                                         {{rowData.estimate}}</td>
-
                                 </tr>
                             </ng-template>
                         </p-treeTable>
@@ -204,8 +220,8 @@
         </div>
     </div>
 
-    <app-create-issue #createOrEditModal (modalSave)="ngOnInit($event)"></app-create-issue>
-    <app-config-view #configViewModal (modalSave)="ngOnInit($event)"></app-config-view>
-    <app-create-or-update-sprint #createOrEditSprintModal (modalSave)="ngOnInit($event)">
+    <app-create-issue #createOrEditModal (modalSave)="ngOnInit()"></app-create-issue>
+    <app-config-view #configViewModal (modalSave)="ngOnInit()"></app-config-view>
+    <app-create-or-update-sprint #createOrEditSprintModal (modalSave)="ngOnInit()">
     </app-create-or-update-sprint>
 </div>

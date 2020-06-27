@@ -2759,6 +2759,140 @@ export class DocumentServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param project_Id (optional) 
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getDocumentToExcel(project_Id: number | null | undefined, filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Document/GetDocumentToExcel?";
+        if (project_Id !== undefined)
+            url_ += "Project_Id=" + encodeURIComponent("" + project_Id) + "&"; 
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDocumentToExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDocumentToExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDocumentToExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? FileDto.fromJS(resultData200) : new FileDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class DocumentListExcelExporterServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param list (optional) 
+     * @return Success
+     */
+    exportToFile(list: DocumentListDto[] | null | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/DocumentListExcelExporter/ExportToFile";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(list);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processExportToFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processExportToFile(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processExportToFile(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? FileDto.fromJS(resultData200) : new FileDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -4247,14 +4381,80 @@ export class IssueServiceProxy {
      * @param listAssignId (optional) 
      * @param listTypeId (optional) 
      * @param filter (optional) 
+     * @return Success
+     */
+    getIssueForExcel(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetIssueForExcel?";
+        if (listProjectId !== undefined)
+            listProjectId && listProjectId.forEach(item => { url_ += "ListProjectId=" + encodeURIComponent("" + item) + "&"; });
+        if (listStatusId !== undefined)
+            listStatusId && listStatusId.forEach(item => { url_ += "ListStatusId=" + encodeURIComponent("" + item) + "&"; });
+        if (listAssignId !== undefined)
+            listAssignId && listAssignId.forEach(item => { url_ += "ListAssignId=" + encodeURIComponent("" + item) + "&"; });
+        if (listTypeId !== undefined)
+            listTypeId && listTypeId.forEach(item => { url_ += "ListTypeId=" + encodeURIComponent("" + item) + "&"; });
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetIssueForExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetIssueForExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetIssueForExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? FileDto.fromJS(resultData200) : new FileDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param listProjectId (optional) 
+     * @param listStatusId (optional) 
+     * @param listAssignId (optional) 
+     * @param listTypeId (optional) 
+     * @param filter (optional) 
      * @param type (optional) 
      * @param sorting (optional) 
      * @param maxResultCount (optional) 
      * @param skipCount (optional) 
      * @return Success
      */
-    getIssueForExcel(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined, type: number | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<FileDto> {
-        let url_ = this.baseUrl + "/api/services/app/Issue/GetIssueForExcel?";
+    getSprintForExcel(listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, listTypeId: number[] | null | undefined, filter: string | null | undefined, type: number | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetSprintForExcel?";
         if (listProjectId !== undefined)
             listProjectId && listProjectId.forEach(item => { url_ += "ListProjectId=" + encodeURIComponent("" + item) + "&"; });
         if (listStatusId !== undefined)
@@ -4284,11 +4484,11 @@ export class IssueServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetIssueForExcel(response_);
+            return this.processGetSprintForExcel(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetIssueForExcel(<any>response_);
+                    return this.processGetSprintForExcel(<any>response_);
                 } catch (e) {
                     return <Observable<FileDto>><any>_observableThrow(e);
                 }
@@ -4297,7 +4497,7 @@ export class IssueServiceProxy {
         }));
     }
 
-    protected processGetIssueForExcel(response: HttpResponseBase): Observable<FileDto> {
+    protected processGetSprintForExcel(response: HttpResponseBase): Observable<FileDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4455,7 +4655,7 @@ export class IssueServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getIssueForDetail(id: number | null | undefined): Observable<IssueListDto> {
+    getIssueForDetail(id: number | null | undefined): Observable<CommonListDto> {
         let url_ = this.baseUrl + "/api/services/app/Issue/GetIssueForDetail?";
         if (id !== undefined)
             url_ += "id=" + encodeURIComponent("" + id) + "&"; 
@@ -4476,14 +4676,14 @@ export class IssueServiceProxy {
                 try {
                     return this.processGetIssueForDetail(<any>response_);
                 } catch (e) {
-                    return <Observable<IssueListDto>><any>_observableThrow(e);
+                    return <Observable<CommonListDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<IssueListDto>><any>_observableThrow(response_);
+                return <Observable<CommonListDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetIssueForDetail(response: HttpResponseBase): Observable<IssueListDto> {
+    protected processGetIssueForDetail(response: HttpResponseBase): Observable<CommonListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4494,7 +4694,7 @@ export class IssueServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? IssueListDto.fromJS(resultData200) : new IssueListDto();
+            result200 = resultData200 ? CommonListDto.fromJS(resultData200) : new CommonListDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -4502,7 +4702,57 @@ export class IssueServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<IssueListDto>(<any>null);
+        return _observableOf<CommonListDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    deleteIssue(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/DeleteIssue?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteIssue(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteIssue(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteIssue(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -17275,6 +17525,162 @@ export interface IIssueListDto {
     id: number | undefined;
 }
 
+export class CommonListDto implements ICommonListDto {
+    tenantId!: number | undefined;
+    issueCode!: string | undefined;
+    summary!: string | undefined;
+    type_Id!: number | undefined;
+    status_Id!: number | undefined;
+    discription!: string | undefined;
+    assignee_Id!: number | undefined;
+    reporter_Id!: number | undefined;
+    due_Date!: moment.Moment | undefined;
+    update_Date!: moment.Moment | undefined;
+    resolved_Date!: moment.Moment | undefined;
+    estimate!: number | undefined;
+    priority_Id!: number | undefined;
+    projectCode!: string | undefined;
+    project_Id!: number | undefined;
+    creationTime!: moment.Moment | undefined;
+    listIssue!: IssueOfSprintListDto[] | undefined;
+    parent_Id!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICommonListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantId = data["tenantId"];
+            this.issueCode = data["issueCode"];
+            this.summary = data["summary"];
+            this.type_Id = data["type_Id"];
+            this.status_Id = data["status_Id"];
+            this.discription = data["discription"];
+            this.assignee_Id = data["assignee_Id"];
+            this.reporter_Id = data["reporter_Id"];
+            this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
+            this.update_Date = data["update_Date"] ? moment(data["update_Date"].toString()) : <any>undefined;
+            this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
+            this.estimate = data["estimate"];
+            this.priority_Id = data["priority_Id"];
+            this.projectCode = data["projectCode"];
+            this.project_Id = data["project_Id"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            if (data["listIssue"] && data["listIssue"].constructor === Array) {
+                this.listIssue = [] as any;
+                for (let item of data["listIssue"])
+                    this.listIssue!.push(IssueOfSprintListDto.fromJS(item));
+            }
+            this.parent_Id = data["parent_Id"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CommonListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CommonListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["issueCode"] = this.issueCode;
+        data["summary"] = this.summary;
+        data["type_Id"] = this.type_Id;
+        data["status_Id"] = this.status_Id;
+        data["discription"] = this.discription;
+        data["assignee_Id"] = this.assignee_Id;
+        data["reporter_Id"] = this.reporter_Id;
+        data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
+        data["update_Date"] = this.update_Date ? this.update_Date.toISOString() : <any>undefined;
+        data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
+        data["estimate"] = this.estimate;
+        data["priority_Id"] = this.priority_Id;
+        data["projectCode"] = this.projectCode;
+        data["project_Id"] = this.project_Id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        if (this.listIssue && this.listIssue.constructor === Array) {
+            data["listIssue"] = [];
+            for (let item of this.listIssue)
+                data["listIssue"].push(item.toJSON());
+        }
+        data["parent_Id"] = this.parent_Id;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICommonListDto {
+    tenantId: number | undefined;
+    issueCode: string | undefined;
+    summary: string | undefined;
+    type_Id: number | undefined;
+    status_Id: number | undefined;
+    discription: string | undefined;
+    assignee_Id: number | undefined;
+    reporter_Id: number | undefined;
+    due_Date: moment.Moment | undefined;
+    update_Date: moment.Moment | undefined;
+    resolved_Date: moment.Moment | undefined;
+    estimate: number | undefined;
+    priority_Id: number | undefined;
+    projectCode: string | undefined;
+    project_Id: number | undefined;
+    creationTime: moment.Moment | undefined;
+    listIssue: IssueOfSprintListDto[] | undefined;
+    parent_Id: number | undefined;
+    id: number | undefined;
+}
+
+export class IssueOfSprintListDto implements IIssueOfSprintListDto {
+    summaryIssue!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IIssueOfSprintListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.summaryIssue = data["summaryIssue"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): IssueOfSprintListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new IssueOfSprintListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["summaryIssue"] = this.summaryIssue;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IIssueOfSprintListDto {
+    summaryIssue: string | undefined;
+    id: number | undefined;
+}
+
 export class GetLanguagesOutput implements IGetLanguagesOutput {
     defaultLanguageName!: string | undefined;
     items!: ApplicationLanguageListDto[] | undefined;
@@ -20098,6 +20504,8 @@ export class CreateProjectDto implements ICreateProjectDto {
     note!: string | undefined;
     tenantId!: number | undefined;
     status!: boolean | undefined;
+    assignee_Id!: number | undefined;
+    reporter_Id!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateProjectDto) {
@@ -20120,6 +20528,8 @@ export class CreateProjectDto implements ICreateProjectDto {
             this.note = data["note"];
             this.tenantId = data["tenantId"];
             this.status = data["status"];
+            this.assignee_Id = data["assignee_Id"];
+            this.reporter_Id = data["reporter_Id"];
             this.id = data["id"];
         }
     }
@@ -20142,6 +20552,8 @@ export class CreateProjectDto implements ICreateProjectDto {
         data["note"] = this.note;
         data["tenantId"] = this.tenantId;
         data["status"] = this.status;
+        data["assignee_Id"] = this.assignee_Id;
+        data["reporter_Id"] = this.reporter_Id;
         data["id"] = this.id;
         return data; 
     }
@@ -20157,6 +20569,8 @@ export interface ICreateProjectDto {
     note: string | undefined;
     tenantId: number | undefined;
     status: boolean | undefined;
+    assignee_Id: number | undefined;
+    reporter_Id: number | undefined;
     id: number | undefined;
 }
 
@@ -20218,6 +20632,8 @@ export class ProjectListDto implements IProjectListDto {
     note!: string | undefined;
     tenantId!: number | undefined;
     status!: boolean | undefined;
+    assignee_Id!: number | undefined;
+    reporter_Id!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: IProjectListDto) {
@@ -20240,6 +20656,8 @@ export class ProjectListDto implements IProjectListDto {
             this.note = data["note"];
             this.tenantId = data["tenantId"];
             this.status = data["status"];
+            this.assignee_Id = data["assignee_Id"];
+            this.reporter_Id = data["reporter_Id"];
             this.id = data["id"];
         }
     }
@@ -20262,6 +20680,8 @@ export class ProjectListDto implements IProjectListDto {
         data["note"] = this.note;
         data["tenantId"] = this.tenantId;
         data["status"] = this.status;
+        data["assignee_Id"] = this.assignee_Id;
+        data["reporter_Id"] = this.reporter_Id;
         data["id"] = this.id;
         return data; 
     }
@@ -20277,6 +20697,8 @@ export interface IProjectListDto {
     note: string | undefined;
     tenantId: number | undefined;
     status: boolean | undefined;
+    assignee_Id: number | undefined;
+    reporter_Id: number | undefined;
     id: number | undefined;
 }
 

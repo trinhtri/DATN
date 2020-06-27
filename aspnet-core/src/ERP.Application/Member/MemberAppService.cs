@@ -62,7 +62,7 @@ namespace ERP.Member
                                on m.Project_Id equals p.Id
                                select new MemberListDto
                                {
-                                   EffectiveDate = m.EffectiveDate,
+                                   EffectiveDate = m.StartDate,
                                    EmployeeName = m.Employee_.UserName,
                                    Id = m.Id,
                                    EndDate = m.EndDate,

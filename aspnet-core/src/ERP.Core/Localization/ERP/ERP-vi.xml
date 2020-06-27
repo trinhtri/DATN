@@ -813,6 +813,7 @@
     <text name="Editdocument">Chỉnh sửa tài liệu</text>
     <text name="DocumentName">Tên tài liệu</text>
     <text name="UploadDate">Ngày cập nhật</text>
+    <text name="DocumentDeleteWarningMessage">Bạn có muốn xóa tài liệu {0}</text>
     
      <!--issue-->
     <text name="ManagerIssue">Quản lý issue</text>
@@ -837,6 +838,8 @@
     <text name="SprintCode">Mã sprint</text>
     <text name="CreateSprint">Thêm mới sprint</text>
     <text name="EditSprint">Chỉnh sửa sprint</text>
+    <text name="SprintDeleteWarningMessage">Bạn có muốn xóa sprint {0}</text>
+    <text name="IssueDeleteWarningMessage">Bạn có muốn xóa issue {0}</text>
     
     <!--ConfigView-->
     <text name="ConfigView">Cấu hình hiển thị</text>
@@ -863,6 +866,17 @@
     <text name="Choose">Chọn</text>
     <text name="Options">Tùy chọn</text>
     <text name="Comment">Bình luận</text>
+
+
+    <text name="Manager">Quản lý</text>
+    <text name="Dev">Lập trình viên</text>
+    <text name="Test">Kiểm thử phần mềm</text>
+
+    <text name="Type">Loại</text>
+    <text name="SprintName">Tên Sprint</text>
+    
+    
+   
 
   </texts>
 </localizationDictionary>

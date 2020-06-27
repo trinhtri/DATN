@@ -27,5 +27,7 @@ namespace ERP.Models
         public string Note { get; set; }
         public int TenantId { get; set; }
         public bool Status { get; set; }
+        public long Assignee_Id { get; set; }
+        public long Reporter_Id { get; set; }
     }
 }

@@ -44,9 +44,9 @@
                                 <div class="form-group m-form__group align-items-center">
                                     <div class="input-group">
                                         <select id="Status" name="Status" class="form-control" [(ngModel)]="checked" (ngModelChange) ="getAll()">
-                                            <option [value]="undefined">{{"Tất cả" | localize}}</option>
-                                            <option [value]="true">{{"Đang hoạt động" | localize}}</option>
-                                            <option [value]="false">{{"Ngừng hoạt động" | localize}}</option>
+                                            <option [value]="undefined">{{"All" | localize}}</option>
+                                            <option [value]="true">{{"Active" | localize}}</option>
+                                            <option [value]="false">{{"Compeleted" | localize}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -88,17 +88,22 @@
                                         {{'EndDate' | localize}}
                                         <p-sortIcon field="EndDate"></p-sortIcon>
                                     </th>
-
+<!--    
                                     <th style="width: 150px" pSortableColumn="Note">
                                         {{'Note' | localize}}
                                         <p-sortIcon field="Note"></p-sortIcon>
+                                    </th> -->
+
+                                    <th style="width: 150px" pSortableColumn="Status">
+                                        {{'Status' | localize}}
+                                        <p-sortIcon field="Status"></p-sortIcon>
                                     </th>
+
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-record="$implicit">
                                 <tr>
-                                    <td style="width: 50px"
-                                        [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">
+                                    <td style="width: 50px">
                                         <div class="btn-group dropdown" dropdown container="body">
                                             <button dropdownToggle class="btn btn-sm btn-primary">
                                                 <i class="fa fa-cog"></i><span class="caret"></span>
@@ -144,8 +149,14 @@
                                         <span class="ui-column-title"> {{'EndDate' | localize}}</span>
                                         {{record.endDate | momentFormat:'L'}}
                                     </td>
-                                    <td style="width: 150px">
+                                    <!-- <td style="width: 150px">
                                         <span class="ui-column-title"> {{'Note' | localize}}</span> {{record.note}}
+                                    </td> -->
+                                    <td style="width: 150px">
+                                        <span class="ui-column-title"> {{'Status' | localize}}</span> 
+                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="record.status == true">{{l('Active')}}</span>
+                                        <span class="kt-badge kt-badge--dark kt-badge--inline" *ngIf="record.status == false">{{l('Compeleted')}}</span>
+                                      
                                     </td>
                                 </tr>
                             </ng-template>

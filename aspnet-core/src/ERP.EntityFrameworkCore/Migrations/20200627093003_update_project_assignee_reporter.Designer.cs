@@ -4,14 +4,16 @@ using ERP.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERP.Migrations
 {
     [DbContext(typeof(ERPDbContext))]
-    partial class ERPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200627093003_update_project_assignee_reporter")]
+    partial class update_project_assignee_reporter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1339,7 +1341,7 @@ namespace ERP.Migrations
                     b.Property<long>("Status_Id");
 
                     b.Property<string>("Summary")
-                        .HasMaxLength(500);
+                        .HasMaxLength(100);
 
                     b.Property<int>("TenantId");
 

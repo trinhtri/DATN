@@ -16,76 +16,75 @@ import { CreateOrEditDocumentComponent } from './create-or-edit-document/create-
 })
 export class DocumentComponent extends AppComponentBase implements OnInit {
   @Input() projectId: number;
-  @ViewChild('createOrEditModal', {static: true}) createOrEditModal: CreateOrEditDocumentComponent;
-  @ViewChild('dataTable', {static: true}) dataTable: Table;
-  @ViewChild('paginator', {static: true}) paginator: Paginator;
-    //Filters
+  @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateOrEditDocumentComponent;
+  @ViewChild('dataTable', { static: true }) dataTable: Table;
+  @ViewChild('paginator', { static: true }) paginator: Paginator;
+  //Filters
   filterText = '';
-  constructor(  injector: Injector,
-    private _memberServiceProxy: MemberServiceProxy,
+  constructor(injector: Injector,
     private _documentService: DocumentServiceProxy,
     private _fileDownloadService: FileDownloadService,
-    ) {
-      super(injector);
-    }
+  ) {
+    super(injector);
+  }
 
   ngOnInit() {
   }
   getAll(event?: LazyLoadEvent) {
     if (this.primengTableHelper.shouldResetPaging(event)) {
-        this.paginator.changePage(0);
+      this.paginator.changePage(0);
 
-        return;
+      return;
     }
 
     this.primengTableHelper.showLoadingIndicator();
 
     this._documentService.getAll(
-        this.projectId,
-        this.filterText,
-        this.primengTableHelper.getSorting(this.dataTable),
-        this.primengTableHelper.getMaxResultCount(this.paginator, event),
-        this.primengTableHelper.getSkipCount(this.paginator, event)
+      this.projectId,
+      this.filterText,
+      this.primengTableHelper.getSorting(this.dataTable),
+      this.primengTableHelper.getMaxResultCount(this.paginator, event),
+      this.primengTableHelper.getSkipCount(this.paginator, event)
     ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
-        this.primengTableHelper.totalRecordsCount = result.totalCount;
-        this.primengTableHelper.records = result.items;
-        this.primengTableHelper.hideLoadingIndicator();
+      this.primengTableHelper.totalRecordsCount = result.totalCount;
+      this.primengTableHelper.records = result.items;
+      this.primengTableHelper.hideLoadingIndicator();
     });
-}
-createNew(projectId) {
+  }
+  createNew(projectId) {
     this.createOrEditModal.show(projectId);
-}
-editDocument (projectId, id) {
+  }
+  editDocument(projectId, id) {
     this.createOrEditModal.show(projectId, id);
-}
-delete(dto: DocumentListDto): void {
-this.message.confirm(
-    this.l('MemberDeleteWarningMessage', dto.documentName),
-    this.l('AreYouSure'),
-    (isConfirmed) => {
+  }
+  delete(dto: DocumentListDto): void {
+    this.message.confirm(
+      this.l('DocumentDeleteWarningMessage', dto.documentName),
+      this.l('AreYouSure'),
+      (isConfirmed) => {
         if (isConfirmed) {
-            this._documentService.delete(dto.id)
-                .subscribe(() => {
-                    this.reloadPage();
-                    this.notify.success(this.l('SuccessfullyDeleted'));
-                });
+          this._documentService.delete(dto.id)
+            .subscribe(() => {
+              this.reloadPage();
+              this.notify.success(this.l('SuccessfullyDeleted'));
+            });
         }
-    }
-);
-}
+      }
+    );
+  }
 
-// exportExcel(event?: LazyLoadEvent) {
-// this._memberServiceProxy.getMemberForExcel(
-//     this.projectId,
-//     this.filterText,
-//     this.primengTableHelper.getSorting(this.dataTable),
-//     this.primengTableHelper.getMaxResultCount(this.paginator, event),
-//     this.primengTableHelper.getSkipCount(this.paginator, event)
-// ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
-// this._fileDownloadService.downloadTempFile(result);
-// });
-// }
-reloadPage(): void {
-this.paginator.changePage(this.paginator.getPage());
-}
+  exportExcel(event?: LazyLoadEvent) {
+    this._documentService.getDocumentToExcel(
+      this.projectId,
+      this.filterText,
+      this.primengTableHelper.getSorting(this.dataTable),
+      this.primengTableHelper.getMaxResultCount(this.paginator, event),
+      this.primengTableHelper.getSkipCount(this.paginator, event)
+    ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+      this._fileDownloadService.downloadTempFile(result);
+    });
+  }
+  reloadPage(): void {
+    this.paginator.changePage(this.paginator.getPage());
+  }
 }

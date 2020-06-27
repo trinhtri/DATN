@@ -14,7 +14,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   issue: CreateIssueDto = new CreateIssueDto();
-  dueDate = new Date();
+  dueDate: any;
   active = false;
   saving = false;
   projectId: number;
@@ -45,7 +45,6 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   initForm() {
     this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe(result => {
       this.lst = result;
-      console.log('lst', this.lst);
     });
     this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe(result => {
       this.lstProject = result;
@@ -68,6 +67,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
       // mặc định khi tạo mới thì mức độ là bình thường
       this.issue.priority_ID = 1;
     }
+    this.initForm();
   }
   onShown(): void {
     document.getElementById('IssueCode').focus();
@@ -106,13 +106,14 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   close(): void {
     this.projectId = null;
     this.dueDate = null;
+    this.lst = [];
+    this.lstSprint = [];
     this.issue = new CreateIssueDto();
     this.saving = false;
     this.active = false;
     this.modal.hide();
   }
   changeProject(projectId) {
-    console.log('projectId', projectId);
     this._commonService.getLookups('Sprints', this.appSession.tenantId, projectId).subscribe(result => {
       this.lstSprint = result;
     });

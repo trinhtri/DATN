@@ -1,4 +1,5 @@
-<div bsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
+<div bsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form *ngIf="active" #userForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="new-password1">
@@ -7,79 +8,104 @@
                         <span *ngIf="issue.id">{{"EditIssue" | localize}}: {{issue.issueCode}}</span>
                         <span *ngIf="!issue.id">{{"CreateIssue" | localize}}</span>
                     </h4>
-                    <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')" [disabled]="saving">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                    <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')"
+                        [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="IssueCode">{{"IssueCode" | localize}} *</label>
-                        <input id="IssueCode" #IssueCodeInput="ngModel" type="text" name="IssueCode1" class="form-control" [(ngModel)]="issue.issueCode" required maxlength="500">
+                        <input id="IssueCode" #IssueCodeInput="ngModel" type="text" name="IssueCode1"
+                            class="form-control" [(ngModel)]="issue.issueCode" required maxlength="100">
                         <validation-messages [formCtrl]="IssueCodeInput"></validation-messages>
                     </div>
                     <div class="form-group">
-                        <label for="Project">{{"Project" | localize}} </label>
-                        <select id="Project" name="ProjectName" class="form-control"  [(ngModel)]="issue.project_Id" (change)="changeProject(issue.project_Id)" #ProjectInput="ngModel">
-                        <option *ngFor ="let item of lstProject" [value]="item.value">{{item.displayText}}</option>
-                        <validation-messages [formCtrl]="ProjectInput"></validation-messages>
-                    </select>
+                        <label for="ProjectName">{{"Project" | localize}} *</label>
+                        <select id="ProjectName" name="ProjectName" class="form-control" [(ngModel)]="issue.project_Id"
+                            required #ProjectInput="ngModel">
+                            <option [value]="undefined">{{'---'}}</option>
+                            <option *ngFor="let item of lstProject" [value]="item.value">{{item.displayText}}</option>
+                            <validation-messages [formCtrl]="ProjectInput"></validation-messages>
+                        </select>
+                    </div>
+                    <!-- (change)="changeProject(issue.project_Id)" -->
+                    <div class="form-group">
+                        <label for="SprintName">{{"Sprint" | localize}} *</label>
+                        <select id="SprintName" name="SprintName" class="form-control" [(ngModel)]="issue.parent_Id"
+                            #SprintInput="ngModel">
+                            <option [value]="undefined">{{'---'}}</option>
+                            <option *ngFor="let item of lstSprint" [value]="item.value">{{item.displayText}}</option>
+                            <validation-messages [formCtrl]="SprintInput"></validation-messages>
+                        </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="Sprint">{{"Sprint" | localize}} *</label>
-                        <select id="Sprint" name="SprintName" class="form-control" [(ngModel)]="issue.parent_Id" required #SprintInput="ngModel">
-                        <option [value]="undefined">{{'---'}}</option>
-                        <option *ngFor ="let item of lstSprint" [value]="item.value">{{item.displayText}}</option>
-                        <validation-messages [formCtrl]="SprintInput"></validation-messages>
-                    </select>
-                    </div> 
-
-                    <div class="form-group">
                         <label for="IssueType">{{"IssueType" | localize}} *</label>
-                        <select id="IssueType" name="IssueTypeName" class="form-control" [(ngModel)]="issue.type_ID" required #IssueTypeInput="ngModel">
-                        <option *ngFor ="let item of lstType" [value]="item.id">{{item.displayText}}</option>
-                        <validation-messages [formCtrl]="IssueTypeInput"></validation-messages>
-                    </select>
+                        <select id="IssueType" name="IssueTypeName" class="form-control" [(ngModel)]="issue.type_ID"
+                            required #IssueTypeInput="ngModel">
+                            <option *ngFor="let item of lstType" [value]="item.id">{{item.displayText}}</option>
+                            <validation-messages [formCtrl]="IssueTypeInput"></validation-messages>
+                        </select>
                     </div>
 
 
                     <div class="form-group">
                         <label for="Summary">{{"Summary" | localize}} *</label>
-                        <input id="Summary" #SummaryInput="ngModel" type="text" name="SummaryName" class="form-control" [(ngModel)]="issue.summary" required maxlength="500">
+                        <input id="Summary" #SummaryInput="ngModel" type="text" name="SummaryName" class="form-control"
+                            [(ngModel)]="issue.summary" required maxlength="500">
                         <validation-messages [formCtrl]="SummaryInput"></validation-messages>
                     </div>
 
                     <div class="form-group">
                         <label for="Discription">{{"Discription" | localize}}</label>
-                        <p-editor  id="Discriptin" name="Discription" maxlength="2000" [(ngModel)]="issue.discription" [style]="{'height':'320px'}"></p-editor>
+                        <p-editor id="Discriptin" name="Discription" maxlength="2000" [(ngModel)]="issue.discription"
+                            [style]="{'height':'320px'}"></p-editor>
                     </div>
 
 
                     <div class="form-group">
                         <label for="SampleDatePicker1">{{"DueDate" | localize}} </label>
-                        <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="dueDate" bsDatepicker >
-                        <validation-messages [formCtrl]="StartDateInput"></validation-messages>
+                        <div class="input-group date">
+                            <input id="DueDate" type="text" name="EndDate" class="form-control" [(ngModel)]="dueDate"
+                                bsDatepicker autocomplete="off" triggers="dblclick:click" #dp3="bsDatepicker"
+                                placeholder="--/--/----">
+                            <div class="input-group-append">
+                                <span class="input-group-text" (click)="dp3.toggle()">
+                                    <i class="la la-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="dueDate" bsDatepicker > -->
+                        <!-- <validation-messages [formCtrl]="StartDateInput"></validation-messages> -->
                     </div>
 
                     <div class="form-group">
                         <label for="Assignee">{{"Assignee" | localize}}*</label>
-                        <select id="Assignee" name="Assignee" class="form-control" [(ngModel)]="issue.assignee_Id" required #AssigneeInput="ngModel">
-                        <option *ngFor ="let item of lst" [value]="item.value">{{item.displayText}}</option>
-                        <validation-messages [formCtrl]="AssigneeInput"></validation-messages>
-                    </select>
+                        <select id="Assignee" name="Assignee" class="form-control" [(ngModel)]="issue.assignee_Id"
+                            required #AssigneeInput="ngModel">
+                            <option [value]="undefined">{{'---'}}</option>
+
+                            <option *ngFor="let item of lst" [value]="item.value">{{item.displayText}}</option>
+                            <validation-messages [formCtrl]="AssigneeInput"></validation-messages>
+                        </select>
                     </div>
 
                     <div class="form-group">
                         <label for="Priority">{{"Priority" | localize}}*</label>
-                        <select id="Priority" name="PriorityName    " class="form-control" [(ngModel)]="issue.priority_ID" required  #PriorityInput="ngModel">
-                        <option *ngFor ="let item of lstPriority" [value]="item.id">{{item.displayText}}</option>
-                        <validation-messages [formCtrl]="PriorityInput"></validation-messages>
-                    </select>
+                        <select id="Priority" name="PriorityName    " class="form-control"
+                            [(ngModel)]="issue.priority_ID" required #PriorityInput="ngModel">
+                            <option *ngFor="let item of lstPriority" [value]="item.id">{{item.displayText}}</option>
+                            <validation-messages [formCtrl]="PriorityInput"></validation-messages>
+                        </select>
                     </div>
 
                     <div class="modal-footer">
-                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{"Cancel" | localize}}</button>
-                        <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{"Save" | localize}}</span></button>
+                        <button [disabled]="saving" type="button" class="btn btn-default"
+                            (click)="close()">{{"Cancel" | localize}}</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid"
+                            [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                            <span>{{"Save" | localize}}</span></button>
                     </div>
                 </div>
             </form>

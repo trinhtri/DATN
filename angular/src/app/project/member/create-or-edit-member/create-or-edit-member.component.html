@@ -16,7 +16,6 @@
                     <div class="form-group">
                         <label for="EmployeeName">{{"EmployeeName" | localize}}*</label>
                         <select id="EmployeeName" name="EmployeeName" class="form-control" [(ngModel)]="member.employee_Id" required #EmployeeNameInput="ngModel">
-                        <!-- <option [value]="">{{"-----" | localize}}</option> -->
                         <option *ngFor ="let item of lst" [value]="item.value">{{item.displayText}}</option>
                         <validation-messages [formCtrl]="EmployeeNameInput"></validation-messages>
 
@@ -32,13 +31,33 @@
 
                     <div class="form-group">
                         <label for="StartDate">{{"StartDate" | localize}} *</label>
-                        <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="startDate" bsDatepicker required [maxDate]="endDate">
+                        
+                        <div class="input-group date">
+                            <input id="StartDate" type="text" #StartDateInput name="StartDate" class="form-control" [(ngModel)]="startDate"
+                             bsDatepicker autocomplete="off" triggers="dblclick:click" #dp3="bsDatepicker" placeholder="--/--/----"  #StartDateInput="ngModel">
+                            <div class="input-group-append">
+                                <span class="input-group-text" (click)="dp3.toggle()">
+                                    <i class="la la-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="startDate" bsDatepicker required [maxDate]="endDate"> -->
                         <validation-messages [formCtrl]="StartDateInput"></validation-messages>
                     </div>
 
                     <div class="form-group">
-                        <label for="EndDate">{{"EndDate" | localize}} </label>
-                        <input id="SampleDatePicker" type="text" #SampleDatePicker name="SampleDatePicker" class="form-control" [(ngModel)]="endDate" bsDatepicker [minDate]="startDate">
+                        <label for="EndDate">{{"EndDate" | localize}} *</label>
+                        
+                        <div class="input-group date">
+                            <input id="EndDate" type="text" #EndDateInput name="EndDate" class="form-control" [(ngModel)]="endDate" [minDate]="startDate"
+                             bsDatepicker autocomplete="off" triggers="dblclick:click" #dp2="bsDatepicker" placeholder="--/--/----"  #EndDateInput="ngModel">
+                            <div class="input-group-append">
+                                <span class="input-group-text" (click)="dp2.toggle()">
+                                    <i class="la la-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <validation-messages [formCtrl]="EndDateInput"></validation-messages>
                     </div>
 
                     <div class="form-group">

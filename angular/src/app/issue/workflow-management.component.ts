@@ -56,7 +56,7 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
         { value: 4, displayText: this.l('Closed') },
         { value: 5, displayText: this.l('ReOpened') },
       ];
-
+      advancedFiltersAreShown: any;
 
     constructor(
         injector: Injector,
@@ -192,17 +192,9 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
     editProject(id) {
         this.createOrEditModal.show(id);
     }
-    exportExcel(event?: LazyLoadEvent) {
+    exportExcel() {
         this._issueServiceProxy.getIssueForExcel(
-            this.lstProjectId,
-            this.lstStatusId,
-            this.lstAssigneeId,
-            this.lstIssueTypeId,
-            this.filterText,
-            2,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event),
-            this.primengTableHelper.getSkipCount(this.paginator, event)
+            this.lstProjectId, this.lstStatusId, this.lstAssigneeId, this.lstIssueTypeId , this.filterText
         ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
         });

@@ -1,23 +1,19 @@
 ﻿using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace ERP.Models
+namespace ERP.Issue.Dto
 {
-    public class Issue : FullAuditedEntity<long>, IMustHaveTenant
+   public class CommonListDto: Entity<long>
     {
         public int TenantId { get; set; }
-        [StringLength(100)]
         public string IssueCode { get; set; }
-        [StringLength(500)]
         public string Summary { get; set; }
-        public long Type_ID { get; set; }
+        public long Type_Id { get; set; }
         public long Status_Id { get; set; }
-        [StringLength(2000)]
         public string Discription { get; set; }
+        //public long Sprint_Id { get; set; }
         public long Assignee_Id { get; set; }
         public long Reporter_Id { get; set; }
         public DateTime? Due_Date { get; set; }
@@ -25,12 +21,16 @@ namespace ERP.Models
         public DateTime? Resolved_Date { get; set; }
         public decimal? Estimate { get; set; }
         public long Priority_Id { get; set; }
-        public long Resolve_Id { get; set; }
+        public string ProjectCode { get; set; }
+        public long? Project_Id { get; set; }
+        public DateTime CreationTime { get; set; }
+        public List<IssueOfSprintListDto> ListIssue { get; set; }
         public long? Parent_Id { get; set; }
-        public int Type { get; set; }
 
-        public long Project_Id { get; set; }
-        public virtual Project Project_ { get; set; }
 
+        public CommonListDto()
+        {
+            ListIssue = new List<IssueOfSprintListDto>();
+        }
     }
 }

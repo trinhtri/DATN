@@ -98,5 +98,11 @@
         public const string Pages_Issue_Close = "Pages.Issue.Close";
 
 
+        public const string Pages_Sprint = "Pages.Sprint";
+        public const string Pages_Sprint_Create = "Pages.Sprint.Create";
+        public const string Pages_Sprint_Edit = "Pages.Sprint.Edit";
+        public const string Pages_Sprint_Delete = "Pages.Sprint.Delete";
+
+
     }
 }

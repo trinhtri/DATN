@@ -3,7 +3,8 @@
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
 
-                <a [routerLink]="['/app/project/manager-project',issue.project_Id]">
+                <a
+                    [routerLink]="['/app/project/manager-project',issue.project_Id]">
                     <span>{{issue.projectCode}}</span>
                 </a>
             </h3>
@@ -20,41 +21,76 @@
             <div class="kt-portlet__body">
                 <form class="kt-form" autocomplete="new-password">
                     <div>
-
                         <div class="row mb-4">
                             <div class="col-md-10">
-                                <button (click)="editIssue(idIssue)" *ngIf="isGranted('Pages.Issue.Edit')"
-                                    class="btn btn-primary btn-sm" style="margin-right:
+                                <button (click)="editIssue(idIssue)"
+                                    *ngIf="isGranted('Pages.Issue.Edit') &&
+                                    isSprint == false"
+                                    class="btn btn-primary btn-sm"
+                                    style="margin-right:
+                                    5px;"> {{"Edit" |
+                                    localize}}</button>
+
+                                <button (click)="editIssue(idIssue)"
+                                    *ngIf="isGranted('Pages.Sprint.Edit') &&
+                                    isSprint == true"
+                                    class="btn btn-primary btn-sm"
+                                    style="margin-right:
                                     5px;"> {{"Edit" |
                                     localize}}</button>
                                 <button (click)="startProgress(idIssue)"
-                                    *ngIf="issue.status_Id == 1 || issue.status_Id == 4" class="btn btn-primary btn-sm" style="margin-right:
+                                    *ngIf="issue.status_Id == 1 ||
+                                    issue.status_Id == 5" class="btn btn-primary
+                                    btn-sm"
+                                    style="margin-right:
                                     5px;">
                                     {{"StartProgress" | localize}}</button>
-                                <button (click)="stopProgress(idIssue)" *ngIf="issue.status_Id == 2"
-                                    class="btn btn-primary btn-sm" style="margin-right:
+                                <button (click)="stopProgress(idIssue)"
+                                    *ngIf="issue.status_Id == 2"
+                                    class="btn btn-primary btn-sm"
+                                    style="margin-right:
                                     5px;">
                                     {{"StopProgress" | localize}}</button>
-                                <button (click)="resolved(idIssue)" class="btn btn-primary btn-sm" style="margin-right:
-                                    5px;">
+                                <button (click)="resolved(idIssue)" class="btn
+                                    btn-primary btn-sm" style="margin-right:
+                                    5px;" *ngIf="issue.status_Id == 1 ||
+                                    issue.status_Id == 2 || issue.status_Id ==
+                                    5">
                                     {{"Resolved" | localize}}</button>
                                 <button (click)="reOpen(idIssue)"
-                                    *ngIf="isGranted('Pages.Issue.ReOpen') && issue.status_Id == 3"
-                                    class="btn btn-primary btn-sm" style="margin-right:
+                                    *ngIf="isGranted('Pages.Issue.ReOpen') &&
+                                    (issue.status_Id == 3 || issue.status_Id ==
+                                    4)"
+                                    class="btn btn-primary btn-sm"
+                                    style="margin-right:
                                     5px;">
                                     {{"ReOpened" | localize}}</button>
                                 <button (click)="close(idIssue)"
-                                    *ngIf="isGranted('Pages.Issue.Close') && issue.status_Id == 3"
-                                    class="btn btn-primary btn-sm" style="margin-right:
+                                    *ngIf="isGranted('Pages.Issue.Close') &&
+                                    issue.status_Id == 3"
+                                    class="btn btn-primary btn-sm"
+                                    style="margin-right:
                                     5px;">
                                     {{"Compeleted" | localize}}</button>
-                            </div>
-                            <!-- <div class="col-md-2">
-                                <button type="button" class="btn btn-success" style="float: right;"
-                                    (click)="exportExcel()"> <i class="far
-                                        fa-file-excel"></i> {{"Export" |
+
+                                <button (click)="close(idIssue)"
+                                    *ngIf="isGranted('Pages.Issue.Close') &&
+                                    issue.status_Id == 3"
+                                    class="btn btn-primary btn-sm"
+                                    style="margin-right:
+                                    5px;">
+                                    {{"Compeleted" | localize}}</button>
+
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    (click)="delete(issue)" *ngIf="isGranted('Pages.Sprint.Delete') &&
+                                    isSprint == true">  {{"Delete" |
                                     localize}}</button>
-                            </div> -->
+
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    (click)="delete(issue)" *ngIf="isGranted('Pages.Issue.Delete') &&
+                                    isSprint == false">  {{"Delete" |
+                                    localize}}</button>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -71,25 +107,35 @@
                                         {{"Type"| localize}}:
                                     </div>
                                     <div class="col-md-4">
-                                        <span class="kt-badge kt-badge--success kt-badge--inline"
+                                        <span class="kt-badge kt-badge--success
+                                            kt-badge--inline"
                                             *ngIf="issue.type_Id == 1">{{getTypeName(issue.type_Id)}}</span>
-                                        <span class="kt-badge kt-badge--primary kt-badge--inline"
+                                        <span class="kt-badge kt-badge--primary
+                                            kt-badge--inline"
                                             *ngIf="issue.type_Id == 2">{{getTypeName(issue.type_Id)}}</span>
-                                        <span class="kt-badge kt-badge--danger kt-badge--inline"
+                                        <span class="kt-badge kt-badge--danger
+                                            kt-badge--inline"
                                             *ngIf="issue.type_Id == 3">{{getTypeName(issue.type_Id)}}</span>
-
-                                        <!-- {{getTypeName(issue.type_Id)}} -->
                                     </div>
                                     <div class="col-md-2">
                                         {{"Status" | localize}}:
                                     </div>
                                     <div class="col-md-4">
-                                        <span class="kt-badge kt-badge--brand kt-badge--inline" *ngIf="issue.status_Id == 1">{{getStatusName(issue.status_Id)}}</span>
-                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="issue.status_Id == 2">{{getStatusName(issue.status_Id)}}</span>
-                                        <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="issue.status_Id == 3">{{getStatusName(issue.status_Id)}}</span>
-                                        <span class="kt-badge kt-kt-badge--dark kt-badge--inline" *ngIf="issue.status_Id == 4">{{getStatusName(issue.status_Id)}}</span>
-                                        <span class="kt-badge kt-badge--danger kt-badge--inline" *ngIf="issue.status_Id == 5">{{getStatusName(issue.status_Id)}}</span>
-                                        <!-- {{getStatusName(issue.status_Id)}} -->
+                                        <span class="kt-badge kt-badge--brand
+                                            kt-badge--inline"
+                                            *ngIf="issue.status_Id == 1">{{getStatusName(issue.status_Id)}}</span>
+                                        <span class="kt-badge kt-badge--success
+                                            kt-badge--inline"
+                                            *ngIf="issue.status_Id == 2">{{getStatusName(issue.status_Id)}}</span>
+                                        <span class="kt-badge kt-badge--success
+                                            kt-badge--inline"
+                                            *ngIf="issue.status_Id == 3">{{getStatusName(issue.status_Id)}}</span>
+                                        <span class="kt-badge kt-badge--dark
+                                            kt-badge--inline"
+                                            *ngIf="issue.status_Id == 4">{{getStatusName(issue.status_Id)}}</span>
+                                        <span class="kt-badge kt-badge--danger
+                                            kt-badge--inline"
+                                            *ngIf="issue.status_Id == 5">{{getStatusName(issue.status_Id)}}</span>
                                     </div>
                                     <div class="col-md-2">
                                         {{"Priority" | localize}}:
@@ -100,14 +146,17 @@
                                 </div>
                             </fieldset>
                             <fieldset class="scheduler-border">
-                                <legend class="scheduler-border">{{"Discription" | localize}}</legend>
-                                <p-editor name="Discription" maxlength="2000" [(ngModel)]="issue.discription"
+                                <legend class="scheduler-border">{{"Discription"
+                                    | localize}}</legend>
+                                <p-editor name="Discription" maxlength="2000"
+                                    [(ngModel)]="issue.discription"
                                     [style]="{'height':'320px'}"></p-editor>
                             </fieldset>
                         </div>
                         <div class="col-md-4">
                             <fieldset class="scheduler-border">
-                                <legend class="scheduler-border">{{"People" | localize}}</legend>
+                                <legend class="scheduler-border">{{"People" |
+                                    localize}}</legend>
                                 <div class="row">
                                     <div class="col-md-5">
                                         {{l('Reporter')}}:
@@ -125,10 +174,11 @@
                                 </div>
                             </fieldset>
                             <fieldset class="scheduler-border">
-                                <legend class="scheduler-border">{{"Date" | localize}}</legend>
+                                <legend class="scheduler-border">{{"Date" |
+                                    localize}}</legend>
                                 <div class="row">
                                     <div class="col-md-5">
-                                       {{l('Due_Date')}} :
+                                        {{l('Due_Date')}} :
                                     </div>
                                     <div class="col-md-7">
                                         {{dueDate | momentFormat:'L'}}
@@ -137,27 +187,39 @@
                                         {{l('CreationTime')}}:
                                     </div>
                                     <div class="col-md-7">
-                                        {{createdDate| momentFormat:'LLL'}}
+                                        {{createdDate| momentFormat:'L , h:mm
+                                        a'}}
                                     </div>
-                                    <!-- <div class="col-md-5">
-                                        Update:
-                                    </div>
-                                    <div class="col-md-7">
-                                        {{updateDate| momentFormat:'LLL'}}
-                                    </div> -->
                                 </div>
                             </fieldset>
+
+
+                            <fieldset class="scheduler-border" *ngIf="isSprint
+                                == true">
+                                <legend class="scheduler-border">{{"Issue" |
+                                    localize}}</legend>
+                                <div class="row">
+                                    <div class="col-md-12 test" *ngFor="let item
+                                        of issue.listIssue">
+                                        <p (click)='clickIssue(item.id)'
+                                            style="color: blue;
+                                            cursor: pointer;">
+                                            {{item.summaryIssue}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </fieldset>
+
                         </div>
                         <div class="col-md-12">
                             <fieldset class="scheduler-border">
-                                <legend class="scheduler-border">{{"Actions" | localize}}</legend>
+                                <legend class="scheduler-border">{{"Actions" |
+                                    localize}}</legend>
                                 <tabset class="tab-container">
-                                    <tab heading="{{'Comment' | localize}}" [active]="true">
+                                    <tab heading="{{'Comment' | localize}}"
+                                        [active]="true">
                                         <app-comments [IssueId]="issue.id"></app-comments>
                                     </tab>
-                                    <!-- <tab heading="{{'History' | localize}}">
-                                        History
-                                    </tab> -->
                                 </tabset>
                             </fieldset>
                         </div>

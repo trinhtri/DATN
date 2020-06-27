@@ -35,19 +35,20 @@ namespace ERP.TreeView
             try { 
          var flatNode = new List<Node>();
             var projects = _projectRepository.GetAll()
+                    .Where(x=>x.Status == true)
                     .WhereIf(!string.IsNullOrEmpty(input.Filter), x=>x.ProjectCode.Contains(input.Filter) 
                      || x.ProjectName.Contains(input.Filter))
                     .WhereIf(input.ListProjectId != null ,x=> input.ListProjectId.Any(a => a == x.Id))
                     .Select(x=> new Node
             {
-                Assignee_Id = null,
+                Assignee_Id = x.Assignee_Id,
                 Discription = null,
                 Due_Date= x.EndDate,
                 Name = x.ProjectCode,
                 Priority = 1,
                 Id = x.Id,
                 ParentId = null,
-                Reporter_Id = null,
+                Reporter_Id = x.Reporter_Id,
                 Estimate = null,
                 Status = (x.Status == true) ? Int64.Parse("1") : Int64.Parse("4"),
                 Summary = x.ProjectName,

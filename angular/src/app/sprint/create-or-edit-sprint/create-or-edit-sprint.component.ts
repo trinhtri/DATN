@@ -13,7 +13,7 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
   @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   issue: CreateIssueDto = new CreateIssueDto();
-  dueDate = new Date();
+  dueDate: any;
   active = false;
   saving = false;
   projectId: number;

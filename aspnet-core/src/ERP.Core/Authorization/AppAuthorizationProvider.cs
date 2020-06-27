@@ -114,6 +114,11 @@ namespace ERP.Authorization
             issue.CreateChildPermission(AppPermissions.Pages_Issue_ReOpen, L("ReOpen"));
             issue.CreateChildPermission(AppPermissions.Pages_Issue_Close, L("Close"));
 
+
+            var sprint = pages.CreateChildPermission(AppPermissions.Pages_Sprint, L("Sprint"));
+            sprint.CreateChildPermission(AppPermissions.Pages_Sprint_Create, L("Create"));
+            sprint.CreateChildPermission(AppPermissions.Pages_Sprint_Edit, L("Edit"));
+            sprint.CreateChildPermission(AppPermissions.Pages_Sprint_Delete, L("Delete"));
         }
 
         private static ILocalizableString L(string name)

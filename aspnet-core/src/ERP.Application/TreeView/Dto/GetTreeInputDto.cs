@@ -11,8 +11,6 @@ namespace ERP.TreeView.Dto
 
         public List<long> ListAssignId { get; set; }
         public List<long> ListTypeId { get; set; }
-
-
         public string Filter { get; set; }
     }
 }

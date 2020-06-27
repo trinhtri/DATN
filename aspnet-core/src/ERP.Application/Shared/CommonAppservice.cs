@@ -59,6 +59,16 @@ namespace ERP.Shared
                         .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.UserName })
                         .ToListAsync();
                     break;
+
+                // lấy những member chưa được assign trong project
+                case "MemberNewProject":
+                    var lstp = await _memberRepository.GetAll().Where(x => x.Project_Id == parentId).Select(x=>x.Employee_Id).ToListAsync();
+                    result = await _userRepository.GetAll()
+                       .Where(x => x.TenantId == tenantId || (tenantId == null && x.TenantId == null))
+                       .Where(i=> !lstp.Any(a=>a ==i.Id))
+                       .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.UserName })
+                       .ToListAsync();
+                    break;
                 case "MemberOfProject":
                   result =await _memberRepository.GetAll().Include(x=>x.Employee_).Where(x=>x.Project_Id == parentId)
                         .Where(x => x.TenantId == tenantId)
@@ -68,6 +78,7 @@ namespace ERP.Shared
                     break;
                 case "Project":
                     result = await _projectRepository.GetAll()
+                        .Where(x=>x.Status  == true)
                         .Where(x => x.TenantId == tenantId || (tenantId == null && x.TenantId == null))
                         .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.ProjectCode })
                         .ToListAsync();

@@ -926,6 +926,10 @@
     <text name="Editdocument">Edit document</text>
     <text name="DocumentName">Document name</text>
     <text name="UploadDate">Upload date</text>
+    <text name="DocumentDeleteWarningMessage">Document delete warning message {0}</text>
+    <text name="SprintDeleteWarningMessage">Sprint delete warning message {0}</text>
+    <text name="IssueDeleteWarningMessage">Issue delete warning message {0}</text>
+
 
     <!--issue-->
     <text name="ManagerIssue">Manager issue</text>
@@ -975,6 +979,14 @@
     <text name="Choose">Choose</text>
     <text name="Options">Options</text>
     <text name="Comment">Comment</text>
+    
+    
+     <text name="Manager">Manager</text>
+    <text name="Dev">Dev</text>
+    <text name="Test">Test</text>
+    
+    <text name="Type">Type</text>
+    <text name="SprintName">Sprint name</text>
 
 
 

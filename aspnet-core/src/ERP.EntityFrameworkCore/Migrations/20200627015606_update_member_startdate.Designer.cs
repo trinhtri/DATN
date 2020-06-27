@@ -4,14 +4,16 @@ using ERP.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ERP.Migrations
 {
     [DbContext(typeof(ERPDbContext))]
-    partial class ERPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200627015606_update_member_startdate")]
+    partial class update_member_startdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1339,7 +1341,7 @@ namespace ERP.Migrations
                     b.Property<long>("Status_Id");
 
                     b.Property<string>("Summary")
-                        .HasMaxLength(500);
+                        .HasMaxLength(100);
 
                     b.Property<int>("TenantId");
 
@@ -1466,8 +1468,6 @@ namespace ERP.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("Assignee_Id");
-
                     b.Property<string>("ClientName")
                         .HasMaxLength(100);
 
@@ -1498,8 +1498,6 @@ namespace ERP.Migrations
 
                     b.Property<string>("ProjectName")
                         .HasMaxLength(500);
-
-                    b.Property<long>("Reporter_Id");
 
                     b.Property<DateTime?>("StartDate");
 

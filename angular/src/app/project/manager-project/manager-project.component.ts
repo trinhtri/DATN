@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ProjectServiceProxy, ProjectListDto, CreateProjectDto, ThemeSettingsDto } from '@shared/service-proxies/service-proxies';
+import { ProjectServiceProxy, ProjectListDto, CreateProjectDto, ThemeSettingsDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
@@ -16,9 +16,12 @@ export class ManagerProjectComponent  extends AppComponentBase implements OnInit
   startDate: any;
   endDate: any;
   status: any;
+  assignee: string;
+  reporter: string;
   constructor(injector: Injector,
     private _activatedRoute: ActivatedRoute,
     private _projectService: ProjectServiceProxy,
+    private _userService: UserServiceProxy
     ) {
       super(injector);
      }
@@ -36,8 +39,13 @@ export class ManagerProjectComponent  extends AppComponentBase implements OnInit
         this.status = this.l('Đang hoạt động');
       } else {
         this.status = this.l('Ngừng hoạt động');
-
       }
+      this._userService.getName(this.project.reporter_Id).subscribe(result => {
+        this.reporter = result;
+      });
+      this._userService.getName(this.project.assignee_Id).subscribe(result => {
+        this.assignee = result;
+      });
     });
   }
 }

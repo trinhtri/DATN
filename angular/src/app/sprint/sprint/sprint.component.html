@@ -15,7 +15,7 @@
                     aria-expanded="false" (click)="exportExcel()">
                     <i class="far fa-file-excel"></i> {{"Export" | localize}}
                 </button>
-                <button (click)="createNew()" *ngIf="isGranted('Pages.Project.Create')" class="btn btn-primary"><i
+                <button (click)="createNew()" *ngIf="isGranted('Pages.Sprint.Create')" class="btn btn-primary"><i
                         class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
             </div>
         </div>
@@ -36,6 +36,86 @@
                                 </div>
                             </div>
                         </div>
+
+                        
+                        <div class="row mb-4" [hidden]="!advancedFiltersAreShown">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="projectId">{{"Project" | localize}}</label>
+                                    <p-multiSelect [options]="lstProject" name="projectId" [(ngModel)]="lstProjectId"
+                                        [panelStyle]="{minWidth:'12em'}">
+                                        <ng-template let-value pTemplate="selectedItems">
+                                            <span *ngIf="!value || value.length === 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
+                                            <span *ngIf="value && value.length > 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
+                                                {{"Options"|localize}}</span>
+                                        </ng-template>
+                                        <ng-template let-car let-i="index" pTemplate="item">
+                                            {{car.displayText}}
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="IssueType">{{"IssueType" | localize}}</label>
+                                    <p-multiSelect [options]="lstType" name="IssueType" [(ngModel)]="lstIssueTypeId"
+                                        [panelStyle]="{minWidth:'12em'}">
+                                        <ng-template let-value pTemplate="selectedItems">
+                                            <span *ngIf="!value || value.length === 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
+                                            <span *ngIf="value && value.length > 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
+                                                {{"Options"|localize}}</span>
+                                        </ng-template>
+                                        <ng-template let-car let-i="index" pTemplate="item">
+                                            {{car.displayText}}
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Status">{{"Status" | localize}}</label>
+                                    <p-multiSelect [options]="lstStatus" name="IssueType" [(ngModel)]="lstStatusId"
+                                        [panelStyle]="{minWidth:'12em'}">
+                                        <ng-template let-value pTemplate="selectedItems">
+                                            <span *ngIf="!value || value.length === 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
+                                            <span *ngIf="value && value.length > 0"
+                                                class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
+                                                {{"Options"|localize}}</span>
+                                        </ng-template>
+                                        <ng-template let-car let-i="index" pTemplate="item">
+                                            {{car.displayText}}
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-success" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" (click)="getAll()"
+                                    style="float: right;">
+                                    <i class="la la-refresh"></i> {{"Refresh" | localize}}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-sm-12" style="margin-top: -24px">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-down"></i> {{"ShowAdvancedFilters" | localize}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-up"></i> {{"HideAdvancedFilters" | localize}}</span>
+                            </div>
+                        </div>
+
+                        
                     </div>
                 </form>
 
@@ -48,24 +128,24 @@
                             [resizableColumns]="primengTableHelper.resizableColumns">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 50px"
-                                        [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation', 'Pages.Administration.Users.Edit', 'Pages.Administration.Users.ChangePermissions', 'Pages.Administration.Users.Delete')">
+                                    <th style="width: 50px">
+                                    </th>
+
+                                    <th style="width: 150px" pSortableColumn="IssueCode">
+                                        {{'SprintCode' | localize}}
+                                        <p-sortIcon field="IssueCode"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px" pSortableColumn="Project_.projectCode">
                                         {{'Project'| localize}}
                                         <p-sortIcon field="Project_.projectCode"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="ClientName">
-                                        {{'SprintCode' | localize}}
-                                        <p-sortIcon field="ClientName"></p-sortIcon>
-                                    </th>
-                                    <th style="width: 150px" pSortableColumn="Note">
+                                    <th style="width: 150px" pSortableColumn="Type">
                                         {{'SprintType' | localize}}
-                                        <p-sortIcon field="Note"></p-sortIcon>
+                                        <p-sortIcon field="Type"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="Note">
+                                    <th style="width: 150px" pSortableColumn="Summary">
                                         {{'Summary' | localize}}
-                                        <p-sortIcon field="Note"></p-sortIcon>
+                                        <p-sortIcon field="Summary"></p-sortIcon>
                                     </th>
 
                                 </tr>
@@ -80,26 +160,25 @@
                                             </button>
                                             <ul class="dropdown-menu" *dropdownMenu>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Project.Edit' | permission"
+                                                    <a href="javascript:;" *ngIf="'Pages.Sprint.Edit' | permission"
                                                         (click)="editSprint(record.id)">{{'Edit' | localize}}</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:;" *ngIf="'Pages.Project.Delete' | permission"
+                                                    <a href="javascript:;" *ngIf="'Pages.Sprint.Delete' | permission"
                                                         (click)="delete(record)">{{'Delete' | localize}}</a>
                                                 </li>
-
-
                                             </ul>
                                         </div>
-                                    </td>
-                                    <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'Project' | localize}}</span>
-                                        {{record.projectCode}}
                                     </td>
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'SprintName' | localize}}</span>
                                         {{record.issueCode}}
                                     </td>
+                                    <td style="width: 150px">
+                                        <span class="ui-column-title"> {{'Project' | localize}}</span>
+                                        {{record.projectCode}}
+                                    </td>
+
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'SprintType' | localize}}</span>
                                         <span class="kt-badge kt-badge--success kt-badge--inline"

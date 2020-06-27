@@ -11,10 +11,10 @@
     <ng-template pTemplate="body" let-comment>
         <tr>
             <td style="width: 100px">{{comment.employeeName}}</td>
-            <td style="width: 100px">{{comment.creationTime.format('LLL')}}</td>
+            <td style="width: 100px">{{comment.creationTime | momentFormat:'L , h:mm a'}}</td>
             <td style="width: 400px">{{comment.discription}}</td>
         </tr>
     </ng-template>
 </p-table>
 
-<app-create-or-edit-comment #CreatModel (modalSave)="getAll($event)"></app-create-or-edit-comment>
+<app-create-or-edit-comment #CreatModel (modalSave)="getAll()"></app-create-or-edit-comment>

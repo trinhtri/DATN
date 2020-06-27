@@ -38,7 +38,7 @@ namespace ERP.Member.Exporting
                         sheet,
                         L("EmployeeName"),
                         L("Role"),
-                        L("EffectiveDate"),
+                        L("Start"),
                         L("EndDate"),
                         L("Note")
                     );
@@ -46,7 +46,7 @@ namespace ERP.Member.Exporting
                     AddObjects(
                         sheet, 2, list,
                         _ => _.EmployeeName,
-                        _ => _.Role,
+                        _ => GetRoleName(_.Role),
                         _ => _timeZoneConverter.Convert(_.EffectiveDate, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _timeZoneConverter.Convert(_.EndDate, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _.Note
@@ -66,5 +66,23 @@ namespace ERP.Member.Exporting
                     }
                 });
         }
+        private string GetRoleName(long id)
+        {
+            var result = "";
+            switch (id)
+            {
+                case 1:
+                    result = L("Manager");
+                    break;
+                case 2:
+                    result = L("Dev");
+                    break;
+                case 3:
+                    result = L("Test");
+                    break;
+            }
+            return result;
+        }
+
     }
-}
+ }

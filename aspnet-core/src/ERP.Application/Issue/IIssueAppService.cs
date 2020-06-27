@@ -2,6 +2,7 @@
 using Abp.Application.Services.Dto;
 using ERP.Dto;
 using ERP.Issue.Dto;
+using ERP.TreeView.Dto;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace ERP.Issue
         Task Update(CreateIssueDto input);
         Task<CreateIssueDto> GetId(long id);
 
-        Task<FileDto> GetIssueForExcel(IssueInputDto input);
+        Task<FileDto> GetIssueForExcel(GetTreeInputDto input);
     }
 }
 

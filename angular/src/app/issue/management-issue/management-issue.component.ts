@@ -3,8 +3,8 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
-import { CreateIssueDto, ProjectServiceProxy, IssueServiceProxy, CommonAppserviceServiceProxy, UserServiceProxy, IssueListDto } from '@shared/service-proxies/service-proxies';
-import { ActivatedRoute } from '@angular/router';
+import { CreateIssueDto, ProjectServiceProxy, IssueServiceProxy, CommonAppserviceServiceProxy, UserServiceProxy, IssueListDto, CommonListDto } from '@shared/service-proxies/service-proxies';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreateIssueComponent } from '../create-issue/create-issue.component';
 import { EstimateComponent } from './estimate/estimate.component';
 @Component({
@@ -18,20 +18,21 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
   @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
   @ViewChild('estimateComponent', { static: true }) addEstimateTimeModal: EstimateComponent;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
-  issue: IssueListDto = new IssueListDto();
+  issue: CommonListDto = new CommonListDto();
   idIssue: number;
   assignee: any;
   reporter: any;
+  isSprint = false;
 
   // date
   dueDate: any;
   createdDate = new Date();
   updateDate: any;
   constructor(injector: Injector,
-    private _projectService: ProjectServiceProxy,
     private _issueService: IssueServiceProxy,
     private _activatedRoute: ActivatedRoute,
-    private _userService: UserServiceProxy
+    private _userService: UserServiceProxy,
+    private _router: Router
   ) {
     super(injector);
   }
@@ -53,6 +54,12 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
       if (this.issue.due_Date) {
         this.dueDate = this.issue.due_Date;
       }
+      if (this.issue.listIssue.length > 0) {
+        this.isSprint = true;
+      } else {
+        this.isSprint = false;
+      }
+      console.log('isSprint', this.isSprint);
       this.createdDate = this.issue.creationTime.toDate();
       this.updateDate = this.issue.update_Date.toDate();
     });
@@ -125,5 +132,30 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
         break;
     }
   }
+  clickIssue(id) {
+    let route = '/app/issue/management-issue/' + id;
+     window.open(route);
+  }
+  delete(dto): void {
+    console.log(dto);
+    let text = '';
+    if (this.isSprint === true) {
+      text = 'SprintDeleteWarningMessage';
+    } else {
+      text = 'IssueDeleteWarningMessage';
+    }
+    this.message.confirm(
+        this.l(text, dto.issueCode),
+        this.l('AreYouSure'),
+        (isConfirmed) => {
+            if (isConfirmed) {
+                this._issueService.delete(dto.id)
+                    .subscribe(() => {
+                        this.notify.success(this.l('SuccessfullyDeleted'));
+                    });
+            }
+        }
+    );
+}
 }
 

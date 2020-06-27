@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using ERP.Document.Dto;
+using ERP.Dto;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +16,6 @@ namespace ERP.Document
         Task Delete(long id);
         Task Update(CreateDocumentDto input);
         Task<CreateDocumentDto> GetId(long id);
+        Task<FileDto> GetDocumentToExcel(DocumentInputDto inputDto);
     }
 }

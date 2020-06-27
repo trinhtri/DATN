@@ -31,6 +31,7 @@ namespace ERP.Project
         public async Task<long> Create(CreateProjectDto input)
         {
             input.TenantId = AbpSession.TenantId;
+            input.Reporter_Id = AbpSession.UserId ?? 1;
             var project = ObjectMapper.Map<Models.Project>(input);
             await _projectRepository.InsertAsync(project);
             await CurrentUnitOfWork.SaveChangesAsync();
