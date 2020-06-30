@@ -51,6 +51,7 @@ export class MemberComponent extends AppComponentBase implements OnInit {
     ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
       this.primengTableHelper.totalRecordsCount = result.totalCount;
       this.primengTableHelper.records = result.items;
+      console.log('this.primengTableHelper.records', this.primengTableHelper.records);
       this.primengTableHelper.hideLoadingIndicator();
     });
   }

@@ -21,6 +21,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   lst: ERPComboboxItem[] = [];
   lstSprint: ERPComboboxItem[] = [];
   lstProject: ERPComboboxItem[] = [];
+  project_Id: number;
   lstPriority = [
     { id: 1, displayText: this.l('1') },
     { id: 2, displayText: this.l('2') },
@@ -56,9 +57,12 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   show(id?: number): void {
     this.active = true;
     this.modal.show();
+    this.initForm();
+
     if (id) {
       this._issueService.getId(id).subscribe(result => {
         this.issue = result;
+        console.log(this.issue);
         if (this.issue.due_Date) {
           this.dueDate = this.issue.due_Date.toDate();
         }
@@ -67,7 +71,6 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
       // mặc định khi tạo mới thì mức độ là bình thường
       this.issue.priority_ID = 1;
     }
-    this.initForm();
   }
   onShown(): void {
     document.getElementById('IssueCode').focus();
@@ -76,7 +79,6 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
     this.saving = true;
     this.issue.type = 2;
     this.issue.reporter_Id = this.appSession.userId;
-    this.issue.update_Date = moment(new Date);
     if (this.dueDate) {
       this.issue.due_Date = moment(this.dueDate);
     }

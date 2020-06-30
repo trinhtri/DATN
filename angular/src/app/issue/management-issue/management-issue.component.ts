@@ -7,6 +7,7 @@ import { CreateIssueDto, ProjectServiceProxy, IssueServiceProxy, CommonAppservic
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateIssueComponent } from '../create-issue/create-issue.component';
 import { EstimateComponent } from './estimate/estimate.component';
+import { CreateOrUpdateSprintComponent } from '../create-or-update-sprint/create-or-update-sprint.component';
 @Component({
   selector: 'app-management-issue',
   templateUrl: './management-issue.component.html',
@@ -16,6 +17,8 @@ import { EstimateComponent } from './estimate/estimate.component';
 })
 export class ManagementIssueComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
+  @ViewChild('createOrEditSprintModal', { static: true }) createOrEditSprintModal: CreateOrUpdateSprintComponent;
+
   @ViewChild('estimateComponent', { static: true }) addEstimateTimeModal: EstimateComponent;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   issue: CommonListDto = new CommonListDto();
@@ -54,19 +57,21 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
       if (this.issue.due_Date) {
         this.dueDate = this.issue.due_Date;
       }
-      if (this.issue.listIssue.length > 0) {
+      if (this.issue.type === 1) {
         this.isSprint = true;
       } else {
         this.isSprint = false;
       }
       console.log('isSprint', this.isSprint);
       this.createdDate = this.issue.creationTime.toDate();
-      this.updateDate = this.issue.update_Date.toDate();
     });
   }
 
   editIssue(id) {
     this.createOrEditModal.show(id);
+  }
+  editSprint(id) {
+    this.createOrEditSprintModal.show(id);
   }
   startProgress(id) {
     this._issueService.startProgress(id).subscribe(result => {

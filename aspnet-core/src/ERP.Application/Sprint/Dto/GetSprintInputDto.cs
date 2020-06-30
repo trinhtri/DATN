@@ -13,7 +13,7 @@ namespace ERP.Sprint.Dto
     {
         if (string.IsNullOrEmpty(Sorting))
         {
-            Sorting = "SprintName, Summary";
+            Sorting = "SprintCode, Summary";
         }
 
         Filter = Filter?.Trim();

@@ -10,32 +10,32 @@ import * as moment from 'moment';
   styleUrls: ['./create-or-edit-member.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateOrEditMemberComponent extends AppComponentBase  implements OnInit {
+export class CreateOrEditMemberComponent extends AppComponentBase implements OnInit {
 
-  @ViewChild('createOrEditModal', {static: true}) modal: ModalDirective;
+  @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   member: CreateMemberDto = new CreateMemberDto();
   startDate: any;
   endDate: any;
   active = false;
   saving = false;
-  lst: ERPComboboxItem [] = [];
-  lstRole = [{value: 1 , display: this.l('Manager')},
-  {value: 2 , display: this.l('Dev')},
-  {value: 3 , display: this.l('Test')},
-];
+  lst: ERPComboboxItem[] = [];
+  lstRole = [{ value: 1, display: this.l('Manager') },
+  { value: 2, display: this.l('Dev') },
+  { value: 3, display: this.l('Test') },
+  ];
   projectId: any;
   constructor(injector: Injector,
     private _memberService: MemberServiceProxy,
     private _commonService: CommonAppserviceServiceProxy
-    ) {
+  ) {
     super(injector);
-   }
+  }
 
   ngOnInit() {
   }
   initForm() {
-     this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe( result => {
+    this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe(result => {
       this.lst = result;
     });
   }
@@ -46,53 +46,53 @@ export class CreateOrEditMemberComponent extends AppComponentBase  implements On
     this.active = true;
     this.modal.show();
     if (id) {
-    this._memberService.getId(id).subscribe( result => {
-      this.member = result;
-      if (this.member.effectiveDate) {
-        this.startDate = this.member.effectiveDate.toDate();
-      }
-      if (this.member.endDate) {
-        this.endDate = this.member.endDate.toDate();
-      }
-    });
+      this._memberService.getId(id).subscribe(result => {
+        this.member = result;
+        if (this.member.startDate) {
+          this.startDate = this.member.startDate.toDate();
+        }
+        if (this.member.endDate) {
+          this.endDate = this.member.endDate.toDate();
+        }
+      });
+    }
   }
-}
-onShown(): void {
-  // document.getElementById('EmployeeName').focus();
-}
-save(): void {
-  this.saving = true;
-  this.member.project_Id = this.projectId;
-  this.member.effectiveDate = moment(this.startDate);
-  if (this.endDate) {
-this.member.endDate = moment(this.endDate);
+  onShown(): void {
+    // document.getElementById('EmployeeName').focus();
   }
-  if (this.member.id) {
-    this._memberService.update(this.member)
-    .pipe(finalize(() => { this.saving = false; }))
-    .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.close();
-        this.modalSave.emit(null);
-    });
-  } else {
-    this._memberService.create(this.member)
-    .pipe(finalize(() => { this.saving = false; }))
-    .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.close();
-        this.modalSave.emit(null);
-    });
+  save(): void {
+    this.saving = true;
+    this.member.project_Id = this.projectId;
+    this.member.startDate = moment(this.startDate);
+    if (this.endDate) {
+      this.member.endDate = moment(this.endDate);
+    }
+    if (this.member.id) {
+      this._memberService.update(this.member)
+        .pipe(finalize(() => { this.saving = false; }))
+        .subscribe(() => {
+          this.notify.info(this.l('SavedSuccessfully'));
+          this.close();
+          this.modalSave.emit(null);
+        });
+    } else {
+      this._memberService.create(this.member)
+        .pipe(finalize(() => { this.saving = false; }))
+        .subscribe(() => {
+          this.notify.info(this.l('SavedSuccessfully'));
+          this.close();
+          this.modalSave.emit(null);
+        });
+    }
   }
-}
 
-close(): void {
-  this.startDate = null;
-  this.endDate = null;
-  this.member = new CreateMemberDto();
-  this.saving = false;
-  this.active = false;
-  this.modal.hide();
-}
+  close(): void {
+    this.startDate = null;
+    this.endDate = null;
+    this.member = new CreateMemberDto();
+    this.saving = false;
+    this.active = false;
+    this.modal.hide();
+  }
 
 }

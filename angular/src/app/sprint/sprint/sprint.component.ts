@@ -8,6 +8,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { finalize } from 'rxjs/operators';
 import { CreateOrEditSprintComponent } from '../create-or-edit-sprint/create-or-edit-sprint.component';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-sprint',
@@ -48,7 +49,8 @@ export class SprintComponent extends AppComponentBase implements OnInit {
         private _fileDownloadService: FileDownloadService,
         private _sprintService: SprintServiceProxy,
         private _issueService: IssueServiceProxy,
-        private _commonService: CommonAppserviceServiceProxy
+        private _commonService: CommonAppserviceServiceProxy,
+        private _router: Router
     ) {
         super(injector);
     }
@@ -75,13 +77,8 @@ export class SprintComponent extends AppComponentBase implements OnInit {
 
         this.primengTableHelper.showLoadingIndicator();
 
-        this._issueService.getAll(
-            this.lstProjectId,
-            this.lstStatusId,
-            undefined,
-            this.lstIssueTypeId,
+        this._sprintService.getAll(
             this.filterText,
-            1,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getMaxResultCount(this.paginator, event),
             this.primengTableHelper.getSkipCount(this.paginator, event)
@@ -90,6 +87,21 @@ export class SprintComponent extends AppComponentBase implements OnInit {
             this.primengTableHelper.records = result.items;
             this.primengTableHelper.hideLoadingIndicator();
         });
+        // this._issueService.getAll(
+        //     this.lstProjectId,
+        //     this.lstStatusId,
+        //     undefined,
+        //     this.lstIssueTypeId,
+        //     this.filterText,
+        //     1,
+        //     this.primengTableHelper.getSorting(this.dataTable),
+        //     this.primengTableHelper.getMaxResultCount(this.paginator, event),
+        //     this.primengTableHelper.getSkipCount(this.paginator, event)
+        // ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+        //     this.primengTableHelper.totalRecordsCount = result.totalCount;
+        //     this.primengTableHelper.records = result.items;
+        //     this.primengTableHelper.hideLoadingIndicator();
+        // });
     }
     createNew() {
         this.createOrEditModal.show();
@@ -143,5 +155,8 @@ export class SprintComponent extends AppComponentBase implements OnInit {
                 return this.l('Bug');
                 break;
         }
+    }
+    onClickSprint(id) {
+    this._router.navigate(['/app/sprint/sprint', id]);
     }
 }

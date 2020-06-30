@@ -44,7 +44,7 @@ namespace ERP.Sprint
         {
             var query = _sprintRepository.GetAll().Include(x=>x.Project_)
                 .WhereIf(!string.IsNullOrEmpty(input.Filter),
-                x => x.SprintName.ToUpper().Contains(input.Filter.ToUpper())
+                x => x.SprintCode.ToUpper().Contains(input.Filter.ToUpper())
                 || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
                 || x.Project_.ProjectName.ToUpper().Contains(input.Filter.ToUpper()));
             var totalCount = await query.AsQueryable().CountAsync();

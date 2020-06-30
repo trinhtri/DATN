@@ -50,6 +50,7 @@
     <text name="RoleDeleteWarningMessage">Vai trò {0} sẽ bị xóa và bỏ gán cho tất cả người dùng được chỉ định.</text>
     <text name="UserDeleteWarningMessage">Người dùng {0} sẽ bị xóa.</text>
     <text name="Active">Kích hoạt</text>
+    <text name="InActive">Không kích hoạt</text>
     <text name="EmailConfirm">Email xác nhận</text>
     <text name="Yes">Có</text>
     <text name="No">Không</text>
@@ -830,6 +831,7 @@
     <text name="Documents">Tài liệu</text>
     <text name="DocumentUrl">Url Tài liệu</text>
     <text name="Lock">Khoá</text>
+    <text name="Issue">Issue</text>
 
     <!--sprint-->
     <text name="ManagerSprint">Quản lý sprint</text>
@@ -874,6 +876,9 @@
 
     <text name="Type">Loại</text>
     <text name="SprintName">Tên Sprint</text>
+    <text name="Sprint">Sprint</text>
+    <text name="EffectiveWorkManagementSolution">Giải pháp quản lý công việc hiệu quả.</text>
+    <text name="SprintInformationManagement">Quản lý thông tin sprint</text>
     
     
    

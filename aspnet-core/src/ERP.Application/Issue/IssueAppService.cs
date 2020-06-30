@@ -20,12 +20,12 @@ namespace ERP.Issue
 {
     public class IssueAppService : ERPAppServiceBase, IIssueAppService
     {
-        private readonly IRepository<Models.Issue,long> _issueRepository;
+        private readonly IRepository<Models.Issue, long> _issueRepository;
         private readonly IRepository<User, long> _userRepository;
         private readonly IssueListExcelExporter _issueListExcelExport;
         private readonly IRepository<Models.Project, long> _projectRepository;
 
-        public IssueAppService(IRepository<Models.Issue,long> issueRepository,
+        public IssueAppService(IRepository<Models.Issue, long> issueRepository,
             IRepository<User, long> userRepository,
             IssueListExcelExporter issueListExcelExport,
              IRepository<Models.Project, long> projectRepository
@@ -53,13 +53,12 @@ namespace ERP.Issue
         public async Task<FileDto> GetIssueForExcel(GetTreeInputDto input)
         {
             var list = _issueRepository.GetAll()
-              .Include(x => x.Project_)
               .Where(x => x.Type == 2)
               .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
               .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_ID))
-              .WhereIf(input.ListProjectId != null, x => input.ListProjectId.Any(a => a == x.Project_Id))
+              .WhereIf(input.ListProjectId != null, x => input.ListProjectId.Any(a => a == x.Parent_Id))
               .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
-            x => x.IssueCode.ToUpper().Contains(input.Filter.ToUpper())
+            x => x.TaskCode.ToUpper().Contains(input.Filter.ToUpper())
             || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
             || x.Status_Id.ToString().Contains(input.Filter)
             || x.CreationTime.ToString().Contains(input.Filter)
@@ -80,22 +79,42 @@ namespace ERP.Issue
 
         public async Task<PagedResultDto<IssueListDto>> GetAll(IssueInputDto input)
         {
-            var list = _issueRepository.GetAll()
-                .Include(x=>x.Project_)
-                .Where(x=>x.Type == input.Type)
-                .WhereIf(input.ListStatusId !=null, x=>input.ListStatusId.Any(a=>a == x.Status_Id))
-                .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_ID))
-                .WhereIf(input.ListProjectId != null, x => input.ListProjectId.Any(a => a == x.Project_Id))
+            var listTask = (from t in _issueRepository.GetAll().Where(x => x.Type == input.Type)
+                            join p in _projectRepository.GetAll()
+                            on t.Parent_Id equals p.Id
+                            select new IssueListDto
+                            {
+                                Id = t.Id,
+                                Parent_Id = t.Parent_Id,
+                                Assignee_Id = t.Assignee_Id,
+                                CreationTime = t.CreationTime,
+                                Discription = t.Discription,
+                                Due_Date = t.Due_Date,
+                                Estimate = t.Estimate,
+                                Priority_Id = t.Priority_Id,
+                                ProjectCode = p.ProjectCode,
+                                Project_Id = p.Id,
+                                Reporter_Id = t.Reporter_Id,
+                                Status_Id = t.Status_Id,
+                                Summary = t.Summary,
+                                TaskCode = t.TaskCode,
+                                TenantId = t.TenantId,
+                                Type_Id = t.Type_ID,
+                                Type = t.Type
+                            })
+                .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
+                .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
+                .WhereIf(input.ListProjectId != null, x => input.ListProjectId.Any(a => a == x.Parent_Id))
                 .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
-              x => x.IssueCode.ToUpper().Contains(input.Filter.ToUpper())
+              x => x.TaskCode.ToUpper().Contains(input.Filter.ToUpper())
               || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
               || x.Status_Id.ToString().Contains(input.Filter)
               || x.CreationTime.ToString().Contains(input.Filter)
               || x.Due_Date.ToString().Contains(input.Filter)
               || x.Estimate.ToString().Contains(input.Filter)
               );
-            var tatolCount = await list.CountAsync();
-            var result = await list.OrderBy(input.Sorting)
+            var tatolCount = await listTask.CountAsync();
+            var result = await listTask.OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
 
@@ -114,39 +133,92 @@ namespace ERP.Issue
         }
         public async Task<CommonListDto> GetIssueForDetail(long id)
         {
+            var task = await _issueRepository.FirstOrDefaultAsync(id);
+            var issues = new List<IssueOfSprintListDto>();
+
+            if(task.Type == 1)
+            {
+                return await GetSprintForManager(id);
+            } else
+            {
+                return await GetIssueForManager(id);
+            }
+        }
 
 
-            var issues = await _issueRepository.GetAll().Where(x => x.Parent_Id == id).Select(x => new IssueOfSprintListDto()
+
+       public async Task<CommonListDto> GetSprintForManager(long id)
+        {
+           var issues = await _issueRepository.GetAll().Where(x => x.Parent_Id == id).Select(x => new IssueOfSprintListDto()
             {
                 Id = x.Id,
                 SummaryIssue = x.Summary
             }).ToListAsync();
-            var dto = await _issueRepository.GetAll()
-                .Include(x=>x.Project_)
-                .Where(x=>x.Id == id)
-                .Select(x=> new CommonListDto() { 
-                Summary = x.Summary,
-                Id = x.Id,
-                Assignee_Id = x.Assignee_Id,
-                CreationTime = x.CreationTime,
-                Discription = x.Discription,
-                Due_Date = x.Due_Date,
-                Estimate = x.Estimate,
-                IssueCode = x.IssueCode,
-                ListIssue = issues,
-                Priority_Id = x.Priority_Id,
-                ProjectCode = x.Project_.ProjectCode,
-                Project_Id = x.Project_Id,
-                Reporter_Id = x.Reporter_Id,
-                Status_Id = x.Status_Id,
-                Type_Id = x.Type,
-                TenantId = x.TenantId,
-                Update_Date = x.Update_Date,
-                Resolved_Date = x.Resolved_Date,
-                Parent_Id = x.Parent_Id
-                })
-                .FirstOrDefaultAsync();
-            return dto;
+            var result = (from t in _issueRepository.GetAll()
+                          join p in _projectRepository.GetAll()
+                          on t.Parent_Id equals p.Id
+                          select new CommonListDto
+                          {
+                              Id = t.Id,
+                              Parent_Id = t.Parent_Id,
+                              Assignee_Id = t.Assignee_Id,
+                              CreationTime = t.CreationTime,
+                              Discription = t.Discription,
+                              Due_Date = t.Due_Date,
+                              Estimate = t.Estimate,
+                              Priority_Id = t.Priority_Id,
+                              ProjectCode = p.ProjectCode,
+                              Reporter_Id = t.Reporter_Id,
+                              Status_Id = t.Status_Id,
+                              Summary = t.Summary,
+                              TaskCode = t.TaskCode,
+                              TenantId = t.TenantId,
+                              Type_Id = t.Type_ID,
+                              ListIssue = issues,
+                              Type = t.Type
+                          }).Where(x => x.Id == id)
+                          .FirstOrDefaultAsync();
+            return result.Result;
+        } 
+        public async Task<CommonListDto> GetIssueForManager(long id)
+        {
+            var result = await _issueRepository.GetAll().Where(x => x.Id == id).Select(t => new CommonListDto
+            {
+                Id = t.Id,
+                Parent_Id = t.Parent_Id,
+                Assignee_Id = t.Assignee_Id,
+                CreationTime = t.CreationTime,
+                Discription = t.Discription,
+                Due_Date = t.Due_Date,
+                Estimate = t.Estimate,
+                Priority_Id = t.Priority_Id,
+                //ProjectCode = GetProjecCode(t.Type, t.Parent_Id ?? 1).Result,
+                Reporter_Id = t.Reporter_Id,
+                Status_Id = t.Status_Id,
+                Summary = t.Summary,
+                TaskCode = t.TaskCode,
+                TenantId = t.TenantId,
+                Type_Id = t.Type_ID,
+                ListIssue = null,
+                Type = t.Type
+            }).FirstOrDefaultAsync();
+            result.ProjectCode = GetProjecCode(result.Type, result.Parent_Id ?? 1).Result;
+            return result;
+        }
+        public async Task<string> GetProjecCode(long type, long parentId)
+        {
+            if (type == 1)
+            {
+                // no se la sprint
+                var pr =await _projectRepository.FirstOrDefaultAsync(parentId);
+                return pr.ProjectCode;
+            }
+            else
+            {
+                var sprint = await _issueRepository.FirstOrDefaultAsync(parentId);
+                var pr =await _projectRepository.FirstOrDefaultAsync(sprint.Parent_Id ?? 1);
+                return pr.ProjectCode;
+            }
         }
         public async Task DeleteIssue(long id)
         {
@@ -156,7 +228,6 @@ namespace ERP.Issue
         public async Task Update(CreateIssueDto input)
         {
             // ngày cập nhật chính là ngày hiện tại
-            input.Update_Date = DateTime.Now;
             var dto = await _issueRepository.FirstOrDefaultAsync(input.Id);
             ObjectMapper.Map(input, dto);
         }

@@ -62,7 +62,7 @@ namespace ERP.Member
                                on m.Project_Id equals p.Id
                                select new MemberListDto
                                {
-                                   EffectiveDate = m.StartDate,
+                                   StartDate = m.StartDate,
                                    EmployeeName = m.Employee_.UserName,
                                    Id = m.Id,
                                    EndDate = m.EndDate,
@@ -73,17 +73,17 @@ namespace ERP.Member
                        .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
                         x => x.EmployeeName.ToUpper().Contains(input.Filter.ToUpper())
                        || x.Note.ToUpper().Contains(input.Filter.ToUpper())
-                       || x.EffectiveDate.ToString().Contains(input.Filter)
+                       || x.StartDate.ToString().Contains(input.Filter)
                        || x.EndDate.ToString().Contains(input.Filter));
 
                 var tatolCount = await members.AsQueryable().CountAsync();
                 var result = await members.AsQueryable().OrderBy(input.Sorting).PageBy(input).ToListAsync();
 
-                var projectListDtos = ObjectMapper.Map<List<MemberListDto>>(result);
+                //var projectListDtos = ObjectMapper.Map<List<MemberListDto>>(result);
 
                 return new PagedResultDto<MemberListDto>(
                     tatolCount,
-                    projectListDtos
+                    result
                     );
             } catch(Exception e)
             {

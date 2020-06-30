@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+    devwork:
+        image: devwork/host
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Staging
+        ports:
+            - "1998:80"
+        depends_on:
+            - devwork_db
+        volumes:
+            - "./Host-Logs:/app/App_Data/Logs"
+
+    devwork_ng:
+        image: devwork/ng
+        ports:
+            - "2000:80"
+        volumes:
+            - "./nginx.conf:/etc/nginx/nginx.conf:ro"
+    devwork_db:
+        image: mcr.microsoft.com/mssql/server:2017-latest
+        environment:
+            SA_PASSWORD: "It@123456"
+            ACCEPT_EULA: "Y"
+        ports:
+            - "1433:1433"

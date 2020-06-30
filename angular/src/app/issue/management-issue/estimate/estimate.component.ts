@@ -48,7 +48,6 @@ export class EstimateComponent extends AppComponentBase implements OnInit {
   save(): void {
     this.saving = true;
     this.issue.reporter_Id = this.appSession.userId;
-    this.issue.update_Date = moment(new Date);
     this._issueService.update(this.issue)
       .pipe(finalize(() => { this.saving = false; }))
       .subscribe(() => {

@@ -14,7 +14,7 @@ namespace ERP.Member.Dto
         {
             if (string.IsNullOrEmpty(Sorting))
             {
-                Sorting = "EffectiveDate,EndDate,Note,EmployeeName,Role";
+                Sorting = "StartDate,EndDate,Note,EmployeeName,Role";
             }
 
             Filter = Filter?.Trim();

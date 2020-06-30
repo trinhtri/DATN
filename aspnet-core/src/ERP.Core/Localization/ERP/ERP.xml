@@ -50,6 +50,7 @@
     <text name="RoleDeleteWarningMessage">Role {0} will be deleted and unassigned from all assigned users.</text>
     <text name="UserDeleteWarningMessage">User {0} will be deleted.</text>
     <text name="Active">Active</text>
+    <text name="InActive">InActive</text>
     <text name="EmailConfirm">Email confirm</text>
     <text name="Yes">Yes</text>
     <text name="No">No</text>
@@ -970,7 +971,7 @@
     <text name="StopProgress">Stop progress</text>
     <text name="Resolved">Resolved</text>
     <text name="Compeleted">Compeleted</text>
-    <text name="ReOpened">ReOpened</text>
+    <text name="ReOpened">ReOpen</text>
 
     <text name="Details">Details</text>
     <text name="People">People</text>
@@ -987,6 +988,10 @@
     
     <text name="Type">Type</text>
     <text name="SprintName">Sprint name</text>
+    <text name="Sprint">Sprint</text>
+    <text name="Issue">Issue</text>
+    <text name="EffectiveWorkManagementSolution">Effective work management solution.</text>
+    
 
 
 

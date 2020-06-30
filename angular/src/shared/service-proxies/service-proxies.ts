@@ -4709,6 +4709,171 @@ export class IssueServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getSprintForManager(id: number | null | undefined): Observable<CommonListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetSprintForManager?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSprintForManager(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSprintForManager(<any>response_);
+                } catch (e) {
+                    return <Observable<CommonListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CommonListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSprintForManager(response: HttpResponseBase): Observable<CommonListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CommonListDto.fromJS(resultData200) : new CommonListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CommonListDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getIssueForManager(id: number | null | undefined): Observable<CommonListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetIssueForManager?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetIssueForManager(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetIssueForManager(<any>response_);
+                } catch (e) {
+                    return <Observable<CommonListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CommonListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetIssueForManager(response: HttpResponseBase): Observable<CommonListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CommonListDto.fromJS(resultData200) : new CommonListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CommonListDto>(<any>null);
+    }
+
+    /**
+     * @param type (optional) 
+     * @param parentId (optional) 
+     * @return Success
+     */
+    getProjecCode(type: number | null | undefined, parentId: number | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetProjecCode?";
+        if (type !== undefined)
+            url_ += "type=" + encodeURIComponent("" + type) + "&"; 
+        if (parentId !== undefined)
+            url_ += "parentId=" + encodeURIComponent("" + parentId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProjecCode(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProjecCode(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProjecCode(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     deleteIssue(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Issue/DeleteIssue?";
         if (id !== undefined)
@@ -17267,17 +17432,15 @@ export interface ICreateInvoiceDto {
 
 export class CreateIssueDto implements ICreateIssueDto {
     tenantId!: number | undefined;
-    issueCode!: string | undefined;
+    taskCode!: string | undefined;
     summary!: string | undefined;
     type_ID!: number | undefined;
     status_Id!: number | undefined;
     discription!: string | undefined;
-    project_Id!: number | undefined;
     assignee_Id!: number | undefined;
     reporter_Id!: number | undefined;
+    startDate!: moment.Moment | undefined;
     due_Date!: moment.Moment | undefined;
-    update_Date!: moment.Moment | undefined;
-    resolved_Date!: moment.Moment | undefined;
     priority_ID!: number | undefined;
     resolve_Id!: number | undefined;
     estimate!: number | undefined;
@@ -17297,17 +17460,15 @@ export class CreateIssueDto implements ICreateIssueDto {
     init(data?: any) {
         if (data) {
             this.tenantId = data["tenantId"];
-            this.issueCode = data["issueCode"];
+            this.taskCode = data["taskCode"];
             this.summary = data["summary"];
             this.type_ID = data["type_ID"];
             this.status_Id = data["status_Id"];
             this.discription = data["discription"];
-            this.project_Id = data["project_Id"];
             this.assignee_Id = data["assignee_Id"];
             this.reporter_Id = data["reporter_Id"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
-            this.update_Date = data["update_Date"] ? moment(data["update_Date"].toString()) : <any>undefined;
-            this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
             this.priority_ID = data["priority_ID"];
             this.resolve_Id = data["resolve_Id"];
             this.estimate = data["estimate"];
@@ -17327,17 +17488,15 @@ export class CreateIssueDto implements ICreateIssueDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
-        data["issueCode"] = this.issueCode;
+        data["taskCode"] = this.taskCode;
         data["summary"] = this.summary;
         data["type_ID"] = this.type_ID;
         data["status_Id"] = this.status_Id;
         data["discription"] = this.discription;
-        data["project_Id"] = this.project_Id;
         data["assignee_Id"] = this.assignee_Id;
         data["reporter_Id"] = this.reporter_Id;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
-        data["update_Date"] = this.update_Date ? this.update_Date.toISOString() : <any>undefined;
-        data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
         data["priority_ID"] = this.priority_ID;
         data["resolve_Id"] = this.resolve_Id;
         data["estimate"] = this.estimate;
@@ -17350,17 +17509,15 @@ export class CreateIssueDto implements ICreateIssueDto {
 
 export interface ICreateIssueDto {
     tenantId: number | undefined;
-    issueCode: string | undefined;
+    taskCode: string | undefined;
     summary: string | undefined;
     type_ID: number | undefined;
     status_Id: number | undefined;
     discription: string | undefined;
-    project_Id: number | undefined;
     assignee_Id: number | undefined;
     reporter_Id: number | undefined;
+    startDate: moment.Moment | undefined;
     due_Date: moment.Moment | undefined;
-    update_Date: moment.Moment | undefined;
-    resolved_Date: moment.Moment | undefined;
     priority_ID: number | undefined;
     resolve_Id: number | undefined;
     estimate: number | undefined;
@@ -17419,23 +17576,21 @@ export interface IPagedResultDtoOfIssueListDto {
 
 export class IssueListDto implements IIssueListDto {
     tenantId!: number | undefined;
-    issueCode!: string | undefined;
+    taskCode!: string | undefined;
     summary!: string | undefined;
     type_Id!: number | undefined;
     status_Id!: number | undefined;
     discription!: string | undefined;
-    sprint_Id!: number | undefined;
+    parent_Id!: number | undefined;
     assignee_Id!: number | undefined;
     reporter_Id!: number | undefined;
     due_Date!: moment.Moment | undefined;
-    update_Date!: moment.Moment | undefined;
-    resolved_Date!: moment.Moment | undefined;
     estimate!: number | undefined;
     priority_Id!: number | undefined;
     projectCode!: string | undefined;
     project_Id!: number | undefined;
-    resolve!: string | undefined;
     creationTime!: moment.Moment | undefined;
+    type!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: IIssueListDto) {
@@ -17450,23 +17605,21 @@ export class IssueListDto implements IIssueListDto {
     init(data?: any) {
         if (data) {
             this.tenantId = data["tenantId"];
-            this.issueCode = data["issueCode"];
+            this.taskCode = data["taskCode"];
             this.summary = data["summary"];
             this.type_Id = data["type_Id"];
             this.status_Id = data["status_Id"];
             this.discription = data["discription"];
-            this.sprint_Id = data["sprint_Id"];
+            this.parent_Id = data["parent_Id"];
             this.assignee_Id = data["assignee_Id"];
             this.reporter_Id = data["reporter_Id"];
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
-            this.update_Date = data["update_Date"] ? moment(data["update_Date"].toString()) : <any>undefined;
-            this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
             this.estimate = data["estimate"];
             this.priority_Id = data["priority_Id"];
             this.projectCode = data["projectCode"];
             this.project_Id = data["project_Id"];
-            this.resolve = data["resolve"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.type = data["type"];
             this.id = data["id"];
         }
     }
@@ -17481,23 +17634,21 @@ export class IssueListDto implements IIssueListDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
-        data["issueCode"] = this.issueCode;
+        data["taskCode"] = this.taskCode;
         data["summary"] = this.summary;
         data["type_Id"] = this.type_Id;
         data["status_Id"] = this.status_Id;
         data["discription"] = this.discription;
-        data["sprint_Id"] = this.sprint_Id;
+        data["parent_Id"] = this.parent_Id;
         data["assignee_Id"] = this.assignee_Id;
         data["reporter_Id"] = this.reporter_Id;
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
-        data["update_Date"] = this.update_Date ? this.update_Date.toISOString() : <any>undefined;
-        data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
         data["estimate"] = this.estimate;
         data["priority_Id"] = this.priority_Id;
         data["projectCode"] = this.projectCode;
         data["project_Id"] = this.project_Id;
-        data["resolve"] = this.resolve;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["type"] = this.type;
         data["id"] = this.id;
         return data; 
     }
@@ -17505,29 +17656,27 @@ export class IssueListDto implements IIssueListDto {
 
 export interface IIssueListDto {
     tenantId: number | undefined;
-    issueCode: string | undefined;
+    taskCode: string | undefined;
     summary: string | undefined;
     type_Id: number | undefined;
     status_Id: number | undefined;
     discription: string | undefined;
-    sprint_Id: number | undefined;
+    parent_Id: number | undefined;
     assignee_Id: number | undefined;
     reporter_Id: number | undefined;
     due_Date: moment.Moment | undefined;
-    update_Date: moment.Moment | undefined;
-    resolved_Date: moment.Moment | undefined;
     estimate: number | undefined;
     priority_Id: number | undefined;
     projectCode: string | undefined;
     project_Id: number | undefined;
-    resolve: string | undefined;
     creationTime: moment.Moment | undefined;
+    type: number | undefined;
     id: number | undefined;
 }
 
 export class CommonListDto implements ICommonListDto {
     tenantId!: number | undefined;
-    issueCode!: string | undefined;
+    taskCode!: string | undefined;
     summary!: string | undefined;
     type_Id!: number | undefined;
     status_Id!: number | undefined;
@@ -17535,15 +17684,13 @@ export class CommonListDto implements ICommonListDto {
     assignee_Id!: number | undefined;
     reporter_Id!: number | undefined;
     due_Date!: moment.Moment | undefined;
-    update_Date!: moment.Moment | undefined;
-    resolved_Date!: moment.Moment | undefined;
     estimate!: number | undefined;
     priority_Id!: number | undefined;
     projectCode!: string | undefined;
-    project_Id!: number | undefined;
     creationTime!: moment.Moment | undefined;
     listIssue!: IssueOfSprintListDto[] | undefined;
     parent_Id!: number | undefined;
+    type!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICommonListDto) {
@@ -17558,7 +17705,7 @@ export class CommonListDto implements ICommonListDto {
     init(data?: any) {
         if (data) {
             this.tenantId = data["tenantId"];
-            this.issueCode = data["issueCode"];
+            this.taskCode = data["taskCode"];
             this.summary = data["summary"];
             this.type_Id = data["type_Id"];
             this.status_Id = data["status_Id"];
@@ -17566,12 +17713,9 @@ export class CommonListDto implements ICommonListDto {
             this.assignee_Id = data["assignee_Id"];
             this.reporter_Id = data["reporter_Id"];
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
-            this.update_Date = data["update_Date"] ? moment(data["update_Date"].toString()) : <any>undefined;
-            this.resolved_Date = data["resolved_Date"] ? moment(data["resolved_Date"].toString()) : <any>undefined;
             this.estimate = data["estimate"];
             this.priority_Id = data["priority_Id"];
             this.projectCode = data["projectCode"];
-            this.project_Id = data["project_Id"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             if (data["listIssue"] && data["listIssue"].constructor === Array) {
                 this.listIssue = [] as any;
@@ -17579,6 +17723,7 @@ export class CommonListDto implements ICommonListDto {
                     this.listIssue!.push(IssueOfSprintListDto.fromJS(item));
             }
             this.parent_Id = data["parent_Id"];
+            this.type = data["type"];
             this.id = data["id"];
         }
     }
@@ -17593,7 +17738,7 @@ export class CommonListDto implements ICommonListDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
-        data["issueCode"] = this.issueCode;
+        data["taskCode"] = this.taskCode;
         data["summary"] = this.summary;
         data["type_Id"] = this.type_Id;
         data["status_Id"] = this.status_Id;
@@ -17601,12 +17746,9 @@ export class CommonListDto implements ICommonListDto {
         data["assignee_Id"] = this.assignee_Id;
         data["reporter_Id"] = this.reporter_Id;
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
-        data["update_Date"] = this.update_Date ? this.update_Date.toISOString() : <any>undefined;
-        data["resolved_Date"] = this.resolved_Date ? this.resolved_Date.toISOString() : <any>undefined;
         data["estimate"] = this.estimate;
         data["priority_Id"] = this.priority_Id;
         data["projectCode"] = this.projectCode;
-        data["project_Id"] = this.project_Id;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         if (this.listIssue && this.listIssue.constructor === Array) {
             data["listIssue"] = [];
@@ -17614,6 +17756,7 @@ export class CommonListDto implements ICommonListDto {
                 data["listIssue"].push(item.toJSON());
         }
         data["parent_Id"] = this.parent_Id;
+        data["type"] = this.type;
         data["id"] = this.id;
         return data; 
     }
@@ -17621,7 +17764,7 @@ export class CommonListDto implements ICommonListDto {
 
 export interface ICommonListDto {
     tenantId: number | undefined;
-    issueCode: string | undefined;
+    taskCode: string | undefined;
     summary: string | undefined;
     type_Id: number | undefined;
     status_Id: number | undefined;
@@ -17629,15 +17772,13 @@ export interface ICommonListDto {
     assignee_Id: number | undefined;
     reporter_Id: number | undefined;
     due_Date: moment.Moment | undefined;
-    update_Date: moment.Moment | undefined;
-    resolved_Date: moment.Moment | undefined;
     estimate: number | undefined;
     priority_Id: number | undefined;
     projectCode: string | undefined;
-    project_Id: number | undefined;
     creationTime: moment.Moment | undefined;
     listIssue: IssueOfSprintListDto[] | undefined;
     parent_Id: number | undefined;
+    type: number | undefined;
     id: number | undefined;
 }
 
@@ -18183,7 +18324,7 @@ export interface IUpdateLanguageTextInput {
 export class CreateMemberDto implements ICreateMemberDto {
     tenantId!: number | undefined;
     role_id!: number | undefined;
-    effectiveDate!: moment.Moment | undefined;
+    startDate!: moment.Moment | undefined;
     endDate!: moment.Moment | undefined;
     note!: string | undefined;
     project_Id!: number | undefined;
@@ -18203,7 +18344,7 @@ export class CreateMemberDto implements ICreateMemberDto {
         if (data) {
             this.tenantId = data["tenantId"];
             this.role_id = data["role_id"];
-            this.effectiveDate = data["effectiveDate"] ? moment(data["effectiveDate"].toString()) : <any>undefined;
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
             this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
             this.note = data["note"];
             this.project_Id = data["project_Id"];
@@ -18223,7 +18364,7 @@ export class CreateMemberDto implements ICreateMemberDto {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
         data["role_id"] = this.role_id;
-        data["effectiveDate"] = this.effectiveDate ? this.effectiveDate.toISOString() : <any>undefined;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
         data["note"] = this.note;
         data["project_Id"] = this.project_Id;
@@ -18236,7 +18377,7 @@ export class CreateMemberDto implements ICreateMemberDto {
 export interface ICreateMemberDto {
     tenantId: number | undefined;
     role_id: number | undefined;
-    effectiveDate: moment.Moment | undefined;
+    startDate: moment.Moment | undefined;
     endDate: moment.Moment | undefined;
     note: string | undefined;
     project_Id: number | undefined;
@@ -18295,7 +18436,7 @@ export interface IPagedResultDtoOfMemberListDto {
 export class MemberListDto implements IMemberListDto {
     tenantId!: number | undefined;
     role!: number | undefined;
-    effectiveDate!: moment.Moment | undefined;
+    startDate!: moment.Moment | undefined;
     endDate!: moment.Moment | undefined;
     note!: string | undefined;
     project_Id!: number | undefined;
@@ -18315,7 +18456,7 @@ export class MemberListDto implements IMemberListDto {
         if (data) {
             this.tenantId = data["tenantId"];
             this.role = data["role"];
-            this.effectiveDate = data["effectiveDate"] ? moment(data["effectiveDate"].toString()) : <any>undefined;
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
             this.endDate = data["endDate"] ? moment(data["endDate"].toString()) : <any>undefined;
             this.note = data["note"];
             this.project_Id = data["project_Id"];
@@ -18335,7 +18476,7 @@ export class MemberListDto implements IMemberListDto {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
         data["role"] = this.role;
-        data["effectiveDate"] = this.effectiveDate ? this.effectiveDate.toISOString() : <any>undefined;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
         data["note"] = this.note;
         data["project_Id"] = this.project_Id;
@@ -18348,7 +18489,7 @@ export class MemberListDto implements IMemberListDto {
 export interface IMemberListDto {
     tenantId: number | undefined;
     role: number | undefined;
-    effectiveDate: moment.Moment | undefined;
+    startDate: moment.Moment | undefined;
     endDate: moment.Moment | undefined;
     note: string | undefined;
     project_Id: number | undefined;
@@ -21710,9 +21851,16 @@ export interface IUpdateUserSignInTokenOutput {
 
 export class CreateSprintDto implements ICreateSprintDto {
     tenantId!: number | undefined;
-    sprintName!: string | undefined;
+    sprintCode!: string | undefined;
     summary!: string | undefined;
+    discription!: string | undefined;
     project_Id!: number | undefined;
+    status_Id!: number | undefined;
+    startDate!: moment.Moment | undefined;
+    due_Date!: moment.Moment | undefined;
+    estimate!: number | undefined;
+    assignee_Id!: number | undefined;
+    reporter_Id!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateSprintDto) {
@@ -21727,9 +21875,16 @@ export class CreateSprintDto implements ICreateSprintDto {
     init(data?: any) {
         if (data) {
             this.tenantId = data["tenantId"];
-            this.sprintName = data["sprintName"];
+            this.sprintCode = data["sprintCode"];
             this.summary = data["summary"];
+            this.discription = data["discription"];
             this.project_Id = data["project_Id"];
+            this.status_Id = data["status_Id"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
+            this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
+            this.estimate = data["estimate"];
+            this.assignee_Id = data["assignee_Id"];
+            this.reporter_Id = data["reporter_Id"];
             this.id = data["id"];
         }
     }
@@ -21744,9 +21899,16 @@ export class CreateSprintDto implements ICreateSprintDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
-        data["sprintName"] = this.sprintName;
+        data["sprintCode"] = this.sprintCode;
         data["summary"] = this.summary;
+        data["discription"] = this.discription;
         data["project_Id"] = this.project_Id;
+        data["status_Id"] = this.status_Id;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
+        data["estimate"] = this.estimate;
+        data["assignee_Id"] = this.assignee_Id;
+        data["reporter_Id"] = this.reporter_Id;
         data["id"] = this.id;
         return data; 
     }
@@ -21754,9 +21916,16 @@ export class CreateSprintDto implements ICreateSprintDto {
 
 export interface ICreateSprintDto {
     tenantId: number | undefined;
-    sprintName: string | undefined;
+    sprintCode: string | undefined;
     summary: string | undefined;
+    discription: string | undefined;
     project_Id: number | undefined;
+    status_Id: number | undefined;
+    startDate: moment.Moment | undefined;
+    due_Date: moment.Moment | undefined;
+    estimate: number | undefined;
+    assignee_Id: number | undefined;
+    reporter_Id: number | undefined;
     id: number | undefined;
 }
 
@@ -21810,10 +21979,17 @@ export interface IPagedResultDtoOfSprintListDto {
 
 export class SprintListDto implements ISprintListDto {
     tenantId!: number | undefined;
-    sprintName!: string | undefined;
+    sprintCode!: string | undefined;
     summary!: string | undefined;
+    discription!: string | undefined;
     projectName!: string | undefined;
     project_Id!: number | undefined;
+    status_Id!: number | undefined;
+    startDate!: moment.Moment | undefined;
+    due_Date!: moment.Moment | undefined;
+    estimate!: number | undefined;
+    assignee_Id!: number | undefined;
+    reporter_Id!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ISprintListDto) {
@@ -21828,10 +22004,17 @@ export class SprintListDto implements ISprintListDto {
     init(data?: any) {
         if (data) {
             this.tenantId = data["tenantId"];
-            this.sprintName = data["sprintName"];
+            this.sprintCode = data["sprintCode"];
             this.summary = data["summary"];
+            this.discription = data["discription"];
             this.projectName = data["projectName"];
             this.project_Id = data["project_Id"];
+            this.status_Id = data["status_Id"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
+            this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
+            this.estimate = data["estimate"];
+            this.assignee_Id = data["assignee_Id"];
+            this.reporter_Id = data["reporter_Id"];
             this.id = data["id"];
         }
     }
@@ -21846,10 +22029,17 @@ export class SprintListDto implements ISprintListDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["tenantId"] = this.tenantId;
-        data["sprintName"] = this.sprintName;
+        data["sprintCode"] = this.sprintCode;
         data["summary"] = this.summary;
+        data["discription"] = this.discription;
         data["projectName"] = this.projectName;
         data["project_Id"] = this.project_Id;
+        data["status_Id"] = this.status_Id;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
+        data["estimate"] = this.estimate;
+        data["assignee_Id"] = this.assignee_Id;
+        data["reporter_Id"] = this.reporter_Id;
         data["id"] = this.id;
         return data; 
     }
@@ -21857,10 +22047,17 @@ export class SprintListDto implements ISprintListDto {
 
 export interface ISprintListDto {
     tenantId: number | undefined;
-    sprintName: string | undefined;
+    sprintCode: string | undefined;
     summary: string | undefined;
+    discription: string | undefined;
     projectName: string | undefined;
     project_Id: number | undefined;
+    status_Id: number | undefined;
+    startDate: moment.Moment | undefined;
+    due_Date: moment.Moment | undefined;
+    estimate: number | undefined;
+    assignee_Id: number | undefined;
+    reporter_Id: number | undefined;
     id: number | undefined;
 }
 
@@ -24111,9 +24308,9 @@ export interface ITreeNode {
 }
 
 export class Node implements INode {
-    id!: number | undefined;
+    id!: string | undefined;
     name!: string | undefined;
-    parentId!: number | undefined;
+    parentId!: string | undefined;
     summary!: string | undefined;
     type!: number | undefined;
     status!: number | undefined;
@@ -24185,9 +24382,9 @@ export class Node implements INode {
 }
 
 export interface INode {
-    id: number | undefined;
+    id: string | undefined;
     name: string | undefined;
-    parentId: number | undefined;
+    parentId: string | undefined;
     summary: string | undefined;
     type: number | undefined;
     status: number | undefined;

@@ -1308,17 +1308,13 @@ namespace ERP.Migrations
 
                     b.Property<DateTime?>("DeletionTime");
 
-                    b.Property<string>("Discription")
-                        .HasMaxLength(2000);
+                    b.Property<string>("Discription");
 
                     b.Property<DateTime?>("Due_Date");
 
                     b.Property<decimal?>("Estimate");
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("IssueCode")
-                        .HasMaxLength(100);
 
                     b.Property<DateTime?>("LastModificationTime");
 
@@ -1328,18 +1324,19 @@ namespace ERP.Migrations
 
                     b.Property<long>("Priority_Id");
 
-                    b.Property<long>("Project_Id");
-
                     b.Property<long>("Reporter_Id");
 
                     b.Property<long>("Resolve_Id");
 
-                    b.Property<DateTime?>("Resolved_Date");
+                    b.Property<DateTime?>("StartDate");
 
                     b.Property<long>("Status_Id");
 
                     b.Property<string>("Summary")
                         .HasMaxLength(500);
+
+                    b.Property<string>("TaskCode")
+                        .HasMaxLength(100);
 
                     b.Property<int>("TenantId");
 
@@ -1347,13 +1344,9 @@ namespace ERP.Migrations
 
                     b.Property<long>("Type_ID");
 
-                    b.Property<DateTime?>("Update_Date");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("Project_Id");
-
-                    b.ToTable("Issues");
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("ERP.Models.IssueType", b =>
@@ -1548,6 +1541,8 @@ namespace ERP.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("Assignee_Id");
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
@@ -1555,6 +1550,12 @@ namespace ERP.Migrations
                     b.Property<long?>("DeleterUserId");
 
                     b.Property<DateTime?>("DeletionTime");
+
+                    b.Property<string>("Discription");
+
+                    b.Property<DateTime?>("Due_Date");
+
+                    b.Property<decimal?>("Estimate");
 
                     b.Property<bool>("IsDeleted");
 
@@ -1564,11 +1565,17 @@ namespace ERP.Migrations
 
                     b.Property<long?>("Project_Id");
 
-                    b.Property<string>("SprintName")
+                    b.Property<long>("Reporter_Id");
+
+                    b.Property<string>("SprintCode")
                         .HasMaxLength(200);
 
+                    b.Property<DateTime?>("StartDate");
+
+                    b.Property<long>("Status_Id");
+
                     b.Property<string>("Summary")
-                        .HasMaxLength(200);
+                        .HasMaxLength(2000);
 
                     b.Property<int>("TenantId");
 
@@ -1974,14 +1981,6 @@ namespace ERP.Migrations
                     b.HasOne("ERP.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId");
-                });
-
-            modelBuilder.Entity("ERP.Models.Issue", b =>
-                {
-                    b.HasOne("ERP.Models.Project", "Project_")
-                        .WithMany()
-                        .HasForeignKey("Project_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ERP.Models.Member", b =>

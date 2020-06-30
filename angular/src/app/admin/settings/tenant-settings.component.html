@@ -249,8 +249,7 @@
                                 </div>
                             </div>
                         </tab>
-                        <tab *ngIf="true" heading="{{'Invoice' | localize}}">
-                            <!-- *ngIf="true" is a workaround for https://github.com/valor-software/ng2-bootstrap/issues/823 -->
+                        <!-- <tab *ngIf="true" heading="{{'Invoice' | localize}}">
                             <h5>{{"InvoiceInformation" | localize}}</h5>
                             <div class="form-group">
                                 <label for="LegalName">{{"LegalName" | localize}}</label>
@@ -264,7 +263,7 @@
                                 <label for="taxVatNo">{{"Tax/VatNo" | localize}}</label>
                                 <input id="taxVatNo" type="text" name="taxVatNo" class="form-control" [ngClass]="{'edited':settings.billing.taxVatNo}" [(ngModel)]="settings.billing.taxVatNo" maxlength="32">
                             </div>
-                        </tab>
+                        </tab> -->
                         <tab *ngIf="!isMultiTenancyEnabled" heading="{{'OtherSettings' | localize}}">
                             <div class="kt-checkbox-list">
                                 <h5>{{"IsQuickThemeSelectEnabled" | localize}}</h5>

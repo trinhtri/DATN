@@ -8,8 +8,8 @@ import { ManagerProjectComponent } from './manager-project/manager-project.compo
             {
                 path: '',
                 children: [
-                    { path: 'projects', component: ProjectComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
-                    { path: 'manager-project/:id', component: ManagerProjectComponent, data: { permission: 'Pages.Tenant.Dashboard' } }
+                    { path: 'projects', component: ProjectComponent, data: { permission: 'Pages.Project' } },
+                    { path: 'manager-project/:id', component: ManagerProjectComponent, data: { permission: 'Pages.Project.Manager' } }
                 ]
             }
         ])

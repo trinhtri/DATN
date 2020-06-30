@@ -131,22 +131,32 @@
                                     <th style="width: 50px">
                                     </th>
 
-                                    <th style="width: 150px" pSortableColumn="IssueCode">
+                                    <th style="width: 150px" pSortableColumn="SprintCode">
                                         {{'SprintCode' | localize}}
-                                        <p-sortIcon field="IssueCode"></p-sortIcon>
+                                        <p-sortIcon field="SprintCode"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="Project_.projectCode">
+                                    <th style="width: 150px" pSortableColumn="ProjectCode">
                                         {{'Project'| localize}}
-                                        <p-sortIcon field="Project_.projectCode"></p-sortIcon>
+                                        <p-sortIcon field="ProjectCode"></p-sortIcon>
                                     </th>
-                                    <th style="width: 150px" pSortableColumn="Type">
-                                        {{'SprintType' | localize}}
-                                        <p-sortIcon field="Type"></p-sortIcon>
-                                    </th>
+                                 
                                     <th style="width: 150px" pSortableColumn="Summary">
                                         {{'Summary' | localize}}
                                         <p-sortIcon field="Summary"></p-sortIcon>
                                     </th>
+
+                                    <th style="width: 150px" pSortableColumn="StartDate">
+                                        {{'StartDate' | localize}}
+                                        <p-sortIcon field="StartDate"></p-sortIcon>
+                                    </th>
+
+                                    <th style="width: 150px" pSortableColumn="EndDate">
+                                        {{'EndDate' | localize}}
+                                        <p-sortIcon field="EndDate"></p-sortIcon>
+                                    </th>
+
+                                   
+
 
                                 </tr>
                             </ng-template>
@@ -172,25 +182,28 @@
                                     </td>
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'SprintName' | localize}}</span>
-                                        {{record.issueCode}}
+                                        <p (click)="onClickSprint(record.id)" style="color: blue;cursor: pointer">
+                                            {{record.sprintCode}}
+                                        </p>
                                     </td>
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'Project' | localize}}</span>
-                                        {{record.projectCode}}
+                                        {{record.projectName}}
                                     </td>
-
-                                    <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'SprintType' | localize}}</span>
-                                        <span class="kt-badge kt-badge--success kt-badge--inline"
-                                            *ngIf="record.type_Id == 1">{{getTypeName(record.type_Id)}}</span>
-                                        <span class="kt-badge kt-badge--primary kt-badge--inline"
-                                            *ngIf="record.type_Id == 2">{{getTypeName(record.type_Id)}}</span>
-                                        <span class="kt-badge kt-badge--danger kt-badge--inline"
-                                            *ngIf="record.type_Id == 3">{{getTypeName(record.type_Id)}}</span>
-                                    </td>
+                                   
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'Summary' | localize}}</span>
                                         {{record.summary}}
+                                    </td>
+
+                                    <td style="width: 150px">
+                                        <span class="ui-column-title"> {{'StartDate' | localize}}</span>
+                                        {{record.startDate |  momentFormat:'L' }}
+                                    </td>
+
+                                    <td style="width: 150px">
+                                        <span class="ui-column-title"> {{'EndDate' | localize}}</span>
+                                        {{record.due_Date|  momentFormat:'L'}}
                                     </td>
                                 </tr>
                             </ng-template>

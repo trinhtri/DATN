@@ -47,7 +47,7 @@ namespace ERP.Member.Exporting
                         sheet, 2, list,
                         _ => _.EmployeeName,
                         _ => GetRoleName(_.Role),
-                        _ => _timeZoneConverter.Convert(_.EffectiveDate, _abpSession.TenantId, _abpSession.GetUserId()),
+                        _ => _timeZoneConverter.Convert(_.StartDate, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _timeZoneConverter.Convert(_.EndDate, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _.Note
                         );

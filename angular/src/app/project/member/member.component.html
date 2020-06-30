@@ -21,9 +21,9 @@
                             {{'Roles' | localize}}
                             <p-sortIcon field="Role"></p-sortIcon>
                         </th>
-                        <th style="width: 150px" pSortableColumn="EffectiveDate">
+                        <th style="width: 150px" pSortableColumn="StartDate">
                             {{'StartDate' | localize}}
-                            <p-sortIcon field="EffectiveDate"></p-sortIcon>
+                            <p-sortIcon field="StartDate"></p-sortIcon>
                         </th>
                         <th style="width: 150px" pSortableColumn="EndDate">
                             {{'EndDate' | localize}}
@@ -61,7 +61,7 @@
                             <span class="ui-column-title"> {{'Role' | localize}}</span> {{getRoleName(record.role)}}
                         </td>
                         <td style="width: 150px">
-                            <span class="ui-column-title"> {{'EffectiveDate' | localize}}</span> {{record.effectiveDate | momentFormat:'L'}}
+                            <span class="ui-column-title"> {{'StartDate' | localize}}</span> {{record.startDate | momentFormat:'L'}}
                         </td>
                         <td style="width: 150px">
                             <span class="ui-column-title"> {{'EndDate' | localize}}</span> {{record.endDate | momentFormat:'L'}}

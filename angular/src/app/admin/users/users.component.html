@@ -11,7 +11,7 @@
         </div>
         <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
-                <div class="btn-group" dropdown>
+                <!-- <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="far fa-file-excel"></i> {{"ExcelOperations" | localize}}
                     </button>
@@ -39,9 +39,12 @@
                             <small [innerHTML]="l('ImportToExcelSampleFileDownloadInfo', '<a href=/assets/sampleFiles/ImportUsersSampleFile.xlsx>' + l('ClickHere') + '</a>')"></small>
                         </span>
                     </div>
-                </div>
-    
-                <button (click)="createUser()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNewUser" | localize}}</button>
+                </div> -->
+                <button type="button" class="btn btn-success" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" (click)="exportToExcel()">
+                <i class="far fa-file-excel"></i> {{"Export" | localize}}
+            </button>
+                <button (click)="createUser()" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary"><i class="fa fa-plus"></i> {{"Create" | localize}}</button>
             </div>
         </div>
     </div>

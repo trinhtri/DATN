@@ -6,7 +6,6 @@ using ERP.Tenants.Dashboard.Dto;
 namespace ERP.Tenants.Dashboard
 {
     [DisableAuditing]
-    [AbpAuthorize(AppPermissions.Pages_Tenant_Dashboard)]
     public class TenantDashboardAppService : ERPAppServiceBase, ITenantDashboardAppService
     {
         public GetMemberActivityOutput GetMemberActivity()

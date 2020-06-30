@@ -55,6 +55,7 @@ namespace ERP.Shared
             {
                 case "Member":
                     result = await _userRepository.GetAll()
+                        .Where(x=>x.IsActive == true)
                         .Where(x => x.TenantId == tenantId || (tenantId == null && x.TenantId == null))
                         .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.UserName })
                         .ToListAsync();
@@ -64,6 +65,7 @@ namespace ERP.Shared
                 case "MemberNewProject":
                     var lstp = await _memberRepository.GetAll().Where(x => x.Project_Id == parentId).Select(x=>x.Employee_Id).ToListAsync();
                     result = await _userRepository.GetAll()
+                        .Where(x => x.IsActive == true)
                        .Where(x => x.TenantId == tenantId || (tenantId == null && x.TenantId == null))
                        .Where(i=> !lstp.Any(a=>a ==i.Id))
                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.UserName })
@@ -107,8 +109,8 @@ namespace ERP.Shared
                     result = _issueRepository.GetAll()
                         .Where(x=>x.Type == 1)
                         .Where(x => x.TenantId == tenantId || tenantId == null)
-                        .WhereIf(parentId.HasValue , x=> x.Project_Id == parentId)
-                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.IssueCode })
+                        .WhereIf(parentId.HasValue , x=> x.Parent_Id == parentId)
+                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.TaskCode })
                         .ToList();
                     break;
             }

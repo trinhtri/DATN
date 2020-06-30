@@ -461,7 +461,8 @@ namespace ERP.Authorization.Users
         public async Task<string> GetName(long id)
         {
             var user = await _userRepository.FirstOrDefaultAsync(id);
-            return user.UserName;
+            var status = user.IsActive == true ? "" : ( " (" + L("InActive") + ")");
+            return user.UserName + status;
         }
     }
 }

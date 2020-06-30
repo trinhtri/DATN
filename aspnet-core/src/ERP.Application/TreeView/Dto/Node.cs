@@ -6,9 +6,9 @@ namespace ERP.TreeView.Dto
 {
     public class Node
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
-        public long? ParentId { get; set; }
+        public string ParentId { get; set; }
         public string Summary { get; set; }
         public long? Type { get; set; }
         public long? Status { get; set; }

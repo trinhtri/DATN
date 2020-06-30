@@ -52,8 +52,8 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
       lstStatus = [
         { value: 1, displayText: this.l('Open') },
         { value: 2, displayText: this.l('InProgress') },
-        { value: 3, displayText: this.l('Resolve') },
-        { value: 4, displayText: this.l('Closed') },
+        { value: 3, displayText: this.l('Resolved') },
+        { value: 4, displayText: this.l('Compeleted') },
         { value: 5, displayText: this.l('ReOpened') },
       ];
       advancedFiltersAreShown: any;
@@ -163,10 +163,7 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
 
             return;
         }
-
-        console.log('status', this.lstStatusId, this.lstIssueTypeId);
         this.primengTableHelper.showLoadingIndicator();
-
         this._issueServiceProxy.getAll(
             this.lstProjectId,
             this.lstStatusId,
@@ -250,10 +247,12 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
     }
     clickSummary(record) {
         console.log('record', record);
+        let id = record.id.slice(0, record.id.indexOf('_'));
+        console.log('id', id);
         if (record.parentId !== null) {
-        this._route.navigate(['/app/issue/management-issue', record.id]);
+        this._route.navigate(['/app/issue/management-issue', id]);
         } else {
-            this._route.navigate(['/app/project/manager-project', record.id]);
+            this._route.navigate(['/app/project/manager-project', id]);
         }
     }
 }

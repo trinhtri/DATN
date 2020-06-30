@@ -46,7 +46,7 @@ namespace ERP.TreeView
                 Due_Date= x.EndDate,
                 Name = x.ProjectCode,
                 Priority = 1,
-                Id = x.Id,
+                Id = x.Id + "_Parent",
                 ParentId = null,
                 Reporter_Id = x.Reporter_Id,
                 Estimate = null,
@@ -54,9 +54,9 @@ namespace ERP.TreeView
                 Summary = x.ProjectName,
                 Type = 1,
                 Created= x.StartDate,
-            }).OrderBy(x=>x.Summary).ToList();
+            }).OrderBy(x=>x.Name).ToList();
             flatNode.AddRange(projects);
-            var sprints = _issueRepository.GetAll().Include(x=>x.Project_).Where(x=>x.Type ==  1).Select(x => new Node
+            var sprints = _issueRepository.GetAll().Where(x=>x.Type ==  1).Select(x => new Node
             {
                 Assignee_Id = x.Assignee_Id,
                 Created = x.CreationTime,
@@ -65,37 +65,37 @@ namespace ERP.TreeView
                 Status = x.Status_Id,
                 Discription = x.Discription,
                 Due_Date = x.Due_Date,
-                Id = x.Id,
-                Name = x.IssueCode,
-                ParentId = x.Project_Id,
+                Id = x.Id + "_Child",
+                Name = x.TaskCode,
+                ParentId = x.Parent_Id + "_Parent",
                 Priority = x.Priority_Id,
                 Reporter_Id = x.Reporter_Id,
                 Estimate = x.Estimate
-            }).OrderBy(x => x.Summary).ToList();
+            }).OrderBy(x => x.Name).ToList();
             flatNode.AddRange(sprints);
 
             var issues = _issueRepository.GetAll()
                     .Where(x => x.Type == 2)
-                    .WhereIf(!string.IsNullOrEmpty(input.Filter), x => x.IssueCode.Contains(input.Filter)
+                    .WhereIf(!string.IsNullOrEmpty(input.Filter), x => x.TaskCode.Contains(input.Filter)
                      || x.Summary.Contains(input.Filter))
                     .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
                     .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_ID))
                     .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
                 .Select(x => new Node { 
-            Created = x.Update_Date,
+            Created = x.CreationTime,
             Estimate = x.Estimate,
             Reporter_Id = x.Reporter_Id,
             Assignee_Id = x.Assignee_Id,
             Discription = x.Discription,
             Due_Date = x.Due_Date,
-            Id = x.Id,
-            Name = x.IssueCode,
+            Id = x.Id + "_Child",
+            Name = x.TaskCode,
             Priority = x.Priority_Id,
             Status = x.Status_Id,
             Summary = x.Summary,
             Type = x.Type_ID,
-            ParentId = x.Parent_Id
-                }).OrderBy(x => x.Summary).ToList();
+            ParentId = x.Parent_Id +"_Child"
+                }).OrderBy(x => x.Name).ToList();
             flatNode.AddRange(issues);
             foreach(var item in flatNode)
                 {

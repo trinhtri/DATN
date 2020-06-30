@@ -11,84 +11,102 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./create-or-update-sprint.component.css']
 })
 export class CreateOrUpdateSprintComponent extends AppComponentBase implements OnInit {
-
-  @ViewChild('createOrEditModal', {static: true}) modal: ModalDirective;
+  @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
-  sprint: CreateSprintDto = new CreateSprintDto();
-  dueDate = new Date();
+  issue: CreateIssueDto = new CreateIssueDto();
+  dueDate: any;
   active = false;
   saving = false;
-  lst: ERPComboboxItem [] = [];
-  lstRole: ERPComboboxItem [] = [];
-  lstProject: ERPComboboxItem [] = [];
-  lstType: ERPComboboxItem [] = [];
+  projectId: number;
+  lst: ERPComboboxItem[] = [];
+  lstSprint: ERPComboboxItem[] = [];
+  lstProject: ERPComboboxItem[] = [];
+  lstPriority = [
+    { id: 1, displayText: this.l('1') },
+    { id: 2, displayText: this.l('2') },
+    { id: 3, displayText: this.l('3') },
+  ];
+  lstType = [
+    { id: 1, displayText: this.l('NewFeature') },
+    { id: 2, displayText: this.l('Improvement') },
+    { id: 3, displayText: this.l('Bug') },
+  ];
   constructor(injector: Injector,
     private _projectService: ProjectServiceProxy,
     private _issueService: IssueServiceProxy,
-    private _commonService: CommonAppserviceServiceProxy,
-    private _sprintService: SprintServiceProxy
-    ) {
+    private _commonService: CommonAppserviceServiceProxy
+  ) {
     super(injector);
-   }
+  }
 
   ngOnInit() {
     this.initForm();
   }
   initForm() {
-    this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe( result => {
-     this.lst = result;
-   });
-   this._commonService.getLookups('RoleProject', this.appSession.tenantId, undefined).subscribe( result => {
-     this.lstRole = result;
-   });
-   this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe( result => {
-    this.lstProject = result;
-  });
-  this._commonService.getLookups('IssueTypes', this.appSession.tenantId, undefined).subscribe( result => {
-    this.lstType = result;
-  });
- }
+    this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe(result => {
+      this.lst = result;
+    });
+    this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe(result => {
+      this.lstProject = result;
+    });
+    this._commonService.getLookups('Sprints', this.appSession.tenantId, undefined).subscribe(result => {
+      this.lstSprint = result;
+    });
+  }
   show(id?: number): void {
     this.active = true;
     this.modal.show();
     if (id) {
-    this._sprintService.getId(id).subscribe( result => {
-      this.sprint = result;
-    });
+      this._issueService.getId(id).subscribe(result => {
+        this.issue = result;
+        if (this.issue.due_Date) {
+          this.dueDate = this.issue.due_Date.toDate();
+        }
+      });
+    } else {
+      // mặc định khi tạo mới thì mức độ là bình thường
+      this.issue.priority_ID = 1;
+    }
   }
-}
-onShown(): void {
-  document.getElementById('SprintName').focus();
-}
-save(): void {
-  this.saving = true;
-  if (this.sprint.id) {
-    this._sprintService.update(this.sprint)
-    .pipe(finalize(() => { this.saving = false; }))
-    .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.close();
-        this.modalSave.emit(null);
-    });
-  } else {
-    // mặc định khi tạo mới thì resolve là 1: chưa hoàn thành
-    this._sprintService.create(this.sprint)
-    .pipe(finalize(() => { this.saving = false; }))
-    .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.close();
-        this.modalSave.emit(null);
-    });
+  onShown(): void {
+    // document.getElementById('IssueCode').focus();
   }
-}
+  save(): void {
+    this.saving = true;
+    this.issue.type = 1;
+    this.issue.reporter_Id = this.appSession.userId;
+    if (this.dueDate) {
+      this.issue.due_Date = moment(this.dueDate);
+    }
+    if (this.issue.id) {
+      this._issueService.update(this.issue)
+        .pipe(finalize(() => { this.saving = false; }))
+        .subscribe(() => {
+          this.notify.info(this.l('SavedSuccessfully'));
+          this.close();
+          this.modalSave.emit(null);
+        });
+    } else {
+      // mặc định khi tạo mới thì resolve là 1: chưa hoàn thành
+      this.issue.resolve_Id = 1;
+      // mặc định là mở
+      this.issue.status_Id = 1;
+      this._issueService.create(this.issue)
+        .pipe(finalize(() => { this.saving = false; }))
+        .subscribe(() => {
+          this.notify.info(this.l('SavedSuccessfully'));
+          this.close();
+          this.modalSave.emit(null);
+        });
+    }
+  }
 
-close(): void {
-  this.dueDate = null;
-  this.sprint = new SprintListDto();
-  this.saving = false;
-  this.active = false;
-  this.modal.hide();
-}
-
-
+  close(): void {
+    this.projectId = null;
+    this.dueDate = null;
+    this.issue = new CreateIssueDto();
+    this.saving = false;
+    this.active = false;
+    this.modal.hide();
+  }
 }

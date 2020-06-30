@@ -11,11 +11,13 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SprintComponent } from './sprint/sprint.component';
 import { CreateOrEditSprintComponent } from './create-or-edit-sprint/create-or-edit-sprint.component';
 import {EditorModule} from 'primeng/editor';
-
+import { ManagerSprintComponent } from './manager-sprint/manager-sprint.component';
+import {ChartModule} from 'primeng/chart';
 @NgModule({
   declarations: [
      SprintComponent,
-     CreateOrEditSprintComponent
+     CreateOrEditSprintComponent,
+     ManagerSprintComponent
     ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import {EditorModule} from 'primeng/editor';
     FileUploadModule,
     InputSwitchModule,
     MultiSelectModule,
-    EditorModule
+    EditorModule,
+    ChartModule
   ]
 })
 export class SprintModule { }

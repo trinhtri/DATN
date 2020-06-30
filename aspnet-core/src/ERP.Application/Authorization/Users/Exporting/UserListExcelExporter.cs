@@ -41,7 +41,7 @@ namespace ERP.Authorization.Users.Exporting
                         L("UserName"),
                         L("PhoneNumber"),
                         L("EmailAddress"),
-                        L("EmailConfirm"),
+                        //L("EmailConfirm"),
                         L("Roles"),
                         L("Active"),
                         L("CreationTime")
@@ -54,9 +54,9 @@ namespace ERP.Authorization.Users.Exporting
                         _ => _.UserName,
                         _ => _.PhoneNumber,
                         _ => _.EmailAddress,
-                        _ => _.IsEmailConfirmed,
+                        //_ => _.IsEmailConfirmed,
                         _ => _.Roles.Select(r => r.RoleName).JoinAsString(", "),
-                        _ => _.IsActive,
+                        _ => _.IsActive == true ? L("Active") : L("InActive"),
                         _ => _timeZoneConverter.Convert(_.CreationTime, _abpSession.TenantId, _abpSession.GetUserId())
                         );
 

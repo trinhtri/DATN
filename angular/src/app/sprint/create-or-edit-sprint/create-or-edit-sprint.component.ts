@@ -12,8 +12,9 @@ import * as moment from 'moment';
 export class CreateOrEditSprintComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
-  issue: CreateIssueDto = new CreateIssueDto();
+  sprint: CreateSprintDto = new CreateSprintDto();
   dueDate: any;
+  startDate: any;
   active = false;
   saving = false;
   projectId: number;
@@ -33,6 +34,7 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
   constructor(injector: Injector,
     private _projectService: ProjectServiceProxy,
     private _issueService: IssueServiceProxy,
+    private _sprintService: SprintServiceProxy,
     private _commonService: CommonAppserviceServiceProxy
   ) {
     super(injector);
@@ -56,15 +58,15 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
     this.active = true;
     this.modal.show();
     if (id) {
-      this._issueService.getId(id).subscribe(result => {
-        this.issue = result;
-        if (this.issue.due_Date) {
-          this.dueDate = this.issue.due_Date.toDate();
+      this._sprintService.getId(id).subscribe(result => {
+        this.sprint = result;
+        if (this.sprint.startDate) {
+          this.startDate = this.sprint.startDate.toDate();
+        }
+        if (this.sprint.due_Date) {
+          this.dueDate = this.sprint.due_Date.toDate();
         }
       });
-    } else {
-      // mặc định khi tạo mới thì mức độ là bình thường
-      this.issue.priority_ID = 1;
     }
   }
   onShown(): void {
@@ -72,14 +74,15 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
   }
   save(): void {
     this.saving = true;
-    this.issue.type = 1;
-    this.issue.reporter_Id = this.appSession.userId;
-    this.issue.update_Date = moment(new Date);
+    this.sprint.reporter_Id = this.appSession.userId;
     if (this.dueDate) {
-      this.issue.due_Date = moment(this.dueDate);
+      this.sprint.due_Date = moment(this.dueDate);
     }
-    if (this.issue.id) {
-      this._issueService.update(this.issue)
+    if (this.startDate) {
+      this.sprint.startDate = moment(this.startDate);
+    }
+    if (this.sprint.id) {
+      this._sprintService.update(this.sprint)
         .pipe(finalize(() => { this.saving = false; }))
         .subscribe(() => {
           this.notify.info(this.l('SavedSuccessfully'));
@@ -87,11 +90,9 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
           this.modalSave.emit(null);
         });
     } else {
-      // mặc định khi tạo mới thì resolve là 1: chưa hoàn thành
-      this.issue.resolve_Id = 1;
       // mặc định là mở
-      this.issue.status_Id = 1;
-      this._issueService.create(this.issue)
+      this.sprint.status_Id = 1;
+      this._sprintService.create(this.sprint)
         .pipe(finalize(() => { this.saving = false; }))
         .subscribe(() => {
           this.notify.info(this.l('SavedSuccessfully'));
@@ -103,8 +104,9 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
 
   close(): void {
     this.projectId = null;
+    this.startDate = null;
     this.dueDate = null;
-    this.issue = new CreateIssueDto();
+    this.sprint = new CreateSprintDto();
     this.saving = false;
     this.active = false;
     this.modal.hide();

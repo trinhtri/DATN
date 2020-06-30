@@ -17,13 +17,13 @@
                     <div class="form-group">
                         <label for="IssueCode">{{"IssueCode" | localize}} *</label>
                         <input id="IssueCode" #IssueCodeInput="ngModel" type="text" name="IssueCode1"
-                            class="form-control" [(ngModel)]="issue.issueCode" required maxlength="100">
+                            class="form-control" [(ngModel)]="issue.taskCode" required maxlength="100">
                         <validation-messages [formCtrl]="IssueCodeInput"></validation-messages>
                     </div>
                     <div class="form-group">
-                        <label for="ProjectName">{{"Project" | localize}} *</label>
-                        <select id="ProjectName" name="ProjectName" class="form-control" [(ngModel)]="issue.project_Id"
-                            required #ProjectInput="ngModel">
+                        <label for="ProjectName">{{"Project" | localize}} </label>
+                        <select id="ProjectName" name="ProjectName" class="form-control" [(ngModel)]="project_Id"
+                             #ProjectInput="ngModel"  (change)="changeProject(project_Id)">
                             <option [value]="undefined">{{'---'}}</option>
                             <option *ngFor="let item of lstProject" [value]="item.value">{{item.displayText}}</option>
                             <validation-messages [formCtrl]="ProjectInput"></validation-messages>
@@ -76,8 +76,6 @@
                                 </span>
                             </div>
                         </div>
-                        <!-- <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text" #SampleDatePicker name="SampleDatePicker1" class="form-control" [(ngModel)]="dueDate" bsDatepicker > -->
-                        <!-- <validation-messages [formCtrl]="StartDateInput"></validation-messages> -->
                     </div>
 
                     <div class="form-group">

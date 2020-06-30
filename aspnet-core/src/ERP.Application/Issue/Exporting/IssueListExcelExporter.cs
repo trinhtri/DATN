@@ -60,7 +60,7 @@ namespace ERP.Issue.Exporting
 
                     AddObjects(
                         sheet, 2, list,
-                        _ => _.IssueCode,
+                        _ => _.TaskCode,
                         _ => _.Summary,
                         _=> GetTypeName(_.Type_Id),
                         _=> GetStatusName(_.Status_Id),
@@ -107,7 +107,7 @@ namespace ERP.Issue.Exporting
 
                      AddObjects(
                          sheet, 2, list,
-                         _ => _.IssueCode,
+                         _ => _.TaskCode,
                          _ => _.Summary,
                          _ => GetTypeName(_.Type_Id),
                          _ => GetStatusName(_.Status_Id),
@@ -185,7 +185,7 @@ namespace ERP.Issue.Exporting
         private string GetNameSprint(long id)
         {
             var sprint = _issueRepository.FirstOrDefault(id);
-            return sprint.IssueCode;
+            return sprint.TaskCode;
         }
 
         

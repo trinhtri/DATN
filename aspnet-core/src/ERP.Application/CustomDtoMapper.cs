@@ -150,7 +150,7 @@ namespace ERP
             // issue
             configuration.CreateMap<Models.Issue, CreateIssueDto>().ReverseMap();
             configuration.CreateMap<Models.Issue, IssueListDto>()
-                .ForMember(x=>x.ProjectCode , a => a.MapFrom(b=>b.Project_.ProjectCode))
+                //.ForMember(x=>x.ProjectCode , a => a.MapFrom(b=>b.Project_.ProjectCode))
                 .ReverseMap();
 
             // comment

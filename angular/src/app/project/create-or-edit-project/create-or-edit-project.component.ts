@@ -56,6 +56,8 @@ export class CreateOrEditProjectComponent extends AppComponentBase implements On
     this.project.startDate = moment(this.startDate);
     if (this.endDate) {
       this.project.endDate = moment(this.endDate);
+    } else {
+      this.project.endDate = null;
     }
     if (this.project.id) {
       this._projectService.update(this.project)
