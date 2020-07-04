@@ -21,7 +21,7 @@ namespace ERP.Issue.Dto
         public DateTime? Due_Date { get; set; }
         public decimal? Estimate { get; set; }
         public long Priority_Id { get; set; }
-        public string ProjectCode { get; set; }
+        public string SprintName { get; set; }
         public long? Project_Id { get; set; }
         public DateTime CreationTime { get; set; }
         public int Type { get; set; }

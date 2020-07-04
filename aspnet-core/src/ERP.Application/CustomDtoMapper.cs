@@ -149,8 +149,10 @@ namespace ERP
             configuration.CreateMap<Models.Member, MemberListDto>().ReverseMap();
             // issue
             configuration.CreateMap<Models.Issue, CreateIssueDto>().ReverseMap();
+            configuration.CreateMap<Models.Issue, IssueListOfSprintDto>().ReverseMap();
             configuration.CreateMap<Models.Issue, IssueListDto>()
-                //.ForMember(x=>x.ProjectCode , a => a.MapFrom(b=>b.Project_.ProjectCode))
+                .ForMember(x=>x.Project_Id , a => a.MapFrom(b=>b.Sprint_.Project_Id))
+                .ForMember(x=>x.SprintName , a => a.MapFrom(b=>b.Sprint_.SprintCode + "-" + b.Sprint_.Project_.ProjectCode))
                 .ReverseMap();
 
             // comment

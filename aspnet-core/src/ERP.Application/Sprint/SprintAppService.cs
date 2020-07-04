@@ -16,10 +16,12 @@ namespace ERP.Sprint
     public class SprintAppService : ERPAppServiceBase, ISprintAppService
     {
         private readonly IRepository<Models.Sprint,long> _sprintRepository;
+        private readonly IRepository<Models.Issue,long> _issueRepository;
 
-        public SprintAppService(IRepository<Models.Sprint, long> sprintRepository)
+        public SprintAppService(IRepository<Models.Sprint, long> sprintRepository, IRepository<Models.Issue, long> issueRepository)
         {
             _sprintRepository = sprintRepository;
+            _issueRepository = issueRepository;
         }
         public async Task<long> Create(CreateSprintDto input)
         {
@@ -62,7 +64,9 @@ namespace ERP.Sprint
 
         public async Task<CreateSprintDto> GetId(long id)
         {
+            var total = _issueRepository.GetAll().Where(x => x.Sprint_Id == id).Sum(a => a.Estimate);
             var sprint = await _sprintRepository.FirstOrDefaultAsync(id);
+            sprint.Estimate = total;
             return ObjectMapper.Map<CreateSprintDto>(sprint);
         }
 

@@ -1,9 +1,8 @@
-<div [@routerTransition]>
+<div [busyIf]="loading">
     <div class="kt-subheader kt-grid__item">
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
-                <a
-                    [routerLink]="['/app/project/manager-project',issue.parent_Id]">
+                <a href="#">
                     <span>{{issue.projectCode}}</span>
                 </a>
             </h3>
@@ -212,14 +211,9 @@
                         </div>
                         <div class="col-md-12">
                             <fieldset class="scheduler-border">
-                                <legend class="scheduler-border">{{"Actions" |
+                                <legend class="scheduler-border">{{"Comment" |
                                     localize}}</legend>
-                                <tabset class="tab-container">
-                                    <tab heading="{{'Comment' | localize}}"
-                                        [active]="true">
                                         <app-comments [IssueId]="issue.id"></app-comments>
-                                    </tab>
-                                </tabset>
                             </fieldset>
                         </div>
                     </div>

@@ -31,6 +31,7 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
   dueDate: any;
   createdDate = new Date();
   updateDate: any;
+  loading = false;
   constructor(injector: Injector,
     private _issueService: IssueServiceProxy,
     private _activatedRoute: ActivatedRoute,
@@ -41,8 +42,9 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
   }
 
   ngOnInit() {
+    this.loading = true;
     this.idIssue = +this._activatedRoute.snapshot.paramMap.get('id');
-    this._issueService.getIssueForDetail(+this._activatedRoute.snapshot.paramMap.get('id')).subscribe(result => {
+    this._issueService.getIssueForDetail(this.idIssue).pipe(finalize(() => this.loading = false)).subscribe(result => {
       this.issue = result;
       console.log('issue', this.issue);
       // lấy tên của assignee và Reporter
@@ -139,7 +141,7 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
   }
   clickIssue(id) {
     let route = '/app/issue/management-issue/' + id;
-     window.open(route);
+    window.open(route);
   }
   delete(dto): void {
     console.log(dto);
@@ -150,17 +152,17 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
       text = 'IssueDeleteWarningMessage';
     }
     this.message.confirm(
-        this.l(text, dto.issueCode),
-        this.l('AreYouSure'),
-        (isConfirmed) => {
-            if (isConfirmed) {
-                this._issueService.delete(dto.id)
-                    .subscribe(() => {
-                        this.notify.success(this.l('SuccessfullyDeleted'));
-                    });
-            }
+      this.l(text, dto.issueCode),
+      this.l('AreYouSure'),
+      (isConfirmed) => {
+        if (isConfirmed) {
+          this._issueService.delete(dto.id)
+            .subscribe(() => {
+              this.notify.success(this.l('SuccessfullyDeleted'));
+            });
         }
+      }
     );
-}
+  }
 }
 

@@ -182,9 +182,9 @@
                                     </td>
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'SprintName' | localize}}</span>
-                                        <p (click)="onClickSprint(record.id)" style="color: blue;cursor: pointer">
+                                        <span (click)="onClickSprint(record.id)" style="color: blue;cursor: pointer">
                                             {{record.sprintCode}}
-                                        </p>
+                                        </span>
                                     </td>
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'Project' | localize}}</span>
@@ -203,7 +203,7 @@
 
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'EndDate' | localize}}</span>
-                                        {{record.due_Date|  momentFormat:'L'}}
+                                        {{record.due_Date |  momentFormat:'L'}}
                                     </td>
                                 </tr>
                             </ng-template>

@@ -22,9 +22,8 @@ namespace ERP.Issue.Dto
         public long Priority_ID { get; set; }
         public long Resolve_Id { get; set; }
         public decimal? Estimate { get; set; }
-        public int Type { get; set; }
-        public long? Parent_Id { get; set; }
-
+        public int Point { get; set; }
+        public long? Sprint_Id { get; set; }
 
     }
 }

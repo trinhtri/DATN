@@ -56,30 +56,27 @@ namespace ERP.TreeView
                 Created= x.StartDate,
             }).OrderBy(x=>x.Name).ToList();
             flatNode.AddRange(projects);
-            var sprints = _issueRepository.GetAll().Where(x=>x.Type ==  1).Select(x => new Node
+            var sprints = _sprintRepository.GetAll().Select(x => new Node
             {
                 Assignee_Id = x.Assignee_Id,
                 Created = x.CreationTime,
-                Type = x.Type_ID,
                 Summary = x.Summary,
                 Status = x.Status_Id,
                 Discription = x.Discription,
                 Due_Date = x.Due_Date,
                 Id = x.Id + "_Child",
-                Name = x.TaskCode,
-                ParentId = x.Parent_Id + "_Parent",
-                Priority = x.Priority_Id,
+                Name = x.SprintCode,
+                ParentId = x.Project_Id + "",
                 Reporter_Id = x.Reporter_Id,
                 Estimate = x.Estimate
             }).OrderBy(x => x.Name).ToList();
             flatNode.AddRange(sprints);
 
             var issues = _issueRepository.GetAll()
-                    .Where(x => x.Type == 2)
                     .WhereIf(!string.IsNullOrEmpty(input.Filter), x => x.TaskCode.Contains(input.Filter)
                      || x.Summary.Contains(input.Filter))
                     .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
-                    .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_ID))
+                    .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
                     .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
                 .Select(x => new Node { 
             Created = x.CreationTime,
@@ -93,8 +90,8 @@ namespace ERP.TreeView
             Priority = x.Priority_Id,
             Status = x.Status_Id,
             Summary = x.Summary,
-            Type = x.Type_ID,
-            ParentId = x.Parent_Id +"_Child"
+            Type = x.Type_Id,
+            ParentId = x.Discription
                 }).OrderBy(x => x.Name).ToList();
             flatNode.AddRange(issues);
             foreach(var item in flatNode)

@@ -19,5 +19,6 @@ namespace ERP.Sprint.Dto
         public decimal? Estimate { get; set; }
         public long Assignee_Id { get; set; }
         public long Reporter_Id { get; set; }
+        public decimal? TotalEstimate { get; set; }
     }
 }

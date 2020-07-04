@@ -1,6 +1,40 @@
 <button (click)="Create(IssueId)" *ngIf="isGranted('Pages.Administration.Users.Create')" class="btn btn-primary mb-3" style="margin-right:
-  5px;"> {{"Create" |localize}}</button>
-<p-table [value]="lstComment">
+  5px; float: right;"> {{"Create" |localize}}</button>
+
+
+<div class="table-scrollable table-scrollable-borderless">
+    <table class="table table-hover table-light">
+      <thead>
+        <tr class="uppercase">
+          <th style="width: 100px">
+            {{l('People')}}
+          </th>
+          <th style="width: 100px">
+            {{l('CreationTime')}}
+          </th>
+          <th style="width: 400px">
+            {{l('Discription')}}
+          </th>
+        </tr>
+      </thead>
+      <tr *ngFor="let m of lstComment; let index= index">
+     
+        <td style="width: 100px">
+          {{m.employeeName}}
+        </td>
+        <td style="width: 100px">
+          {{m.creationTime | momentFormat:'L'}}
+        </td>
+        <td style="width: 400px">
+          {{m.discription}}
+        </td>
+      </tr>
+    </table>
+  </div>
+
+<app-create-or-edit-comment #CreatModel (modalSave)="getAll()"></app-create-or-edit-comment>
+
+<!-- <p-table [value]="lstComment">
     <ng-template pTemplate="header">
         <tr>
             <th style="width: 100px">{{'People' | localize}}</th>
@@ -15,6 +49,4 @@
             <td style="width: 400px">{{comment.discription}}</td>
         </tr>
     </ng-template>
-</p-table>
-
-<app-create-or-edit-comment #CreatModel (modalSave)="getAll()"></app-create-or-edit-comment>
+</p-table> -->

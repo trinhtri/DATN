@@ -73,7 +73,6 @@ export class CreateOrUpdateSprintComponent extends AppComponentBase implements O
   }
   save(): void {
     this.saving = true;
-    this.issue.type = 1;
     this.issue.reporter_Id = this.appSession.userId;
     if (this.dueDate) {
       this.issue.due_Date = moment(this.dueDate);

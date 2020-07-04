@@ -16,7 +16,7 @@ namespace ERP.Models
         public string TaskCode { get; set; }
         [StringLength(500)]
         public string Summary { get; set; }
-        public long Type_ID { get; set; }
+        public long Type_Id { get; set; }
         public long Status_Id { get; set; }
         public string Discription { get; set; }
         public long Assignee_Id { get; set; }
@@ -26,8 +26,9 @@ namespace ERP.Models
         public decimal? Estimate { get; set; }
         public long Priority_Id { get; set; }
         public long Resolve_Id { get; set; }
-        public long? Parent_Id { get; set; }
-        public int Type { get; set; }
+        public long? Sprint_Id { get; set; }
+        public int Point { get; set; }
+        public virtual  Sprint Sprint_ { get; set; }
 
     }
 }

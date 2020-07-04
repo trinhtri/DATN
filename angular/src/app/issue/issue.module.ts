@@ -30,6 +30,7 @@ import {TreeNode} from 'primeng/api';
 import { CreateOrUpdateSprintComponent } from './create-or-update-sprint/create-or-update-sprint.component';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { IssueRoutingModule } from './issue-routing.module';
+import { IssueComponent } from './issue/issue.component';
 
 @NgModule({
     imports: [
@@ -66,6 +67,7 @@ import { IssueRoutingModule } from './issue-routing.module';
         ConfigViewComponent,
         EstimateComponent,
         CreateOrUpdateSprintComponent,
+        IssueComponent,
     ],
     providers: [
         ProjectServiceProxy,

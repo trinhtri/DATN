@@ -106,11 +106,9 @@ namespace ERP.Shared
                     break;
 
                 case "Sprints":
-                    result = _issueRepository.GetAll()
-                        .Where(x=>x.Type == 1)
+                    result = _sprintRepository.GetAll()
                         .Where(x => x.TenantId == tenantId || tenantId == null)
-                        .WhereIf(parentId.HasValue , x=> x.Parent_Id == parentId)
-                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.TaskCode })
+                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.SprintCode + "-"+x.Project_.ProjectCode})
                         .ToList();
                     break;
             }

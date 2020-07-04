@@ -4709,60 +4709,6 @@ export class IssueServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    getSprintForManager(id: number | null | undefined): Observable<CommonListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Issue/GetSprintForManager?";
-        if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetSprintForManager(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetSprintForManager(<any>response_);
-                } catch (e) {
-                    return <Observable<CommonListDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<CommonListDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetSprintForManager(response: HttpResponseBase): Observable<CommonListDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? CommonListDto.fromJS(resultData200) : new CommonListDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<CommonListDto>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
     getIssueForManager(id: number | null | undefined): Observable<CommonListDto> {
         let url_ = this.baseUrl + "/api/services/app/Issue/GetIssueForManager?";
         if (id !== undefined)
@@ -4811,63 +4757,6 @@ export class IssueServiceProxy {
             }));
         }
         return _observableOf<CommonListDto>(<any>null);
-    }
-
-    /**
-     * @param type (optional) 
-     * @param parentId (optional) 
-     * @return Success
-     */
-    getProjecCode(type: number | null | undefined, parentId: number | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Issue/GetProjecCode?";
-        if (type !== undefined)
-            url_ += "type=" + encodeURIComponent("" + type) + "&"; 
-        if (parentId !== undefined)
-            url_ += "parentId=" + encodeURIComponent("" + parentId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetProjecCode(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetProjecCode(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetProjecCode(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
     }
 
     /**
@@ -5220,6 +5109,604 @@ export class IssueServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getIssuesOfSprint(id: number | null | undefined): Observable<IssueListOfSprintDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetIssuesOfSprint?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetIssuesOfSprint(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetIssuesOfSprint(<any>response_);
+                } catch (e) {
+                    return <Observable<IssueListOfSprintDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<IssueListOfSprintDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetIssuesOfSprint(response: HttpResponseBase): Observable<IssueListOfSprintDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(IssueListOfSprintDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<IssueListOfSprintDto[]>(<any>null);
+    }
+
+    /**
+     * @param sprintId (optional) 
+     * @return Success
+     */
+    getScaleStatusForChart(sprintId: number | null | undefined): Observable<ScaleStatusIssueOfSprintForChart> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetScaleStatusForChart?";
+        if (sprintId !== undefined)
+            url_ += "sprintId=" + encodeURIComponent("" + sprintId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetScaleStatusForChart(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetScaleStatusForChart(<any>response_);
+                } catch (e) {
+                    return <Observable<ScaleStatusIssueOfSprintForChart>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ScaleStatusIssueOfSprintForChart>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetScaleStatusForChart(response: HttpResponseBase): Observable<ScaleStatusIssueOfSprintForChart> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ScaleStatusIssueOfSprintForChart.fromJS(resultData200) : new ScaleStatusIssueOfSprintForChart();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ScaleStatusIssueOfSprintForChart>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPointOpen(id: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetPointOpen?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPointOpen(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPointOpen(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPointOpen(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPointInProgress(id: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetPointInProgress?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPointInProgress(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPointInProgress(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPointInProgress(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPointResolved(id: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetPointResolved?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPointResolved(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPointResolved(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPointResolved(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPointCompeleted(id: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetPointCompeleted?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPointCompeleted(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPointCompeleted(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPointCompeleted(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPointReOpened(id: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetPointReOpened?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPointReOpened(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPointReOpened(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPointReOpened(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param sprintId (optional) 
+     * @return Success
+     */
+    getScaleTypeForChart(sprintId: number | null | undefined): Observable<ScaleTypeIssueOfSprintForChart> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetScaleTypeForChart?";
+        if (sprintId !== undefined)
+            url_ += "sprintId=" + encodeURIComponent("" + sprintId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetScaleTypeForChart(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetScaleTypeForChart(<any>response_);
+                } catch (e) {
+                    return <Observable<ScaleTypeIssueOfSprintForChart>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ScaleTypeIssueOfSprintForChart>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetScaleTypeForChart(response: HttpResponseBase): Observable<ScaleTypeIssueOfSprintForChart> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ScaleTypeIssueOfSprintForChart.fromJS(resultData200) : new ScaleTypeIssueOfSprintForChart();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ScaleTypeIssueOfSprintForChart>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPointNewFeatureForType(id: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetPointNewFeatureForType?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPointNewFeatureForType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPointNewFeatureForType(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPointNewFeatureForType(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPointImprovementForType(id: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetPointImprovementForType?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPointImprovementForType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPointImprovementForType(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPointImprovementForType(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getPointBugForType(id: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Issue/GetPointBugForType?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPointBugForType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPointBugForType(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPointBugForType(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
     }
 }
 
@@ -17444,8 +17931,8 @@ export class CreateIssueDto implements ICreateIssueDto {
     priority_ID!: number | undefined;
     resolve_Id!: number | undefined;
     estimate!: number | undefined;
-    type!: number | undefined;
-    parent_Id!: number | undefined;
+    point!: number | undefined;
+    sprint_Id!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateIssueDto) {
@@ -17472,8 +17959,8 @@ export class CreateIssueDto implements ICreateIssueDto {
             this.priority_ID = data["priority_ID"];
             this.resolve_Id = data["resolve_Id"];
             this.estimate = data["estimate"];
-            this.type = data["type"];
-            this.parent_Id = data["parent_Id"];
+            this.point = data["point"];
+            this.sprint_Id = data["sprint_Id"];
             this.id = data["id"];
         }
     }
@@ -17500,8 +17987,8 @@ export class CreateIssueDto implements ICreateIssueDto {
         data["priority_ID"] = this.priority_ID;
         data["resolve_Id"] = this.resolve_Id;
         data["estimate"] = this.estimate;
-        data["type"] = this.type;
-        data["parent_Id"] = this.parent_Id;
+        data["point"] = this.point;
+        data["sprint_Id"] = this.sprint_Id;
         data["id"] = this.id;
         return data; 
     }
@@ -17521,8 +18008,8 @@ export interface ICreateIssueDto {
     priority_ID: number | undefined;
     resolve_Id: number | undefined;
     estimate: number | undefined;
-    type: number | undefined;
-    parent_Id: number | undefined;
+    point: number | undefined;
+    sprint_Id: number | undefined;
     id: number | undefined;
 }
 
@@ -17587,7 +18074,7 @@ export class IssueListDto implements IIssueListDto {
     due_Date!: moment.Moment | undefined;
     estimate!: number | undefined;
     priority_Id!: number | undefined;
-    projectCode!: string | undefined;
+    sprintName!: string | undefined;
     project_Id!: number | undefined;
     creationTime!: moment.Moment | undefined;
     type!: number | undefined;
@@ -17616,7 +18103,7 @@ export class IssueListDto implements IIssueListDto {
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
             this.estimate = data["estimate"];
             this.priority_Id = data["priority_Id"];
-            this.projectCode = data["projectCode"];
+            this.sprintName = data["sprintName"];
             this.project_Id = data["project_Id"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             this.type = data["type"];
@@ -17645,7 +18132,7 @@ export class IssueListDto implements IIssueListDto {
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
         data["estimate"] = this.estimate;
         data["priority_Id"] = this.priority_Id;
-        data["projectCode"] = this.projectCode;
+        data["sprintName"] = this.sprintName;
         data["project_Id"] = this.project_Id;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["type"] = this.type;
@@ -17667,7 +18154,7 @@ export interface IIssueListDto {
     due_Date: moment.Moment | undefined;
     estimate: number | undefined;
     priority_Id: number | undefined;
-    projectCode: string | undefined;
+    sprintName: string | undefined;
     project_Id: number | undefined;
     creationTime: moment.Moment | undefined;
     type: number | undefined;
@@ -17820,6 +18307,174 @@ export class IssueOfSprintListDto implements IIssueOfSprintListDto {
 export interface IIssueOfSprintListDto {
     summaryIssue: string | undefined;
     id: number | undefined;
+}
+
+export class IssueListOfSprintDto implements IIssueListOfSprintDto {
+    taskCode!: string | undefined;
+    summary!: string | undefined;
+    type_Id!: number | undefined;
+    status_Id!: number | undefined;
+    assignee_Id!: number | undefined;
+    startDate!: moment.Moment | undefined;
+    due_Date!: moment.Moment | undefined;
+    estimate!: number | undefined;
+    parent_Id!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IIssueListOfSprintDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.taskCode = data["taskCode"];
+            this.summary = data["summary"];
+            this.type_Id = data["type_Id"];
+            this.status_Id = data["status_Id"];
+            this.assignee_Id = data["assignee_Id"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
+            this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
+            this.estimate = data["estimate"];
+            this.parent_Id = data["parent_Id"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): IssueListOfSprintDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new IssueListOfSprintDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["taskCode"] = this.taskCode;
+        data["summary"] = this.summary;
+        data["type_Id"] = this.type_Id;
+        data["status_Id"] = this.status_Id;
+        data["assignee_Id"] = this.assignee_Id;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
+        data["estimate"] = this.estimate;
+        data["parent_Id"] = this.parent_Id;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IIssueListOfSprintDto {
+    taskCode: string | undefined;
+    summary: string | undefined;
+    type_Id: number | undefined;
+    status_Id: number | undefined;
+    assignee_Id: number | undefined;
+    startDate: moment.Moment | undefined;
+    due_Date: moment.Moment | undefined;
+    estimate: number | undefined;
+    parent_Id: number | undefined;
+    id: number | undefined;
+}
+
+export class ScaleStatusIssueOfSprintForChart implements IScaleStatusIssueOfSprintForChart {
+    scaleOpen!: number | undefined;
+    scaleInProgress!: number | undefined;
+    scaleResolved!: number | undefined;
+    scaleCompeleted!: number | undefined;
+    scaleReOpened!: number | undefined;
+
+    constructor(data?: IScaleStatusIssueOfSprintForChart) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.scaleOpen = data["scaleOpen"];
+            this.scaleInProgress = data["scaleInProgress"];
+            this.scaleResolved = data["scaleResolved"];
+            this.scaleCompeleted = data["scaleCompeleted"];
+            this.scaleReOpened = data["scaleReOpened"];
+        }
+    }
+
+    static fromJS(data: any): ScaleStatusIssueOfSprintForChart {
+        data = typeof data === 'object' ? data : {};
+        let result = new ScaleStatusIssueOfSprintForChart();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["scaleOpen"] = this.scaleOpen;
+        data["scaleInProgress"] = this.scaleInProgress;
+        data["scaleResolved"] = this.scaleResolved;
+        data["scaleCompeleted"] = this.scaleCompeleted;
+        data["scaleReOpened"] = this.scaleReOpened;
+        return data; 
+    }
+}
+
+export interface IScaleStatusIssueOfSprintForChart {
+    scaleOpen: number | undefined;
+    scaleInProgress: number | undefined;
+    scaleResolved: number | undefined;
+    scaleCompeleted: number | undefined;
+    scaleReOpened: number | undefined;
+}
+
+export class ScaleTypeIssueOfSprintForChart implements IScaleTypeIssueOfSprintForChart {
+    scaleNewFeature!: number | undefined;
+    scaleImprovent!: number | undefined;
+    scaleBug!: number | undefined;
+
+    constructor(data?: IScaleTypeIssueOfSprintForChart) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.scaleNewFeature = data["scaleNewFeature"];
+            this.scaleImprovent = data["scaleImprovent"];
+            this.scaleBug = data["scaleBug"];
+        }
+    }
+
+    static fromJS(data: any): ScaleTypeIssueOfSprintForChart {
+        data = typeof data === 'object' ? data : {};
+        let result = new ScaleTypeIssueOfSprintForChart();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["scaleNewFeature"] = this.scaleNewFeature;
+        data["scaleImprovent"] = this.scaleImprovent;
+        data["scaleBug"] = this.scaleBug;
+        return data; 
+    }
+}
+
+export interface IScaleTypeIssueOfSprintForChart {
+    scaleNewFeature: number | undefined;
+    scaleImprovent: number | undefined;
+    scaleBug: number | undefined;
 }
 
 export class GetLanguagesOutput implements IGetLanguagesOutput {
@@ -21861,6 +22516,7 @@ export class CreateSprintDto implements ICreateSprintDto {
     estimate!: number | undefined;
     assignee_Id!: number | undefined;
     reporter_Id!: number | undefined;
+    totalEstimate!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: ICreateSprintDto) {
@@ -21885,6 +22541,7 @@ export class CreateSprintDto implements ICreateSprintDto {
             this.estimate = data["estimate"];
             this.assignee_Id = data["assignee_Id"];
             this.reporter_Id = data["reporter_Id"];
+            this.totalEstimate = data["totalEstimate"];
             this.id = data["id"];
         }
     }
@@ -21909,6 +22566,7 @@ export class CreateSprintDto implements ICreateSprintDto {
         data["estimate"] = this.estimate;
         data["assignee_Id"] = this.assignee_Id;
         data["reporter_Id"] = this.reporter_Id;
+        data["totalEstimate"] = this.totalEstimate;
         data["id"] = this.id;
         return data; 
     }
@@ -21926,6 +22584,7 @@ export interface ICreateSprintDto {
     estimate: number | undefined;
     assignee_Id: number | undefined;
     reporter_Id: number | undefined;
+    totalEstimate: number | undefined;
     id: number | undefined;
 }
 

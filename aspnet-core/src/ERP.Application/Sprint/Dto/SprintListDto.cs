@@ -13,7 +13,6 @@ namespace ERP.Sprint.Dto
         public string SprintCode { get; set; }
         public string Summary { get; set; }
         public string Discription { get; set; }
-
         public string ProjectName { get; set; }
         public long Project_Id { get; set; }
         public long Status_Id { get; set; }

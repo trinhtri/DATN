@@ -15,6 +15,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   issue: CreateIssueDto = new CreateIssueDto();
   dueDate: any;
+  startDate: any;
   active = false;
   saving = false;
   projectId: number;
@@ -66,6 +67,9 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
         if (this.issue.due_Date) {
           this.dueDate = this.issue.due_Date.toDate();
         }
+        if (this.issue.startDate) {
+          this.startDate = this.issue.startDate.toDate();
+        }
       });
     } else {
       // mặc định khi tạo mới thì mức độ là bình thường
@@ -77,10 +81,12 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   }
   save(): void {
     this.saving = true;
-    this.issue.type = 2;
     this.issue.reporter_Id = this.appSession.userId;
     if (this.dueDate) {
       this.issue.due_Date = moment(this.dueDate);
+    }
+    if (this.startDate) {
+      this.issue.startDate = moment(this.startDate);
     }
     if (this.issue.id) {
       this._issueService.update(this.issue)
@@ -108,6 +114,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   close(): void {
     this.projectId = null;
     this.dueDate = null;
+    this.startDate = null;
     this.lst = [];
     this.lstSprint = [];
     this.issue = new CreateIssueDto();
