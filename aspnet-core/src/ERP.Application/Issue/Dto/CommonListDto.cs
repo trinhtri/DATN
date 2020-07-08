@@ -13,7 +13,7 @@ namespace ERP.Issue.Dto
         public long Type_Id { get; set; }
         public long Status_Id { get; set; }
         public string Discription { get; set; }
-        public long Assignee_Id { get; set; }
+        public long? Assignee_Id { get; set; }
         public long Reporter_Id { get; set; }
         public DateTime? Due_Date { get; set; }
         public decimal? Estimate { get; set; }

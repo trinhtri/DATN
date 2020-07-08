@@ -48,7 +48,7 @@ export class EstimateComponent extends AppComponentBase implements OnInit {
   save(): void {
     this.saving = true;
     this.issue.reporter_Id = this.appSession.userId;
-    this._issueService.update(this.issue)
+    this._issueService.estimate(this.issue.id, this.issue.estimate)
       .pipe(finalize(() => { this.saving = false; }))
       .subscribe(() => {
         this.notify.info(this.l('SavedSuccessfully'));

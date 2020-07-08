@@ -16,5 +16,8 @@ namespace ERP.Issue.Dto
         public DateTime? Due_Date { get; set; }
         public decimal? Estimate { get; set; }
         public long? Parent_Id { get; set; }
+        public int Point { get; set; }
+        public string AssignName { get; set; }
+
     }
 }

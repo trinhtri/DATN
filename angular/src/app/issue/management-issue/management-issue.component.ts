@@ -87,8 +87,10 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
       this.ngOnInit();
     });
   }
-  resolved(id) {
+  estimate(id) {
     this.addEstimateTimeModal.show(id);
+  }
+  resolved(id) {
     this._issueService.resolved(id).subscribe(result => {
       this.notify.success(this.l('resolved'));
       this.ngOnInit();

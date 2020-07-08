@@ -881,6 +881,11 @@
     <text name="SprintInformationManagement">Quản lý thông tin sprint</text>
     
     
+    <text name="Created">Ngày tạo</text>
+    <text name="DiagramShowingSprintStatusIssue">Biểu đồ thể hiện trạng thái issue của sprint</text>
+    <text name="DiagramShowingSprintTypeIssue">Biểu đồ thể hiện loại issue của sprint</text>
+    <text name="TotalEstimate">Tổng thời gian ước tính</text>
+    
    
 
   </texts>

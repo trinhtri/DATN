@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { CreateIssueComponent } from '../create-issue/create-issue.component';
+import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
 
 @Component({
     selector: 'app-issue',
@@ -20,12 +21,16 @@ export class IssueComponent extends AppComponentBase implements OnInit {
     @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+
+    primengTableHelperIssueActive = new PrimengTableHelper();
+    primengTableHelperBackLog = new PrimengTableHelper();
     //Filters
     filterText = '';
     advancedFiltersAreShown: any;
+    advancedFiltersAreShown1: any;
     checked = true;
     lstMember: ERPComboboxItem[] = [];
-    lstProject: ERPComboboxItem[] = [];
+    lstSprint: ERPComboboxItem[] = [];
     lstType = [
         { value: 1, displayText: this.l('NewFeature') },
         { value: 2, displayText: this.l('Improvement') },
@@ -39,9 +44,14 @@ export class IssueComponent extends AppComponentBase implements OnInit {
         { value: 5, displayText: this.l('ReOpened') },
     ];
     lstStatusId: number[] = [];
-    lstProjectId: number[] = [];
+    lstSprintId: number[] = [];
     lstIssueTypeId: number[] = [];
     lstAssigneeId: number[] = [];
+
+    lstStatusBackLogId: number[] = [];
+    lstSprintBackLogId: number[] = [];
+    lstIssueTypeBackLogId: number[] = [];
+    lstAssigneeBackLogId: number[] = [];
 
     constructor(
         injector: Injector,
@@ -61,34 +71,58 @@ export class IssueComponent extends AppComponentBase implements OnInit {
         this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe(result => {
             this.lstMember = result;
         });
-        this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe(result => {
-            this.lstProject = result;
+        this._commonService.getLookups('Sprints', this.appSession.tenantId, undefined).subscribe(result => {
+            this.lstSprint = result;
         });
     }
     getAll(event?: LazyLoadEvent) {
-        if (this.primengTableHelper.shouldResetPaging(event)) {
+        if (this.primengTableHelperIssueActive.shouldResetPaging(event)) {
             this.paginator.changePage(0);
 
             return;
         }
-        this.primengTableHelper.showLoadingIndicator();
+        this.primengTableHelperIssueActive.showLoadingIndicator();
         this._issueService.getAll(
-            this.lstProjectId,
+            this.lstSprintId,
             this.lstStatusId,
             this.lstAssigneeId,
             this.lstIssueTypeId,
             this.filterText,
-            2,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event),
-            this.primengTableHelper.getSkipCount(this.paginator, event)
-        ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
-            this.primengTableHelper.totalRecordsCount = result.totalCount;
-            this.primengTableHelper.records = result.items;
-            console.log('list issue', this.primengTableHelper.records);
-            this.primengTableHelper.hideLoadingIndicator();
+            this.primengTableHelperIssueActive.getSorting(this.dataTable),
+            this.primengTableHelperIssueActive.getMaxResultCount(this.paginator, event),
+            this.primengTableHelperIssueActive.getSkipCount(this.paginator, event)
+        ).pipe(finalize(() => this.primengTableHelperIssueActive.hideLoadingIndicator())).subscribe(result => {
+            this.primengTableHelperIssueActive.totalRecordsCount = result.totalCount;
+            this.primengTableHelperIssueActive.records = result.items;
+            console.log('list issue', this.primengTableHelperIssueActive.records);
+            this.primengTableHelperIssueActive.hideLoadingIndicator();
         });
     }
+
+    getAllBackLock(event?: LazyLoadEvent) {
+        if (this.primengTableHelperBackLog.shouldResetPaging(event)) {
+            this.paginator.changePage(0);
+
+            return;
+        }
+        this.primengTableHelperBackLog.showLoadingIndicator();
+        this._issueService.getAllIssueBackLog(
+            this.lstSprintBackLogId,
+            this.lstStatusBackLogId,
+            this.lstAssigneeBackLogId,
+            this.lstIssueTypeBackLogId,
+            this.filterText,
+            this.primengTableHelperBackLog.getSorting(this.dataTable),
+            this.primengTableHelperBackLog.getMaxResultCount(this.paginator, event),
+            this.primengTableHelperBackLog.getSkipCount(this.paginator, event)
+        ).pipe(finalize(() => this.primengTableHelperBackLog.hideLoadingIndicator())).subscribe(result => {
+            this.primengTableHelperBackLog.totalRecordsCount = result.totalCount;
+            this.primengTableHelperBackLog.records = result.items;
+            console.log('list issue', this.primengTableHelper.records);
+            this.primengTableHelperBackLog.hideLoadingIndicator();
+        });
+    }
+
     createNew() {
         this.createOrEditModal.show();
     }
@@ -112,20 +146,35 @@ export class IssueComponent extends AppComponentBase implements OnInit {
         );
     }
     exportExcel(event?: LazyLoadEvent) {
-        this._issueService.getSprintForExcel(
-            this.lstProjectId,
+        this._issueService.getIssueActiveForExcel(
+            this.lstSprintId,
             this.lstStatusId,
             undefined,
             this.lstIssueTypeId,
             this.filterText,
-            1,
-            this.primengTableHelper.getSorting(this.dataTable),
-            this.primengTableHelper.getMaxResultCount(this.paginator, event),
-            this.primengTableHelper.getSkipCount(this.paginator, event)
-        ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+            this.primengTableHelperIssueActive.getSorting(this.dataTable),
+            this.primengTableHelperIssueActive.getMaxResultCount(this.paginator, event),
+            this.primengTableHelperIssueActive.getSkipCount(this.paginator, event)
+        ).pipe(finalize(() => this.primengTableHelperIssueActive.hideLoadingIndicator())).subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
         });
     }
+
+    exportExcelBackLog(event?: LazyLoadEvent) {
+        this._issueService.getIssueBackLogForExcel(
+            this.lstSprintId,
+            this.lstStatusId,
+            undefined,
+            this.lstIssueTypeId,
+            this.filterText,
+            this.primengTableHelperIssueActive.getSorting(this.dataTable),
+            this.primengTableHelperIssueActive.getMaxResultCount(this.paginator, event),
+            this.primengTableHelperIssueActive.getSkipCount(this.paginator, event)
+        ).pipe(finalize(() => this.primengTableHelperIssueActive.hideLoadingIndicator())).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());
     }

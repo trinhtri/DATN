@@ -91,7 +91,7 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
         });
     } else {
       // mặc định là mở
-      this.sprint.status_Id = 1;
+      this.sprint.status_Id = 2;
       this._sprintService.create(this.sprint)
         .pipe(finalize(() => { this.saving = false; }))
         .subscribe(() => {

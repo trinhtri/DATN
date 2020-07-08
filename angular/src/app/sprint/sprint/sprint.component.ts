@@ -27,21 +27,15 @@ export class SprintComponent extends AppComponentBase implements OnInit {
     checked = true;
     lstMember: ERPComboboxItem[] = [];
     lstProject: ERPComboboxItem[] = [];
-    lstType = [
-        { value: 1, displayText: this.l('NewFeature') },
-        { value: 2, displayText: this.l('Improvement') },
-        { value: 3, displayText: this.l('Bug') },
-      ];
-      lstStatus = [
-        { value: 1, displayText: this.l('Open') },
-        { value: 2, displayText: this.l('InProgress') },
-        { value: 3, displayText: this.l('Resolved') },
-        { value: 4, displayText: this.l('Compeleted') },
-        { value: 5, displayText: this.l('ReOpened') },
-      ];
-      lstStatusId: number[] = [];
-      lstProjectId: number[] = [];
-      lstIssueTypeId: number[] = [];
+    lstStatus = [
+        { value: 1, displayText: this.l('Active') },
+        { value: 2, displayText: this.l('Open') },
+        { value: 3, displayText: this.l('Close') },
+        { value: 4, displayText: this.l('Cancel') },
+    ];
+    lstStatusId: number[] = [];
+    lstProjectId: number[] = [];
+    lstAssignId: number[] = [];
 
     constructor(
         injector: Injector,
@@ -79,6 +73,9 @@ export class SprintComponent extends AppComponentBase implements OnInit {
 
         this._sprintService.getAll(
             this.filterText,
+            this.lstProjectId,
+            this.lstStatusId,
+            this.lstAssignId,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getMaxResultCount(this.paginator, event),
             this.primengTableHelper.getSkipCount(this.paginator, event)
@@ -111,13 +108,11 @@ export class SprintComponent extends AppComponentBase implements OnInit {
         );
     }
     exportExcel(event?: LazyLoadEvent) {
-        this._issueService.getSprintForExcel    (
+        this._sprintService.getSprintForExcel(
+            this.filterText,
             this.lstProjectId,
             this.lstStatusId,
-            undefined,
-            this.lstIssueTypeId,
-            this.filterText,
-            1,
+            this.lstAssignId,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getMaxResultCount(this.paginator, event),
             this.primengTableHelper.getSkipCount(this.paginator, event)
@@ -141,7 +136,77 @@ export class SprintComponent extends AppComponentBase implements OnInit {
                 break;
         }
     }
+
+    getStatusName(statusId) {
+        switch (statusId) {
+            case 1:
+                return this.l('Active');
+                break;
+            case 2:
+                return this.l('Open');
+                break;
+            case 3:
+                return this.l('Close');
+                break;
+            case 4:
+                return this.l('Cancel');
+                break;
+        }
+    }
     onClickSprint(id) {
-    this._router.navigate(['/app/sprint/sprint', id]);
+        this._router.navigate(['/app/sprint/sprint', id]);
+    }
+
+    active(record) {
+        console.log('Active', record);
+        // this.message.confirm(
+        //     this.l('Bạn có muốn đóng sprint này không ? Nếu đóng các issue chưa hoàn thành của sprint sẽ chuyển thành backlog', record.issueCode),
+        //     this.l('AreYouSure'),
+        //     (isConfirmed) => {
+        //         if (isConfirmed) {
+        //              this._sprintService.activeSprint(record.id).subscribe(result => {
+        //     this.getAll();
+        //     this.notify.success('Active thanh cong');
+        // });
+        //         }
+        //     }
+        // );
+
+        this._sprintService.activeSprint(record.id).subscribe(result => {
+            this.getAll();
+            this.notify.success('Active thanh cong');
+        });
+    }
+
+    close(record) {
+        console.log('close', record);
+        this.message.confirm(
+            this.l('Bạn có muốn đóng sprint này không ? Nếu đóng các issue chưa hoàn thành của sprint sẽ chuyển thành backlog', record.issueCode),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._sprintService.closeSprint(record.id).subscribe(result => {
+                        this.getAll();
+                        this.notify.success('close thanh cong');
+                    });
+                }
+            }
+        );
+    }
+
+    cancel(record) {
+        console.log('cancel', record);
+        this.message.confirm(
+            this.l('Bạn có muốn hủy sprint này không ? Nếu hủy các issue chưa hoàn thành của sprint sẽ chuyển thành backlog', record.issueCode),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._sprintService.cancelSprint(record.id).subscribe(result => {
+                        this.getAll();
+                        this.notify.success('cancel thanh cong');
+                    });
+                }
+            }
+        );
     }
 }

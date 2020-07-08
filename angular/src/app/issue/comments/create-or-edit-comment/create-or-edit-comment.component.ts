@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./create-or-edit-comment.component.css']
 })
 export class CreateOrEditCommentComponent extends AppComponentBase implements OnInit {
-  @ViewChild('createOrEditModal', {static: true}) modal: ModalDirective;
+  @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   comment: CreateCommentDto = new CreateCommentDto();
   active = false;
@@ -18,9 +18,9 @@ export class CreateOrEditCommentComponent extends AppComponentBase implements On
   issueId: number;
   constructor(injector: Injector,
     private _comentService: CommentServiceProxy
-    ) {
+  ) {
     super(injector);
-   }
+  }
 
   ngOnInit() {
   }
@@ -29,41 +29,42 @@ export class CreateOrEditCommentComponent extends AppComponentBase implements On
     console.log('IssueId..', id);
     this.active = true;
     this.modal.show();
-    if (id) {
-    this._comentService.getId(id).subscribe( result => {
-      this.comment = result;
-  });
-}}
-onShown(): void {
-  document.getElementById('Discription').focus();
-}
-save(): void {
-  this.comment.issue_Id = this.issueId;
-  this.comment.employee_Id = this.appSession.userId;
-  this.saving = true;
-  if (this.comment.id) {
-    this._comentService.update(this.comment)
-    .pipe(finalize(() => { this.saving = false; }))
-    .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.close();
-        this.modalSave.emit(null);
-    });
-  } else {
-    this._comentService.create(this.comment)
-    .pipe(finalize(() => { this.saving = false; }))
-    .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.close();
-        this.modalSave.emit(null);
-    });
+    // if (id) {
+    //   this._comentService.getId(id).subscribe(result => {
+    //     this.comment = result;
+    //   });
+    // }
   }
-}
+  onShown(): void {
+    document.getElementById('Discription').focus();
+  }
+  save(): void {
+    this.comment.issue_Id = this.issueId;
+    this.comment.employee_Id = this.appSession.userId;
+    this.saving = true;
+    if (this.comment.id) {
+      this._comentService.update(this.comment)
+        .pipe(finalize(() => { this.saving = false; }))
+        .subscribe(() => {
+          this.notify.info(this.l('SavedSuccessfully'));
+          this.close();
+          this.modalSave.emit(null);
+        });
+    } else {
+      this._comentService.create(this.comment)
+        .pipe(finalize(() => { this.saving = false; }))
+        .subscribe(() => {
+          this.notify.info(this.l('SavedSuccessfully'));
+          this.close();
+          this.modalSave.emit(null);
+        });
+    }
+  }
 
-close(): void {
-  this.comment = new CreateCommentDto();
-  this.saving = false;
-  this.active = false;
-  this.modal.hide();
-}
+  close(): void {
+    this.comment = new CreateCommentDto();
+    this.saving = false;
+    this.active = false;
+    this.modal.hide();
+  }
 }

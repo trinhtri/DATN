@@ -40,6 +40,7 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
   lstSprint: ERPComboboxItem[] = [];
   lstProject: ERPComboboxItem[] = [];
   lstIssueForStatus: IssueListOfSprintDto[] = [];
+  lstIssueForType: IssueListOfSprintDto[] = [];
   sprintId: number;
   scaleStatus: ScaleStatusIssueOfSprintForChart = new ScaleStatusIssueOfSprintForChart();
   scaleType: ScaleTypeIssueOfSprintForChart = new ScaleTypeIssueOfSprintForChart();
@@ -71,18 +72,29 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
         this.dueDate = this.sprint.due_Date.toDate();
       }
     });
-
-    this._issueService.getIssuesOfSprint(this.sprintId).subscribe(result => {
-      this.lstIssueForStatus = result;
-    });
-
     this._commonService.getLookups('Member', this.appSession.tenantId, undefined).subscribe(result => {
       this.lst = result;
     });
     this._commonService.getLookups('Project', this.appSession.tenantId, undefined).subscribe(result => {
       this.lstProject = result;
     });
+    this.getIssueForStatus();
+    this.getIssueForType();
   }
+
+  getIssueForStatus() {
+    this._issueService.getIssuesStatusOfSprint(this.sprintId , this.lstStatusSelected).subscribe(result => {
+      this.lstIssueForStatus = result;
+      console.log('lstIssueForStatus', this.lstIssueForStatus);
+    });
+  }
+
+  getIssueForType() {
+    this._issueService.getIssuesTypeOfSprint(this.sprintId, this.lstTypeSelected).subscribe(result => {
+      this.lstIssueForType = result;
+    });
+  }
+
 
 
   initDataForChart() {
@@ -94,15 +106,15 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
           {
             data: [this.scaleStatus.scaleOpen, this.scaleStatus.scaleInProgress, this.scaleStatus.scaleResolved, this.scaleStatus.scaleCompeleted, this.scaleStatus.scaleReOpened],
             backgroundColor: [
-              '#FF6384',
-              '#36A2EB',
+              '#5d78ff',
+              '#0abb87',
               '#FFCE56',
               '#343a40',
-              '#d71212'
+              '#bc4f4f '
             ],
             hoverBackgroundColor: [
-              '#FF6384',
-              '#36A2EB',
+              '#5d78ff',
+              '#0abb87',
               '#FFCE56',
               '#343a40',
               '#d71212'
@@ -120,14 +132,14 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
           {
             data: [this.scaleType.scaleNewFeature, this.scaleType.scaleImprovent, this.scaleType.scaleBug],
             backgroundColor: [
-              '#FF6384',
-              '#36A2EB',
-              '#FFCE56'
+              '#0abb87',
+              '#5867dd',
+              '#bc4f4f'
             ],
             hoverBackgroundColor: [
-              '#FF6384',
-              '#36A2EB',
-              '#FFCE56'
+              '#0abb87',
+              '#5867dd',
+              '#d71212'
             ]
           }]
       };
@@ -191,9 +203,13 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
   }
   changeStatus(value) {
   console.log('changeStatus', value);
+  this.getIssueForStatus();
+
   }
   changeType(value) {
     console.log('changeType', value);
+    console.log('lst type', this.lstTypeSelected);
+    this.getIssueForType();
   }
   onClickIssue(id) {
     this._router.navigate(['/app/issue/management-issue', id]);

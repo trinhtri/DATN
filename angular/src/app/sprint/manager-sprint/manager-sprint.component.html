@@ -77,7 +77,8 @@
                   <div class="form-group">
                     <label for="StartDate">{{"StartDate" | localize}} </label>
                     <div class="input-group date">
-                      <input id="StartDate" type="text" #StartDate name="StartDate"
+                      <input id="StartDate" type="text" #StartDate
+                        name="StartDate"
                         class="form-control" [(ngModel)]="startDate"
                         bsDatepicker
                         autocomplete="off" triggers="dblclick:click"
@@ -95,7 +96,8 @@
                   <div class="form-group">
                     <label for="DueDate">{{"DueDate" | localize}} </label>
                     <div class="input-group date">
-                      <input id="DueDate1" type="text" #ExpireDate name="EndDate"
+                      <input id="DueDate1" type="text" #ExpireDate
+                        name="EndDate"
                         class="form-control" [(ngModel)]="dueDate" bsDatepicker
                         autocomplete="off" triggers="dblclick:click"
                         #dp3="bsDatepicker" placeholder="--/--/----">
@@ -135,16 +137,14 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-6 col-xs-12 col-sm-12">
+      <div class="col-lg-5 col-xs-12 col-sm-12">
         <div class="kt-portlet kt-portlet--height-fluid">
           <div class="kt-portlet__head">
             <div class="kt-portlet__head-label">
               <h3 class="kt-portlet__head-title">
-                <span class="caption-subject font-blue bold uppercase"> Profit
-                  Share</span>
-                <small>
-                  Profit Share between customers
-                </small>
+                <span class="caption-subject font-blue">
+                  {{l('DiagramShowingSprintStatusIssue')}}
+                </span>
               </h3>
             </div>
           </div>
@@ -159,7 +159,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-xs-12 col-sm-12">
+      <div class="col-lg-7 col-xs-12 col-sm-12">
         <div class="kt-portlet kt-portlet--height-fluid">
           <div class="kt-portlet__head">
             <div class="kt-portlet__head-label">
@@ -173,6 +173,7 @@
               <p-multiSelect [options]="lstStatus" name="Status"
                 [(ngModel)]="lstStatusSelected"
                 [panelStyle]="{minWidth:'12em'}"
+                [style]="{width: '200px'}"
                 (onChange)="changeStatus(lstStatusSelected)">
                 <ng-template let-value pTemplate="selectedItems">
                   <span *ngIf="!value || value.length === 0"
@@ -199,32 +200,58 @@
                       {{l('Status')}}
                     </th>
                     <th>
-                      {{l('StartDate')}}
-                    </th>
-                    <th>
                       {{l('EndDate')}}
                     </th>
                     <th>
+                      {{l('Assignee')}}
+                    </th>
+                    <th>
                       {{l('Estimate')}}
+                    </th>
+                    <th>
+                      {{l('Point')}}
                     </th>
                   </tr>
                 </thead>
                 <tr *ngFor="let m of lstIssueForStatus; let index= index">
                   <td>
-                    <!-- <a href="javascript:;" class="primary-link" (click)= "onClickIssue(m.id)">{{m.taskCode}}</a> -->
-                    <span (click)= "onClickIssue(m.id)" style="color: blue;cursor: pointer">{{m.taskCode}}</span>
+                    <span (click)="onClickIssue(m.id)" style="color:
+                      blue;cursor: pointer">{{m.taskCode}}</span>
                   </td>
                   <td>
-                    {{getStatusName(m.status_Id) }}
+
+                    <span class="kt-badge kt-badge--brand
+                      kt-badge--inline"
+                      *ngIf="m.status_Id == 1">{{getStatusName(m.status_Id)}}</span>
+                    <span class="kt-badge kt-badge--success
+                      kt-badge--inline"
+                      *ngIf="m.status_Id == 2">{{getStatusName(m.status_Id)}}</span>
+                    <span class="kt-badge kt-badge--success
+                      kt-badge--inline" style="background-color: #FFCE56
+                      !important;"
+                      *ngIf="m.status_Id == 3">{{getStatusName(m.status_Id)}}</span>
+                    <span class="kt-badge kt-badge--dark
+                      kt-badge--inline"
+                      *ngIf="m.status_Id == 4">{{getStatusName(m.status_Id)}}</span>
+                    <span class="kt-badge kt-badge--danger
+                      kt-badge--inline" style="background-color: #bc4f4f
+                      !important;"
+                      *ngIf="m.status_Id == 5">{{getStatusName(m.status_Id)}}</span>
                   </td>
-                  <td>
+                  <!-- <td>
                     {{m.startDate | momentFormat:'L'}}
-                  </td>
+                  </td> -->
                   <td>
                     {{m.due_Date | momentFormat:'L'}}
                   </td>
                   <td>
+                    {{m.assignName}}
+                  </td>
+                  <td>
                     {{m.estimate}}
+                  </td>
+                  <td>
+                    {{m.point}}
                   </td>
 
                 </tr>
@@ -237,7 +264,7 @@
               <p class="mr-4">
                 {{l('TotalEstimate')}}: {{sprint.estimate}}
               </p>
-              </div>
+            </div>
           </div>
 
         </div>
@@ -245,61 +272,16 @@
     </div>
 
     <div class="row">
-      <div class="col-lg-6 col-xs-12 col-sm-12">
+      <div class="col-lg-5 col-xs-12 col-sm-12">
         <div class="kt-portlet kt-portlet--height-fluid">
           <div class="kt-portlet__head">
             <div class="kt-portlet__head-label">
               <h3 class="kt-portlet__head-title">
-                <span class="caption-subject font-blue bold uppercase"> Profit
-                  Share</span>
-                <small>
-                  Profit Share between customers
-                </small>
+                <span class="caption-subject">
+                  {{l('DiagramShowingSprintTypeIssue')}}
+                </span>
               </h3>
             </div>
-            <!-- <div class="kt-portlet__head-toolbar" dropdown>
-              <a href="javascript:void(0)" class="btn btn-primary btn-sm
-                dropdown-toggle" data-toggle="dropdown" dropdownToggle>
-                Actions
-              </a>
-              <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right"
-                *dropdownMenu>
-                <ul class="kt-nav">
-                  <li class="kt-nav__item">
-                    <a href="javascript:void(0)" class="kt-nav__link">
-                      <i class="kt-nav__link-icon flaticon-share"></i>
-                      <span class="kt-nav__link-text">
-                        Action 1
-                      </span>
-                    </a>
-                  </li>
-                  <li class="kt-nav__item">
-                    <a href="javascript:void(0)" class="kt-nav__link">
-                      <i class="kt-nav__link-icon flaticon-chat-1"></i>
-                      <span class="kt-nav__link-text">
-                        Action 2
-                      </span>
-                    </a>
-                  </li>
-                  <li class="kt-nav__item">
-                    <a href="javascript:void(0)" class="kt-nav__link">
-                      <i class="kt-nav__link-icon flaticon-info"></i>
-                      <span class="kt-nav__link-text">
-                        Action 3
-                      </span>
-                    </a>
-                  </li>
-                  <li class="kt-nav__item">
-                    <a href="javascript:void(0)" class="kt-nav__link">
-                      <i class="kt-nav__link-icon flaticon-lifebuoy"></i>
-                      <span class="kt-nav__link-text">
-                        Action 4
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div> -->
           </div>
           <div class="kt-portlet__body">
             <div class="kt-widget14">
@@ -312,7 +294,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-xs-12 col-sm-12">
+      <div class="col-lg-7 col-xs-12 col-sm-12">
         <div class="kt-portlet kt-portlet--height-fluid">
           <div class="kt-portlet__head">
             <div class="kt-portlet__head-label">
@@ -325,6 +307,7 @@
             <div class="kt-portlet__head-toolbar">
               <p-multiSelect [options]="lstType" name="Status"
                 [(ngModel)]="lstTypeSelected"
+                [style]="{width: '200px'}"
                 [panelStyle]="{minWidth:'12em'}"
                 (onChange)="changeType(lstTypeSelected)">
                 <ng-template let-value pTemplate="selectedItems">
@@ -352,31 +335,47 @@
                       {{l('Type')}}
                     </th>
                     <th>
-                      {{l('StartDate')}}
+                      {{l('EndDate')}}
                     </th>
                     <th>
-                      {{l('EndDate')}}
+                      {{l('Assignee')}}
                     </th>
                     <th>
                       {{l('Estimate')}}
                     </th>
+                    <th>
+                      {{l('Point')}}
+                    </th>
                   </tr>
                 </thead>
-                <tr *ngFor="let m of lstIssueForStatus; let index= index">
+                <tr *ngFor="let m of lstIssueForType; let index= index">
                   <td>
-                    <span (click)= "onClickIssue(m.id)" style="color: blue;cursor: pointer">{{m.taskCode}}</span>
+                    <span (click)="onClickIssue(m.id)" style="color:
+                      blue;cursor: pointer">{{m.taskCode}}</span>
                   </td>
                   <td>
-                    {{getTypeName(m.type_Id) }}
-                  </td>
-                  <td>
-                    {{m.startDate | momentFormat:'L'}}
+                    <span class="kt-badge kt-badge--success
+                      kt-badge--inline"
+                      *ngIf="m.type_Id == 1">{{getTypeName(m.type_Id)}}</span>
+                    <span class="kt-badge kt-badge--primary
+                      kt-badge--inline"
+                      *ngIf="m.type_Id == 2">{{getTypeName(m.type_Id)}}</span>
+                    <span class="kt-badge kt-badge--danger
+                      kt-badge--inline" style="background-color: #bc4f4f
+                      !important;"
+                      *ngIf="m.type_Id == 3">{{getTypeName(m.type_Id)}}</span>
                   </td>
                   <td>
                     {{m.due_Date | momentFormat:'L'}}
                   </td>
                   <td>
+                    {{m.assignName}}
+                  </td>
+                  <td>
                     {{m.estimate}}
+                  </td>
+                  <td>
+                    {{m.point}}
                   </td>
 
                 </tr>
@@ -389,9 +388,9 @@
               <p class="mr-4">
                 {{l('TotalEstimate')}}: {{sprint.estimate}}
               </p>
-              </div>
+            </div>
           </div>
-           
+
         </div>
       </div>
     </div>

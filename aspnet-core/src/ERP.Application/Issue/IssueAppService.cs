@@ -50,68 +50,86 @@ namespace ERP.Issue
             await _issueRepository.DeleteAsync(id);
         }
 
-        public async Task<FileDto> GetIssueForExcel(GetTreeInputDto input)
+        public async Task<FileDto> GetIssueActiveForExcel(IssueInputDto input)
         {
-            var list = _issueRepository.GetAll().Include(x=>x.Sprint_).ThenInclude(a=>a.Project_)
-              .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
-              .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
-              .WhereIf(input.ListProjectId != null, x => input.ListProjectId.Any(a => a == x.Sprint_.Project_.Id))
-              .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
-            x => x.TaskCode.ToUpper().Contains(input.Filter.ToUpper())
-            || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
-            || x.Status_Id.ToString().Contains(input.Filter)
-            || x.CreationTime.ToString().Contains(input.Filter)
-            || x.Due_Date.ToString().Contains(input.Filter)
-            || x.Estimate.ToString().Contains(input.Filter)
-            ).ToList();
-            var result = ObjectMapper.Map<List<IssueListDto>>(list);
-
+            var issueActive = await GetAll(input);
+            var result = issueActive.Items.ToList();
             return _issueListExcelExport.ExportIssueToFile(result);
         }
 
-        public async Task<FileDto> GetSprintForExcel(IssueInputDto input)
+        public async Task<FileDto> GetIssueBackLogForExcel(IssueInputDto input)
         {
-            var list = await GetAll(input);
-            var dto = list.Items.ToList();
-            return _issueListExcelExport.ExportSprintToFile(dto);
+            var issueActive = await GetAllIssueBackLog(input);
+            var result = issueActive.Items.ToList();
+            return _issueListExcelExport.ExportIssueToFile(result);
         }
+
 
         public async Task<PagedResultDto<IssueListDto>> GetAll(IssueInputDto input)
         {
-            //var listTask = (from t in _issueRepository.GetAll()
-            //                join p in _projectRepository.GetAll()
-            //                on t.Sprint_Id equals p.Id
-            //                select new IssueListDto
-            //                {
-            //                    Id = t.Id,
-            //                    Parent_Id = t.Sprint_.Id,
-            //                    Assignee_Id = t.Assignee_Id,
-            //                    CreationTime = t.CreationTime,
-            //                    Discription = t.Discription,
-            //                    Due_Date = t.Due_Date,
-            //                    Estimate = t.Estimate,
-            //                    Priority_Id = t.Priority_Id,
-            //                    SprintName = t.Sprint_.SprintCode,
-            //                    Project_Id = p.Id,
-            //                    Reporter_Id = t.Reporter_Id,
-            //                    Status_Id = t.Status_Id,
-            //                    Summary = t.Summary,
-            //                    TaskCode = t.TaskCode,
-            //                    TenantId = t.TenantId,
-            //                    Type_Id = t.Type_Id,
-            //                })
-            //    .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
-            //    .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
-            //    .WhereIf(input.ListProjectId != null, x => input.ListProjectId.Any(a => a == x.Parent_Id))
-            //    .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
-            //  x => x.TaskCode.ToUpper().Contains(input.Filter.ToUpper())
-            //  || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
-            //  || x.Status_Id.ToString().Contains(input.Filter)
-            //  || x.CreationTime.ToString().Contains(input.Filter)
-            //  || x.Due_Date.ToString().Contains(input.Filter)
-            //  || x.Estimate.ToString().Contains(input.Filter)
-            //  );
-            var listTask = _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(x => x.Project_);
+            var listTask = _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(x => x.Project_)
+                    .Where(x => x.Sprint_Id != null)
+                    .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
+                    .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
+                    .WhereIf(input.ListSprintId != null, x => input.ListSprintId.Any(a => a == x.Sprint_Id))
+                    .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
+                    .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                  x => x.TaskCode.ToUpper().Contains(input.Filter.ToUpper())
+                  || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
+                  || x.Status_Id.ToString().Contains(input.Filter)
+                  || x.CreationTime.ToString().Contains(input.Filter)
+                  || x.Due_Date.ToString().Contains(input.Filter)
+                  || x.Estimate.ToString().Contains(input.Filter)
+                  );
+            ;
+            var tatolCount = await listTask.CountAsync();
+            var result = await listTask.OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+
+            var projectListDtos = ObjectMapper.Map<List<IssueListDto>>(result);
+            foreach(var item in projectListDtos)
+            {
+                item.AssignName = GetMemberName(item.Assignee_Id);
+            }
+
+            return new PagedResultDto<IssueListDto>(
+                tatolCount,
+                projectListDtos
+                );
+        }
+
+        private string GetMemberName(long? id)
+        {
+            var idFake = id ?? 1;
+            if (id != null)
+            {
+                var user = _userRepository.FirstOrDefault(x => x.Id == idFake);
+                return user.UserName;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        public async Task<PagedResultDto<IssueListDto>> GetAllIssueBackLog(IssueInputDto input)
+        {
+            var listTask = _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(x => x.Project_)
+                    .Where(x => x.Sprint_Id == null)
+                    .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
+                    .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
+                    .WhereIf(input.ListSprintId != null, x => input.ListSprintId.Any(a => a == x.Sprint_Id))
+                    .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
+                    .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                  x => x.TaskCode.ToUpper().Contains(input.Filter.ToUpper())
+                  || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
+                  || x.Status_Id.ToString().Contains(input.Filter)
+                  || x.CreationTime.ToString().Contains(input.Filter)
+                  || x.Due_Date.ToString().Contains(input.Filter)
+                  || x.Estimate.ToString().Contains(input.Filter)
+                  );
+            ;
             var tatolCount = await listTask.CountAsync();
             var result = await listTask.OrderBy(input.Sorting)
                 .PageBy(input)
@@ -124,6 +142,7 @@ namespace ERP.Issue
                 projectListDtos
                 );
         }
+
 
         public async Task<CreateIssueDto> GetId(long id)
         {
@@ -139,7 +158,7 @@ namespace ERP.Issue
 
         public async Task<CommonListDto> GetIssueForManager(long id)
         {
-            var result = await _issueRepository.GetAll().Include(x=>x.Sprint_).ThenInclude(b=>b.Project_).Where(x => x.Id == id).Select(t => new CommonListDto
+            var result = await _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(b => b.Project_).Where(x => x.Id == id).Select(t => new CommonListDto
             {
                 Id = t.Id,
                 Parent_Id = t.Sprint_Id,
@@ -158,52 +177,10 @@ namespace ERP.Issue
                 Type_Id = t.Type_Id,
                 ListIssue = null,
             }).FirstOrDefaultAsync();
-            //result.ProjectCode = GetProjecCode(result.Type, result.Parent_Id ?? 1).Result;
             return result;
         }
 
-
-
-        //public async Task<CommonListDto> GetSprintForManager(long id)
-        // {
-        //    var issues = await _issueRepository.GetAll().Where(x => x.Parent_Id == id).Select(x => new IssueOfSprintListDto()
-        //     {
-        //         Id = x.Id,
-        //         SummaryIssue = x.Summary
-        //     }).ToListAsync();
-        //     var result = (from t in _issueRepository.GetAll()
-        //                   join p in _projectRepository.GetAll()
-        //                   on t.Parent_Id equals p.Id
-        //                   select new CommonListDto
-        //                   {
-        //                       Id = t.Id,
-        //                       Parent_Id = t.Parent_Id,
-        //                       Assignee_Id = t.Assignee_Id,
-        //                       CreationTime = t.CreationTime,
-        //                       Discription = t.Discription,
-        //                       Due_Date = t.Due_Date,
-        //                       Estimate = t.Estimate,
-        //                       Priority_Id = t.Priority_Id,
-        //                       ProjectCode = p.ProjectCode,
-        //                       Reporter_Id = t.Reporter_Id,
-        //                       Status_Id = t.Status_Id,
-        //                       Summary = t.Summary,
-        //                       TaskCode = t.TaskCode,
-        //                       TenantId = t.TenantId,
-        //                       Type_Id = t.Type_Id,
-        //                       ListIssue = issues,
-        //                       Type = t.Type
-        //                   }).Where(x => x.Id == id)
-        //                   .FirstOrDefaultAsync();
-        //     return result.Result;
-        // } 
-
-        //public async Task<string> GetProjecCode(long parentId)
-        //{
-        //    var sprint = await _issueRepository.FirstOrDefaultAsync(parentId);
-        //    var issue = await _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(a => a.Project_).Select(b => b.Sprint_.Project_.ProjectName).Where(c=>c.id ==)
-        //    return pr.ProjectCode;
-        //}
+        
         public async Task DeleteIssue(long id)
         {
             await _issueRepository.DeleteAsync(id);
@@ -230,6 +207,11 @@ namespace ERP.Issue
         {
             var issue = await _issueRepository.FirstOrDefaultAsync(id);
             issue.Status_Id = 3;
+        } 
+        public async Task Estimate(long id, decimal time)
+        {
+            var issue = await _issueRepository.FirstOrDefaultAsync(id);
+            issue.Estimate = time;
         }
         public async Task CloseProgress(long id)
         {
@@ -243,10 +225,25 @@ namespace ERP.Issue
         }
 
 
-        public async Task<List<IssueListOfSprintDto>> GetIssuesOfSprint(long id)
+        public async Task<List<IssueListOfSprintDto>> GetIssuesStatusOfSprint(long id, List<long> listId)
         {
-            var issue =await _issueRepository.GetAll().Where(x => x.Sprint_Id == id).ToListAsync();
+            var issue = await _issueRepository.GetAll().Where(x => x.Sprint_Id == id).WhereIf(listId.Count > 0, x=>listId.Any(a=>a == x.Status_Id)).OrderBy("TaskCode").ToListAsync();
             var dto = ObjectMapper.Map<List<IssueListOfSprintDto>>(issue);
+            foreach(var  item in dto)
+            {
+                item.AssignName = GetMemberName(item.Assignee_Id);
+            }
+            return dto;
+        }   
+        
+        public async Task<List<IssueListOfSprintDto>> GetIssuesTypeOfSprint(long id, List<long> listId)
+        {
+            var issue = await _issueRepository.GetAll().Where(x => x.Sprint_Id == id).WhereIf(listId.Count > 0, x=>listId.Any(a=>a == x.Type_Id)).OrderBy("TaskCode").ToListAsync();
+            var dto = ObjectMapper.Map<List<IssueListOfSprintDto>>(issue);
+            foreach(var  item in dto)
+            {
+                item.AssignName = GetMemberName(item.Assignee_Id);
+            }
             return dto;
         }
 
@@ -254,7 +251,7 @@ namespace ERP.Issue
         {
             // lấy hết time ra
             var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == sprintId).Sum(x => x.Point);
-            if(totalTime == 0 || totalTime == null)
+            if (totalTime == 0 || totalTime == null)
             {
                 totalTime = 1;
             }
@@ -265,30 +262,30 @@ namespace ERP.Issue
             var ScaleReOpened = GetPointReOpened(sprintId);
 
             var result = new ScaleStatusIssueOfSprintForChart();
-            result.ScaleOpen = Convert.ToInt32((ScaleOpen / totalTime)*100);
-            result.ScaleCompeleted = Convert.ToInt32((ScaleCompeleted / totalTime)*100);
-            result.ScaleInProgress = Convert.ToInt32((ScaleInProgress / totalTime)*100);
-            result.ScaleResolved = Convert.ToInt32((ScaleResolved / totalTime)*100);
-            result.ScaleReOpened = Convert.ToInt32((ScaleReOpened / totalTime)*100);
+            result.ScaleOpen = Convert.ToInt32((ScaleOpen / totalTime) * 100);
+            result.ScaleCompeleted = Convert.ToInt32((ScaleCompeleted / totalTime) * 100);
+            result.ScaleInProgress = Convert.ToInt32((ScaleInProgress / totalTime) * 100);
+            result.ScaleResolved = Convert.ToInt32((ScaleResolved / totalTime) * 100);
+            result.ScaleReOpened = Convert.ToInt32((ScaleReOpened / totalTime) * 100);
             return result;
         }
 
 
         public decimal GetPointOpen(long id)
         {
-            var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Status_Id ==1).Sum(x => x.Point);
+            var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Status_Id == 1).Sum(x => x.Point);
             return totalTime;
-        } 
+        }
         public decimal GetPointInProgress(long id)
         {
             var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Status_Id == 2).Sum(x => x.Point);
             return totalTime;
-        } 
+        }
         public decimal GetPointResolved(long id)
         {
             var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Status_Id == 3).Sum(x => x.Point);
             return totalTime;
-        } 
+        }
         public decimal GetPointCompeleted(long id)
         {
             var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Status_Id == 4).Sum(x => x.Point);
@@ -298,7 +295,7 @@ namespace ERP.Issue
         {
             var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Status_Id == 5).Sum(x => x.Point);
             return totalTime;
-        } 
+        }
         public async Task<ScaleTypeIssueOfSprintForChart> GetScaleTypeForChart(long sprintId)
         {
             // lấy hết time ra
@@ -312,28 +309,28 @@ namespace ERP.Issue
             var ScaleBug = GetPointBugForType(sprintId);
 
             var result = new ScaleTypeIssueOfSprintForChart();
-            result.ScaleNewFeature = Convert.ToInt32((ScaleNewFeature / totalTime)*100);
+            result.ScaleNewFeature = Convert.ToInt32((ScaleNewFeature / totalTime) * 100);
             result.ScaleImprovent = Convert.ToInt32((ScaleImprovent / totalTime) * 100);
-            result.ScaleBug = Convert.ToInt32((ScaleBug / totalTime)*100);
+            result.ScaleBug = Convert.ToInt32((ScaleBug / totalTime) * 100);
 
             return result;
         }
 
         public decimal GetPointNewFeatureForType(long id)
         {
-            var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Type_Id ==1).Sum(x => x.Point);
+            var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Type_Id == 1).Sum(x => x.Point);
             return totalTime;
-        } 
+        }
         public decimal GetPointImprovementForType(long id)
         {
-            var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Type_Id ==2).Sum(x => x.Point);
+            var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Type_Id == 2).Sum(x => x.Point);
             return totalTime;
-        } 
+        }
         public decimal GetPointBugForType(long id)
         {
-            var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Type_Id ==3).Sum(x => x.Point);
+            var totalTime = _issueRepository.GetAll().Where(x => x.Sprint_Id == id && x.Type_Id == 3).Sum(x => x.Point);
             return totalTime;
-        } 
+        }
 
     }
 }

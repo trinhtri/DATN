@@ -170,7 +170,6 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
             this.lstAssigneeId,
             this.lstIssueTypeId,
             this.filterText,
-            2,
             this.primengTableHelper.getSorting(this.dataTable),
             this.primengTableHelper.getMaxResultCount(this.paginator, event),
             this.primengTableHelper.getSkipCount(this.paginator, event)
@@ -190,11 +189,11 @@ export class WorkflowManagementComponent extends AppComponentBase implements OnI
         this.createOrEditModal.show(id);
     }
     exportExcel() {
-        this._issueServiceProxy.getIssueForExcel(
-            this.lstProjectId, this.lstStatusId, this.lstAssigneeId, this.lstIssueTypeId , this.filterText
-        ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
-            this._fileDownloadService.downloadTempFile(result);
-        });
+        // this._issueServiceProxy.getIssueForExcel(
+        //     this.lstProjectId, this.lstStatusId, this.lstAssigneeId, this.lstIssueTypeId , this.filterText
+        // ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+        //     this._fileDownloadService.downloadTempFile(result);
+        // });
     }
     reloadPage(): void {
         this.paginator.changePage(this.paginator.getPage());

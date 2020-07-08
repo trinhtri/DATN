@@ -20,16 +20,6 @@
                             class="form-control" [(ngModel)]="issue.taskCode" required maxlength="100">
                         <validation-messages [formCtrl]="IssueCodeInput"></validation-messages>
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="ProjectName">{{"Project" | localize}} </label>
-                        <select id="ProjectName" name="ProjectName" class="form-control" [(ngModel)]="project_Id"
-                             #ProjectInput="ngModel"  (change)="changeProject(project_Id)">
-                            <option [value]="undefined">{{'---'}}</option>
-                            <option *ngFor="let item of lstProject" [value]="item.value">{{item.displayText}}</option>
-                            <validation-messages [formCtrl]="ProjectInput"></validation-messages>
-                        </select>
-                    </div> -->
-                    <!-- (change)="changeProject(issue.project_Id)" -->
                     <div class="form-group">
                         <label for="SprintName">{{"Sprint" | localize}} *</label>
                         <select id="SprintName" name="SprintName" class="form-control" [(ngModel)]="issue.sprint_Id"
