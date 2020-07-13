@@ -1,0 +1,258 @@
+<div class="row">
+  <div class="col-lg-5 col-xs-12 col-sm-12">
+    <div class="kt-portlet kt-portlet--height-fluid">
+      <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+          <h3 class="kt-portlet__head-title">
+            <span class="caption-subject font-blue">
+              {{l('DiagramShowingSprintStatusIssue')}}
+            </span>
+          </h3>
+        </div>
+      </div>
+      <div class="kt-portlet__body">
+        <div class="kt-widget14">
+          <div class="row kt-widget14__content">
+            <div class="col-lg-12 col-md-12">
+              <p-chart type="pie" [data]="data"></p-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7 col-xs-12 col-sm-12">
+    <div class="kt-portlet kt-portlet--height-fluid">
+      <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+
+          <h3 class="kt-portlet__head-title">
+            {{l('Issues')}}
+          </h3>
+        </div>
+        <div class="kt-portlet__head-toolbar">
+
+          <p-multiSelect [options]="lstStatus" name="Status"
+            [(ngModel)]="lstStatusSelected"
+            [panelStyle]="{minWidth:'12em'}"
+            [style]="{width: '200px'}"
+            (onChange)="changeStatus(lstStatusSelected)">
+            <ng-template let-value pTemplate="selectedItems">
+              <span *ngIf="!value || value.length === 0"
+                class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
+              <span *ngIf="value && value.length> 0"
+                class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
+                {{"Options"|localize}}</span>
+            </ng-template>
+            <ng-template let-car let-i="index" pTemplate="item">
+              {{car.displayText}}
+            </ng-template>
+          </p-multiSelect>
+        </div>
+      </div>
+      <div class="kt-portlet__body">
+        <div class="table-scrollable table-scrollable-borderless">
+          <table class="table table-hover table-light">
+            <thead>
+              <tr class="uppercase">
+                <th>
+                  {{l('IssueCode')}}
+                </th>
+                <th>
+                  {{l('Status')}}
+                </th>
+                <th>
+                  {{l('EndDate')}}
+                </th>
+                <th>
+                  {{l('Assignee')}}
+                </th>
+                <th>
+                  {{l('Estimate')}} (h)
+                </th>
+                <th>
+                  {{l('Point')}}
+                </th>
+              </tr>
+            </thead>
+            <tr *ngFor="let m of lstIssueForStatus; let index= index">
+              <td>
+                <span (click)="onClickIssue(m.id)" style="color:
+                  blue;cursor: pointer">{{m.taskCode}}</span>
+              </td>
+              <td>
+
+                <span class="kt-badge kt-badge--brand
+                  kt-badge--inline"
+                  *ngIf="m.status_Id == 1">{{getStatusName(m.status_Id)}}</span>
+                <span class="kt-badge kt-badge--success
+                  kt-badge--inline"
+                  *ngIf="m.status_Id == 2">{{getStatusName(m.status_Id)}}</span>
+                <span class="kt-badge kt-badge--success
+                  kt-badge--inline" style="background-color: #FFCE56
+                  !important;"
+                  *ngIf="m.status_Id == 3">{{getStatusName(m.status_Id)}}</span>
+                <span class="kt-badge kt-badge--dark
+                  kt-badge--inline"
+                  *ngIf="m.status_Id == 4">{{getStatusName(m.status_Id)}}</span>
+                <span class="kt-badge kt-badge--danger
+                  kt-badge--inline" style="background-color: #bc4f4f
+                  !important;"
+                  *ngIf="m.status_Id == 5">{{getStatusName(m.status_Id)}}</span>
+              </td>
+              <!-- <td>
+                {{m.startDate | momentFormat:'L'}}
+              </td> -->
+              <td>
+                {{m.due_Date | momentFormat:'L'}}
+              </td>
+              <td>
+                {{m.assignName}}
+              </td>
+              <td>
+                {{m.estimate}}
+              </td>
+              <td>
+                {{m.point}}
+              </td>
+
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="kt-portlet__head-label">
+          <p class="mr-4">
+            {{l('TotalEstimate')}}: {{sprint.estimate}}(h)
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-5 col-xs-12 col-sm-12">
+    <div class="kt-portlet kt-portlet--height-fluid">
+      <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+          <h3 class="kt-portlet__head-title">
+            <span class="caption-subject">
+              {{l('DiagramShowingSprintTypeIssue')}}
+            </span>
+          </h3>
+        </div>
+      </div>
+      <div class="kt-portlet__body">
+        <div class="kt-widget14">
+          <div class="row kt-widget14__content">
+            <div class="col-lg-12 col-md-12">
+              <p-chart type="pie" [data]="lstDataType"></p-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7 col-xs-12 col-sm-12">
+    <div class="kt-portlet kt-portlet--height-fluid">
+      <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+
+          <h3 class="kt-portlet__head-title">
+            {{l('Issues')}}
+          </h3>
+
+        </div>
+        <div class="kt-portlet__head-toolbar">
+          <p-multiSelect [options]="lstType" name="Status"
+            [(ngModel)]="lstTypeSelected"
+            [style]="{width: '200px'}"
+            [panelStyle]="{minWidth:'12em'}"
+            (onChange)="changeType(lstTypeSelected)">
+            <ng-template let-value pTemplate="selectedItems">
+              <span *ngIf="!value || value.length === 0"
+                class="ui-multiselected-empty-token ui-corner-all">{{"Choose"|localize}}</span>
+              <span *ngIf="value && value.length> 0"
+                class="ui-multiselected-empty-token ui-corner-all">{{value.length}}
+                {{"Options"|localize}}</span>
+            </ng-template>
+            <ng-template let-car let-i="index" pTemplate="item">
+              {{car.displayText}}
+            </ng-template>
+          </p-multiSelect>
+        </div>
+      </div>
+      <div class="kt-portlet__body">
+        <div class="table-scrollable table-scrollable-borderless">
+          <table class="table table-hover table-light">
+            <thead>
+              <tr class="uppercase">
+                <th>
+                  {{l('IssueCode')}}
+                </th>
+                <th>
+                  {{l('Type')}}
+                </th>
+                <th>
+                  {{l('EndDate')}}
+                </th>
+                <th>
+                  {{l('Assignee')}}
+                </th>
+                <th>
+                  {{l('Estimate')}} (h)
+                </th>
+                <th>
+                  {{l('Point')}}
+                </th>
+              </tr>
+            </thead>
+            <tr *ngFor="let m of lstIssueForType; let index= index">
+              <td>
+                <span (click)="onClickIssue(m.id)" style="color:
+                  blue;cursor: pointer">{{m.taskCode}}</span>
+              </td>
+              <td>
+                <span class="kt-badge kt-badge--success
+                  kt-badge--inline"
+                  *ngIf="m.type_Id == 1">{{getTypeName(m.type_Id)}}</span>
+                <span class="kt-badge kt-badge--primary
+                  kt-badge--inline"
+                  *ngIf="m.type_Id == 2">{{getTypeName(m.type_Id)}}</span>
+                <span class="kt-badge kt-badge--danger
+                  kt-badge--inline" style="background-color: #bc4f4f
+                  !important;"
+                  *ngIf="m.type_Id == 3">{{getTypeName(m.type_Id)}}</span>
+              </td>
+              <td>
+                {{m.due_Date | momentFormat:'L'}}
+              </td>
+              <td>
+                {{m.assignName}}
+              </td>
+              <td>
+                {{m.estimate}}
+              </td>
+              <td>
+                {{m.point}}
+              </td>
+
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="kt-portlet__head-label">
+          <p class="mr-4">
+            {{l('TotalEstimate')}}: {{sprint.estimate}} (h)
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+

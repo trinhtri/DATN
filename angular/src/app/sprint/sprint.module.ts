@@ -13,11 +13,17 @@ import { CreateOrEditSprintComponent } from './create-or-edit-sprint/create-or-e
 import {EditorModule} from 'primeng/editor';
 import { ManagerSprintComponent } from './manager-sprint/manager-sprint.component';
 import {ChartModule} from 'primeng/chart';
+import { InfoCommonSprintComponent } from './manager-sprint/info-common-sprint/info-common-sprint.component';
+import { IssuesOfSprintComponent } from './manager-sprint/issues-of-sprint/issues-of-sprint.component';
+import { DashBoardSprintComponent } from './manager-sprint/dash-board-sprint/dash-board-sprint.component';
 @NgModule({
   declarations: [
      SprintComponent,
      CreateOrEditSprintComponent,
-     ManagerSprintComponent
+     ManagerSprintComponent,
+     InfoCommonSprintComponent,
+     IssuesOfSprintComponent,
+     DashBoardSprintComponent
     ],
   imports: [
     CommonModule,

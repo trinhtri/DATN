@@ -1,24 +1,22 @@
-import { Component, OnInit, ViewChild, Injector } from '@angular/core';
+import { Component, OnInit, Injector, Input, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { CreateIssueComponent } from '@app/issue/create-issue/create-issue.component';
 import { Table } from 'primeng/table';
 import { Paginator, LazyLoadEvent } from 'primeng/primeng';
+import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
 import { ERPComboboxItem, ProjectServiceProxy, SprintServiceProxy, IssueServiceProxy, CommonAppserviceServiceProxy } from '@shared/service-proxies/service-proxies';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { CreateIssueComponent } from '../create-issue/create-issue.component';
-import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
 
 @Component({
-    selector: 'app-issue',
-    templateUrl: './issue.component.html',
-    styleUrls: ['./issue.component.less'],
-    animations: [appModuleAnimation()]
+  selector: 'app-issues-of-sprint',
+  templateUrl: './issues-of-sprint.component.html',
+  styleUrls: ['./issues-of-sprint.component.css']
 })
-export class IssueComponent extends AppComponentBase implements OnInit {
-
-    @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
+export class IssuesOfSprintComponent extends AppComponentBase implements OnInit {
+  @Input() sprintId: number;
+  @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -82,7 +80,7 @@ export class IssueComponent extends AppComponentBase implements OnInit {
             return;
         }
         this.primengTableHelperIssueActive.showLoadingIndicator();
-        this._issueService.getAll(
+        this._issueService.getIssueOfSprint(
             this.lstSprintId,
             this.lstStatusId,
             this.lstAssigneeId,
@@ -90,7 +88,8 @@ export class IssueComponent extends AppComponentBase implements OnInit {
             this.filterText,
             this.primengTableHelperIssueActive.getSorting(this.dataTable),
             this.primengTableHelperIssueActive.getMaxResultCount(this.paginator, event),
-            this.primengTableHelperIssueActive.getSkipCount(this.paginator, event)
+            this.primengTableHelperIssueActive.getSkipCount(this.paginator, event),
+            this.sprintId
         ).pipe(finalize(() => this.primengTableHelperIssueActive.hideLoadingIndicator())).subscribe(result => {
             this.primengTableHelperIssueActive.totalRecordsCount = result.totalCount;
             this.primengTableHelperIssueActive.records = result.items;
@@ -99,29 +98,6 @@ export class IssueComponent extends AppComponentBase implements OnInit {
         });
     }
 
-    getAllBackLock(event?: LazyLoadEvent) {
-        if (this.primengTableHelperBackLog.shouldResetPaging(event)) {
-            this.paginator.changePage(0);
-
-            return;
-        }
-        this.primengTableHelperBackLog.showLoadingIndicator();
-        this._issueService.getAllIssueBackLog(
-            this.lstSprintBackLogId,
-            this.lstStatusBackLogId,
-            this.lstAssigneeBackLogId,
-            this.lstIssueTypeBackLogId,
-            this.filterText,
-            this.primengTableHelperBackLog.getSorting(this.dataTable),
-            this.primengTableHelperBackLog.getMaxResultCount(this.paginator, event),
-            this.primengTableHelperBackLog.getSkipCount(this.paginator, event)
-        ).pipe(finalize(() => this.primengTableHelperBackLog.hideLoadingIndicator())).subscribe(result => {
-            this.primengTableHelperBackLog.totalRecordsCount = result.totalCount;
-            this.primengTableHelperBackLog.records = result.items;
-            console.log('list issue', this.primengTableHelper.records);
-            this.primengTableHelperBackLog.hideLoadingIndicator();
-        });
-    }
 
     createNew() {
         this.createOrEditModal.show();
@@ -215,4 +191,5 @@ export class IssueComponent extends AppComponentBase implements OnInit {
                 break;
         }
     }
+
 }

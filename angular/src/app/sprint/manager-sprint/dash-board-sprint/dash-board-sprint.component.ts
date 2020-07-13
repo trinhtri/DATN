@@ -1,20 +1,15 @@
-import { Component, OnInit, Injector } from '@angular/core';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { TenantDashboardServiceProxy, SalesSummaryDatePeriod, CreateSprintDto, SprintServiceProxy, CommonAppserviceServiceProxy, ERPComboboxItem, IssueListOfSprintDto, IssueServiceProxy, ScaleStatusIssueOfSprintForChart, ScaleTypeIssueOfSprintForChart } from '@shared/service-proxies/service-proxies';
+import { Component, OnInit, Input, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
-import * as moment from 'moment';
+import { SprintServiceProxy, IssueServiceProxy, CommonAppserviceServiceProxy, CreateSprintDto, ERPComboboxItem, IssueListOfSprintDto, ScaleStatusIssueOfSprintForChart, ScaleTypeIssueOfSprintForChart } from '@shared/service-proxies/service-proxies';
+
 @Component({
-  selector: 'app-manager-sprint',
-  templateUrl: './manager-sprint.component.html',
-  styleUrls: ['./manager-sprint.component.less'],
-  animations: [appModuleAnimation()]
-
+  selector: 'app-dash-board-sprint',
+  templateUrl: './dash-board-sprint.component.html',
+  styleUrls: ['./dash-board-sprint.component.css']
 })
-
-export class ManagerSprintComponent extends AppComponentBase implements OnInit {
-
+export class DashBoardSprintComponent extends AppComponentBase implements OnInit {
+  @Input() sprintId: number;
   lstType = [
     { value: 1, displayText: this.l('NewFeature') },
     { value: 2, displayText: this.l('Improvement') },
@@ -41,23 +36,19 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
   lstProject: ERPComboboxItem[] = [];
   lstIssueForStatus: IssueListOfSprintDto[] = [];
   lstIssueForType: IssueListOfSprintDto[] = [];
-  sprintId: number;
   scaleStatus: ScaleStatusIssueOfSprintForChart = new ScaleStatusIssueOfSprintForChart();
   scaleType: ScaleTypeIssueOfSprintForChart = new ScaleTypeIssueOfSprintForChart();
 
-  constructor(injecter: Injector,
+  constructor(injector: Injector,
     private _activedRouter: ActivatedRoute,
     private _sprintService: SprintServiceProxy,
     private _issueService: IssueServiceProxy,
     private _commonService: CommonAppserviceServiceProxy,
     private _router: Router,
-    private _dashboardService: TenantDashboardServiceProxy) {
-    super(injecter);
+  ) {
+    super(injector)
   }
-
   ngOnInit() {
-    this.sprintId = this._activedRouter.snapshot.params['id'];
-    console.log('id', this.sprintId);
     this.initDataForChart();
     this.initDataForTable();
   }
@@ -83,7 +74,7 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
   }
 
   getIssueForStatus() {
-    this._issueService.getIssuesStatusOfSprint(this.sprintId , this.lstStatusSelected).subscribe(result => {
+    this._issueService.getIssuesStatusOfSprint(this.sprintId, this.lstStatusSelected).subscribe(result => {
       this.lstIssueForStatus = result;
       console.log('lstIssueForStatus', this.lstIssueForStatus);
     });
@@ -145,29 +136,6 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
       };
     });
   }
-
-  save(): void {
-    this.saving = true;
-    this.sprint.reporter_Id = this.appSession.userId;
-    if (this.dueDate) {
-      this.sprint.due_Date = moment(this.dueDate);
-    }
-    if (this.startDate) {
-      this.sprint.startDate = moment(this.startDate);
-    }
-    if (this.sprint.id) {
-      this._sprintService.update(this.sprint)
-        .pipe(finalize(() => { this.saving = false; }))
-        .subscribe(() => {
-          this.notify.info(this.l('SavedSuccessfully'));
-          this.close();
-        });
-    }
-  }
-  close() {
-    this._router.navigate(['app/sprint/sprint']);
-  }
-
   getTypeName(id) {
     switch (id) {
       case 1:
@@ -202,8 +170,8 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
     }
   }
   changeStatus(value) {
-  console.log('changeStatus', value);
-  this.getIssueForStatus();
+    console.log('changeStatus', value);
+    this.getIssueForStatus();
 
   }
   changeType(value) {
@@ -213,5 +181,5 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
   }
   onClickIssue(id) {
     this._router.navigate(['/app/issue/management-issue', id]);
-}
+  }
 }

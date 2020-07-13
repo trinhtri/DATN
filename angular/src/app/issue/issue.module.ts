@@ -31,6 +31,7 @@ import { CreateOrUpdateSprintComponent } from './create-or-update-sprint/create-
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { IssueRoutingModule } from './issue-routing.module';
 import { IssueComponent } from './issue/issue.component';
+import { IssueOfUserComponent } from './issue/issue-of-user/issue-of-user.component';
 
 @NgModule({
     imports: [
@@ -68,6 +69,7 @@ import { IssueComponent } from './issue/issue.component';
         EstimateComponent,
         CreateOrUpdateSprintComponent,
         IssueComponent,
+        IssueOfUserComponent,
     ],
     providers: [
         ProjectServiceProxy,

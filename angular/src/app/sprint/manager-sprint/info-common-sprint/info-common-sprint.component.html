@@ -1,0 +1,113 @@
+<div class="row" [busyIf]="saving">
+  <div class="col-lg-12 col-xs-12 col-sm-12">
+    <!-- <div class="kt-portlet kt-portlet--height-fluid">
+      <div class="kt-portlet__body"> -->
+        <form #userForm="ngForm" novalidate (ngSubmit)="save()"
+          autocomplete="new-password1" [busyIf]="saving">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="IssueCode">{{"SprintCode" | localize}} *</label>
+                <input id="IssueCode" #IssueCodeInput="ngModel" type="text"
+                  name="IssueCode1" class="form-control"
+                  [(ngModel)]="sprint.sprintCode" required maxlength="500">
+                <validation-messages [formCtrl]="IssueCodeInput"></validation-messages>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="Project">{{"Project" | localize}} *</label>
+                <select id="Project" name="ProjectName" class="form-control"
+                  [(ngModel)]="sprint.project_Id" #ProjectInput="ngModel"
+                  required>
+                  <option *ngFor="let item of lstProject"
+                    [value]="item.value">{{item.displayText}}</option>
+                  <validation-messages [formCtrl]="ProjectInput"></validation-messages>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="Summary">{{"Summary" | localize}} *</label>
+                <input id="Summary" #SummaryInput="ngModel" type="text"
+                  name="SummaryName" class="form-control"
+                  [(ngModel)]="sprint.summary" required maxlength="500">
+                <validation-messages [formCtrl]="SummaryInput"></validation-messages>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="Assignee">{{"Assignee" | localize}}*</label>
+                <select id="Assignee" name="Assignee" class="form-control"
+                  [(ngModel)]="sprint.assignee_Id" required
+                  #AssigneeInput="ngModel">
+                  <option *ngFor="let item of lst" [value]="item.value">{{item.displayText}}</option>
+                  <validation-messages [formCtrl]="AssigneeInput"></validation-messages>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="StartDate">{{"StartDate" | localize}} </label>
+                <div class="input-group date">
+                  <input id="StartDate" type="text" #StartDate
+                    name="StartDate"
+                    class="form-control" [(ngModel)]="startDate"
+                    bsDatepicker
+                    autocomplete="off" triggers="dblclick:click"
+                    #dp1="bsDatepicker" placeholder="--/--/----">
+                  <div class="input-group-append">
+                    <span class="input-group-text" (click)="dp1.toggle()">
+                      <i class="la la-calendar"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="DueDate">{{"DueDate" | localize}} </label>
+                <div class="input-group date">
+                  <input id="DueDate1" type="text" #ExpireDate
+                    name="EndDate"
+                    class="form-control" [(ngModel)]="dueDate" bsDatepicker
+                    autocomplete="off" triggers="dblclick:click"
+                    #dp3="bsDatepicker" placeholder="--/--/----">
+                  <div class="input-group-append">
+                    <span class="input-group-text" (click)="dp3.toggle()">
+                      <i class="la la-calendar"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="Discription">{{"Discription" | localize}}</label>
+                <p-editor id="Discriptin" name="Discription"
+                  maxlength="2000"
+                  [(ngModel)]="sprint.discription"
+                  [style]="{'height':'160px'}"></p-editor>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button [disabled]="saving" type="button" class="btn
+              btn-default" (click)="close()">{{"Cancel" | localize}}</button>
+            <button type="submit" class="btn btn-primary"
+              [disabled]="!userForm.form.valid" [buttonBusy]="saving"
+              [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+              <span>{{"Save" | localize}}</span></button>
+          </div>
+
+        </form>
+
+      </div>
+    <!-- </div>
+  </div> -->
+</div>

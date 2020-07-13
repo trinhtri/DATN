@@ -99,6 +99,74 @@ namespace ERP.Issue
                 );
         }
 
+        public async Task<PagedResultDto<IssueListDto>> GetAllOfUser(IssueInputDto input)
+        {
+            var listTask = _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(x => x.Project_)
+                .Where(x=>x.Assignee_Id == AbpSession.UserId)
+                    .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
+                    .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
+                    .WhereIf(input.ListSprintId != null, x => input.ListSprintId.Any(a => a == x.Sprint_Id))
+                    .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
+                    .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                  x => x.TaskCode.ToUpper().Contains(input.Filter.ToUpper())
+                  || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
+                  || x.Status_Id.ToString().Contains(input.Filter)
+                  || x.CreationTime.ToString().Contains(input.Filter)
+                  || x.Due_Date.ToString().Contains(input.Filter)
+                  || x.Estimate.ToString().Contains(input.Filter)
+                  );
+            ;
+            var tatolCount = await listTask.CountAsync();
+            var result = await listTask.OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+
+            var projectListDtos = ObjectMapper.Map<List<IssueListDto>>(result);
+            foreach (var item in projectListDtos)
+            {
+                item.AssignName = GetMemberName(item.Assignee_Id);
+            }
+
+            return new PagedResultDto<IssueListDto>(
+                tatolCount,
+                projectListDtos
+                );
+        }
+
+        public async Task<PagedResultDto<IssueListDto>> GetIssueOfSprint(IssueInputDto input, long sprintId)
+        {
+            var listTask = _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(x => x.Project_)
+                    .Where(x => x.Sprint_Id == sprintId)
+                    .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
+                    .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
+                    .WhereIf(input.ListSprintId != null, x => input.ListSprintId.Any(a => a == x.Sprint_Id))
+                    .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
+                    .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                  x => x.TaskCode.ToUpper().Contains(input.Filter.ToUpper())
+                  || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
+                  || x.Status_Id.ToString().Contains(input.Filter)
+                  || x.CreationTime.ToString().Contains(input.Filter)
+                  || x.Due_Date.ToString().Contains(input.Filter)
+                  || x.Estimate.ToString().Contains(input.Filter)
+                  );
+            ;
+            var tatolCount = await listTask.CountAsync();
+            var result = await listTask.OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+
+            var projectListDtos = ObjectMapper.Map<List<IssueListDto>>(result);
+            foreach (var item in projectListDtos)
+            {
+                item.AssignName = GetMemberName(item.Assignee_Id);
+            }
+
+            return new PagedResultDto<IssueListDto>(
+                tatolCount,
+                projectListDtos
+                );
+        }
+
         private string GetMemberName(long? id)
         {
             var idFake = id ?? 1;
