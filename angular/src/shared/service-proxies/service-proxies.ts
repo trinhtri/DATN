@@ -10319,6 +10319,81 @@ export class SprintServiceProxy {
     }
 
     /**
+     * @param filter (optional) 
+     * @param listProjectId (optional) 
+     * @param listStatusId (optional) 
+     * @param listAssignId (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @param projectId (optional) 
+     * @return Success
+     */
+    getAllSprintOfProject(filter: string | null | undefined, listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined, projectId: number | null | undefined): Observable<PagedResultDtoOfSprintListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Sprint/GetAllSprintOfProject?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (listProjectId !== undefined)
+            listProjectId && listProjectId.forEach(item => { url_ += "ListProjectId=" + encodeURIComponent("" + item) + "&"; });
+        if (listStatusId !== undefined)
+            listStatusId && listStatusId.forEach(item => { url_ += "ListStatusId=" + encodeURIComponent("" + item) + "&"; });
+        if (listAssignId !== undefined)
+            listAssignId && listAssignId.forEach(item => { url_ += "ListAssignId=" + encodeURIComponent("" + item) + "&"; });
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (projectId !== undefined)
+            url_ += "projectId=" + encodeURIComponent("" + projectId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllSprintOfProject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllSprintOfProject(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfSprintListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfSprintListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllSprintOfProject(response: HttpResponseBase): Observable<PagedResultDtoOfSprintListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfSprintListDto.fromJS(resultData200) : new PagedResultDtoOfSprintListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfSprintListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -10475,6 +10550,81 @@ export class SprintServiceProxy {
     }
 
     protected processGetSprintForExcel(response: HttpResponseBase): Observable<FileDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? FileDto.fromJS(resultData200) : new FileDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileDto>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param listProjectId (optional) 
+     * @param listStatusId (optional) 
+     * @param listAssignId (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @param projectId (optional) 
+     * @return Success
+     */
+    getSprintOfProjectForExcel(filter: string | null | undefined, listProjectId: number[] | null | undefined, listStatusId: number[] | null | undefined, listAssignId: number[] | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined, projectId: number | null | undefined): Observable<FileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Sprint/GetSprintOfProjectForExcel?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (listProjectId !== undefined)
+            listProjectId && listProjectId.forEach(item => { url_ += "ListProjectId=" + encodeURIComponent("" + item) + "&"; });
+        if (listStatusId !== undefined)
+            listStatusId && listStatusId.forEach(item => { url_ += "ListStatusId=" + encodeURIComponent("" + item) + "&"; });
+        if (listAssignId !== undefined)
+            listAssignId && listAssignId.forEach(item => { url_ += "ListAssignId=" + encodeURIComponent("" + item) + "&"; });
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (projectId !== undefined)
+            url_ += "projectId=" + encodeURIComponent("" + projectId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSprintOfProjectForExcel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSprintOfProjectForExcel(<any>response_);
+                } catch (e) {
+                    return <Observable<FileDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSprintOfProjectForExcel(response: HttpResponseBase): Observable<FileDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 

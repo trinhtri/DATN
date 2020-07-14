@@ -45,20 +45,20 @@
                                     {{"StopProgress" | localize}}</button>
                                 <button (click)="resolved(idIssue)" class="btn
                                     btn-primary btn-sm" style="margin-right:
-                                    5px;" *ngIf="issue.status_Id == 1 ||
+                                    5px;" *ngIf="(issue.status_Id == 1 ||
                                     issue.status_Id == 2 || issue.status_Id ==
-                                    5">
+                                    5)">
                                     {{"Resolved" | localize}}</button>
                                 <button (click)="reOpen(idIssue)"
                                     *ngIf="
                                     (issue.status_Id == 3 || issue.status_Id ==
-                                    4)"
+                                    4) && isGranted('Pages.Issue.ReOpened')"
                                     class="btn btn-primary btn-sm"
                                     style="margin-right:
                                     5px;">
                                     {{"ReOpened" | localize}}</button>
                                 <button (click)="close(idIssue)"
-                                    *ngIf="issue.status_Id == 3"
+                                    *ngIf="issue.status_Id == 3 && isGranted('Pages.Issue.Compeleted')"
                                     class="btn btn-primary btn-sm"
                                     style="margin-right:
                                     5px;">
@@ -92,16 +92,6 @@
                                         {{"Type"| localize}}:
                                     </div>
                                     <div class="col-md-4">
-                                        <!-- <span class="kt-badge kt-badge--success
-                                            kt-badge--inline"
-                                            *ngIf="issue.type_Id == 1">{{getTypeName(issue.type_Id)}}</span>
-                                        <span class="kt-badge kt-badge--primary
-                                            kt-badge--inline"
-                                            *ngIf="issue.type_Id == 2">{{getTypeName(issue.type_Id)}}</span>
-                                        <span class="kt-badge kt-badge--danger
-                                            kt-badge--inline"
-                                            *ngIf="issue.type_Id == 3">{{getTypeName(issue.type_Id)}}</span> -->
-
                                             <span class="kt-badge kt-badge--success
                                             kt-badge--inline"
                                             *ngIf="issue.type_Id == 1">{{getTypeName(issue.type_Id)}}</span>
@@ -118,22 +108,6 @@
                                         {{"Status" | localize}}:
                                     </div>
                                     <div class="col-md-4">
-                                        <!-- <span class="kt-badge kt-badge--brand
-                                            kt-badge--inline"
-                                            *ngIf="issue.status_Id == 1">{{getStatusName(issue.status_Id)}}</span>
-                                        <span class="kt-badge kt-badge--success
-                                            kt-badge--inline"
-                                            *ngIf="issue.status_Id == 2">{{getStatusName(issue.status_Id)}}</span>
-                                        <span class="kt-badge kt-badge--success
-                                            kt-badge--inline"
-                                            *ngIf="issue.status_Id == 3">{{getStatusName(issue.status_Id)}}</span>
-                                        <span class="kt-badge kt-badge--dark
-                                            kt-badge--inline"
-                                            *ngIf="issue.status_Id == 4">{{getStatusName(issue.status_Id)}}</span>
-                                        <span class="kt-badge kt-badge--danger
-                                            kt-badge--inline"
-                                            *ngIf="issue.status_Id == 5">{{getStatusName(issue.status_Id)}}</span> -->
-
                                             <span class="kt-badge kt-badge--brand
                                             kt-badge--inline"
                                             *ngIf="issue.status_Id == 1">{{getStatusName(issue.status_Id)}}</span>

@@ -1,6 +1,5 @@
 import { Component, OnInit, Injector, Input, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { CreateIssueComponent } from '@app/issue/create-issue/create-issue.component';
 import { Table } from 'primeng/table';
 import { Paginator, LazyLoadEvent } from 'primeng/primeng';
 import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
@@ -8,6 +7,7 @@ import { ERPComboboxItem, ProjectServiceProxy, SprintServiceProxy, IssueServiceP
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { CreateIssueOfSprintComponent } from './create-issue-of-sprint/create-issue-of-sprint.component';
 
 @Component({
   selector: 'app-issues-of-sprint',
@@ -16,7 +16,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class IssuesOfSprintComponent extends AppComponentBase implements OnInit {
   @Input() sprintId: number;
-  @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
+  @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueOfSprintComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
 
@@ -100,10 +100,10 @@ export class IssuesOfSprintComponent extends AppComponentBase implements OnInit 
 
 
     createNew() {
-        this.createOrEditModal.show();
+        this.createOrEditModal.show(this.sprintId, null);
     }
     editSprint(id) {
-        this.createOrEditModal.show(id);
+        this.createOrEditModal.show(this.sprintId,id);
     }
     delete(dto): void {
         console.log(dto);

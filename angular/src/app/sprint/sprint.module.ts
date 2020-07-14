@@ -16,6 +16,7 @@ import {ChartModule} from 'primeng/chart';
 import { InfoCommonSprintComponent } from './manager-sprint/info-common-sprint/info-common-sprint.component';
 import { IssuesOfSprintComponent } from './manager-sprint/issues-of-sprint/issues-of-sprint.component';
 import { DashBoardSprintComponent } from './manager-sprint/dash-board-sprint/dash-board-sprint.component';
+import { CreateIssueOfSprintComponent } from './manager-sprint/issues-of-sprint/create-issue-of-sprint/create-issue-of-sprint.component';
 @NgModule({
   declarations: [
      SprintComponent,
@@ -23,7 +24,8 @@ import { DashBoardSprintComponent } from './manager-sprint/dash-board-sprint/das
      ManagerSprintComponent,
      InfoCommonSprintComponent,
      IssuesOfSprintComponent,
-     DashBoardSprintComponent
+     DashBoardSprintComponent,
+     CreateIssueOfSprintComponent
     ],
   imports: [
     CommonModule,
@@ -46,6 +48,9 @@ import { DashBoardSprintComponent } from './manager-sprint/dash-board-sprint/das
     MultiSelectModule,
     EditorModule,
     ChartModule
+  ],
+  exports: [
+    CreateOrEditSprintComponent
   ]
 })
 export class SprintModule { }

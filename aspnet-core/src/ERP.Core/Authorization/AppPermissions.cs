@@ -94,8 +94,8 @@
         public const string Pages_Issue_Create = "Pages.Issue.Create";
         public const string Pages_Issue_Edit = "Pages.Issue.Edit";
         public const string Pages_Issue_Delete = "Pages.Issue.Delete";
-        public const string Pages_Issue_ReOpen = "Pages.Issue.ReOpen";
-        public const string Pages_Issue_Close = "Pages.Issue.Close";
+        public const string Pages_Issue_ReOpened = "Pages.Issue.ReOpened";
+        public const string Pages_Issue_Compeleted = "Pages.Issue.Compeleted";
 
 
         public const string Pages_Sprint = "Pages.Sprint";

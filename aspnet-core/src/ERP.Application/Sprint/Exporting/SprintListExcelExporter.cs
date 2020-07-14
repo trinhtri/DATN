@@ -87,54 +87,6 @@ namespace ERP.Sprint.Exporting
                 });
         }
 
-        //public FileDto ExportSprintToFile(List<IssueListDto> list)
-        //{
-        //    return CreateExcelPackage(
-        //         "Issues.xlsx",
-        //         excelPackage =>
-        //         {
-        //             var sheet = excelPackage.Workbook.Worksheets.Add(L("Issues"));
-        //             sheet.OutLineApplyStyle = true;
-
-        //             AddHeader(
-        //                 sheet,
-        //                 L("SprintCode"),
-        //                 L("SprintName"),
-        //                 L("Type"),
-        //                 L("Status"),
-        //                 L("Discription"),
-        //                 L("Project"),
-        //                 L("Assignee"),
-        //                 L("Reporter"),
-        //                 L("Due_Date"),
-        //                 L("Estimate")
-        //             );
-
-        //             AddObjects(
-        //                 sheet, 2, list,
-        //                 _ => _.TaskCode,
-        //                 _ => _.Summary,
-        //                 _ => GetTypeName(_.Type_Id),
-        //                 _ => GetStatusName(_.Status_Id),
-        //                 _ => _.Discription,
-        //                 _ => GetNameProject(_.Project_Id),
-        //                 _ => GetName(_.Assignee_Id),
-        //                 _ => GetName(_.Reporter_Id),
-        //                 _ => _timeZoneConverter.Convert(_.Due_Date, _abpSession.TenantId, _abpSession.GetUserId()),
-        //                 _ => _.Estimate
-        //                 );
-
-        //             var timeColumn = sheet.Column(9);
-        //             timeColumn.Style.Numberformat.Format = "dd-mm-yyyy";
-
-        //             for (var i = 1; i <= 10; i++)
-        //             {
-        //                 sheet.Column(i).AutoFit();
-        //             }
-        //         });
-        //}
-
-
         private string GetName(long? id)
         {
             if(id != null)
@@ -148,23 +100,6 @@ namespace ERP.Sprint.Exporting
             }
             
         }
-        private string GetTypeName(long type)
-        {
-            var result = "";
-            switch (type)
-            {
-                case 1:
-                    result= L("NewFeature");
-                    break;
-                case 2:
-                    result = L("Improvement");
-                    break;
-                case 3:
-                    result = L("Bug");
-                    break;
-            }
-            return result;
-        }
 
         private string GetStatusName(long id)
         {
@@ -172,35 +107,19 @@ namespace ERP.Sprint.Exporting
             switch (id)
             {
                 case 1:
-                    result = this.L("Open");
+                    result = this.L("Active");
                     break;
                 case 2:
-                    result = this.L("InProgress");
+                    result = this.L("Open");
                     break;
                 case 3:
-                    result = this.L("Resolved");
+                    result = this.L("Close");
                     break;
                 case 4:
-                    result = this.L("Compeleted");
-                    break;
-                case 5:
-                    result = this.L("ReOpened");
+                    result = this.L("Cancel");
                     break;
             }
             return result;
         }
-
-        private string GetNameProject(long? id)
-        {
-            var project = _projectRepository.FirstOrDefault(id ?? 1);
-            return project.ProjectName;
-        }
-        private string GetNameSprint(long id)
-        {
-            var sprint = _issueRepository.FirstOrDefault(id);
-            return sprint.TaskCode;
-        }
-
-        
     }
 }

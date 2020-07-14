@@ -11,117 +11,111 @@
         </div>
     </div>
     <div class="kt-content">
-        <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet">
             <div class="kt-portlet__body">
-                <div class="row align-items-center">
-                    <div class="row">
-                        <p-accordion [multiple]="true">
-                            <p-accordionTab header="Thông tin chung" [selected]="true">
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="ProjectCode">{{"ProjectCode" | localize}} </label>
-                                            <input id="ProjectCode" #ProjectCodeInput="ngModel" type="text"
-                                                name="ProjectCode" class="form-control"
-                                                [(ngModel)]="project.projectCode" required maxlength="500" disabled />
-                                            <validation-messages [formCtrl]="ProjectCodeInput"></validation-messages>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="ProjectName">{{"ProjectName" | localize}} </label>
-                                            <input id="ProjectName" type="text" #ProjectNameInput="ngModel"
-                                                name="ProjectName" class="form-control"
-                                                [(ngModel)]="project.projectName" required maxlength="500" disabled>
-                                            <validation-messages [formCtrl]="ProjectNameInput"></validation-messages>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="ClientName">{{"ClientName" | localize}} </label>
-                                            <input id="ClientName" #ClientNameInput="ngModel" type="text"
-                                                name="ClientName" class="form-control" [(ngModel)]="project.clientName"
-                                                required maxlength="500" disabled>
-                                            <validation-messages [formCtrl]="ClientNameInput"></validation-messages>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Status">{{"Status" | localize}} </label>
-                                            <input id="Status" type="text" name="Status" class="form-control"
-                                                [(ngModel)]="status" disabled>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Reporter">{{"Reporter" | localize}} </label>
-                                            <input id="Reporter" type="text"
-                                                name="Reporter" class="form-control" [(ngModel)]="reporter"
-                                                required maxlength="500" disabled>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Assignee">{{"Assignee" | localize}} </label>
-                                            <input id="Assignee" type="text" name="Assignee" class="form-control"
-                                                [(ngModel)]="assignee" disabled>
-                                        </div>
-                                    </div>
-                                    
-
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="StartDate">{{"StartDate" | localize}} </label>
-                                            <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text"
-                                                #SampleDatePicker name="SampleDatePicker1" class="form-control"
-                                                [(ngModel)]="startDate" bsDatepicker disabled>
-                                            <validation-messages [formCtrl]="StartDateInput"></validation-messages>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="EndDate">{{"EndDate" | localize}} </label>
-                                            <input id="SampleDatePicker" type="text" #SampleDatePicker
-                                                name="SampleDatePicker" class="form-control" [(ngModel)]="endDate"
-                                                bsDatepicker disabled>
-                                        </div>
-                                    </div>
-
-                                  
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Discription">{{"Discription" | localize}}</label>
-                                            <textarea rows="5" cols="30" pInputTextarea name="Note" class="form-control"
-                                                [(ngModel)]="project.discription" maxlength="2000" disabled></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="Note">{{"Note" | localize}} </label>
-                                            <textarea rows="5" cols="30" pInputTextarea name="Note" class="form-control"
-                                                [(ngModel)]="project.note" maxlength="2000" disabled></textarea>
-                                        </div>
-                                    </div>
+                <tabset>
+                    <tab heading="{{'Thông tin chung' | localize}}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ProjectCode">{{"ProjectCode" | localize}} </label>
+                                    <input id="ProjectCode" #ProjectCodeInput="ngModel" type="text"
+                                        name="ProjectCode" class="form-control"
+                                        [(ngModel)]="project.projectCode" required maxlength="500" disabled />
+                                    <validation-messages [formCtrl]="ProjectCodeInput"></validation-messages>
                                 </div>
-                            </p-accordionTab>
-                            <p-accordionTab header="Quản lý thành viên">
-                                <app-member [projectId]="id"></app-member>
-                            </p-accordionTab>
-                            <p-accordionTab header="Quản lý tài liệu">
-                                <app-document [projectId]="id"></app-document>
-                            </p-accordionTab>
-                        </p-accordion>
-                    </div>
-                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ProjectName">{{"ProjectName" | localize}} </label>
+                                    <input id="ProjectName" type="text" #ProjectNameInput="ngModel"
+                                        name="ProjectName" class="form-control"
+                                        [(ngModel)]="project.projectName" required maxlength="500" disabled>
+                                    <validation-messages [formCtrl]="ProjectNameInput"></validation-messages>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ClientName">{{"ClientName" | localize}} </label>
+                                    <input id="ClientName" #ClientNameInput="ngModel" type="text"
+                                        name="ClientName" class="form-control" [(ngModel)]="project.clientName"
+                                        required maxlength="500" disabled>
+                                    <validation-messages [formCtrl]="ClientNameInput"></validation-messages>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Status">{{"Status" | localize}} </label>
+                                    <input id="Status" type="text" name="Status" class="form-control"
+                                        [(ngModel)]="status" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Reporter">{{"Reporter" | localize}} </label>
+                                    <input id="Reporter" type="text"
+                                        name="Reporter" class="form-control" [(ngModel)]="reporter"
+                                        required maxlength="500" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Assignee">{{"Assignee" | localize}} </label>
+                                    <input id="Assignee" type="text" name="Assignee" class="form-control"
+                                        [(ngModel)]="assignee" disabled>
+                                </div>
+                            </div>
+                            
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="StartDate">{{"StartDate" | localize}} </label>
+                                    <input id="SampleDatePicker1" #StartDateInput="ngModel" type="text"
+                                        #SampleDatePicker name="SampleDatePicker1" class="form-control"
+                                        [(ngModel)]="startDate" bsDatepicker disabled>
+                                    <validation-messages [formCtrl]="StartDateInput"></validation-messages>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="EndDate">{{"EndDate" | localize}} </label>
+                                    <input id="SampleDatePicker" type="text" #SampleDatePicker
+                                        name="SampleDatePicker" class="form-control" [(ngModel)]="endDate"
+                                        bsDatepicker disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Discription">{{"Discription" | localize}}</label>
+                                    <textarea rows="5" cols="30" pInputTextarea name="Note" class="form-control"
+                                        [(ngModel)]="project.discription" maxlength="2000" disabled></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Note">{{"Note" | localize}} </label>
+                                    <textarea rows="5" cols="30" pInputTextarea name="Note" class="form-control"
+                                        [(ngModel)]="project.note" maxlength="2000" disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+                    <tab heading="{{'Member' | localize}}">
+                        <app-member [projectId]="id"></app-member>
+                    </tab>
+                    <tab heading="{{'Document' | localize}}">
+                        <app-document [projectId]="id"></app-document>
+                    </tab>
+                    <tab heading="{{'SprintOfProject' | localize}}">
+                        <app-sprint-of-project [projectId]="id"></app-sprint-of-project>
+                    </tab>
+                </tabset>
             </div>
-
-
         </div>
     </div>
-</div>
+  </div>

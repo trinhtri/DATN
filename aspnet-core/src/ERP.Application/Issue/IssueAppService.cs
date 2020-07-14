@@ -102,6 +102,7 @@ namespace ERP.Issue
         public async Task<PagedResultDto<IssueListDto>> GetAllOfUser(IssueInputDto input)
         {
             var listTask = _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(x => x.Project_)
+                .Where(x => x.Sprint_Id != null)
                 .Where(x=>x.Assignee_Id == AbpSession.UserId)
                     .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
                     .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))

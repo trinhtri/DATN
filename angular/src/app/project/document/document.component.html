@@ -1,14 +1,24 @@
 <div>
-    <button (click)="createNew(projectId)" *ngIf="isGranted('Pages.Project.Manager.Document.Create')" class="btn btn-primary mt" style="float: right;"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
+    <button (click)="createNew(projectId)"
+        *ngIf="isGranted('Pages.Project.Manager.Document.Create')" class="btn
+        btn-primary mt" style="float: right;"><i class="fa fa-plus"></i>
+        {{"CreateNew" | localize}}</button>
 
-    <button type="button" class="btn btn-success mt" (click)="exportExcel()" style="float: right !important;">
-            <i class="far fa-file-excel"></i> {{"Export" | localize}}
-        </button>
+    <button type="button" class="btn btn-success mt" (click)="exportExcel()"
+        style="float: right !important;">
+        <i class="far fa-file-excel"></i> {{"Export" | localize}}
+    </button>
     <div class="row col-md-12">
     </div>
     <div class="row align-items-center">
-        <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
-            <p-table #dataTable (onLazyLoad)="getAll($event)" [value]="primengTableHelper.records" rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+        <div class="primeng-datatable-container"
+            [busyIf]="primengTableHelper.isLoading">
+            <p-table #dataTable (onLazyLoad)="getAll($event)"
+                [value]="primengTableHelper.records"
+                rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                [paginator]="false" [lazy]="true" [scrollable]="true"
+                ScrollWidth="100%"
+                [responsive]="primengTableHelper.isResponsive"
                 [resizableColumns]="primengTableHelper.resizableColumns">
                 <ng-template pTemplate="header">
                     <tr>
@@ -21,7 +31,7 @@
                             {{'Discription' | localize}}
                             <p-sortIcon field="Discription"></p-sortIcon>
                         </th>
-                 
+
                         <th style="width: 150px" pSortableColumn="UploadDate">
                             {{'UploadDate' | localize}}
                             <p-sortIcon field="UploadDate"></p-sortIcon>
@@ -34,17 +44,28 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-record="$implicit">
                     <tr>
-                        <td style="width: 50px" >
-                            <div class="btn-group dropdown" dropdown container="body">
-                                <button dropdownToggle class="btn btn-sm btn-primary">
-                        <i class="fa fa-cog"></i><span class="caret"></span> 
-                    </button>
+                        <td style="width: 50px">
+                            <div class="btn-group dropdown" dropdown
+                                container="body">
+                                <button dropdownToggle class="btn btn-sm
+                                    btn-primary">
+                                    <i class="fa fa-cog"></i><span
+                                        class="caret"></span>
+                                </button>
                                 <ul class="dropdown-menu" *dropdownMenu>
                                     <li>
-                                        <a href="javascript:;" *ngIf="'Pages.Project.Manager.Document.Edit' | permission" (click)="editDocument(projectId,record.id)">{{'Edit' | localize}}</a>
+                                        <a href="javascript:;"
+                                            *ngIf="'Pages.Project.Manager.Document.Edit'
+                                            | permission"
+                                            (click)="editDocument(projectId,record.id)">{{'Edit'
+                                            | localize}}</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" *ngIf="'Pages.Project.Manager.Document.Delete' | permission" (click)="delete(record)">{{'Delete' | localize}}</a>
+                                        <a href="javascript:;"
+                                            *ngIf="'Pages.Project.Manager.Document.Delete'
+                                            | permission"
+                                            (click)="delete(record)">{{'Delete'
+                                            | localize}}</a>
                                     </li>
 
 
@@ -52,32 +73,42 @@
                             </div>
                         </td>
                         <td style="width: 150px">
-                            <span class="ui-column-title"> {{'DocumentName' | localize}}</span> {{record.documentName}}
+                            <span class="ui-column-title"> {{'DocumentName' |
+                                localize}}</span> {{record.documentName}}
                         </td>
                         <td style="width: 150px">
-                            <span class="ui-column-title"> {{'Discription' | localize}}</span> {{record.discription}}
-                     
-                        <td style="width: 150px">
-                            <span class="ui-column-title"> {{'UploadDate' | localize}}</span> {{record.uploadDate | momentFormat:'L'}}
-                        </td>
-                        <th style="width: 150px">
-                            <a href={{record.documentUrl}}  target="_blank">{{"Url"}}</a>
-                        </th>
-                    </tr>
-                </ng-template>
-            </p-table>
-            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
-                {{'NoData' | localize}}
-            </div>
-            <div class="primeng-paging-container">
-                <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator (onPageChange)="getAll($event)" [totalRecords]="primengTableHelper.totalRecordsCount" [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            <span class="ui-column-title"> {{'Discription' |
+                                localize}}</span> {{record.discription}}
 
-                </p-paginator>
-                <span class="total-records-count">
-        {{'TotalRecordsCount' | localize:primengTableHelper.totalRecordsCount}}
-    </span>
+                            <td style="width: 150px">
+                                <span class="ui-column-title"> {{'UploadDate' |
+                                    localize}}</span> {{record.uploadDate |
+                                momentFormat:'L'}}
+                            </td>
+                            <th style="width: 150px">
+                                <a href={{record.documentUrl}} target="_blank">{{"Url"}}</a>
+                            </th>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <div class="primeng-no-data"
+                    *ngIf="primengTableHelper.totalRecordsCount == 0">
+                    {{'NoData' | localize}}
+                </div>
+                <div class="primeng-paging-container">
+                    <p-paginator
+                        [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                        #paginator (onPageChange)="getAll($event)"
+                        [totalRecords]="primengTableHelper.totalRecordsCount"
+                        [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                    </p-paginator>
+                    <span class="total-records-count">
+                        {{'TotalRecordsCount' |
+                        localize:primengTableHelper.totalRecordsCount}}
+                    </span>
+                </div>
             </div>
         </div>
+        <app-create-or-edit-document #createOrEditModal
+            (modalSave)="getAll($event)"></app-create-or-edit-document>
     </div>
-    <app-create-or-edit-document #createOrEditModal (modalSave)="getAll($event)"></app-create-or-edit-document>
-</div>

@@ -181,6 +181,11 @@
                   <p-sortIcon field="Summary"></p-sortIcon>
                 </th>
 
+                <th style="width: 150px" pSortableColumn="issue.Sprint_Id">
+                  {{'Sprint' | localize}}
+                  <p-sortIcon field="issue.Sprint_Id"></p-sortIcon>
+              </th>
+
                 <th style="width: 150px" pSortableColumn="Status_Id">
                   {{'Status' | localize}}
                   <p-sortIcon field="Status_Id"></p-sortIcon>
@@ -250,6 +255,11 @@
                     {{'Summary' | localize}}</span>
                   {{record.summary}}
                 </td>
+                <td style="width: 150px">
+                  <span class="ui-column-title">
+                      {{'Sprint' | localize}}</span>
+                  {{record.sprintName}}
+              </td>
 
                 <td style="width: 150px;">
                   <span class="ui-column-title">

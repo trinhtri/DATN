@@ -111,7 +111,8 @@ namespace ERP.Authorization
             issue.CreateChildPermission(AppPermissions.Pages_Issue_Create, L("Create"));
             issue.CreateChildPermission(AppPermissions.Pages_Issue_Edit, L("Edit"));
             issue.CreateChildPermission(AppPermissions.Pages_Issue_Delete, L("Delete"));
-            //issue.CreateChildPermission(AppPermissions.Pages_Issue_Close, L("Close"));
+            issue.CreateChildPermission(AppPermissions.Pages_Issue_Compeleted, L("Compeleted")); 
+            issue.CreateChildPermission(AppPermissions.Pages_Issue_ReOpened, L("ReOpened"));
 
 
             var sprint = pages.CreateChildPermission(AppPermissions.Pages_Sprint, L("Sprint"));

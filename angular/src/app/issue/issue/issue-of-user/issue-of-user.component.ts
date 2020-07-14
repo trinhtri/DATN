@@ -8,11 +8,14 @@ import { ERPComboboxItem, ProjectServiceProxy, SprintServiceProxy, CommonAppserv
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
   selector: 'app-issue-of-user',
   templateUrl: './issue-of-user.component.html',
-  styleUrls: ['./issue-of-user.component.css']
+  styleUrls: ['./issue-of-user.component.css'],
+  animations: [appModuleAnimation()]
+
 })
 export class IssueOfUserComponent  extends AppComponentBase implements OnInit {
 

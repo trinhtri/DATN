@@ -7,7 +7,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 @Component({
   selector: 'app-manager-project',
   templateUrl: './manager-project.component.html',
-  styleUrls: ['./manager-project.component.css'],
+  styleUrls: ['./manager-project.component.less'],
   animations: [appModuleAnimation()]
 })
 export class ManagerProjectComponent  extends AppComponentBase implements OnInit  {

@@ -69,8 +69,31 @@ namespace ERP.Sprint
                 totalCount,
                 output
                 );
-            throw new NotImplementedException();
         }
+
+        public async Task<PagedResultDto<SprintListDto>> GetAllSprintOfProject(GetSprintInputDto input, long projectId)
+        {
+            var query = _sprintRepository.GetAll().Include(x => x.Project_)
+                .Where(x=>x.Project_Id == projectId)
+                    .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
+                    .WhereIf(input.ListProjectId != null, x => input.ListProjectId.Any(a => a == x.Project_Id))
+                    .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))
+                .WhereIf(!string.IsNullOrEmpty(input.Filter),
+                x => x.SprintCode.ToUpper().Contains(input.Filter.ToUpper())
+                || x.Summary.ToUpper().Contains(input.Filter.ToUpper())
+                || x.Project_.ProjectName.ToUpper().Contains(input.Filter.ToUpper()));
+            var totalCount = await query.AsQueryable().CountAsync();
+
+            var result = await query.AsQueryable().OrderBy(input.Sorting).PageBy(input).ToListAsync();
+
+            var output = ObjectMapper.Map<List<SprintListDto>>(result);
+
+            return new PagedResultDto<SprintListDto>(
+                totalCount,
+                output
+                );
+        }
+
 
         public async Task<CreateSprintDto> GetId(long id)
         {
@@ -89,6 +112,12 @@ namespace ERP.Sprint
         public async Task<FileDto> GetSprintForExcel(GetSprintInputDto input)
         {
             var issueActive = await GetAll(input);
+            var result = issueActive.Items.ToList();
+            return _sprintListExcelExporter.ExportToFile(result);
+        }
+          public async Task<FileDto> GetSprintOfProjectForExcel(GetSprintInputDto input, long projectId)
+        {
+            var issueActive = await GetAllSprintOfProject(input, projectId);
             var result = issueActive.Items.ToList();
             return _sprintListExcelExporter.ExportToFile(result);
         }
