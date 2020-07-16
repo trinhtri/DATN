@@ -62,6 +62,19 @@ namespace ERP.Issue
             var issueActive = await GetAllIssueBackLog(input);
             var result = issueActive.Items.ToList();
             return _issueListExcelExport.ExportIssueToFile(result);
+        }  
+        
+        public async Task<FileDto> GetIssueOfUserForExcel(IssueInputDto input)
+        {
+            var issues = await GetAllOfUser(input);
+            var result = issues.Items.ToList();
+            return _issueListExcelExport.ExportIssueToFile(result);
+        }
+          public async Task<FileDto> GetIssueOfSprintForExcel(IssueInputDto input, long sprintId)
+        {
+            var issues = await GetIssueOfSprint(input,sprintId);
+            var result = issues.Items.ToList();
+            return _issueListExcelExport.ExportIssueToFile(result);
         }
 
 

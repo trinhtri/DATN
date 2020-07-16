@@ -102,7 +102,7 @@ export class IssuesOfSprintComponent extends AppComponentBase implements OnInit 
     createNew() {
         this.createOrEditModal.show(this.sprintId, null);
     }
-    editSprint(id) {
+    editIssue(id) {
         this.createOrEditModal.show(this.sprintId,id);
     }
     delete(dto): void {
@@ -122,15 +122,16 @@ export class IssuesOfSprintComponent extends AppComponentBase implements OnInit 
         );
     }
     exportExcel(event?: LazyLoadEvent) {
-        this._issueService.getIssueActiveForExcel(
+        this._issueService.getIssueOfSprintForExcel(
             this.lstSprintId,
             this.lstStatusId,
-            undefined,
+            this.lstAssigneeId,
             this.lstIssueTypeId,
             this.filterText,
             this.primengTableHelperIssueActive.getSorting(this.dataTable),
             this.primengTableHelperIssueActive.getMaxResultCount(this.paginator, event),
-            this.primengTableHelperIssueActive.getSkipCount(this.paginator, event)
+            this.primengTableHelperIssueActive.getSkipCount(this.paginator, event),
+            this.sprintId
         ).pipe(finalize(() => this.primengTableHelperIssueActive.hideLoadingIndicator())).subscribe(result => {
             this._fileDownloadService.downloadTempFile(result);
         });

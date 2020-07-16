@@ -12,5 +12,7 @@ namespace ERP.Document.Dto
         public decimal Size { get; set; }
         public string DocumentUrl { get; set; }
         public DateTime UploadDate { get; set; }
+        public string Creator { get; set; }
+        public long CreatorUserId { get; set; }
     }
 }

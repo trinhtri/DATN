@@ -991,7 +991,22 @@
     <text name="Sprint">Sprint</text>
     <text name="Issue">Issue</text>
     <text name="EffectiveWorkManagementSolution">Effective work management solution.</text>
-    
+    <text name="SprintInformationManagement">Quản lý thông tin sprint</text>
+
+    <text name="Created">Created</text>
+    <text name="DiagramShowingSprintStatusIssue">Diagram showing sprint status issue</text>
+    <text name="DiagramShowingSprintTypeIssue">Diagram showing sprint type issue</text>
+    <text name="TotalEstimate">Total estimate</text>
+
+
+    <text name="Member">Member</text>
+    <text name="Document">Document</text>
+    <text name="SprintsOfProject">Sprints of project</text>
+    <text name="IssuesOfSprint">Issues of sprint</text>
+    <text name="Information">Information</text>
+    <text name="IssuesOfUser">Issue of User</text>
+    <text name="Creator">Creator</text>
+
 
 
 

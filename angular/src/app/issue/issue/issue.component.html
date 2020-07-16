@@ -16,7 +16,7 @@
         <div class="kt-portlet">
             <div class="kt-portlet__body">
                 <tabset>
-                    <tab heading="{{'IssueOfUser' | localize}}">
+                    <tab heading="{{'IssuesOfUser' | localize}}">
                         <app-issue-of-user></app-issue-of-user>
                         </tab>
 
@@ -227,10 +227,7 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-record="$implicit">
                                         <tr>
-                                            <td style="width: 50px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation',
-                                                'Pages.Administration.Users.Edit',
-                                                'Pages.Administration.Users.ChangePermissions',
-                                                'Pages.Administration.Users.Delete')">
+                                            <td style="width: 50px">
                                                 <div class="btn-group dropdown" dropdown container="body">
                                                     <button dropdownToggle class="btn
                                                         btn-sm btn-primary">
@@ -238,12 +235,12 @@
                                                     </button>
                                                     <ul class="dropdown-menu" *dropdownMenu>
                                                         <li>
-                                                            <a href="javascript:;" *ngIf="'Pages.Sprint.Edit'
+                                                            <a href="javascript:;" *ngIf="'Pages.Issue.Edit'
                                                                 | permission" (click)="editSprint(record.id)">{{'Edit'
                                                                 | localize}}</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:;" *ngIf="'Pages.Sprint.Delete'
+                                                            <a href="javascript:;" *ngIf="'Pages.Issue  .Delete'
                                                                 | permission" (click)="delete(record)">{{'Delete'
                                                                 | localize}}</a>
                                                         </li>
@@ -416,28 +413,8 @@
                                     </div>
 
                                     <div class="row mb-4" [hidden]="!advancedFiltersAreShown">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="Sprint">{{"Sprint" |
-                                                    localize}}</label>
-                                                <p-multiSelect [options]="lstSprint" name="Sprint"
-                                                    [(ngModel)]="lstSprintBackLogId" [panelStyle]="{minWidth:'12em'}">
-                                                    <ng-template let-value pTemplate="selectedItems">
-                                                        <span *ngIf="!value || value.length
-                                                            === 0" class="ui-multiselected-empty-token
-                                                            ui-corner-all">{{"Choose"|localize}}</span>
-                                                        <span *ngIf="value && value.length>
-                                                            0" class="ui-multiselected-empty-token
-                                                            ui-corner-all">{{value.length}}
-                                                            {{"Options"|localize}}</span>
-                                                    </ng-template>
-                                                    <ng-template let-car let-i="index" pTemplate="item">
-                                                        {{car.displayText}}
-                                                    </ng-template>
-                                                </p-multiSelect>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
+                                      
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="Assignee">{{"Assignee" |
                                                     localize}}</label>
@@ -458,7 +435,7 @@
                                                 </p-multiSelect>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="IssueType">{{"IssueType" |
                                                     localize}}</label>
@@ -481,7 +458,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="Status">{{"Status" | localize}}</label>
                                                 <p-multiSelect [options]="lstStatus" name="IssueType"
@@ -583,10 +560,7 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-record="$implicit">
                                         <tr>
-                                            <td style="width: 50px" [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation',
-                                                'Pages.Administration.Users.Edit',
-                                                'Pages.Administration.Users.ChangePermissions',
-                                                'Pages.Administration.Users.Delete')">
+                                            <td style="width: 50px">
                                                 <div class="btn-group dropdown" dropdown container="body">
                                                     <button dropdownToggle class="btn
                                                         btn-sm btn-primary">
@@ -594,12 +568,12 @@
                                                     </button>
                                                     <ul class="dropdown-menu" *dropdownMenu>
                                                         <li>
-                                                            <a href="javascript:;" *ngIf="'Pages.Sprint.Edit'
+                                                            <a href="javascript:;" *ngIf="'Pages.Issue.Edit'
                                                                 | permission" (click)="editSprint(record.id)">{{'Edit'
                                                                 | localize}}</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:;" *ngIf="'Pages.Sprint.Delete'
+                                                            <a href="javascript:;" *ngIf="'Pages.Issue.Delete'
                                                                 | permission" (click)="delete(record)">{{'Delete'
                                                                 | localize}}</a>
                                                         </li>

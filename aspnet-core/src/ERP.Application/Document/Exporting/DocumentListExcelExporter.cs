@@ -38,6 +38,7 @@ namespace ERP.Document.Exporting
                         sheet,
                         L("DocumentName"),
                         L("Discription"),
+                        L("Creator"),
                         L("UploadDate"),
                         L("DocumentUrl")
                     );
@@ -46,6 +47,7 @@ namespace ERP.Document.Exporting
                         sheet, 2, list,
                         _ => _.DocumentName,
                         _ => _.Discription,
+                        _ => _.Creator,
                         _ => _timeZoneConverter.Convert(_.UploadDate, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _.DocumentUrl
                         );

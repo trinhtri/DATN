@@ -3,6 +3,7 @@ using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Abp.UI;
+using ERP.Authorization.Users;
 using ERP.Document.Dto;
 using ERP.Document.Exporting;
 using ERP.Dto;
@@ -22,11 +23,13 @@ namespace ERP.Document
     public class DocumentAppService : ERPAppServiceBase, IDocumentAppService
     {
         private readonly IRepository<Models.Document,long> _documentRepository;
+        private readonly IRepository<User,long> _userRepository;
         private DocumentListExcelExporter _docummentListExcelExporter;
-        public DocumentAppService(IRepository<Models.Document,long> documentRepository, DocumentListExcelExporter docummentListExcelExporter)
+        public DocumentAppService(IRepository<Models.Document,long> documentRepository, DocumentListExcelExporter docummentListExcelExporter, IRepository<User, long> userRepository)
         {
             _documentRepository = documentRepository;
             _docummentListExcelExporter = docummentListExcelExporter;
+            _userRepository = userRepository;
         }
         public async Task<long> Create(CreateDocumentDto input)
         {
@@ -49,6 +52,10 @@ namespace ERP.Document
             var result = await list.OrderBy(input.Sorting)
                 .PageBy(input).ToListAsync();
             var dto = ObjectMapper.Map<List<DocumentListDto>>(result);
+            foreach(var item in dto)
+            {
+                item.Creator = GetName(item.CreatorUserId);
+            }
             return new PagedResultDto<DocumentListDto>(tatolCount, dto);
         }
 
@@ -69,6 +76,12 @@ namespace ERP.Document
             var list = await GetAll(inputDto);
             var dto = list.Items.ToList();
             return _docummentListExcelExporter.ExportToFile(dto);
+        }
+
+        private string GetName(long id)
+        {
+            var user = _userRepository.FirstOrDefaultAsync(id);
+            return user.Result.UserName;
         }
     }
 }

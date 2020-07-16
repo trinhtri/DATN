@@ -41,6 +41,7 @@ namespace ERP.Project.Exporting
                         L("StartDate"),
                         L("EndDate"),
                         L("ClientName"),
+                        L("Status"),
                         L("Note")
                     );
 
@@ -51,6 +52,7 @@ namespace ERP.Project.Exporting
                         _ => _timeZoneConverter.Convert(_.StartDate, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _timeZoneConverter.Convert(_.EndDate, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _.ClientName,
+                        _ => _.Status ==true ? L("Active") : L("Compeleted"),
                         _ => _.Note
                         );
 

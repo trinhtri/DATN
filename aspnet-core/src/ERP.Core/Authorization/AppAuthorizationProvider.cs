@@ -34,9 +34,9 @@ namespace ERP.Authorization
             var administration = pages.CreateChildPermission(AppPermissions.Pages_Administration, L("Administration"));
 
             var roles = administration.CreateChildPermission(AppPermissions.Pages_Administration_Roles, L("Roles"));
-            roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Create, L("CreatingNewRole"));
-            roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Edit, L("EditingRole"));
-            roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Delete, L("DeletingRole"));
+            roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Create, L("Create"));
+            roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Edit, L("Edit"));
+            roles.CreateChildPermission(AppPermissions.Pages_Administration_Roles_Delete, L("Delete"));
 
             var users = administration.CreateChildPermission(AppPermissions.Pages_Administration_Users, L("Users"));
             users.CreateChildPermission(AppPermissions.Pages_Administration_Users_Create, L("Create"));

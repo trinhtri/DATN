@@ -10,19 +10,19 @@ import { finalize } from 'rxjs/operators';
 import { CreateOrEditProjectComponent } from './create-or-edit-project/create-or-edit-project.component';
 
 @Component({
-  selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrls: ['./project.component.css'],
-  animations: [appModuleAnimation()]
+    selector: 'app-project',
+    templateUrl: './project.component.html',
+    styleUrls: ['./project.component.css'],
+    animations: [appModuleAnimation()]
 
 })
 export class ProjectComponent extends AppComponentBase {
-    @ViewChild('createOrEditModal', {static: true}) createOrEditModal: CreateOrEditProjectComponent;
-    @ViewChild('dataTable', {static: true}) dataTable: Table;
-    @ViewChild('paginator', {static: true}) paginator: Paginator;
+    @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateOrEditProjectComponent;
+    @ViewChild('dataTable', { static: true }) dataTable: Table;
+    @ViewChild('paginator', { static: true }) paginator: Paginator;
     //Filters
     filterText = '';
-    checked =  true;
+    checked = true;
     constructor(
         injector: Injector,
         private _projectServiceProxy: ProjectServiceProxy,
@@ -33,7 +33,7 @@ export class ProjectComponent extends AppComponentBase {
 
     getAll(event?: LazyLoadEvent) {
         if (this.checked as any === 'undefined') {
-          this.checked = undefined;
+            this.checked = undefined;
         }
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
@@ -61,33 +61,33 @@ export class ProjectComponent extends AppComponentBase {
     editProject(id) {
         this.createOrEditModal.show(id);
     }
-  delete(dto: ProjectListDto): void {
-    this.message.confirm(
-        this.l('ProjectDeleteWarningMessage', dto.projectName),
-        this.l('AreYouSure'),
-        (isConfirmed) => {
-            if (isConfirmed) {
-                this._projectServiceProxy.delete(dto.id)
-                    .subscribe(() => {
-                        this.reloadPage();
-                        this.notify.success(this.l('SuccessfullyDeleted'));
-                    });
+    delete(dto: ProjectListDto): void {
+        this.message.confirm(
+            this.l('ProjectDeleteWarningMessage', dto.projectName),
+            this.l('AreYouSure'),
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    this._projectServiceProxy.delete(dto.id)
+                        .subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SuccessfullyDeleted'));
+                        });
+                }
             }
-        }
-    );
-}
-exportExcel(event?: LazyLoadEvent) {
-    this._projectServiceProxy.getProjectToExcel(
-        this.filterText,
-        this.checked,
-        this.primengTableHelper.getSorting(this.dataTable),
-        this.primengTableHelper.getMaxResultCount(this.paginator, event),
-        this.primengTableHelper.getSkipCount(this.paginator, event)
-    ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
-    this._fileDownloadService.downloadTempFile(result);
-    });
-}
-reloadPage(): void {
-  this.paginator.changePage(this.paginator.getPage());
-}
+        );
+    }
+    exportExcel(event?: LazyLoadEvent) {
+        this._projectServiceProxy.getProjectToExcel(
+            this.filterText,
+            this.checked,
+            this.primengTableHelper.getSorting(this.dataTable),
+            this.primengTableHelper.getMaxResultCount(this.paginator, event),
+            this.primengTableHelper.getSkipCount(this.paginator, event)
+        ).pipe(finalize(() => this.primengTableHelper.hideLoadingIndicator())).subscribe(result => {
+            this._fileDownloadService.downloadTempFile(result);
+        });
+    }
+    reloadPage(): void {
+        this.paginator.changePage(this.paginator.getPage());
+    }
 }

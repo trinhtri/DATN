@@ -84,21 +84,21 @@
                   </li>
                   <li>
                     <a href="javascript:;"
-                      *ngIf="'Pages.Sprint.Delete'
+                      *ngIf="'Pages.Sprint.Edit'
                       | permission"
                       (click)="active(record)">{{'Active'
                       | localize}}</a>
                   </li>
                   <li>
                     <a href="javascript:;"
-                      *ngIf="'Pages.Sprint.Delete'
+                      *ngIf="'Pages.Sprint.Edit'
                       | permission"
                       (click)="close(record)">{{'Close'
                       | localize}}</a>
                   </li>
                   <li>
                     <a href="javascript:;"
-                      *ngIf="'Pages.Sprint.Delete'
+                      *ngIf="'Pages.Sprint.Edit'
                       | permission"
                       (click)="cancel(record)">{{'Cancel'
                       | localize}}</a>
@@ -178,6 +178,5 @@
       </div>
     </div>
   </div>
-  <!-- <app-create-or-edit-sprint #createOrEditModal (modalSave)="getAll()"></app-create-or-edit-sprint> -->
   <app-create-issue-of-project  #createOrEditModal (modalSave)="getAll()"></app-create-issue-of-project>
 </div>

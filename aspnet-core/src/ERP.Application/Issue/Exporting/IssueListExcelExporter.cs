@@ -47,7 +47,7 @@ namespace ERP.Issue.Exporting
                     AddHeader(
                         sheet,
                         L("IssueCode"),
-                        L("IssueName"),
+                        L("Summary"),
                         L("Type"),
                         L("Status"),
                         L("Discription"),

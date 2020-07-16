@@ -1,17 +1,15 @@
 <div [@routerTransition]>
-
- 
   <div class="kt-portlet">
     <div class="kt-portlet__body">
       <div class="row mb-2">
         <div class="col-sm-12 text-right">
           <button type="button" class="btn btn-success" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false"
-            (click)="exportExcel()">
+            (click)="exportExcelOfUser()">
             <i class="far fa-file-excel"></i> {{"Export" | localize}}
           </button>
           <button (click)="createNew()"
-            *ngIf="isGranted('Pages.Sprint.Create')" class="btn
+            *ngIf="isGranted('Pages.Issue.Create')" class="btn
             btn-primary"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
         </div>
       </div>
@@ -38,7 +36,7 @@
             </div>
 
             <div class="row mb-4" [hidden]="!advancedFiltersAreShown1">
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="Sprint">{{"Sprint" |
                     localize}}</label>
@@ -60,29 +58,7 @@
                   </p-multiSelect>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label for="Assignee">{{"Assignee" |
-                    localize}}</label>
-                  <p-multiSelect [options]="lstMember" name="Assignee"
-                    [(ngModel)]="lstAssigneeId"
-                    [panelStyle]="{minWidth:'12em'}">
-                    <ng-template let-value pTemplate="selectedItems">
-                      <span *ngIf="!value || value.length
-                        === 0" class="ui-multiselected-empty-token
-                        ui-corner-all">{{"Choose"|localize}}</span>
-                      <span *ngIf="value && value.length>
-                        0" class="ui-multiselected-empty-token
-                        ui-corner-all">{{value.length}}
-                        {{"options"|localize}}</span>
-                    </ng-template>
-                    <ng-template let-car let-i="index" pTemplate="item">
-                      {{car.displayText}}
-                    </ng-template>
-                  </p-multiSelect>
-                </div>
-              </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="IssueType">{{"IssueType" |
                     localize}}</label>
@@ -105,7 +81,7 @@
                 </div>
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="Status">{{"Status" | localize}}</label>
                   <p-multiSelect [options]="lstStatus" name="IssueType"
@@ -217,11 +193,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-record="$implicit">
               <tr>
-                <td style="width: 50px"
-                  [hidden]="!isGrantedAny('Pages.Administration.Users.Impersonation',
-                  'Pages.Administration.Users.Edit',
-                  'Pages.Administration.Users.ChangePermissions',
-                  'Pages.Administration.Users.Delete')">
+                <td style="width: 50px">
                   <div class="btn-group dropdown" dropdown container="body">
                     <button dropdownToggle class="btn
                       btn-sm btn-primary">
@@ -229,12 +201,12 @@
                     </button>
                     <ul class="dropdown-menu" *dropdownMenu>
                       <li>
-                        <a href="javascript:;" *ngIf="'Pages.Sprint.Edit'
-                          | permission" (click)="editSprint(record.id)">{{'Edit'
+                        <a href="javascript:;" *ngIf="'Pages.Issue.Edit'
+                          | permission" (click)="editIssue(record.id)">{{'Edit'
                           | localize}}</a>
                       </li>
                       <li>
-                        <a href="javascript:;" *ngIf="'Pages.Sprint.Delete'
+                        <a href="javascript:;" *ngIf="'Pages.Issue.Delete'
                           | permission" (click)="delete(record)">{{'Delete'
                           | localize}}</a>
                       </li>
@@ -341,5 +313,5 @@
       </div>
     </div>
   </div>
-<!-- <app-create-issue #createOrEditModal (modalSave)="getAll()" (modalSave)="getAllBackLock()"></app-create-issue> -->
+<app-create-issue #createOrEditModal (modalSave)="getAll()"></app-create-issue>
 </div>

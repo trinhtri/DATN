@@ -5,10 +5,6 @@
       <h3 class="kt-subheader__title">
         <span>{{"SprintInformationManagement" | localize}}</span>
       </h3>
-      <!-- <span class="kt-subheader__separator kt-subheader__separator--v"></span>
-      <span class="kt-subheader__desc">
-        {{"SprintInformationManagement" | localize}}
-      </span> -->
     </div>
   </div>
 
@@ -19,15 +15,14 @@
                 <tab heading="{{'Dashboard' | localize}}">
                 <app-dash-board-sprint [sprintId]="sprintId"></app-dash-board-sprint>
                 </tab>
-                <tab heading="{{'ListIssue' | localize}}">
+                <tab heading="{{'IssuesOfSprint' | localize}}">
                   <app-issues-of-sprint [sprintId]="sprintId"></app-issues-of-sprint>
                 </tab>
-                <tab heading="{{'Infomation' | localize}}">
+                <tab heading="{{'Information' | localize}}">
                   <app-info-common-sprint [sprintId]="sprintId"></app-info-common-sprint>
                 </tab>
             </tabset>
         </div>
     </div>
 </div>
-    <!-- </div> -->
   </div>

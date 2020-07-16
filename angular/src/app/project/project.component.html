@@ -32,11 +32,6 @@
                                         <input [(ngModel)]="filterText" name="filterText" autoFocus
                                             class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
                                             type="text"  (ngModelChange) ="getAll()">
-                                        <!-- <span class="input-group-btn">
-                                            <button (click)="getAll()" class="btn btn-primary" type="submit"><i
-                                                    class="flaticon-search-1"
-                                                    [attr.aria-label]="l('Search')"></i></button>
-                                        </span> -->
                                     </div>
                                 </div>
                             </div>
@@ -88,11 +83,6 @@
                                         {{'EndDate' | localize}}
                                         <p-sortIcon field="EndDate"></p-sortIcon>
                                     </th>
-<!--    
-                                    <th style="width: 150px" pSortableColumn="Note">
-                                        {{'Note' | localize}}
-                                        <p-sortIcon field="Note"></p-sortIcon>
-                                    </th> -->
 
                                     <th style="width: 150px" pSortableColumn="Status">
                                         {{'Status' | localize}}
@@ -149,9 +139,6 @@
                                         <span class="ui-column-title"> {{'EndDate' | localize}}</span>
                                         {{record.endDate | momentFormat:'L'}}
                                     </td>
-                                    <!-- <td style="width: 150px">
-                                        <span class="ui-column-title"> {{'Note' | localize}}</span> {{record.note}}
-                                    </td> -->
                                     <td style="width: 150px">
                                         <span class="ui-column-title"> {{'Status' | localize}}</span> 
                                         <span class="kt-badge kt-badge--success kt-badge--inline" *ngIf="record.status == true">{{l('Active')}}</span>

@@ -825,7 +825,7 @@
     <text name="DueDate">Ngày kết thúc</text>
     <text name="Assignee">Người nhận</text>
     <text name="Priority">Mức độ</text>
-    <text name="Estimate">Estimate</text>
+    <text name="Estimate">Ước tính(h)</text>
     <text name="IssueCode">Mã issue</text>
     <text name="Create">Thêm mới</text>
     <text name="Documents">Tài liệu</text>
@@ -885,8 +885,14 @@
     <text name="DiagramShowingSprintStatusIssue">Biểu đồ thể hiện trạng thái issue của sprint</text>
     <text name="DiagramShowingSprintTypeIssue">Biểu đồ thể hiện loại issue của sprint</text>
     <text name="TotalEstimate">Tổng thời gian ước tính</text>
-    
-   
+
+    <text name="Member">Thành viên</text>
+    <text name="Document">Tài liệu</text>
+    <text name="SprintsOfProject">Sprint của dự án</text>
+    <text name="IssuesOfSprint">Issues của sprint</text>
+    <text name="Information">Thông tin chung</text>
+    <text name="IssuesOfUser">Issue của bạn</text>
+    <text name="Creator">Người tạo</text>
 
   </texts>
 </localizationDictionary>
