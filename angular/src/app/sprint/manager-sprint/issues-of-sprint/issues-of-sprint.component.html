@@ -189,7 +189,11 @@
                     {{'Estimate' | localize}}
                     <p-sortIcon field="Estimate"></p-sortIcon>
                   </th>
-
+                  
+                  <th style="width: 150px" pSortableColumn="Point">
+                    {{'Point' | localize}}
+                    <p-sortIcon field="Point"></p-sortIcon>
+                  </th>
 
                 </tr>
               </ng-template>
@@ -293,7 +297,11 @@
                       {{'Estimate' | localize}}</span>
                     {{record.estimate}}
                   </td>
-
+                  <td style="width: 150px">
+                    <span class="ui-column-title">
+                      {{'Point' | localize}}</span>
+                    {{record.point}}
+                  </td>
                 </tr>
               </ng-template>
             </p-table>

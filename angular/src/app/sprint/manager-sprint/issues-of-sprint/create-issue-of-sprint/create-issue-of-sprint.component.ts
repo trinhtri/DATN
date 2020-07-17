@@ -83,9 +83,6 @@ export class CreateIssueOfSprintComponent extends AppComponentBase implements On
   }
   save(): void {
     this.saving = true;
-    if (this.issue.sprint_Id as any === 'undefined' || this.issue.sprint_Id === null ) {
-    this.issue.sprint_Id = null;
-    }
     this.issue.reporter_Id = this.appSession.userId;
     if (this.dueDate) {
       this.issue.due_Date = moment(this.dueDate);

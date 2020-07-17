@@ -109,6 +109,12 @@
                         <validation-messages [formCtrl]="PointInput"></validation-messages>
                     </div>
 
+                    <div class="form-group">
+                        <label for="Estimate">{{"Estimate" | localize}} *</label>
+                        <input id="Estimate" #EstimateInput="ngModel" type="number" name="Estimate"
+                            class="form-control" [(ngModel)]="issue.estimate">
+                    </div>
+                    
                     <div class="modal-footer">
                         <button [disabled]="saving" type="button" class="btn btn-default"
                             (click)="close()">{{"Cancel" | localize}}</button>

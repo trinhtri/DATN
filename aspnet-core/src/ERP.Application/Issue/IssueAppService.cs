@@ -96,7 +96,7 @@ namespace ERP.Issue
                   );
             ;
             var tatolCount = await listTask.CountAsync();
-            var result = await listTask.OrderBy(input.Sorting)
+            var result = await listTask.OrderByDescending(x=>x.CreationTime).OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
 

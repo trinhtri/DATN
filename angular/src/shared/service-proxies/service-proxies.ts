@@ -18968,6 +18968,7 @@ export class IssueListDto implements IIssueListDto {
     sprintName!: string | undefined;
     project_Id!: number | undefined;
     creationTime!: moment.Moment | undefined;
+    point!: number | undefined;
     id!: number | undefined;
 
     constructor(data?: IIssueListDto) {
@@ -18997,6 +18998,7 @@ export class IssueListDto implements IIssueListDto {
             this.sprintName = data["sprintName"];
             this.project_Id = data["project_Id"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.point = data["point"];
             this.id = data["id"];
         }
     }
@@ -19026,6 +19028,7 @@ export class IssueListDto implements IIssueListDto {
         data["sprintName"] = this.sprintName;
         data["project_Id"] = this.project_Id;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["point"] = this.point;
         data["id"] = this.id;
         return data; 
     }
@@ -19048,6 +19051,7 @@ export interface IIssueListDto {
     sprintName: string | undefined;
     project_Id: number | undefined;
     creationTime: moment.Moment | undefined;
+    point: number | undefined;
     id: number | undefined;
 }
 

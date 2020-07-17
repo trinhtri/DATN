@@ -825,7 +825,7 @@
     <text name="DueDate">Ngày kết thúc</text>
     <text name="Assignee">Người nhận</text>
     <text name="Priority">Mức độ</text>
-    <text name="Estimate">Ước tính(h)</text>
+    <text name="Estimate">Ước tính thời gian(h)</text>
     <text name="IssueCode">Mã issue</text>
     <text name="Create">Thêm mới</text>
     <text name="Documents">Tài liệu</text>
@@ -893,6 +893,7 @@
     <text name="Information">Thông tin chung</text>
     <text name="IssuesOfUser">Issue của bạn</text>
     <text name="Creator">Người tạo</text>
+    <text name="Point">Điểm</text>
 
   </texts>
 </localizationDictionary>

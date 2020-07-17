@@ -941,7 +941,7 @@
     <text name="DueDate">Due date</text>
     <text name="Assignee">Assignee</text>
     <text name="Priority">Priority</text>
-    <text name="Estimate">Estimate</text>
+    <text name="Estimate">Estimate time</text>
 
     <text name="Create">Create</text>
     <text name="Documents">Document</text>
@@ -1006,6 +1006,8 @@
     <text name="Information">Information</text>
     <text name="IssuesOfUser">Issue of User</text>
     <text name="Creator">Creator</text>
+    <text name="Point">Point</text>
+
 
 
 

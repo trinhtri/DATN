@@ -33,7 +33,6 @@ using ERP.Models;
 
 namespace ERP.Authorization.Users
 {
-    [AbpAuthorize(AppPermissions.Pages_Administration_Users)]
     public class UserAppService : ERPAppServiceBase, IUserAppService
     {
         public IAppUrlService AppUrlService { get; set; }

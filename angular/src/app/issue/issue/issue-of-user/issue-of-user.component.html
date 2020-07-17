@@ -157,9 +157,9 @@
                   <p-sortIcon field="Summary"></p-sortIcon>
                 </th>
 
-                <th style="width: 150px" pSortableColumn="issue.Sprint_Id">
+                <th style="width: 150px" pSortableColumn="Point">
                   {{'Sprint' | localize}}
-                  <p-sortIcon field="issue.Sprint_Id"></p-sortIcon>
+                  <p-sortIcon field="Point"></p-sortIcon>
               </th>
 
                 <th style="width: 150px" pSortableColumn="Status_Id">
@@ -177,9 +177,9 @@
                   <p-sortIcon field="creationTime"></p-sortIcon>
                 </th>
 
-                <th style="width: 150px" pSortableColumn="EndDate">
+                <th style="width: 150px" pSortableColumn="Due_Date">
                   {{'EndDate' | localize}}
-                  <p-sortIcon field="EndDate"></p-sortIcon>
+                  <p-sortIcon field="Due_Date"></p-sortIcon>
                 </th>
 
 
@@ -187,6 +187,12 @@
                   {{'Estimate' | localize}}
                   <p-sortIcon field="Estimate"></p-sortIcon>
                 </th>
+
+                <th style="width: 150px" pSortableColumn="Point">
+                  {{'Point' | localize}}
+                  <p-sortIcon field="Point"></p-sortIcon>
+                </th>
+
 
 
               </tr>
@@ -287,6 +293,13 @@
                   <span class="ui-column-title">
                     {{'Estimate' | localize}}</span>
                   {{record.estimate}}
+                </td>
+
+                
+                <td style="width: 150px">
+                  <span class="ui-column-title">
+                    {{'Point' | localize}}</span>
+                  {{record.point}}
                 </td>
 
               </tr>

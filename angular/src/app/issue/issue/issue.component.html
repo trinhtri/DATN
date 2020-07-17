@@ -18,17 +18,23 @@
                 <tabset>
                     <tab heading="{{'IssuesOfUser' | localize}}">
                         <app-issue-of-user></app-issue-of-user>
-                        </tab>
+                    </tab>
 
                     <tab heading="{{'Active' | localize}}">
                         <div class="row mb-2">
                             <div class="col-sm-12 text-right">
-                                <button type="button" class="btn btn-success" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" (click)="exportExcel()">
-                                    <i class="far fa-file-excel"></i> {{"Export" | localize}}
+                                <button type="button" class="btn btn-success"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"
+                                    (click)="exportExcel()">
+                                    <i class="far fa-file-excel"></i> {{"Export"
+                                    | localize}}
                                 </button>
-                                <button (click)="createNew()" *ngIf="isGranted('Pages.Sprint.Create')" class="btn
-                                btn-primary"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
+                                <button (click)="createNew()"
+                                    *ngIf="isGranted('Pages.Sprint.Create')"
+                                    class="btn
+                                    btn-primary"><i class="fa fa-plus"></i>
+                                    {{"CreateNew" | localize}}</button>
                             </div>
                         </div>
                         <div class="kt-form">
@@ -39,12 +45,22 @@
                                             <div class="form-group m-form__group
                                                 align-items-center">
                                                 <div class="input-group">
-                                                    <input [(ngModel)]="filterText" name="filterText" autoFocus
-                                                        class="form-control m-input"
-                                                        [placeholder]="l('SearchWithThreeDot')" type="text">
-                                                    <span class="input-group-btn">
-                                                        <button (click)="getAll()" class="btn btn-primary"
-                                                            type="submit"><i class="flaticon-search-1"
+                                                    <input
+                                                        [(ngModel)]="filterText"
+                                                        name="filterText"
+                                                        autoFocus
+                                                        class="form-control
+                                                        m-input"
+                                                        [placeholder]="l('SearchWithThreeDot')"
+                                                        type="text">
+                                                    <span
+                                                        class="input-group-btn">
+                                                        <button
+                                                            (click)="getAll()"
+                                                            class="btn
+                                                            btn-primary"
+                                                            type="submit"><i
+                                                                class="flaticon-search-1"
                                                                 [attr.aria-label]="l('Search')"></i></button>
                                                     </span>
                                                 </div>
@@ -52,23 +68,34 @@
                                         </div>
                                     </div>
 
-                                    <div class="row mb-4" [hidden]="!advancedFiltersAreShown1">
+                                    <div class="row mb-4"
+                                        [hidden]="!advancedFiltersAreShown1">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="Sprint">{{"Sprint" |
                                                     localize}}</label>
-                                                <p-multiSelect [options]="lstSprint" name="Sprint"
-                                                    [(ngModel)]="lstSprintId" [panelStyle]="{minWidth:'12em'}">
-                                                    <ng-template let-value pTemplate="selectedItems">
-                                                        <span *ngIf="!value || value.length
-                                                            === 0" class="ui-multiselected-empty-token
+                                                <p-multiSelect
+                                                    [options]="lstSprint"
+                                                    name="Sprint"
+                                                    [(ngModel)]="lstSprintId"
+                                                    [panelStyle]="{minWidth:'12em'}">
+                                                    <ng-template let-value
+                                                        pTemplate="selectedItems">
+                                                        <span *ngIf="!value ||
+                                                            value.length
+                                                            === 0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{"Choose"|localize}}</span>
-                                                        <span *ngIf="value && value.length>
-                                                            0" class="ui-multiselected-empty-token
+                                                        <span *ngIf="value &&
+                                                            value.length>
+                                                            0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{value.length}}
                                                             {{"options"|localize}}</span>
                                                     </ng-template>
-                                                    <ng-template let-car let-i="index" pTemplate="item">
+                                                    <ng-template let-car
+                                                        let-i="index"
+                                                        pTemplate="item">
                                                         {{car.displayText}}
                                                     </ng-template>
                                                 </p-multiSelect>
@@ -76,20 +103,31 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="Assignee">{{"Assignee" |
+                                                <label for="Assignee">{{"Assignee"
+                                                    |
                                                     localize}}</label>
-                                                <p-multiSelect [options]="lstMember" name="Assignee"
-                                                    [(ngModel)]="lstAssigneeId" [panelStyle]="{minWidth:'12em'}">
-                                                    <ng-template let-value pTemplate="selectedItems">
-                                                        <span *ngIf="!value || value.length
-                                                            === 0" class="ui-multiselected-empty-token
+                                                <p-multiSelect
+                                                    [options]="lstMember"
+                                                    name="Assignee"
+                                                    [(ngModel)]="lstAssigneeId"
+                                                    [panelStyle]="{minWidth:'12em'}">
+                                                    <ng-template let-value
+                                                        pTemplate="selectedItems">
+                                                        <span *ngIf="!value ||
+                                                            value.length
+                                                            === 0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{"Choose"|localize}}</span>
-                                                        <span *ngIf="value && value.length>
-                                                            0" class="ui-multiselected-empty-token
+                                                        <span *ngIf="value &&
+                                                            value.length>
+                                                            0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{value.length}}
                                                             {{"options"|localize}}</span>
                                                     </ng-template>
-                                                    <ng-template let-car let-i="index" pTemplate="item">
+                                                    <ng-template let-car
+                                                        let-i="index"
+                                                        pTemplate="item">
                                                         {{car.displayText}}
                                                     </ng-template>
                                                 </p-multiSelect>
@@ -97,20 +135,31 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="IssueType">{{"IssueType" |
+                                                <label for="IssueType">{{"IssueType"
+                                                    |
                                                     localize}}</label>
-                                                <p-multiSelect [options]="lstType" name="IssueType"
-                                                    [(ngModel)]="lstIssueTypeId" [panelStyle]="{minWidth:'12em'}">
-                                                    <ng-template let-value pTemplate="selectedItems">
-                                                        <span *ngIf="!value || value.length
-                                                            === 0" class="ui-multiselected-empty-token
+                                                <p-multiSelect
+                                                    [options]="lstType"
+                                                    name="IssueType"
+                                                    [(ngModel)]="lstIssueTypeId"
+                                                    [panelStyle]="{minWidth:'12em'}">
+                                                    <ng-template let-value
+                                                        pTemplate="selectedItems">
+                                                        <span *ngIf="!value ||
+                                                            value.length
+                                                            === 0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{"Choose"|localize}}</span>
-                                                        <span *ngIf="value && value.length>
-                                                            0" class="ui-multiselected-empty-token
+                                                        <span *ngIf="value &&
+                                                            value.length>
+                                                            0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{value.length}}
                                                             {{"options"|localize}}</span>
                                                     </ng-template>
-                                                    <ng-template let-car let-i="index" pTemplate="item">
+                                                    <ng-template let-car
+                                                        let-i="index"
+                                                        pTemplate="item">
                                                         {{car.displayText}}
                                                     </ng-template>
                                                 </p-multiSelect>
@@ -119,44 +168,67 @@
 
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label for="Status">{{"Status" | localize}}</label>
-                                                <p-multiSelect [options]="lstStatus" name="IssueType"
-                                                    [(ngModel)]="lstStatusId" [panelStyle]="{minWidth:'12em'}">
-                                                    <ng-template let-value pTemplate="selectedItems">
-                                                        <span *ngIf="!value || value.length
-                                                            === 0" class="ui-multiselected-empty-token
+                                                <label for="Status">{{"Status" |
+                                                    localize}}</label>
+                                                <p-multiSelect
+                                                    [options]="lstStatus"
+                                                    name="IssueType"
+                                                    [(ngModel)]="lstStatusId"
+                                                    [panelStyle]="{minWidth:'12em'}">
+                                                    <ng-template let-value
+                                                        pTemplate="selectedItems">
+                                                        <span *ngIf="!value ||
+                                                            value.length
+                                                            === 0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{"Choose"|localize}}</span>
-                                                        <span *ngIf="value && value.length>
-                                                            0" class="ui-multiselected-empty-token
+                                                        <span *ngIf="value &&
+                                                            value.length>
+                                                            0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{value.length}}
                                                             {{"options"|localize}}</span>
                                                     </ng-template>
-                                                    <ng-template let-car let-i="index" pTemplate="item">
+                                                    <ng-template let-car
+                                                        let-i="index"
+                                                        pTemplate="item">
                                                         {{car.displayText}}
                                                     </ng-template>
                                                 </p-multiSelect>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <button type="button" class="btn btn-success" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false" (click)="getAll()"
+                                            <button type="button" class="btn
+                                                btn-success"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false"
+                                                (click)="getAll()"
                                                 style="float: right;">
-                                                <i class="la la-refresh"></i> {{"Refresh" |
+                                                <i class="la la-refresh"></i>
+                                                {{"Refresh" |
                                                 localize}}
                                             </button>
                                         </div>
                                     </div>
 
                                     <div class="row mb-4">
-                                        <div class="col-sm-12" style="margin-top: -24px">
-                                            <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown1"
+                                        <div class="col-sm-12"
+                                            style="margin-top: -24px">
+                                            <span class="clickable-item
+                                                text-muted"
+                                                *ngIf="!advancedFiltersAreShown1"
                                                 (click)="advancedFiltersAreShown1=!advancedFiltersAreShown1"><i
                                                     class="fa fa-angle-down"></i>
-                                                {{"ShowAdvancedFilters" | localize}}</span>
-                                            <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown1"
+                                                {{"ShowAdvancedFilters" |
+                                                localize}}</span>
+                                            <span class="clickable-item
+                                                text-muted"
+                                                *ngIf="advancedFiltersAreShown1"
                                                 (click)="advancedFiltersAreShown1=!advancedFiltersAreShown1"><i
                                                     class="fa fa-angle-up"></i>
-                                                {{"HideAdvancedFilters" | localize}}</span>
+                                                {{"HideAdvancedFilters" |
+                                                localize}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -164,11 +236,14 @@
                         </div>
                         <div class="row align-items-center">
                             <!--<Primeng-TurboTable-Start>-->
-                            <div class="primeng-datatable-container" [busyIf]="primengTableHelperIssueActive.isLoading">
-                                <p-table #dataTable (onLazyLoad)="getAll($event)"
+                            <div class="primeng-datatable-container"
+                                [busyIf]="primengTableHelperIssueActive.isLoading">
+                                <p-table #dataTable
+                                    (onLazyLoad)="getAll($event)"
                                     [value]="primengTableHelperIssueActive.records"
                                     rows="{{primengTableHelperIssueActive.defaultRecordsCountPerPage}}"
-                                    [paginator]="false" [lazy]="true" [scrollable]="true" ScrollWidth="100%"
+                                    [paginator]="false" [lazy]="true"
+                                    [scrollable]="true" ScrollWidth="100%"
                                     [responsive]="primengTableHelperIssueActive.isResponsive"
                                     [resizableColumns]="primengTableHelperIssueActive.resizableColumns">
                                     <ng-template pTemplate="header">
@@ -176,27 +251,33 @@
                                             <th style="width: 50px">
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="TaskCode">
+                                            <th style="width: 150px"
+                                                pSortableColumn="TaskCode">
                                                 {{'IssueCode' | localize}}
                                                 <p-sortIcon field="TaskCode"></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="Summary">
+                                            <th style="width: 150px"
+                                                pSortableColumn="Summary">
                                                 {{'Summary' | localize}}
                                                 <p-sortIcon field="Summary"></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="issue.Sprint_Id">
+                                            <th style="width: 150px"
+                                                pSortableColumn="issue.Sprint_Id">
                                                 {{'Sprint' | localize}}
-                                                <p-sortIcon field="issue.Sprint_Id"></p-sortIcon>
+                                                <p-sortIcon
+                                                    field="issue.Sprint_Id"></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="Status_Id">
+                                            <th style="width: 150px"
+                                                pSortableColumn="Status_Id">
                                                 {{'Status' | localize}}
                                                 <p-sortIcon field="Status_Id"></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="Type_Id">
+                                            <th style="width: 150px"
+                                                pSortableColumn="Type_Id">
                                                 {{'Type' | localize}}
                                                 <p-sortIcon field="Type_Id"></p-sortIcon>
                                             </th>
@@ -206,42 +287,62 @@
                                                 <p-sortIcon></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="creationTime">
+                                            <th style="width: 150px"
+                                                pSortableColumn="creationTime">
                                                 {{'Created' | localize}}
-                                                <p-sortIcon field="creationTime"></p-sortIcon>
+                                                <p-sortIcon
+                                                    field="creationTime"></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="EndDate">
+                                            <th style="width: 150px"
+                                                pSortableColumn="Due_Date">
                                                 {{'EndDate' | localize}}
-                                                <p-sortIcon field="EndDate"></p-sortIcon>
+                                                <p-sortIcon field="Due_Date"></p-sortIcon>
                                             </th>
 
 
-                                            <th style="width: 150px" pSortableColumn="Estimate">
+                                            <th style="width: 150px"
+                                                pSortableColumn="Estimate">
                                                 {{'Estimate' | localize}}
                                                 <p-sortIcon field="Estimate"></p-sortIcon>
                                             </th>
 
-
+                                            <th style="width: 150px"
+                                                pSortableColumn="Point">
+                                                {{'Point' | localize}}
+                                                <p-sortIcon field="Point"></p-sortIcon>
+                                            </th>
                                         </tr>
                                     </ng-template>
-                                    <ng-template pTemplate="body" let-record="$implicit">
+                                    <ng-template pTemplate="body"
+                                        let-record="$implicit">
                                         <tr>
                                             <td style="width: 50px">
-                                                <div class="btn-group dropdown" dropdown container="body">
-                                                    <button dropdownToggle class="btn
+                                                <div class="btn-group dropdown"
+                                                    dropdown container="body">
+                                                    <button dropdownToggle
+                                                        class="btn
                                                         btn-sm btn-primary">
-                                                        <i class="fa fa-cog"></i><span class="caret"></span>
+                                                        <i class="fa fa-cog"></i><span
+                                                            class="caret"></span>
                                                     </button>
-                                                    <ul class="dropdown-menu" *dropdownMenu>
+                                                    <ul class="dropdown-menu"
+                                                        *dropdownMenu>
                                                         <li>
-                                                            <a href="javascript:;" *ngIf="'Pages.Issue.Edit'
-                                                                | permission" (click)="editSprint(record.id)">{{'Edit'
+                                                            <a
+                                                                href="javascript:;"
+                                                                *ngIf="'Pages.Issue.Edit'
+                                                                | permission"
+                                                                (click)="editSprint(record.id)">{{'Edit'
                                                                 | localize}}</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:;" *ngIf="'Pages.Issue  .Delete'
-                                                                | permission" (click)="delete(record)">{{'Delete'
+                                                            <a
+                                                                href="javascript:;"
+                                                                *ngIf="'Pages.Issue
+                                                                .Delete'
+                                                                | permission"
+                                                                (click)="delete(record)">{{'Delete'
                                                                 | localize}}</a>
                                                         </li>
                                                     </ul>
@@ -250,8 +351,10 @@
                                             <td style="width: 150px">
                                                 <span class="ui-column-title">
                                                     {{'SprintName' | localize}}</span>
-                                                <span (click)="onClickIssue(record.id)"
-                                                    style="color: blue;cursor: pointer">
+                                                <span
+                                                    (click)="onClickIssue(record.id)"
+                                                    style="color: blue;cursor:
+                                                    pointer">
                                                     {{record.taskCode}}
                                                 </span>
                                             </td>
@@ -286,28 +389,42 @@
                                                 <span class="kt-badge kt-badge--danger
                                                     kt-badge--inline"
                                                     *ngIf="record.status_Id == 5">{{getStatusName(record.status_Id)}}</span> -->
-
-                                                    <span class="kt-badge kt-badge--brand
+                                                <span class="kt-badge
+                                                    kt-badge--brand
                                                     kt-badge--inline"
-                                                    *ngIf="record.status_Id == 1">{{getStatusName(record.status_Id)}}</span>
-                                                  <span class="kt-badge kt-badge--success
+                                                    *ngIf="record.status_Id ==
+                                                    1">{{getStatusName(record.status_Id)}}</span>
+                                                <span class="kt-badge
+                                                    kt-badge--success
                                                     kt-badge--inline"
-                                                    *ngIf="record.status_Id == 2">{{getStatusName(record.status_Id)}}</span>
-                                                  <span class="kt-badge kt-badge--success
-                                                    kt-badge--inline" style="background-color: #FFCE56
+                                                    *ngIf="record.status_Id ==
+                                                    2">{{getStatusName(record.status_Id)}}</span>
+                                                <span class="kt-badge
+                                                    kt-badge--success
+                                                    kt-badge--inline"
+                                                    style="background-color:
+                                                    #FFCE56
                                                     !important;"
-                                                    *ngIf="record.status_Id == 3">{{getStatusName(record.status_Id)}}</span>
-                                                  <span class="kt-badge kt-badge--dark
+                                                    *ngIf="record.status_Id ==
+                                                    3">{{getStatusName(record.status_Id)}}</span>
+                                                <span class="kt-badge
+                                                    kt-badge--dark
                                                     kt-badge--inline"
-                                                    *ngIf="record.status_Id == 4">{{getStatusName(record.status_Id)}}</span>
-                                                  <span class="kt-badge kt-badge--danger
-                                                    kt-badge--inline" style="background-color: #bc4f4f
+                                                    *ngIf="record.status_Id ==
+                                                    4">{{getStatusName(record.status_Id)}}</span>
+                                                <span class="kt-badge
+                                                    kt-badge--danger
+                                                    kt-badge--inline"
+                                                    style="background-color:
+                                                    #bc4f4f
                                                     !important;"
-                                                    *ngIf="record.status_Id == 5">{{getStatusName(record.status_Id)}}</span>
+                                                    *ngIf="record.status_Id ==
+                                                    5">{{getStatusName(record.status_Id)}}</span>
                                             </td>
 
                                             <td style="width: 150px">
-                                                <span class="ui-column-title"> {{'Type'
+                                                <span class="ui-column-title">
+                                                    {{'Type'
                                                     | localize}}</span>
                                                 <!-- <span class="kt-badge kt-badge--success
                                                     kt-badge--inline"
@@ -318,15 +435,19 @@
                                                 <span class="kt-badge kt-badge--danger
                                                     kt-badge--inline"
                                                     *ngIf="record.type_Id == 3">{{getTypeName(record.type_Id)}}</span> -->
-
-                                                    <span class="kt-badge kt-badge--success
+                                                <span class="kt-badge
+                                                    kt-badge--success
                                                     kt-badge--inline"
                                                     *ngIf="record.type_Id == 1">{{getTypeName(record.type_Id)}}</span>
-                                                  <span class="kt-badge kt-badge--primary
+                                                <span class="kt-badge
+                                                    kt-badge--primary
                                                     kt-badge--inline"
                                                     *ngIf="record.type_Id == 2">{{getTypeName(record.type_Id)}}</span>
-                                                  <span class="kt-badge kt-badge--danger
-                                                    kt-badge--inline" style="background-color: #bc4f4f
+                                                <span class="kt-badge
+                                                    kt-badge--danger
+                                                    kt-badge--inline"
+                                                    style="background-color:
+                                                    #bc4f4f
                                                     !important;"
                                                     *ngIf="record.type_Id == 3">{{getTypeName(record.type_Id)}}</span>
                                             </td>
@@ -342,14 +463,16 @@
                                             <td style="width: 150px">
                                                 <span class="ui-column-title">
                                                     {{'StartDate' | localize}}</span>
-                                                {{record.creationTime | momentFormat:'L'
+                                                {{record.creationTime |
+                                                momentFormat:'L'
                                                 }}
                                             </td>
 
                                             <td style="width: 150px">
                                                 <span class="ui-column-title">
                                                     {{'EndDate' | localize}}</span>
-                                                {{record.due_Date | momentFormat:'L'}}
+                                                {{record.due_Date |
+                                                momentFormat:'L'}}
                                             </td>
 
                                             <td style="width: 150px">
@@ -358,16 +481,25 @@
                                                 {{record.estimate}}
                                             </td>
 
+                                            <td style="width: 150px">
+                                                <span class="ui-column-title">
+                                                    {{'Point' | localize}}</span>
+                                                {{record.point}}
+                                            </td>
+
                                         </tr>
                                     </ng-template>
                                 </p-table>
                                 <div class="primeng-no-data"
-                                    *ngIf="primengTableHelperIssueActive.totalRecordsCount == 0">
+                                    *ngIf="primengTableHelperIssueActive.totalRecordsCount
+                                    == 0">
                                     {{'NoData' | localize}}
                                 </div>
                                 <div class="primeng-paging-container">
-                                    <p-paginator [rows]="primengTableHelperIssueActive.defaultRecordsCountPerPage"
-                                        #paginator (onPageChange)="getAll($event)"
+                                    <p-paginator
+                                        [rows]="primengTableHelperIssueActive.defaultRecordsCountPerPage"
+                                        #paginator
+                                        (onPageChange)="getAll($event)"
                                         [totalRecords]="primengTableHelperIssueActive.totalRecordsCount"
                                         [rowsPerPageOptions]="primengTableHelperIssueActive.predefinedRecordsCountPerPage">
                                     </p-paginator>
@@ -383,12 +515,18 @@
                     <tab heading="{{'BackLog' | localize}}">
                         <div class="row mb-2">
                             <div class="col-sm-12 text-right">
-                                <button type="button" class="btn btn-success" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" (click)="exportExcelBackLog()">
-                                    <i class="far fa-file-excel"></i> {{"Export" | localize}}
+                                <button type="button" class="btn btn-success"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"
+                                    (click)="exportExcelBackLog()">
+                                    <i class="far fa-file-excel"></i> {{"Export"
+                                    | localize}}
                                 </button>
-                                <button (click)="createNew()" *ngIf="isGranted('Pages.Issue.Create')" class="btn
-                                btn-primary"><i class="fa fa-plus"></i> {{"CreateNew" | localize}}</button>
+                                <button (click)="createNew()"
+                                    *ngIf="isGranted('Pages.Issue.Create')"
+                                    class="btn
+                                    btn-primary"><i class="fa fa-plus"></i>
+                                    {{"CreateNew" | localize}}</button>
                             </div>
                         </div>
                         <div class="kt-form">
@@ -399,12 +537,22 @@
                                             <div class="form-group m-form__group
                                                 align-items-center">
                                                 <div class="input-group">
-                                                    <input [(ngModel)]="filterText" name="filterText" autoFocus
-                                                        class="form-control m-input"
-                                                        [placeholder]="l('SearchWithThreeDot')" type="text">
-                                                    <span class="input-group-btn">
-                                                        <button (click)="getAllBackLock()" class="btn btn-primary"
-                                                            type="submit"><i class="flaticon-search-1"
+                                                    <input
+                                                        [(ngModel)]="filterText"
+                                                        name="filterText"
+                                                        autoFocus
+                                                        class="form-control
+                                                        m-input"
+                                                        [placeholder]="l('SearchWithThreeDot')"
+                                                        type="text">
+                                                    <span
+                                                        class="input-group-btn">
+                                                        <button
+                                                            (click)="getAllBackLock()"
+                                                            class="btn
+                                                            btn-primary"
+                                                            type="submit"><i
+                                                                class="flaticon-search-1"
                                                                 [attr.aria-label]="l('Search')"></i></button>
                                                     </span>
                                                 </div>
@@ -412,24 +560,35 @@
                                         </div>
                                     </div>
 
-                                    <div class="row mb-4" [hidden]="!advancedFiltersAreShown">
-                                      
+                                    <div class="row mb-4"
+                                        [hidden]="!advancedFiltersAreShown">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="Assignee">{{"Assignee" |
+                                                <label for="Assignee">{{"Assignee"
+                                                    |
                                                     localize}}</label>
-                                                <p-multiSelect [options]="lstMember" name="Assignee"
-                                                    [(ngModel)]="lstAssigneeBackLogId" [panelStyle]="{minWidth:'12em'}">
-                                                    <ng-template let-value pTemplate="selectedItems">
-                                                        <span *ngIf="!value || value.length
-                                                            === 0" class="ui-multiselected-empty-token
+                                                <p-multiSelect
+                                                    [options]="lstMember"
+                                                    name="Assignee"
+                                                    [(ngModel)]="lstAssigneeBackLogId"
+                                                    [panelStyle]="{minWidth:'12em'}">
+                                                    <ng-template let-value
+                                                        pTemplate="selectedItems">
+                                                        <span *ngIf="!value ||
+                                                            value.length
+                                                            === 0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{"Choose"|localize}}</span>
-                                                        <span *ngIf="value && value.length>
-                                                            0" class="ui-multiselected-empty-token
+                                                        <span *ngIf="value &&
+                                                            value.length>
+                                                            0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{value.length}}
                                                             {{"options"|localize}}</span>
                                                     </ng-template>
-                                                    <ng-template let-car let-i="index" pTemplate="item">
+                                                    <ng-template let-car
+                                                        let-i="index"
+                                                        pTemplate="item">
                                                         {{car.displayText}}
                                                     </ng-template>
                                                 </p-multiSelect>
@@ -437,21 +596,31 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="IssueType">{{"IssueType" |
+                                                <label for="IssueType">{{"IssueType"
+                                                    |
                                                     localize}}</label>
-                                                <p-multiSelect [options]="lstType" name="IssueType"
+                                                <p-multiSelect
+                                                    [options]="lstType"
+                                                    name="IssueType"
                                                     [(ngModel)]="lstIssueTypeBackLogId"
                                                     [panelStyle]="{minWidth:'12em'}">
-                                                    <ng-template let-value pTemplate="selectedItems">
-                                                        <span *ngIf="!value || value.length
-                                                            === 0" class="ui-multiselected-empty-token
+                                                    <ng-template let-value
+                                                        pTemplate="selectedItems">
+                                                        <span *ngIf="!value ||
+                                                            value.length
+                                                            === 0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{"Choose"|localize}}</span>
-                                                        <span *ngIf="value && value.length>
-                                                            0" class="ui-multiselected-empty-token
+                                                        <span *ngIf="value &&
+                                                            value.length>
+                                                            0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{value.length}}
                                                             {{"options"|localize}}</span>
                                                     </ng-template>
-                                                    <ng-template let-car let-i="index" pTemplate="item">
+                                                    <ng-template let-car
+                                                        let-i="index"
+                                                        pTemplate="item">
                                                         {{car.displayText}}
                                                     </ng-template>
                                                 </p-multiSelect>
@@ -460,44 +629,67 @@
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="Status">{{"Status" | localize}}</label>
-                                                <p-multiSelect [options]="lstStatus" name="IssueType"
-                                                    [(ngModel)]="lstStatusBackLogId" [panelStyle]="{minWidth:'12em'}">
-                                                    <ng-template let-value pTemplate="selectedItems">
-                                                        <span *ngIf="!value || value.length
-                                                            === 0" class="ui-multiselected-empty-token
+                                                <label for="Status">{{"Status" |
+                                                    localize}}</label>
+                                                <p-multiSelect
+                                                    [options]="lstStatus"
+                                                    name="IssueType"
+                                                    [(ngModel)]="lstStatusBackLogId"
+                                                    [panelStyle]="{minWidth:'12em'}">
+                                                    <ng-template let-value
+                                                        pTemplate="selectedItems">
+                                                        <span *ngIf="!value ||
+                                                            value.length
+                                                            === 0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{"Choose"|localize}}</span>
-                                                        <span *ngIf="value && value.length>
-                                                            0" class="ui-multiselected-empty-token
+                                                        <span *ngIf="value &&
+                                                            value.length>
+                                                            0"
+                                                            class="ui-multiselected-empty-token
                                                             ui-corner-all">{{value.length}}
                                                             {{"options"|localize}}</span>
                                                     </ng-template>
-                                                    <ng-template let-car let-i="index" pTemplate="item">
+                                                    <ng-template let-car
+                                                        let-i="index"
+                                                        pTemplate="item">
                                                         {{car.displayText}}
                                                     </ng-template>
                                                 </p-multiSelect>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <button type="button" class="btn btn-success" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false" (click)="getAllBackLock()"
+                                            <button type="button" class="btn
+                                                btn-success"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false"
+                                                (click)="getAllBackLock()"
                                                 style="float: right;">
-                                                <i class="la la-refresh"></i> {{"Refresh" |
+                                                <i class="la la-refresh"></i>
+                                                {{"Refresh" |
                                                 localize}}
                                             </button>
                                         </div>
                                     </div>
 
                                     <div class="row mb-4">
-                                        <div class="col-sm-12" style="margin-top: -24px">
-                                            <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                        <div class="col-sm-12"
+                                            style="margin-top: -24px">
+                                            <span class="clickable-item
+                                                text-muted"
+                                                *ngIf="!advancedFiltersAreShown"
                                                 (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
                                                     class="fa fa-angle-down"></i>
-                                                {{"ShowAdvancedFilters" | localize}}</span>
-                                            <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                                {{"ShowAdvancedFilters" |
+                                                localize}}</span>
+                                            <span class="clickable-item
+                                                text-muted"
+                                                *ngIf="advancedFiltersAreShown"
                                                 (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
                                                     class="fa fa-angle-up"></i>
-                                                {{"HideAdvancedFilters" | localize}}</span>
+                                                {{"HideAdvancedFilters" |
+                                                localize}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -507,11 +699,15 @@
 
                         <div class="row align-items-center">
                             <!--<Primeng-TurboTable-Start>-->
-                            <div class="primeng-datatable-container" [busyIf]="primengTableHelperBackLog.isLoading">
-                                <p-table #dataTable (onLazyLoad)="getAllBackLock($event)"
+                            <div class="primeng-datatable-container"
+                                [busyIf]="primengTableHelperBackLog.isLoading">
+                                <p-table #dataTable
+                                    (onLazyLoad)="getAllBackLock($event)"
                                     [value]="primengTableHelperBackLog.records"
-                                    rows="{{primengTableHelperBackLog.defaultRecordsCountPerPage}}" [paginator]="false"
-                                    [lazy]="true" [scrollable]="true" ScrollWidth="100%"
+                                    rows="{{primengTableHelperBackLog.defaultRecordsCountPerPage}}"
+                                    [paginator]="false"
+                                    [lazy]="true" [scrollable]="true"
+                                    ScrollWidth="100%"
                                     [responsive]="primengTableHelperBackLog.isResponsive"
                                     [resizableColumns]="primengTableHelperBackLog.resizableColumns">
                                     <ng-template pTemplate="header">
@@ -519,62 +715,80 @@
                                             <th style="width: 50px">
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="TaskCode">
+                                            <th style="width: 150px"
+                                                pSortableColumn="TaskCode">
                                                 {{'IssueCode' | localize}}
                                                 <p-sortIcon field="TaskCode"></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="Summary">
+                                            <th style="width: 150px"
+                                                pSortableColumn="Summary">
                                                 {{'Summary' | localize}}
                                                 <p-sortIcon field="Summary"></p-sortIcon>
                                             </th>
 
-                                            <!-- <th style="width: 150px"
-                                                pSortableColumn="sprintName">
-                                                {{'Sprint' | localize}}
-                                                <p-sortIcon field="sprintName"></p-sortIcon>
-                                            </th> -->
-
-                                            <th style="width: 150px" pSortableColumn="Status_Id">
+                                            <th style="width: 150px"
+                                                pSortableColumn="Status_Id">
                                                 {{'Status' | localize}}
                                                 <p-sortIcon field="Status_Id"></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="Type_Id">
+                                            <th style="width: 150px"
+                                                pSortableColumn="Type_Id">
                                                 {{'Type' | localize}}
                                                 <p-sortIcon field="Type_Id"></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="creationTime">
+                                            <th style="width: 150px"
+                                                pSortableColumn="creationTime">
                                                 {{'Created' | localize}}
-                                                <p-sortIcon field="creationTime"></p-sortIcon>
+                                                <p-sortIcon
+                                                    field="creationTime"></p-sortIcon>
                                             </th>
 
-                                            <th style="width: 150px" pSortableColumn="EndDate">
+                                            <th style="width: 150px"
+                                                pSortableColumn="Due_Date">
                                                 {{'EndDate' | localize}}
-                                                <p-sortIcon field="EndDate"></p-sortIcon>
+                                                <p-sortIcon field="Due_Date"></p-sortIcon>
+                                            </th>
+
+                                            <th style="width: 150px"
+                                                pSortableColumn="Point">
+                                                {{'Point' | localize}}
+                                                <p-sortIcon field="Point"></p-sortIcon>
                                             </th>
 
 
                                         </tr>
                                     </ng-template>
-                                    <ng-template pTemplate="body" let-record="$implicit">
+                                    <ng-template pTemplate="body"
+                                        let-record="$implicit">
                                         <tr>
                                             <td style="width: 50px">
-                                                <div class="btn-group dropdown" dropdown container="body">
-                                                    <button dropdownToggle class="btn
+                                                <div class="btn-group dropdown"
+                                                    dropdown container="body">
+                                                    <button dropdownToggle
+                                                        class="btn
                                                         btn-sm btn-primary">
-                                                        <i class="fa fa-cog"></i><span class="caret"></span>
+                                                        <i class="fa fa-cog"></i><span
+                                                            class="caret"></span>
                                                     </button>
-                                                    <ul class="dropdown-menu" *dropdownMenu>
+                                                    <ul class="dropdown-menu"
+                                                        *dropdownMenu>
                                                         <li>
-                                                            <a href="javascript:;" *ngIf="'Pages.Issue.Edit'
-                                                                | permission" (click)="editSprint(record.id)">{{'Edit'
+                                                            <a
+                                                                href="javascript:;"
+                                                                *ngIf="'Pages.Issue.Edit'
+                                                                | permission"
+                                                                (click)="editSprint(record.id)">{{'Edit'
                                                                 | localize}}</a>
                                                         </li>
                                                         <li>
-                                                            <a href="javascript:;" *ngIf="'Pages.Issue.Delete'
-                                                                | permission" (click)="delete(record)">{{'Delete'
+                                                            <a
+                                                                href="javascript:;"
+                                                                *ngIf="'Pages.Issue.Delete'
+                                                                | permission"
+                                                                (click)="delete(record)">{{'Delete'
                                                                 | localize}}</a>
                                                         </li>
                                                     </ul>
@@ -597,64 +811,76 @@
                                                     {{'Sprint' | localize}}</span>
                                                 {{record.sprintName}}
                                             </td> -->
-
                                             <td style="width: 150px;">
                                                 <span class="ui-column-title">
-                                                    {{'Status' | localize}}</span>
+                                                  {{'Status' | localize}}</span>
                                                 <span class="kt-badge kt-badge--brand
-                                                    kt-badge--inline"
-                                                    *ngIf="record.status_Id == 1">{{getStatusName(record.status_Id)}}</span>
+                                                  kt-badge--inline"
+                                                  *ngIf="record.status_Id == 1">{{getStatusName(record.status_Id)}}</span>
                                                 <span class="kt-badge kt-badge--success
-                                                    kt-badge--inline"
-                                                    *ngIf="record.status_Id == 2">{{getStatusName(record.status_Id)}}</span>
+                                                  kt-badge--inline"
+                                                  *ngIf="record.status_Id == 2">{{getStatusName(record.status_Id)}}</span>
                                                 <span class="kt-badge kt-badge--success
-                                                    kt-badge--inline"
-                                                    *ngIf="record.status_Id == 3">{{getStatusName(record.status_Id)}}</span>
+                                                  kt-badge--inline" style="background-color: #FFCE56
+                                                  !important;"
+                                                  *ngIf="record.status_Id == 3">{{getStatusName(record.status_Id)}}</span>
                                                 <span class="kt-badge kt-badge--dark
-                                                    kt-badge--inline"
-                                                    *ngIf="record.status_Id == 4">{{getStatusName(record.status_Id)}}</span>
+                                                  kt-badge--inline"
+                                                  *ngIf="record.status_Id == 4">{{getStatusName(record.status_Id)}}</span>
                                                 <span class="kt-badge kt-badge--danger
-                                                    kt-badge--inline"
-                                                    *ngIf="record.status_Id == 5">{{getStatusName(record.status_Id)}}</span>
-                                            </td>
-
-                                            <td style="width: 150px">
+                                                  kt-badge--inline" style="background-color: #bc4f4f
+                                                  !important;"
+                                                  *ngIf="record.status_Id == 5">{{getStatusName(record.status_Id)}}</span>
+                                              </td>
+                              
+                                              <td style="width: 150px">
                                                 <span class="ui-column-title"> {{'Type'
-                                                    | localize}}</span>
+                                                  | localize}}</span>
                                                 <span class="kt-badge kt-badge--success
-                                                    kt-badge--inline"
-                                                    *ngIf="record.type_Id == 1">{{getTypeName(record.type_Id)}}</span>
+                                                  kt-badge--inline"
+                                                  *ngIf="record.type_Id == 1">{{getTypeName(record.type_Id)}}</span>
                                                 <span class="kt-badge kt-badge--primary
-                                                    kt-badge--inline"
-                                                    *ngIf="record.type_Id == 2">{{getTypeName(record.type_Id)}}</span>
+                                                  kt-badge--inline"
+                                                  *ngIf="record.type_Id == 2">{{getTypeName(record.type_Id)}}</span>
                                                 <span class="kt-badge kt-badge--danger
-                                                    kt-badge--inline"
-                                                    *ngIf="record.type_Id == 3">{{getTypeName(record.type_Id)}}</span>
-                                                <!-- {{record.type_Id}} -->
-                                            </td>
-
+                                                  kt-badge--inline" style="background-color: #bc4f4f
+                                                  !important;"
+                                                  *ngIf="record.type_Id == 3">{{getTypeName(record.type_Id)}}</span>
+                                              </td>
 
                                             <td style="width: 150px">
                                                 <span class="ui-column-title">
                                                     {{'StartDate' | localize}}</span>
-                                                {{record.creationTime | momentFormat:'L'
+                                                {{record.creationTime |
+                                                momentFormat:'L'
                                                 }}
                                             </td>
 
                                             <td style="width: 150px">
                                                 <span class="ui-column-title">
                                                     {{'EndDate' | localize}}</span>
-                                                {{record.due_Date | momentFormat:'L'}}
+                                                {{record.due_Date |
+                                                momentFormat:'L'}}
+                                            </td>
+
+                                            <td style="width: 150px">
+                                                <span class="ui-column-title">
+                                                    {{'Point' | localize}}</span>
+                                                {{record.point}}
                                             </td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
-                                <div class="primeng-no-data" *ngIf="primengTableHelperBackLog.totalRecordsCount == 0">
+                                <div class="primeng-no-data"
+                                    *ngIf="primengTableHelperBackLog.totalRecordsCount
+                                    == 0">
                                     {{'NoData' | localize}}
                                 </div>
                                 <div class="primeng-paging-container">
-                                    <p-paginator [rows]="primengTableHelperBackLog.defaultRecordsCountPerPage"
-                                        #paginator (onPageChange)="getAllBackLock($event)"
+                                    <p-paginator
+                                        [rows]="primengTableHelperBackLog.defaultRecordsCountPerPage"
+                                        #paginator
+                                        (onPageChange)="getAllBackLock($event)"
                                         [totalRecords]="primengTableHelperBackLog.totalRecordsCount"
                                         [rowsPerPageOptions]="primengTableHelperBackLog.predefinedRecordsCountPerPage">
                                     </p-paginator>
@@ -671,5 +897,6 @@
             </div>
         </div>
     </div>
-    <app-create-issue #createOrEditModal (modalSave)="getAll()" (modalSave)="getAllBackLock()"></app-create-issue>
+    <app-create-issue #createOrEditModal (modalSave)="getAll()"
+        (modalSave)="getAllBackLock()"></app-create-issue>
 </div>

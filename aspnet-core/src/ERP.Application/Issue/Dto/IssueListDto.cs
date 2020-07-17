@@ -27,8 +27,7 @@ namespace ERP.Issue.Dto
         public string SprintName { get; set; }
         public long? Project_Id { get; set; }
         public DateTime CreationTime { get; set; }
-
-
+        public int Point { get; set; }
     }
 }
     
