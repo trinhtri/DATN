@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ERP.Models
 {
-    [Table("Tasks")]
+    [Table("Issues")]
     public class Issue : FullAuditedEntity<long>, IMustHaveTenant
     {
         public int TenantId { get; set; }

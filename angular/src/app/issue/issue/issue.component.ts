@@ -136,7 +136,7 @@ export class IssueComponent extends AppComponentBase implements OnInit {
     delete(dto): void {
         console.log(dto);
         this.message.confirm(
-            this.l('SprintDeleteWarningMessage', dto.issueCode),
+            this.l('SprintDeleteWarningMessage', dto.taskCode),
             this.l('AreYouSure'),
             (isConfirmed) => {
                 if (isConfirmed) {
