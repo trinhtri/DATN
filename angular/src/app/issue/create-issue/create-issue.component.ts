@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter, Injector } from '@a
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { ProjectServiceProxy, CreateIssueDto, IssueServiceProxy, CommonAppserviceServiceProxy, ERPComboboxItem } from '@shared/service-proxies/service-proxies';
+import { ProjectServiceProxy, CreateIssueDto, IssueServiceProxy, CommonAppserviceServiceProxy, ERPComboboxItem, HistoryStatusIssueServiceProxy } from '@shared/service-proxies/service-proxies';
 import * as moment from 'moment';
 @Component({
   selector: 'app-create-issue',
@@ -36,7 +36,8 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   constructor(injector: Injector,
     private _projectService: ProjectServiceProxy,
     private _issueService: IssueServiceProxy,
-    private _commonService: CommonAppserviceServiceProxy
+    private _commonService: CommonAppserviceServiceProxy,
+    private _historyIssue: HistoryStatusIssueServiceProxy
   ) {
     super(injector);
   }
@@ -112,6 +113,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
           this.modalSave.emit(null);
         });
     }
+
   }
 
   close(): void {

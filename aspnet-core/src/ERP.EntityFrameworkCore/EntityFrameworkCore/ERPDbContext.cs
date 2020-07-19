@@ -39,6 +39,7 @@ namespace ERP.EntityFrameworkCore
         public virtual DbSet<Issue> Issues { get; set; }
 
         public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<HistoryStatusIssue> HistoryStatusIssues { get; set; }
 
         //public virtual DbSet<RoleProject> RoleProject { get; set; }
 

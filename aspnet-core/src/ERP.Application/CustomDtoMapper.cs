@@ -28,6 +28,8 @@ using ERP.Editions.Dto;
 using ERP.Friendships;
 using ERP.Friendships.Cache;
 using ERP.Friendships.Dto;
+using ERP.HistoryStatusIssue;
+using ERP.HistoryStatusIssue.Dto;
 using ERP.Issue.Dto;
 using ERP.Localization.Dto;
 using ERP.Member.Dto;
@@ -171,6 +173,11 @@ namespace ERP
                 .ForMember(r=>r.ProjectName, pn=> pn.MapFrom(e => e.Project_.ProjectName))
                 .ReverseMap();
             configuration.CreateMap<Models.Sprint, CreateSprintDto>().ReverseMap();
+
+            configuration.CreateMap<Models.HistoryStatusIssue, CreateHistoryStatusIssueDto>().ReverseMap();
+            configuration.CreateMap<Models.HistoryStatusIssue, HistoryStatusIssueListDto>()
+                .ForMember(u=>u.UserName, us=>us.MapFrom(x=>x.User_.UserName))
+                .ReverseMap();
 
 
         }

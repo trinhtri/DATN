@@ -24,25 +24,39 @@ namespace ERP.Issue
         private readonly IRepository<User, long> _userRepository;
         private readonly IssueListExcelExporter _issueListExcelExport;
         private readonly IRepository<Models.Project, long> _projectRepository;
+        private readonly IRepository<Models.HistoryStatusIssue, long> _historyRepository;
+
 
         public IssueAppService(IRepository<Models.Issue, long> issueRepository,
             IRepository<User, long> userRepository,
             IssueListExcelExporter issueListExcelExport,
-             IRepository<Models.Project, long> projectRepository
+             IRepository<Models.Project, long> projectRepository,
+             IRepository<Models.HistoryStatusIssue, long> historyRepository
             )
         {
             _issueRepository = issueRepository;
             _userRepository = userRepository;
             _issueListExcelExport = issueListExcelExport;
             _projectRepository = projectRepository;
+            _historyRepository = historyRepository;
         }
         public async Task<long> Create(CreateIssueDto input)
         {
             input.TenantId = AbpSession.TenantId;
             var issue = ObjectMapper.Map<Models.Issue>(input);
-            await _issueRepository.InsertAsync(issue);
+            var issueId = await _issueRepository.InsertAndGetIdAsync(issue);
+
+            // tạo mới history
+            var history = new Models.HistoryStatusIssue();
+            history.TenantId = AbpSession.TenantId ?? 1;
+            history.User_Id = AbpSession.UserId ?? 1;
+            history.Issue_Id = issueId;
+            history.OldValue = null;
+            history.NewValue = "Tạo mới";
+
+            await _historyRepository.InsertAsync(history);
             await CurrentUnitOfWork.SaveChangesAsync();
-            return issue.Id;
+            return issueId;
         }
 
         public async Task Delete(long id)

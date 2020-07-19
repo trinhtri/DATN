@@ -3617,6 +3617,132 @@ export class FriendshipServiceProxy {
 }
 
 @Injectable()
+export class HistoryStatusIssueServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: CreateHistoryStatusIssueDto | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/HistoryStatusIssue/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @param issueId (optional) 
+     * @return Success
+     */
+    getAll(issueId: number | null | undefined): Observable<HistoryStatusIssueListDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/HistoryStatusIssue/GetAll?";
+        if (issueId !== undefined)
+            url_ += "issueId=" + encodeURIComponent("" + issueId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<HistoryStatusIssueListDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<HistoryStatusIssueListDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<HistoryStatusIssueListDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(HistoryStatusIssueListDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<HistoryStatusIssueListDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class HostDashboardServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -17524,6 +17650,122 @@ export class AcceptFriendshipRequestInput implements IAcceptFriendshipRequestInp
 export interface IAcceptFriendshipRequestInput {
     userId: number | undefined;
     tenantId: number | undefined;
+}
+
+export class CreateHistoryStatusIssueDto implements ICreateHistoryStatusIssueDto {
+    tenantId!: number | undefined;
+    user_Id!: number | undefined;
+    issue_Id!: number | undefined;
+    oldValue!: string | undefined;
+    newValue!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateHistoryStatusIssueDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantId = data["tenantId"];
+            this.user_Id = data["user_Id"];
+            this.issue_Id = data["issue_Id"];
+            this.oldValue = data["oldValue"];
+            this.newValue = data["newValue"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateHistoryStatusIssueDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateHistoryStatusIssueDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["user_Id"] = this.user_Id;
+        data["issue_Id"] = this.issue_Id;
+        data["oldValue"] = this.oldValue;
+        data["newValue"] = this.newValue;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateHistoryStatusIssueDto {
+    tenantId: number | undefined;
+    user_Id: number | undefined;
+    issue_Id: number | undefined;
+    oldValue: string | undefined;
+    newValue: string | undefined;
+    id: number | undefined;
+}
+
+export class HistoryStatusIssueListDto implements IHistoryStatusIssueListDto {
+    tenantId!: number | undefined;
+    userName!: string | undefined;
+    issue_Id!: number | undefined;
+    oldValue!: string | undefined;
+    newValue!: string | undefined;
+    creationTime!: moment.Moment | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IHistoryStatusIssueListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantId = data["tenantId"];
+            this.userName = data["userName"];
+            this.issue_Id = data["issue_Id"];
+            this.oldValue = data["oldValue"];
+            this.newValue = data["newValue"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): HistoryStatusIssueListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new HistoryStatusIssueListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantId"] = this.tenantId;
+        data["userName"] = this.userName;
+        data["issue_Id"] = this.issue_Id;
+        data["oldValue"] = this.oldValue;
+        data["newValue"] = this.newValue;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IHistoryStatusIssueListDto {
+    tenantId: number | undefined;
+    userName: string | undefined;
+    issue_Id: number | undefined;
+    oldValue: string | undefined;
+    newValue: string | undefined;
+    creationTime: moment.Moment | undefined;
+    id: number | undefined;
 }
 
 export enum ChartDateInterval {

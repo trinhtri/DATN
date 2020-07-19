@@ -16,5 +16,23 @@ legend.scheduler-border {
     border-bottom: none;
 }
 textarea{
-    border: 1px double #dfe0e1 !important;   
+    border: 1px double #dfe0e1 !important;
+}
+
+::ng-deep.nav-tabs {
+    border: none;
+    .nav-link {
+        border: none;
+    }
+
+    .nav-item .nav-link {
+        color: #000;
+
+        &.active {
+            border-bottom: 1px solid #16942f;
+        }
+    }
+}
+::ng-deep .ui-multiselect {
+    width: 100% !important;
 }

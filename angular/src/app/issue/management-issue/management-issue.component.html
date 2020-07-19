@@ -29,7 +29,7 @@
                                     5px;"> {{"Edit" |
                                     localize}}</button>
 
-                        
+
                                 <button (click)="startProgress(idIssue)"
                                     *ngIf="issue.status_Id == 1 ||
                                     issue.status_Id == 5" class="btn btn-primary
@@ -173,14 +173,14 @@
                                         {{createdDate| momentFormat:'L , h:mm
                                         a'}}
                                     </div>
-                                    
+
                                     <div class="col-md-5">
                                         {{l('Due_Date')}} :
                                     </div>
                                     <div class="col-md-7">
                                         {{dueDate | momentFormat:'L'}}
                                     </div>
-                                    
+
                                 </div>
                             </fieldset>
 
@@ -204,9 +204,17 @@
                         </div>
                         <div class="col-md-12">
                             <fieldset class="scheduler-border">
-                                <legend class="scheduler-border">{{"Comment" |
+                                <legend class="scheduler-border">{{"Actions" |
                                     localize}}</legend>
-                                        <app-comments [IssueId]="issue.id"></app-comments>
+
+                                    <tabset>
+                                        <tab heading="{{'Comment' | localize}}">
+                                            <app-comments [IssueId]="issue.id"></app-comments>
+                                        </tab>
+                                        <tab heading="{{'HistoryStatusIssue' | localize}}">
+                                            <app-history-status-issue [IssueId]="issue.id"></app-history-status-issue>
+                                        </tab>
+                                    </tabset>
                             </fieldset>
                         </div>
                     </div>

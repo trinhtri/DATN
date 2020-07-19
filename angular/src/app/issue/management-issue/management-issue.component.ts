@@ -11,7 +11,7 @@ import { CreateOrUpdateSprintComponent } from '../create-or-update-sprint/create
 @Component({
   selector: 'app-management-issue',
   templateUrl: './management-issue.component.html',
-  styleUrls: ['./management-issue.component.css'],
+  styleUrls: ['./management-issue.component.less'],
   animations: [appModuleAnimation()]
 
 })

@@ -1,0 +1,54 @@
+<div class="table-scrollable table-scrollable-borderless">
+    <table class="table table-hover table-light">
+        <thead>
+            <tr class="uppercase">
+                <th style="width: 100px">
+                    {{l('Oldvalue')}}
+                </th>
+                <th style="width: 100px">
+                    {{l('NewValue')}}
+                </th>
+                <th style="width: 100px">
+                    {{l('Creator')}}
+                </th>
+                <th style="width: 400px">
+                    {{l('CreationTime')}}
+                </th>
+            </tr>
+        </thead>
+        <tr *ngFor="let m of lstHistory; let index= index">
+
+            <td style="width: 100px">
+                {{m.oldValue}}
+            </td>
+            <td style="width: 100px">
+                {{m.newValue}}
+            </td>
+            <td style="width: 100px">
+                {{m.userName}}
+            </td>
+            <td style="width: 100px">
+                {{m.creationTime | momentFormat:'L'}}
+            </td>
+
+        </tr>
+    </table>
+</div>
+
+<app-create-or-edit-comment #CreatModel (modalSave)="getAll()"></app-create-or-edit-comment>
+<!-- <p-table [value]="lstComment">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 100px">{{'People' | localize}}</th>
+            <th style="width: 100px">{{'CreationTime' | localize}}</th>
+            <th style="width: 400px">{{'Discription' | localize}}</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-comment>
+        <tr>
+            <td style="width: 100px">{{comment.employeeName}}</td>
+            <td style="width: 100px">{{comment.creationTime | momentFormat:'L , h:mm a'}}</td>
+            <td style="width: 400px">{{comment.discription}}</td>
+        </tr>
+    </ng-template>
+</p-table> -->
