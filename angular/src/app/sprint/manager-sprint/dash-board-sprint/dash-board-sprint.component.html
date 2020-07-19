@@ -35,7 +35,7 @@
           <p-multiSelect [options]="lstStatus" name="Status"
             [(ngModel)]="lstStatusSelected"
             [panelStyle]="{minWidth:'12em'}"
-            [style]="{width: '200px'}"
+            [style]="{minWidth: '200px'}"
             (onChange)="changeStatus(lstStatusSelected)">
             <ng-template let-value pTemplate="selectedItems">
               <span *ngIf="!value || value.length === 0"
@@ -169,7 +169,7 @@
         <div class="kt-portlet__head-toolbar">
           <p-multiSelect [options]="lstType" name="Status"
             [(ngModel)]="lstTypeSelected"
-            [style]="{width: '200px'}"
+            [style]="{minWidth: '200px'}"
             [panelStyle]="{minWidth:'12em'}"
             (onChange)="changeType(lstTypeSelected)">
             <ng-template let-value pTemplate="selectedItems">

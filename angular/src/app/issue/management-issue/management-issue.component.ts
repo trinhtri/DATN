@@ -147,20 +147,15 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
   }
   delete(dto): void {
     console.log(dto);
-    let text = '';
-    if (this.isSprint === true) {
-      text = 'SprintDeleteWarningMessage';
-    } else {
-      text = 'IssueDeleteWarningMessage';
-    }
     this.message.confirm(
-      this.l(text, dto.issueCode),
+      this.l('IssueDeleteWarningMessage', dto.taskCode),
       this.l('AreYouSure'),
       (isConfirmed) => {
         if (isConfirmed) {
           this._issueService.delete(dto.id)
             .subscribe(() => {
               this.notify.success(this.l('SuccessfullyDeleted'));
+              this._router.navigate(['/app/issue/management'])
             });
         }
       }

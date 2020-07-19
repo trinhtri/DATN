@@ -39,10 +39,8 @@ export class SprintComponent extends AppComponentBase implements OnInit {
 
     constructor(
         injector: Injector,
-        private _projectServiceProxy: ProjectServiceProxy,
         private _fileDownloadService: FileDownloadService,
         private _sprintService: SprintServiceProxy,
-        private _issueService: IssueServiceProxy,
         private _commonService: CommonAppserviceServiceProxy,
         private _router: Router
     ) {
@@ -94,11 +92,11 @@ export class SprintComponent extends AppComponentBase implements OnInit {
     delete(dto): void {
         console.log(dto);
         this.message.confirm(
-            this.l('SprintDeleteWarningMessage', dto.issueCode),
+            this.l('SprintDeleteWarningMessage', dto.sprintCode),
             this.l('AreYouSure'),
             (isConfirmed) => {
                 if (isConfirmed) {
-                    this._issueService.delete(dto.id)
+                    this._sprintService.delete(dto.id)
                         .subscribe(() => {
                             this.reloadPage();
                             this.notify.success(this.l('SuccessfullyDeleted'));

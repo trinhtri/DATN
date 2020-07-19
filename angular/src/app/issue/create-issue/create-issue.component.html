@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label for="SprintName">{{"Sprint" | localize}} *</label>
                         <select id="SprintName" name="SprintName" class="form-control" [(ngModel)]="issue.sprint_Id"
-                            #SprintInput="ngModel">
+                            #SprintInput="ngModel" (change)="onChangeSprint(issue.sprint_Id)">
                             <option [value]="undefined">{{'---'}}</option>
                             <option *ngFor="let item of lstSprint" [value]="item.value">{{item.displayText}}</option>
                             <validation-messages [formCtrl]="SprintInput"></validation-messages>

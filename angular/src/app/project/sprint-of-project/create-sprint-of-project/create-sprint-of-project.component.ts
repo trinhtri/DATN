@@ -59,6 +59,10 @@ export class CreateSprintOfProjectComponent extends AppComponentBase implements 
     this.active = true;
     this.modal.show();
     this.sprint.project_Id = project_Id
+    this._commonService.getLookups('MemberOfProject', this.appSession.tenantId, project_Id).subscribe(result => {
+      this.lst = result;
+    });
+
     if (id) {
       this._sprintService.getId(id).subscribe(result => {
         this.sprint = result;
@@ -114,5 +118,4 @@ export class CreateSprintOfProjectComponent extends AppComponentBase implements 
     this.active = false;
     this.modal.hide();
   }
-
 }

@@ -52,6 +52,7 @@ namespace ERP.Sprint
         public async Task<PagedResultDto<SprintListDto>> GetAll(GetSprintInputDto input)
         {
             var query = _sprintRepository.GetAll().Include(x => x.Project_)
+                    .Where(x=>x.Project_.Status == true)
                     .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
                     .WhereIf(input.ListProjectId != null, x => input.ListProjectId.Any(a => a == x.Project_Id))
                     .WhereIf(input.ListAssignId != null, x => input.ListAssignId.Any(a => a == x.Assignee_Id))

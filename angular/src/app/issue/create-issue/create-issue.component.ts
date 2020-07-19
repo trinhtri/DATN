@@ -125,12 +125,10 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
     this.active = false;
     this.modal.hide();
   }
-  changeProject(projectId) {
-    this._commonService.getLookups('Sprints', this.appSession.tenantId, projectId).subscribe(result => {
-      this.lstSprint = result;
-    });
-    this._commonService.getLookups('MemberOfProject', this.appSession.tenantId, projectId).subscribe(result => {
+  onChangeSprint(id){
+    this._commonService.getLookups('MemberOfIssue', this.appSession.tenantId, id).subscribe(result => {
       this.lst = result;
+      console.log('lst', this.lst)
     });
   }
 }

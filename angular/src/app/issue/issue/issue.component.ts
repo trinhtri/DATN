@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Injector } from '@angular/core';
+import { Component, OnInit, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Table } from 'primeng/table';
 import { Paginator, LazyLoadEvent } from 'primeng/primeng';
@@ -9,6 +9,7 @@ import { finalize } from 'rxjs/operators';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { CreateIssueComponent } from '../create-issue/create-issue.component';
 import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
+import { IssueOfUserComponent } from './issue-of-user/issue-of-user.component';
 
 @Component({
     selector: 'app-issue',
@@ -19,8 +20,11 @@ import { PrimengTableHelper } from '@shared/helpers/PrimengTableHelper';
 export class IssueComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
+    @ViewChild('IssueOfUserComponent', { static: true }) IssueOfUserComponent: IssueOfUserComponent;
+
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
+    @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     primengTableHelperIssueActive = new PrimengTableHelper();
     primengTableHelperBackLog = new PrimengTableHelper();
@@ -214,5 +218,8 @@ export class IssueComponent extends AppComponentBase implements OnInit {
                 return this.l('ReOpened');
                 break;
         }
+    }
+    getAllOfIssue(){
+       this.IssueOfUserComponent.getAll();
     }
 }

@@ -58,6 +58,9 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
     this.active = true;
     this.modal.show();
     if (id) {
+      this._commonService.getLookups('MemberOfProject', this.appSession.tenantId, id).subscribe(result => {
+        this.lst = result;
+      });
       this._sprintService.getId(id).subscribe(result => {
         this.sprint = result;
         if (this.sprint.startDate) {
@@ -110,5 +113,10 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
     this.saving = false;
     this.active = false;
     this.modal.hide();
+  }
+  onChangeProject(projectId){
+  this._commonService.getLookups('MemberOfProject', this.appSession.tenantId, projectId).subscribe(result => {
+    this.lst = result;
+  });
   }
 }

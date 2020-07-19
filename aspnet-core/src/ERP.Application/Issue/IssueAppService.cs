@@ -62,17 +62,17 @@ namespace ERP.Issue
             var issueActive = await GetAllIssueBackLog(input);
             var result = issueActive.Items.ToList();
             return _issueListExcelExport.ExportIssueToFile(result);
-        }  
-        
+        }
+
         public async Task<FileDto> GetIssueOfUserForExcel(IssueInputDto input)
         {
             var issues = await GetAllOfUser(input);
             var result = issues.Items.ToList();
             return _issueListExcelExport.ExportIssueToFile(result);
         }
-          public async Task<FileDto> GetIssueOfSprintForExcel(IssueInputDto input, long sprintId)
+        public async Task<FileDto> GetIssueOfSprintForExcel(IssueInputDto input, long sprintId)
         {
-            var issues = await GetIssueOfSprint(input,sprintId);
+            var issues = await GetIssueOfSprint(input, sprintId);
             var result = issues.Items.ToList();
             return _issueListExcelExport.ExportIssueToFile(result);
         }
@@ -82,6 +82,7 @@ namespace ERP.Issue
         {
             var listTask = _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(x => x.Project_)
                     .Where(x => x.Sprint_Id != null)
+                    .Where(x => x.Sprint_.Project_.Status == true)
                     .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
                     .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
                     .WhereIf(input.ListSprintId != null, x => input.ListSprintId.Any(a => a == x.Sprint_Id))
@@ -96,12 +97,12 @@ namespace ERP.Issue
                   );
             ;
             var tatolCount = await listTask.CountAsync();
-            var result = await listTask.OrderByDescending(x=>x.CreationTime).OrderBy(input.Sorting)
+            var result = await listTask.OrderByDescending(x => x.CreationTime).OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
 
             var projectListDtos = ObjectMapper.Map<List<IssueListDto>>(result);
-            foreach(var item in projectListDtos)
+            foreach (var item in projectListDtos)
             {
                 item.AssignName = GetMemberName(item.Assignee_Id);
             }
@@ -116,7 +117,8 @@ namespace ERP.Issue
         {
             var listTask = _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(x => x.Project_)
                 .Where(x => x.Sprint_Id != null)
-                .Where(x=>x.Assignee_Id == AbpSession.UserId)
+                .Where(x => x.Sprint_.Project_.Status == true)
+                .Where(x => x.Assignee_Id == AbpSession.UserId)
                     .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
                     .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
                     .WhereIf(input.ListSprintId != null, x => input.ListSprintId.Any(a => a == x.Sprint_Id))
@@ -262,7 +264,7 @@ namespace ERP.Issue
             return result;
         }
 
-        
+
         public async Task DeleteIssue(long id)
         {
             await _issueRepository.DeleteAsync(id);
@@ -289,7 +291,7 @@ namespace ERP.Issue
         {
             var issue = await _issueRepository.FirstOrDefaultAsync(id);
             issue.Status_Id = 3;
-        } 
+        }
         public async Task Estimate(long id, decimal time)
         {
             var issue = await _issueRepository.FirstOrDefaultAsync(id);
@@ -309,20 +311,20 @@ namespace ERP.Issue
 
         public async Task<List<IssueListOfSprintDto>> GetIssuesStatusOfSprint(long id, List<long> listId)
         {
-            var issue = await _issueRepository.GetAll().Where(x => x.Sprint_Id == id).WhereIf(listId.Count > 0, x=>listId.Any(a=>a == x.Status_Id)).OrderBy("TaskCode").ToListAsync();
+            var issue = await _issueRepository.GetAll().Where(x => x.Sprint_Id == id).WhereIf(listId.Count > 0, x => listId.Any(a => a == x.Status_Id)).OrderBy("TaskCode").ToListAsync();
             var dto = ObjectMapper.Map<List<IssueListOfSprintDto>>(issue);
-            foreach(var  item in dto)
+            foreach (var item in dto)
             {
                 item.AssignName = GetMemberName(item.Assignee_Id);
             }
             return dto;
-        }   
-        
+        }
+
         public async Task<List<IssueListOfSprintDto>> GetIssuesTypeOfSprint(long id, List<long> listId)
         {
-            var issue = await _issueRepository.GetAll().Where(x => x.Sprint_Id == id).WhereIf(listId.Count > 0, x=>listId.Any(a=>a == x.Type_Id)).OrderBy("TaskCode").ToListAsync();
+            var issue = await _issueRepository.GetAll().Where(x => x.Sprint_Id == id).WhereIf(listId.Count > 0, x => listId.Any(a => a == x.Type_Id)).OrderBy("TaskCode").ToListAsync();
             var dto = ObjectMapper.Map<List<IssueListOfSprintDto>>(issue);
-            foreach(var  item in dto)
+            foreach (var item in dto)
             {
                 item.AssignName = GetMemberName(item.Assignee_Id);
             }

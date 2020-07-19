@@ -56,7 +56,7 @@ namespace ERP.Shared
                 case "Member":
                     result = await _userRepository.GetAll()
                         .Where(x=>x.IsActive == true)
-                        .Where(x => x.TenantId == tenantId || (tenantId == null && x.TenantId == null))
+                        .Where(x => x.TenantId == tenantId)
                         .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.UserName })
                         .ToListAsync();
                     break;
@@ -66,7 +66,7 @@ namespace ERP.Shared
                     var lstp = await _memberRepository.GetAll().Where(x => x.Project_Id == parentId).Select(x=>x.Employee_Id).ToListAsync();
                     result = await _userRepository.GetAll()
                         .Where(x => x.IsActive == true)
-                       .Where(x => x.TenantId == tenantId || (tenantId == null && x.TenantId == null))
+                       .Where(x => x.TenantId == tenantId)
                        .Where(i=> !lstp.Any(a=>a ==i.Id))
                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.UserName })
                        .ToListAsync();
@@ -74,10 +74,18 @@ namespace ERP.Shared
                 case "MemberOfProject":
                   result =await _memberRepository.GetAll().Include(x=>x.Employee_).Where(x=>x.Project_Id == parentId)
                         .Where(x => x.TenantId == tenantId)
-                        .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.Employee_.UserName })
+                        .Select(x => new ERPComboboxItem { Value = x.Employee_.Id, DisplayText = x.Employee_.UserName })
                         .ToListAsync();
-
                     break;
+
+                case "MemberOfIssue":
+                    var sprint = _sprintRepository.FirstOrDefault(x => x.Id == parentId);
+                    result = await _memberRepository.GetAll().Include(x => x.Employee_).Where(x => x.Project_Id == sprint.Project_Id)
+                          .Where(x => x.TenantId == tenantId)
+                          .Select(x => new ERPComboboxItem { Value = x.Employee_.Id, DisplayText = x.Employee_.UserName })
+                          .ToListAsync();
+                    break;
+
                 case "Project":
                     result = await _projectRepository.GetAll()
                         .Where(x=>x.Status  == true)
