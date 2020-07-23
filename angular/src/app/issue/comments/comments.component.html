@@ -18,12 +18,12 @@
         </tr>
       </thead>
       <tr *ngFor="let m of lstComment; let index= index">
-     
+
         <td style="width: 100px">
           {{m.employeeName}}
         </td>
         <td style="width: 100px">
-          {{m.creationTime | momentFormat:'L'}}
+          {{m.creationTime | momentFormat:'L , h:mm a'}}
         </td>
         <td style="width: 400px">
           {{m.discription}}

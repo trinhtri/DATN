@@ -116,6 +116,7 @@ namespace ERP.Shared
                 case "Sprints":
                     result = _sprintRepository.GetAll()
                         .Where(x => x.TenantId == tenantId || tenantId == null)
+                        .OrderBy(x=>x.Status_Id)
                         .Select(x => new ERPComboboxItem { Value = x.Id, DisplayText = x.SprintCode + "-"+x.Project_.ProjectCode})
                         .ToList();
                     break;

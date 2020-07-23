@@ -8,11 +8,13 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CreateIssueOfSprintComponent } from './create-issue-of-sprint/create-issue-of-sprint.component';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
   selector: 'app-issues-of-sprint',
   templateUrl: './issues-of-sprint.component.html',
-  styleUrls: ['./issues-of-sprint.component.css']
+  styleUrls: ['./issues-of-sprint.component.css'],
+  animations: [appModuleAnimation()]
 })
 export class IssuesOfSprintComponent extends AppComponentBase implements OnInit {
   @Input() sprintId: number;

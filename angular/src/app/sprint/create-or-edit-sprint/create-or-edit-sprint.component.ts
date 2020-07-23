@@ -14,6 +14,7 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   sprint: CreateSprintDto = new CreateSprintDto();
   dueDate: any;
+  mindate = new Date();
   startDate: any;
   active = false;
   saving = false;
@@ -58,17 +59,20 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
     this.active = true;
     this.modal.show();
     if (id) {
-      this._commonService.getLookups('MemberOfProject', this.appSession.tenantId, id).subscribe(result => {
-        this.lst = result;
-      });
       this._sprintService.getId(id).subscribe(result => {
         this.sprint = result;
+        console.log('sprint', this.sprint)
         if (this.sprint.startDate) {
-          this.startDate = this.sprint.startDate.toDate();
+          this.startDate = this.sprint.startDate;
+          this.mindate = this.startDate.toDate();
         }
         if (this.sprint.due_Date) {
-          this.dueDate = this.sprint.due_Date.toDate();
+          this.dueDate = this.sprint.due_Date;
         }
+        this._commonService.getLookups('MemberOfProject', this.appSession.tenantId, this.sprint.project_Id).subscribe(result => {
+            this.lst = result;
+            console.log('lst', this.lst);
+          });
       });
     }
   }
@@ -79,11 +83,12 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
     this.saving = true;
     this.sprint.reporter_Id = this.appSession.userId;
     if (this.dueDate) {
-      this.sprint.due_Date = moment(this.dueDate);
+      this.sprint.due_Date = this.dueDate;
     }
     if (this.startDate) {
-      this.sprint.startDate = moment(this.startDate);
+      this.sprint.startDate = this.startDate;
     }
+
     if (this.sprint.id) {
       this._sprintService.update(this.sprint)
         .pipe(finalize(() => { this.saving = false; }))
@@ -119,4 +124,7 @@ export class CreateOrEditSprintComponent extends AppComponentBase implements OnI
     this.lst = result;
   });
   }
+  dateChanged(date){
+    this.mindate = date.toDate();
+}
 }

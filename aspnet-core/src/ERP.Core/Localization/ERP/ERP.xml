@@ -1008,6 +1008,8 @@
     <text name="Creator">Creator</text>
     <text name="Point">Point</text>
 
+    <text name="HistoryStatusIssue">History status issue</text>
+    <text name="Oldvalue">Old value</text>
 
 
 

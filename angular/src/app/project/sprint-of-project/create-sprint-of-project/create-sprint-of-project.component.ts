@@ -19,6 +19,7 @@ export class CreateSprintOfProjectComponent extends AppComponentBase implements 
   active = false;
   saving = false;
   projectId: number;
+  mindate = new Date()
   lst: ERPComboboxItem[] = [];
   lstSprint: ERPComboboxItem[] = [];
   lstProject: ERPComboboxItem[] = [];
@@ -68,6 +69,7 @@ export class CreateSprintOfProjectComponent extends AppComponentBase implements 
         this.sprint = result;
         if (this.sprint.startDate) {
           this.startDate = this.sprint.startDate.toDate();
+          this.mindate = this.sprint.startDate.toDate();
         }
         if (this.sprint.due_Date) {
           this.dueDate = this.sprint.due_Date.toDate();

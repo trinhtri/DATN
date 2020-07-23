@@ -2,11 +2,14 @@ import { Component, OnInit, Input, Injector } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SprintServiceProxy, IssueServiceProxy, CommonAppserviceServiceProxy, CreateSprintDto, ERPComboboxItem, IssueListOfSprintDto, ScaleStatusIssueOfSprintForChart, ScaleTypeIssueOfSprintForChart } from '@shared/service-proxies/service-proxies';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
   selector: 'app-dash-board-sprint',
   templateUrl: './dash-board-sprint.component.html',
-  styleUrls: ['./dash-board-sprint.component.css']
+  styleUrls: ['./dash-board-sprint.component.css'],
+  animations: [appModuleAnimation()]
+
 })
 export class DashBoardSprintComponent extends AppComponentBase implements OnInit {
   @Input() sprintId: number;

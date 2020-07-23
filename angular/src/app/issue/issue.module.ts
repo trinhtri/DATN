@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
@@ -74,6 +74,7 @@ import { HistoryStatusIssueComponent } from './history-status-issue/history-stat
         HistoryStatusIssueComponent,
     ],
     providers: [
+        DatePipe,
         ProjectServiceProxy,
         MemberServiceProxy,
         DocumentServiceProxy,

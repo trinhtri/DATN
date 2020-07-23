@@ -111,7 +111,7 @@ namespace ERP.Issue
                   );
             ;
             var tatolCount = await listTask.CountAsync();
-            var result = await listTask.OrderByDescending(x => x.CreationTime).OrderBy(input.Sorting)
+            var result = await listTask.OrderBy(input.Sorting).OrderByDescending(x => x.CreationTime)
                 .PageBy(input)
                 .ToListAsync();
 
@@ -132,7 +132,7 @@ namespace ERP.Issue
             var listTask = _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(x => x.Project_)
                 .Where(x => x.Sprint_Id != null)
                 .Where(x => x.Sprint_.Project_.Status == true)
-                .Where(x => x.Assignee_Id == AbpSession.UserId)
+                .Where(x => x.Assignee_Id == AbpSession.UserId || x.Reporter_Id == AbpSession.UserId)
                     .WhereIf(input.ListStatusId != null, x => input.ListStatusId.Any(a => a == x.Status_Id))
                     .WhereIf(input.ListTypeId != null, x => input.ListTypeId.Any(a => a == x.Type_Id))
                     .WhereIf(input.ListSprintId != null, x => input.ListSprintId.Any(a => a == x.Sprint_Id))
@@ -147,7 +147,7 @@ namespace ERP.Issue
                   );
             ;
             var tatolCount = await listTask.CountAsync();
-            var result = await listTask.OrderBy(input.Sorting)
+            var result = await listTask.OrderByDescending(x => x.CreationTime).OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
 
@@ -181,7 +181,7 @@ namespace ERP.Issue
                   );
             ;
             var tatolCount = await listTask.CountAsync();
-            var result = await listTask.OrderBy(input.Sorting)
+            var result = await listTask.OrderByDescending(x => x.CreationTime).OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
 
@@ -229,7 +229,7 @@ namespace ERP.Issue
                   );
             ;
             var tatolCount = await listTask.CountAsync();
-            var result = await listTask.OrderBy(input.Sorting)
+            var result = await listTask.OrderByDescending(x => x.CreationTime).OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
 
@@ -249,9 +249,26 @@ namespace ERP.Issue
         }
         public async Task<CommonListDto> GetIssueForDetail(long id)
         {
-            var task = await _issueRepository.FirstOrDefaultAsync(id);
-            var issues = new List<IssueOfSprintListDto>();
-            return await GetIssueForManager(id);
+            var result = await _issueRepository.GetAll().Include(x => x.Sprint_).ThenInclude(b => b.Project_).Where(x => x.Id == id).Select(t => new CommonListDto
+            {
+                Id = t.Id,
+                Parent_Id = t.Sprint_Id,
+                Assignee_Id = t.Assignee_Id,
+                CreationTime = t.CreationTime,
+                Discription = t.Discription,
+                Due_Date = t.Due_Date,
+                Estimate = t.Estimate,
+                Priority_Id = t.Priority_Id,
+                ProjectCode = t.Sprint_.Project_.ProjectName,
+                Reporter_Id = t.Reporter_Id,
+                Status_Id = t.Status_Id,
+                Summary = t.Summary,
+                TaskCode = t.TaskCode,
+                TenantId = t.TenantId,
+                Type_Id = t.Type_Id,
+                StartDate = t.StartDate
+            }).FirstOrDefaultAsync();
+            return result;
         }
 
         public async Task<CommonListDto> GetIssueForManager(long id)
@@ -273,7 +290,7 @@ namespace ERP.Issue
                 TaskCode = t.TaskCode,
                 TenantId = t.TenantId,
                 Type_Id = t.Type_Id,
-                ListIssue = null,
+                StartDate = t.StartDate
             }).FirstOrDefaultAsync();
             return result;
         }

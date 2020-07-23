@@ -15,19 +15,14 @@ namespace ERP.Issue.Dto
         public string Discription { get; set; }
         public long? Assignee_Id { get; set; }
         public long Reporter_Id { get; set; }
+        public DateTime? StartDate { get; set; }
         public DateTime? Due_Date { get; set; }
         public decimal? Estimate { get; set; }
         public long Priority_Id { get; set; }
         public string ProjectCode { get; set; }
         public DateTime CreationTime { get; set; }
-        public List<IssueOfSprintListDto> ListIssue { get; set; }
         public long? Parent_Id { get; set; }
         public int Type { get; set; }
 
-
-        public CommonListDto()
-        {
-            ListIssue = new List<IssueOfSprintListDto>();
-        }
     }
 }

@@ -55,7 +55,6 @@ namespace ERP.Sprint.Exporting
                         L("Reporter"),
                         L("StartDate"),
                         L("Due_Date"),
-                        L("Estimate"),
                         L("Discription")
                     );
 
@@ -69,7 +68,6 @@ namespace ERP.Sprint.Exporting
                         _=> GetName(_.Reporter_Id),
                         _ => _timeZoneConverter.Convert(_.StartDate, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _timeZoneConverter.Convert(_.Due_Date, _abpSession.TenantId, _abpSession.GetUserId()),
-                        _ => _.Estimate,
                         _ => _.Discription
                         );
 

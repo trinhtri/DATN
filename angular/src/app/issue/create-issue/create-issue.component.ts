@@ -23,6 +23,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
   lstSprint: ERPComboboxItem[] = [];
   lstProject: ERPComboboxItem[] = [];
   project_Id: number;
+  mindate = new Date()
   lstPriority = [
     { id: 1, displayText: this.l('1') },
     { id: 2, displayText: this.l('2') },
@@ -70,6 +71,7 @@ export class CreateIssueComponent extends AppComponentBase implements OnInit {
         }
         if (this.issue.startDate) {
           this.startDate = this.issue.startDate.toDate();
+          this.mindate = this.issue.startDate.toDate()
         }
       });
     } else {

@@ -170,9 +170,17 @@
                                         {{l('CreationTime')}}:
                                     </div>
                                     <div class="col-md-7">
-                                        {{createdDate| momentFormat:'L , h:mm
-                                        a'}}
+                                        {{createdDate| momentFormat:'L , h:mm a'}}
                                     </div>
+
+
+                                    <div class="col-md-5">
+                                        {{l('StartDate')}} :
+                                    </div>
+                                    <div class="col-md-7">
+                                        {{startDate | momentFormat:'L'}}
+                                    </div>
+
 
                                     <div class="col-md-5">
                                         {{l('Due_Date')}} :
@@ -183,24 +191,6 @@
 
                                 </div>
                             </fieldset>
-
-
-                            <fieldset class="scheduler-border" *ngIf="isSprint
-                                == true">
-                                <legend class="scheduler-border">{{"Issues" |
-                                    localize}}</legend>
-                                <div class="row">
-                                    <div class="col-md-12 test" *ngFor="let item
-                                        of issue.listIssue">
-                                        <p (click)='clickIssue(item.id)'
-                                            style="color: blue;
-                                            cursor: pointer;">
-                                            {{item.summaryIssue}}
-                                        </p>
-                                    </div>
-                                </div>
-                            </fieldset>
-
                         </div>
                         <div class="col-md-12">
                             <fieldset class="scheduler-border">
@@ -212,7 +202,7 @@
                                             <app-comments [IssueId]="issue.id"></app-comments>
                                         </tab>
                                         <tab heading="{{'HistoryStatusIssue' | localize}}">
-                                            <app-history-status-issue [IssueId]="issue.id"></app-history-status-issue>
+                                            <app-history-status-issue [IssueId]="issue.id" #historyStatusIssueComponent></app-history-status-issue>
                                         </tab>
                                     </tabset>
                             </fieldset>

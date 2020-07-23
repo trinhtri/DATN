@@ -288,10 +288,10 @@
                                             </th>
 
                                             <th style="width: 150px"
-                                                pSortableColumn="creationTime">
-                                                {{'Created' | localize}}
+                                                pSortableColumn="StartDate">
+                                                {{'StartDate' | localize}}
                                                 <p-sortIcon
-                                                    field="creationTime"></p-sortIcon>
+                                                    field="StartDate"></p-sortIcon>
                                             </th>
 
                                             <th style="width: 150px"
@@ -462,7 +462,7 @@
                                             <td style="width: 150px">
                                                 <span class="ui-column-title">
                                                     {{'StartDate' | localize}}</span>
-                                                {{record.creationTime |
+                                                {{record.startDate |
                                                 momentFormat:'L'
                                                 }}
                                             </td>
@@ -739,10 +739,10 @@
                                             </th>
 
                                             <th style="width: 150px"
-                                                pSortableColumn="creationTime">
-                                                {{'Created' | localize}}
+                                                pSortableColumn="StartDate">
+                                                {{'StartDate' | localize}}
                                                 <p-sortIcon
-                                                    field="creationTime"></p-sortIcon>
+                                                    field="StartDate"></p-sortIcon>
                                             </th>
 
                                             <th style="width: 150px"
@@ -831,7 +831,7 @@
                                                   !important;"
                                                   *ngIf="record.status_Id == 5">{{getStatusName(record.status_Id)}}</span>
                                               </td>
-                              
+
                                               <td style="width: 150px">
                                                 <span class="ui-column-title"> {{'Type'
                                                   | localize}}</span>
@@ -850,7 +850,7 @@
                                             <td style="width: 150px">
                                                 <span class="ui-column-title">
                                                     {{'StartDate' | localize}}</span>
-                                                {{record.creationTime |
+                                                {{record.startDate |
                                                 momentFormat:'L'
                                                 }}
                                             </td>

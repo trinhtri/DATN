@@ -103,7 +103,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="Assign">{{"Assign" | localize}}</label>
+                                    <label for="Assign">{{"Assignee" | localize}}</label>
                                     <p-multiSelect [options]="lstMember"
                                         name="IssueType"
                                         [(ngModel)]="lstAssignId"
@@ -180,9 +180,9 @@
                                         <p-sortIcon field="SprintCode"></p-sortIcon>
                                     </th>
                                     <th style="width: 150px"
-                                        pSortableColumn="ProjectCode">
+                                        pSortableColumn="Project_.ProjectCode">
                                         {{'Project'| localize}}
-                                        <p-sortIcon field="ProjectCode"></p-sortIcon>
+                                        <p-sortIcon field="Project_.ProjectCode"></p-sortIcon>
                                     </th>
 
                                     <th style="width: 150px"
@@ -204,9 +204,9 @@
                                     </th>
 
                                     <th style="width: 150px"
-                                        pSortableColumn="EndDate">
+                                        pSortableColumn="Due_Date">
                                         {{'EndDate' | localize}}
-                                        <p-sortIcon field="EndDate"></p-sortIcon>
+                                        <p-sortIcon field="Due_Date"></p-sortIcon>
                                     </th>
                                 </tr>
                             </ng-template>

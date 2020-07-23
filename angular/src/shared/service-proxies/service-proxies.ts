@@ -19210,6 +19210,7 @@ export class IssueListDto implements IIssueListDto {
     sprintName!: string | undefined;
     project_Id!: number | undefined;
     creationTime!: moment.Moment | undefined;
+    startDate!: moment.Moment | undefined;
     point!: number | undefined;
     id!: number | undefined;
 
@@ -19240,6 +19241,7 @@ export class IssueListDto implements IIssueListDto {
             this.sprintName = data["sprintName"];
             this.project_Id = data["project_Id"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
             this.point = data["point"];
             this.id = data["id"];
         }
@@ -19270,6 +19272,7 @@ export class IssueListDto implements IIssueListDto {
         data["sprintName"] = this.sprintName;
         data["project_Id"] = this.project_Id;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["point"] = this.point;
         data["id"] = this.id;
         return data; 
@@ -19293,6 +19296,7 @@ export interface IIssueListDto {
     sprintName: string | undefined;
     project_Id: number | undefined;
     creationTime: moment.Moment | undefined;
+    startDate: moment.Moment | undefined;
     point: number | undefined;
     id: number | undefined;
 }
@@ -19306,12 +19310,12 @@ export class CommonListDto implements ICommonListDto {
     discription!: string | undefined;
     assignee_Id!: number | undefined;
     reporter_Id!: number | undefined;
+    startDate!: moment.Moment | undefined;
     due_Date!: moment.Moment | undefined;
     estimate!: number | undefined;
     priority_Id!: number | undefined;
     projectCode!: string | undefined;
     creationTime!: moment.Moment | undefined;
-    listIssue!: IssueOfSprintListDto[] | undefined;
     parent_Id!: number | undefined;
     type!: number | undefined;
     id!: number | undefined;
@@ -19335,16 +19339,12 @@ export class CommonListDto implements ICommonListDto {
             this.discription = data["discription"];
             this.assignee_Id = data["assignee_Id"];
             this.reporter_Id = data["reporter_Id"];
+            this.startDate = data["startDate"] ? moment(data["startDate"].toString()) : <any>undefined;
             this.due_Date = data["due_Date"] ? moment(data["due_Date"].toString()) : <any>undefined;
             this.estimate = data["estimate"];
             this.priority_Id = data["priority_Id"];
             this.projectCode = data["projectCode"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            if (data["listIssue"] && data["listIssue"].constructor === Array) {
-                this.listIssue = [] as any;
-                for (let item of data["listIssue"])
-                    this.listIssue!.push(IssueOfSprintListDto.fromJS(item));
-            }
             this.parent_Id = data["parent_Id"];
             this.type = data["type"];
             this.id = data["id"];
@@ -19368,16 +19368,12 @@ export class CommonListDto implements ICommonListDto {
         data["discription"] = this.discription;
         data["assignee_Id"] = this.assignee_Id;
         data["reporter_Id"] = this.reporter_Id;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["due_Date"] = this.due_Date ? this.due_Date.toISOString() : <any>undefined;
         data["estimate"] = this.estimate;
         data["priority_Id"] = this.priority_Id;
         data["projectCode"] = this.projectCode;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        if (this.listIssue && this.listIssue.constructor === Array) {
-            data["listIssue"] = [];
-            for (let item of this.listIssue)
-                data["listIssue"].push(item.toJSON());
-        }
         data["parent_Id"] = this.parent_Id;
         data["type"] = this.type;
         data["id"] = this.id;
@@ -19394,54 +19390,14 @@ export interface ICommonListDto {
     discription: string | undefined;
     assignee_Id: number | undefined;
     reporter_Id: number | undefined;
+    startDate: moment.Moment | undefined;
     due_Date: moment.Moment | undefined;
     estimate: number | undefined;
     priority_Id: number | undefined;
     projectCode: string | undefined;
     creationTime: moment.Moment | undefined;
-    listIssue: IssueOfSprintListDto[] | undefined;
     parent_Id: number | undefined;
     type: number | undefined;
-    id: number | undefined;
-}
-
-export class IssueOfSprintListDto implements IIssueOfSprintListDto {
-    summaryIssue!: string | undefined;
-    id!: number | undefined;
-
-    constructor(data?: IIssueOfSprintListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.summaryIssue = data["summaryIssue"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): IssueOfSprintListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new IssueOfSprintListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["summaryIssue"] = this.summaryIssue;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IIssueOfSprintListDto {
-    summaryIssue: string | undefined;
     id: number | undefined;
 }
 

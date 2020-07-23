@@ -51,7 +51,7 @@
                   <div class="form-group">
                       <label for="DueDate">{{"DueDate" | localize}} </label>
                       <div class="input-group date">
-                        <input id="DueDate" type="text" #DueDate name="EndDate" class="form-control" [(ngModel)]="dueDate" bsDatepicker autocomplete="off" triggers="dblclick:click" #dp3="bsDatepicker" placeholder="--/--/----">
+                        <input id="DueDate" type="text" #DueDate name="EndDate" class="form-control" [(ngModel)]="dueDate" bsDatepicker autocomplete="off" triggers="dblclick:click" #dp3="bsDatepicker" [minDate]= "mindate" placeholder="--/--/----">
                         <div class="input-group-append">
                             <span class="input-group-text" (click)="dp3.toggle()">
                                 <i class="la la-calendar"></i>
@@ -63,7 +63,8 @@
                   <div class="form-group">
                       <label for="Assignee">{{"Assignee" | localize}}*</label>
                       <select id="Assignee" name="Assignee" class="form-control" [(ngModel)]="sprint.assignee_Id" required #AssigneeInput="ngModel">
-                      <option *ngFor ="let item of lst" [value]="item.value">{{item.displayText}}</option>
+                        <option [value]="undefined">-------</option>
+                        <option *ngFor ="let item of lst" [value]="item.value">{{item.displayText}}</option>
                       <validation-messages [formCtrl]="AssigneeInput"></validation-messages>
                   </select>
                   </div>

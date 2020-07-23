@@ -3,11 +3,12 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
-import { CreateIssueDto, ProjectServiceProxy, IssueServiceProxy, CommonAppserviceServiceProxy, UserServiceProxy, IssueListDto, CommonListDto } from '@shared/service-proxies/service-proxies';
+import { CreateIssueDto, ProjectServiceProxy, IssueServiceProxy, CommonAppserviceServiceProxy, UserServiceProxy, IssueListDto, CommonListDto, CreateHistoryStatusIssueDto, HistoryStatusIssueServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateIssueComponent } from '../create-issue/create-issue.component';
 import { EstimateComponent } from './estimate/estimate.component';
 import { CreateOrUpdateSprintComponent } from '../create-or-update-sprint/create-or-update-sprint.component';
+import { HistoryStatusIssueComponent } from '../history-status-issue/history-status-issue.component';
 @Component({
   selector: 'app-management-issue',
   templateUrl: './management-issue.component.html',
@@ -18,7 +19,7 @@ import { CreateOrUpdateSprintComponent } from '../create-or-update-sprint/create
 export class ManagementIssueComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
   @ViewChild('createOrEditSprintModal', { static: true }) createOrEditSprintModal: CreateOrUpdateSprintComponent;
-
+  @ViewChild('historyStatusIssueComponent', {static: true}) historyStatusIssueComponent: HistoryStatusIssueComponent;
   @ViewChild('estimateComponent', { static: true }) addEstimateTimeModal: EstimateComponent;
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   issue: CommonListDto = new CommonListDto();
@@ -26,17 +27,20 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
   assignee: any;
   reporter: any;
   isSprint = false;
-
+  statusName
   // date
   dueDate: any;
   createdDate = new Date();
   updateDate: any;
+  startDate: any;
+
   loading = false;
   constructor(injector: Injector,
     private _issueService: IssueServiceProxy,
     private _activatedRoute: ActivatedRoute,
     private _userService: UserServiceProxy,
-    private _router: Router
+    private _router: Router,
+    private _historyStatusIssueService: HistoryStatusIssueServiceProxy
   ) {
     super(injector);
   }
@@ -59,13 +63,12 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
       if (this.issue.due_Date) {
         this.dueDate = this.issue.due_Date;
       }
-      if (this.issue.type === 1) {
-        this.isSprint = true;
-      } else {
-        this.isSprint = false;
+      if(this.issue.startDate){
+          this.startDate = this.issue.startDate.toDate();
       }
-      console.log('isSprint', this.isSprint);
       this.createdDate = this.issue.creationTime.toDate();
+      this.statusName= this.getStatusName(this.issue.status_Id)
+      console.log('statusName', this.statusName)
     });
   }
 
@@ -76,12 +79,31 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
     this.createOrEditSprintModal.show(id);
   }
   startProgress(id) {
+    let history = new CreateHistoryStatusIssueDto();
+    history.issue_Id = this.issue.id;
+    history.user_Id = this.appSession.userId;
+    history.oldValue = this.statusName;
+    history.newValue = 'Đang xử lý'
+    this._historyStatusIssueService.create(history).subscribe(result =>{
+    this.historyStatusIssueComponent.getAll()
+    })
+
     this._issueService.startProgress(id).subscribe(result => {
       this.notify.success(this.l('start'));
       this.ngOnInit();
     });
   }
   stopProgress(id) {
+    let history = new CreateHistoryStatusIssueDto();
+    history.issue_Id = this.issue.id;
+    history.user_Id = this.appSession.userId;
+    history.oldValue = this.statusName;
+    history.newValue = 'Ngừng xử lý'
+    this._historyStatusIssueService.create(history).subscribe(result =>{
+    this.historyStatusIssueComponent.getAll()
+    })
+    let oldvalue = this.getStatusName(this.issue.status_Id)
+    console.log('oldvalue', oldvalue)
     this._issueService.stopProgress(id).subscribe(result => {
       this.notify.success(this.l('Stop'));
       this.ngOnInit();
@@ -91,18 +113,50 @@ export class ManagementIssueComponent extends AppComponentBase implements OnInit
     this.addEstimateTimeModal.show(id);
   }
   resolved(id) {
+    let history = new CreateHistoryStatusIssueDto();
+    history.issue_Id = this.issue.id;
+    history.user_Id = this.appSession.userId;
+    history.oldValue = this.statusName;
+    history.newValue = 'Đã giải quyết'
+    this._historyStatusIssueService.create(history).subscribe(result =>{
+    this.historyStatusIssueComponent.getAll()
+    })
+
+    let oldvalue = this.getStatusName(this.issue.status_Id)
+    console.log('oldvalue', oldvalue)
     this._issueService.resolved(id).subscribe(result => {
       this.notify.success(this.l('resolved'));
       this.ngOnInit();
     });
   }
   close(id) {
+    let history = new CreateHistoryStatusIssueDto();
+    history.issue_Id = this.issue.id;
+    history.user_Id = this.appSession.userId;
+    history.oldValue = this.statusName;
+    history.newValue = 'Đã hoàn thành'
+    this._historyStatusIssueService.create(history).subscribe(result =>{
+    this.historyStatusIssueComponent.getAll()
+    })
+    let oldvalue = this.getStatusName(this.issue.status_Id)
+    console.log('oldvalue', oldvalue)
     this._issueService.closeProgress(id).subscribe(result => {
       this.notify.success(this.l('Close'));
       this.ngOnInit();
     });
   }
   reOpen(id) {
+    let history = new CreateHistoryStatusIssueDto();
+    history.issue_Id = this.issue.id;
+    history.user_Id = this.appSession.userId;
+    history.oldValue = this.statusName;
+    history.newValue = 'Mở lại'
+    this._historyStatusIssueService.create(history).subscribe(result =>{
+    this.historyStatusIssueComponent.getAll()
+    })
+
+    let oldvalue = this.getStatusName(this.issue.status_Id)
+    console.log('oldvalue', oldvalue)
     this._issueService.reOpenProgress(id).subscribe(result => {
       this.notify.success(this.l('reOpen'));
       this.ngOnInit();

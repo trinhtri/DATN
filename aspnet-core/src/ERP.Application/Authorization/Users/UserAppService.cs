@@ -53,7 +53,6 @@ namespace ERP.Authorization.Users
         private readonly IRoleManagementConfig _roleManagementConfig;
         private readonly UserManager _userManager;
         private readonly IRepository<User, long> _userRepository;
-        private readonly IRepository<Models.ConfigView, long> _configViewRepository;
 
         public UserAppService(
             RoleManager roleManager,
@@ -71,8 +70,7 @@ namespace ERP.Authorization.Users
             IRepository<OrganizationUnit, long> organizationUnitRepository,
             IRoleManagementConfig roleManagementConfig,
             IRepository<User, long> userRepository,
-            UserManager userManager,
-            IRepository<Models.ConfigView, long> configViewRepository
+            UserManager userManager
             )
         {
             _roleManager = roleManager;
@@ -92,7 +90,6 @@ namespace ERP.Authorization.Users
             _roleRepository = roleRepository;
             _userRepository = userRepository;
             AppUrlService = NullAppUrlService.Instance;
-            _configViewRepository = configViewRepository;
         }
 
         public async Task<PagedResultDto<UserListDto>> GetUsers(GetUsersInput input)
@@ -357,23 +354,6 @@ namespace ERP.Authorization.Users
                     input.User.Password
                 );
             }
-
-            // thêm cấu hình mặc định khi tao mới user
-            var configView = new Models.ConfigView() {
-                IsAssignee = true,
-                TenantId = AbpSession.TenantId ?? 1,
-                IsDueDate = true,
-                IsEstimate = true,
-                IsIssue = true,
-                IsPriority = true,
-                IsReporter = true,
-                IsStatus = true,
-                IsSummary = true,
-                IsCreatedDate = true,
-                UserId = user.Id
-            };
-            await _configViewRepository.InsertAsync(configView);
-            
         }
 
         private async Task FillRoleNames(IReadOnlyCollection<UserListDto> userListDtos)

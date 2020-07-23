@@ -69,11 +69,11 @@
 
 
                     <div class="form-group">
-                        <label for="SampleDatePicker1">{{"DueDate" | localize}} </label>
+                        <label for="DueDate">{{"DueDate" | localize}} </label>
                         <div class="input-group date">
-                            <input id="DueDate" type="text" name="EndDate" class="form-control" [(ngModel)]="dueDate"
+                            <input id="DueDate" type="text" name="DueDate" class="form-control" [(ngModel)]="dueDate"
                                 bsDatepicker autocomplete="off" triggers="dblclick:click" #dp3="bsDatepicker"
-                                placeholder="--/--/----">
+                                placeholder="--/--/----" [minDate]= "mindate">
                             <div class="input-group-append">
                                 <span class="input-group-text" (click)="dp3.toggle()">
                                     <i class="la la-calendar"></i>

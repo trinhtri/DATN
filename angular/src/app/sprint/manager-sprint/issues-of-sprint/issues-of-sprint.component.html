@@ -1,6 +1,6 @@
 <div [@routerTransition]>
 
- 
+
     <div class="kt-portlet">
       <div class="kt-portlet__body">
         <div class="row mb-2">
@@ -174,9 +174,9 @@
                     <p-sortIcon></p-sortIcon>
                   </th>
 
-                  <th style="width: 150px" pSortableColumn="creationTime">
-                    {{'Created' | localize}}
-                    <p-sortIcon field="creationTime"></p-sortIcon>
+                  <th style="width: 150px" pSortableColumn="StartDate">
+                    {{'StartDate' | localize}}
+                    <p-sortIcon field="StartDate"></p-sortIcon>
                   </th>
 
                   <th style="width: 150px" pSortableColumn="EndDate">
@@ -189,7 +189,7 @@
                     {{'Estimate' | localize}}
                     <p-sortIcon field="Estimate"></p-sortIcon>
                   </th>
-                  
+
                   <th style="width: 150px" pSortableColumn="Point">
                     {{'Point' | localize}}
                     <p-sortIcon field="Point"></p-sortIcon>
@@ -282,7 +282,7 @@
                   <td style="width: 150px">
                     <span class="ui-column-title">
                       {{'StartDate' | localize}}</span>
-                    {{record.creationTime | momentFormat:'L'
+                    {{record.startDate | momentFormat:'L'
                     }}
                   </td>
 

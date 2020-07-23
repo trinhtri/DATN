@@ -11,7 +11,7 @@
                 <th style="width: 100px">
                     {{l('Creator')}}
                 </th>
-                <th style="width: 400px">
+                <th style="width: 100px">
                     {{l('CreationTime')}}
                 </th>
             </tr>
@@ -28,7 +28,7 @@
                 {{m.userName}}
             </td>
             <td style="width: 100px">
-                {{m.creationTime | momentFormat:'L'}}
+                {{m.creationTime | momentFormat:'L , h:mm a'}}
             </td>
 
         </tr>

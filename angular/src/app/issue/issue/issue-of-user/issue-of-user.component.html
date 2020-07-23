@@ -172,9 +172,9 @@
                   <p-sortIcon field="Type_Id"></p-sortIcon>
                 </th>
 
-                <th style="width: 150px" pSortableColumn="creationTime">
-                  {{'Created' | localize}}
-                  <p-sortIcon field="creationTime"></p-sortIcon>
+                <th style="width: 150px" pSortableColumn="StartDate">
+                  {{'StartDate' | localize}}
+                  <p-sortIcon field="StartDate"></p-sortIcon>
                 </th>
 
                 <th style="width: 150px" pSortableColumn="Due_Date">
@@ -279,7 +279,7 @@
                 <td style="width: 150px">
                   <span class="ui-column-title">
                     {{'StartDate' | localize}}</span>
-                  {{record.creationTime | momentFormat:'L'
+                  {{record.startDate | momentFormat:'L'
                   }}
                 </td>
 
@@ -295,7 +295,7 @@
                   {{record.estimate}}
                 </td>
 
-                
+
                 <td style="width: 150px">
                   <span class="ui-column-title">
                     {{'Point' | localize}}</span>

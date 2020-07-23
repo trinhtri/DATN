@@ -854,8 +854,8 @@
     
     <text name="Open">Mở</text>
     <text name="StartProgress">Bắt đầu sử lý</text>
-    <text name="InProgress">Đang sử lý</text>
-    <text name="StopProgress">Ngừng sử lý</text>
+    <text name="InProgress">Đang xử lý</text>
+    <text name="StopProgress">Ngừng xử lý</text>
     <text name="Resolved">Đã giải quyết</text>
     <text name="Compeleted">Đã hoàn thành</text>
     <text name="ReOpened">Mở lại</text>
@@ -894,6 +894,9 @@
     <text name="IssuesOfUser">Issue của bạn</text>
     <text name="Creator">Người tạo</text>
     <text name="Point">Điểm</text>
+
+    <text name="HistoryStatusIssue">Nhật kí trạng thái issue</text>
+    <text name="Oldvalue">Giá trị cũ</text>
 
   </texts>
 </localizationDictionary>

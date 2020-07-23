@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Abp.Timing;
 using Microsoft.AspNetCore.Hosting;
 
 namespace ERP.Web.Startup
@@ -7,6 +8,7 @@ namespace ERP.Web.Startup
     {
         public static void Main(string[] args)
         {
+            Clock.Provider = ClockProviders.Local;
             CreateWebHostBuilder(args).Build().Run();
         }
 
