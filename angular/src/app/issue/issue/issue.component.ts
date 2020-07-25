@@ -20,6 +20,8 @@ import { IssueOfUserComponent } from './issue-of-user/issue-of-user.component';
 export class IssueComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
+    @ViewChild('createOrEditBackLogModal', { static: true }) createOrEditBackLogModal: CreateIssueComponent;
+
     @ViewChild('IssueOfUserComponent', { static: true }) IssueOfUserComponent: IssueOfUserComponent;
 
     @ViewChild('dataTable', { static: true }) dataTable: Table;
@@ -98,12 +100,13 @@ export class IssueComponent extends AppComponentBase implements OnInit {
         ).pipe(finalize(() => this.primengTableHelperIssueActive.hideLoadingIndicator())).subscribe(result => {
             this.primengTableHelperIssueActive.totalRecordsCount = result.totalCount;
             this.primengTableHelperIssueActive.records = result.items;
-            console.log('list issue', this.primengTableHelperIssueActive.records);
+            console.log('list issue 1', this.primengTableHelperIssueActive.records);
             this.primengTableHelperIssueActive.hideLoadingIndicator();
         });
     }
 
     getAllBackLock(event?: LazyLoadEvent) {
+        console.log('getAllBackLock')
         if (this.primengTableHelperBackLog.shouldResetPaging(event)) {
             this.paginator.changePage(0);
 
@@ -127,8 +130,18 @@ export class IssueComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    getAllTask(event){
+        console.log('getAllTask1')
+        this.getAll(event);
+        this.getAllBackLock(event);
+        this.getAllOfIssue();
+        location.reload();
+    }
     createNew() {
         this.createOrEditModal.show();
+    }
+    createNewBackLog() {
+        this.createOrEditBackLogModal.show();
     }
     editSprint(id) {
         this.createOrEditModal.show(id);

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Injector } from '@angular/core';
+import { Component, OnInit, ViewChild, Injector, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { CreateIssueComponent } from '@app/issue/create-issue/create-issue.component';
 import { Table } from 'primeng/table';
@@ -22,6 +22,8 @@ export class IssueOfUserComponent  extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) createOrEditModal: CreateIssueComponent;
   @ViewChild('dataTable', { static: true }) dataTable: Table;
   @ViewChild('paginator', { static: true }) paginator: Paginator;
+  @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
+
 
   primengTableHelperIssueActive = new PrimengTableHelper();
   primengTableHelperBackLog = new PrimengTableHelper();
@@ -178,5 +180,4 @@ export class IssueOfUserComponent  extends AppComponentBase implements OnInit {
               break;
       }
   }
-
 }

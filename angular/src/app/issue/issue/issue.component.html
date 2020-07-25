@@ -521,7 +521,7 @@
                                     <i class="far fa-file-excel"></i> {{"Export"
                                     | localize}}
                                 </button>
-                                <button (click)="createNew()"
+                                <button (click)="createNewBackLog()"
                                     *ngIf="isGranted('Pages.Issue.Create')"
                                     class="btn
                                     btn-primary"><i class="fa fa-plus"></i>
@@ -896,6 +896,7 @@
             </div>
         </div>
     </div>
-    <app-create-issue #createOrEditModal (modalSave)="getAll()"
-        (modalSave)="getAllBackLock()"  (modalSave)="getAllOfIssue()"></app-create-issue>
+    <app-create-issue #createOrEditModal (modalSave)="getAllTask($event)"></app-create-issue>
+    <app-create-issue #createOrEditBackLogModal (modalSave)="getAllTask($event)"></app-create-issue>
+
 </div>

@@ -44,7 +44,7 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
   sprintId: number;
   scaleStatus: ScaleStatusIssueOfSprintForChart = new ScaleStatusIssueOfSprintForChart();
   scaleType: ScaleTypeIssueOfSprintForChart = new ScaleTypeIssueOfSprintForChart();
-
+  sprintName: string;
   constructor(injecter: Injector,
     private _activedRouter: ActivatedRoute,
     private _sprintService: SprintServiceProxy,
@@ -60,6 +60,9 @@ export class ManagerSprintComponent extends AppComponentBase implements OnInit {
     console.log('id', this.sprintId);
     this.initDataForChart();
     this.initDataForTable();
+    this._sprintService.getId(this.sprintId).subscribe(result => {
+        this.sprintName = result.sprintCode;
+    })
   }
   initDataForTable() {
     this._sprintService.getId(this.sprintId).subscribe(result => {
